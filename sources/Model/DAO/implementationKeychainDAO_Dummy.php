@@ -2,6 +2,8 @@
 require_once 'Model/VO/KeychainVO.php';
 require_once 'Model/DAO/interfaceKeychainDAO.php';
 
+date_default_timezone_set('Africa/Lagos');
+
 class implementationKeychainDAO_Dummy implements interfaceKeyChainDAO
 {
 
@@ -22,7 +24,8 @@ class implementationKeychainDAO_Dummy implements interfaceKeyChainDAO
     * @return void
     */
    private function __construct() {
-     if (file_exists(dirname(__FILE__).'/keychains.xml')) {
+
+       if (file_exists(dirname(__FILE__).'/keychains.xml')) {
        $keychains = simplexml_load_file(dirname(__FILE__).'/keychains.xml');
        foreach($keychains->children() as $xmlKeychain)
        {
