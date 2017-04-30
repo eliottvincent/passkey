@@ -5,7 +5,7 @@ PassKey is a key manager for the ENSSAT.
 
 ## Getting started
 
-1. PHP >5.3.x is required
+1. PHP >7.0.x is required
 2. Install [Composer](#composer-installation) locally (in the project's root)
 3. Install dependencies of PassKey by entering the following command in your terminal:
 ```
