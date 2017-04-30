@@ -2,6 +2,9 @@
 require_once 'Model/VO/KeychainVO.php';
 require_once 'Model/DAO/interfaceKeychainDAO.php';
 
+//Timezone Paris.
+date_default_timezone_set('Europe/Paris');
+
 class implementationKeychainDAO_Dummy implements interfaceKeyChainDAO
 {
 
