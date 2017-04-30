@@ -3,9 +3,9 @@
 interface interfaceKeyDAO
 {
 
-    public static function getInstance();
+	public static function getInstance();
 
-    public function getKeys();
+	public function getKeys();
 
 }
 

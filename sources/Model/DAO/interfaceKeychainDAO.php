@@ -3,12 +3,12 @@
 interface interfaceKeyChainDAO
 {
 
-    // Singleton
-    public static function getInstance();
+	// Singleton
+	public static function getInstance();
 
-    public function getKeychains();
+	public function getKeychains();
 
-    public function getRandomKeychain();
+	public function getRandomKeychain();
 
 }
 
