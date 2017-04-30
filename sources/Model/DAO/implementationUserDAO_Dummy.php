@@ -1,6 +1,6 @@
 <?php
-require_once 'Model/VO/UserVO.php';
-require_once 'Model/DAO/interfaceUserDAO.php';
+require_once 'sources/Model/VO/UserVO.php';
+require_once 'sources/Model/DAO/interfaceUserDAO.php';
 
 
 

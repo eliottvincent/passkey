@@ -14,11 +14,14 @@ spl_autoload_register('chargerClasse'); // On enregistre la fonction en autoload
 //$perso = new Personnage(30,20);
 //$perso->parler();
 
-require_once 'Model/DAO/implementationUserDAO_Dummy.php';
-require_once 'Model/DAO/implementationKeychainDAO_Dummy.php';
-require_once 'Model/Service/implementationBorrowService_Dummy.php';
-require_once 'Model/Service/interfaceBorrowService.php';
-require_once 'Model/DAO/interfaceUserDAO.php';
+// needed for Composer loading
+require 'vendor/autoload.php';
+
+require_once 'sources/Model/DAO/implementationUserDAO_Dummy.php';
+require_once 'sources/Model/DAO/implementationKeychainDAO_Dummy.php';
+require_once 'sources/Model/Service/implementationBorrowService_Dummy.php';
+require_once 'sources/Model/Service/interfaceBorrowService.php';
+require_once 'sources/Model/DAO/interfaceUserDAO.php';
 
 $borrowService = implementationBorrowService_Dummy::getInstance();
 //print_r($borrowService->getBorrowings());
@@ -75,5 +78,3 @@ echo "8 : ".$borrowService->getBorrowingStatus(8)."\n";
 
 
 $borrowService->returnKeychain(8,"tout est ok");
-
-?>
