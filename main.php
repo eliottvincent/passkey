@@ -1,27 +1,10 @@
 <?php
-//require 'Personnage.php'; // J'inclus la classe.
-
-/**********************
-//Autoload
-function chargerClasse($classe)
-{
-require $classe . '.php'; // On inclut la classe correspondante au paramètre passé.
-}
-spl_autoload_register('chargerClasse'); // On enregistre la fonction en autoload pour qu'elle soit appelée dès qu'on instanciera une classe non déclarée.
-/******************************/
-
 
 //$perso = new Personnage(30,20);
 //$perso->parler();
 
-// needed for Composer loading
-require 'vendor/autoload.php';
-
-require_once 'sources/Model/DAO/implementationUserDAO_Dummy.php';
-require_once 'sources/Model/DAO/implementationKeychainDAO_Dummy.php';
-require_once 'sources/Model/Service/implementationBorrowService_Dummy.php';
-require_once 'sources/Model/Service/interfaceBorrowService.php';
-require_once 'sources/Model/DAO/interfaceUserDAO.php';
+require_once 'sources/Autoloader.php';
+Autoloader::register();
 
 $borrowService = implementationBorrowService_Dummy::getInstance();
 //print_r($borrowService->getBorrowings());
