@@ -6,7 +6,8 @@
  * Time: 16:33
  */
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once 'sources/Autoloader.php';
+Autoloader::register();
 
 $klein = new \Klein\Klein();
 
