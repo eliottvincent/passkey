@@ -36,7 +36,10 @@ class Autoloader
          */
 
         // MODEL.
-        if (file_exists('app/Model/DAO/'. $class . '.php')) {
+        if (file_exists('app/Model/' . $class . '.php')) {
+        	require_once 'app/Model/' . $class . '.php';
+		}
+		if (file_exists('app/Model/DAO/'. $class . '.php')) {
             require_once 'app/Model/DAO/'. $class . '.php';
         }
 
@@ -49,7 +52,13 @@ class Autoloader
         }
 
         // VIEW.
+		if (file_exists('app/View/' . $class . '.php')) {
+			require_once 'app/View/' . $class . '.php';
+		}
 
         // CONTROLLER.
+		if (file_exists('app/Controller/' . $class . '.php')) {
+			require_once 'app/Controller/' . $class . '.php';
+		}
     }
 }
