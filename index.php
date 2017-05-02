@@ -12,6 +12,7 @@ Autoloader::register();
 $klein = new \Klein\Klein();
 
 $klein->respond(function () {
+	include('sources/View/pages/layout_blank_page.html');
 	return 'Hello!';
 });
 
