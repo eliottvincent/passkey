@@ -25,7 +25,24 @@ $klein->respond(function () {
 		$controller->{$_GET['action']}();
 	}
 
-	echo $view->output();
+	$header = new View(null, null,"partials/header.php");
+	$header->content = "This is my fancy header section";
+	$header->ip = function () {
+		return $_SERVER["REMOTE_ADDR"];
+	};
+
+	$body = new View(null, null,"partials/body.php");
+	$body->content = "This is my fancy body section";
+
+	$footer = new View(null, null,"partials/footer.php");
+	$footer->content = "This is my fancy footer section";
+
+	$compositeView = new CompositeView;
+
+	echo $compositeView->attachView($header)
+		->attachView($body)
+		->attachView($footer)
+		->render();
 });
 
 $klein->dispatch();
