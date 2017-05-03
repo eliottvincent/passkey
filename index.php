@@ -16,7 +16,6 @@ $klein->respond(function () {
 	// creating a new Model, Controller and View
 	$model = new Model();
 	$controller = new Controller($model);
-	$view = new View($controller, $model);
 
 	// if the request contains the parameter 'action'
 	if (isset($_GET['action']) && !empty($_GET['action'])) {
@@ -25,24 +24,45 @@ $klein->respond(function () {
 		$controller->{$_GET['action']}();
 	}
 
+	echo createBlankPage($controller, $model)->render();
+});
+
+/**
+ * Creates a blank page as a CompositeView
+ *
+ * @param $controller
+ * @param $model
+ * @return CompositeView
+ */
+function createBlankPage($controller, $model) {
+
+	$head = new View(null, null, 'partials/head.php');
+
+	// create the header as a View
 	$header = new View(null, null,"partials/header.php");
 	$header->content = "This is my fancy header section";
 	$header->ip = function () {
 		return $_SERVER["REMOTE_ADDR"];
 	};
 
-	$body = new View(null, null,"partials/body.php");
+	// create the body as a View
+	$body = new View($controller, $model,"partials/body.php");
 	$body->content = "This is my fancy body section";
 
-	$footer = new View(null, null,"partials/footer.php");
+	// create the footer as a View
+	$footer = new View(null, null,"partials/foot.php");
 	$footer->content = "This is my fancy footer section";
 
+	// creating our final view
 	$compositeView = new CompositeView;
 
-	echo $compositeView->attachView($header)
+	// adding partials to the final view
+	$compositeView->attachView($head)
+		->attachView($header)
 		->attachView($body)
-		->attachView($footer)
-		->render();
-});
+		->attachView($footer);
+
+	return $compositeView;
+}
 
 $klein->dispatch();
