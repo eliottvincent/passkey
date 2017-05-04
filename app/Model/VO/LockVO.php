@@ -3,7 +3,7 @@ class LockVO
 {
     private $id;
     private $length;
-    private $door;
+    private $door; // the door ID
 
     // GETTER
     public function getId() {
