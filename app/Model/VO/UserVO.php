@@ -50,6 +50,21 @@ class UserVO
 		$this->status = $status;
 	}
 
+    protected $password;
+    public function setPassword($password) {
+    	$this->password = $password;
+	}
+	public function getPassword() {
+    	return $this->password;
+	}
+    protected $email;
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+    public function getEmail() {
+        return $this->email;
+    }
+
 	public function getEmail() {
 		return $this->email;
 	}
