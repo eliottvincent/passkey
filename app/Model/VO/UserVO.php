@@ -66,4 +66,12 @@ class UserVO
     public function getEmail() {
         return $this->email;
     }
+
+    protected $password;
+    public function setPassword($password) {
+    	$this->password = $password;
+	}
+	public function getPassword() {
+    	return $this->password;
+	}
 }
