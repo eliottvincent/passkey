@@ -1,5 +1,5 @@
 <?php
-class PassVO
+class DoorVO
 {
 	protected $id;
 
