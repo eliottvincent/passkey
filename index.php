@@ -39,11 +39,15 @@ function createBlankPage($controller, $model) {
 	$head = new View(null, null, 'partials/head.php');
 
 	// create the header as a View
-	$header = new View(null, null,"partials/header.php");
+	$header = new View(null, null,"partials/header.html.twig");
 	$header->content = "This is my fancy header section";
 	$header->ip = function () {
 		return $_SERVER["REMOTE_ADDR"];
 	};
+
+	// create the sidebar as a View
+	$sidebar = new View($controller, $model,"partials/sidebar.html.twig");
+	$sidebar->content = "This is my fancy sidebar section";
 
 	// create the body as a View
 	$body = new View($controller, $model,"partials/body.php");
@@ -59,6 +63,7 @@ function createBlankPage($controller, $model) {
 	// adding partials to the final view
 	$compositeView->attachView($head)
 		->attachView($header)
+		->attachView($sidebar)
 		->attachView($body)
 		->attachView($footer);
 
