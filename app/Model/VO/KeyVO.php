@@ -5,8 +5,8 @@ class KeyVO {
 	public static $keysList = array();
 
     private $id;
-    private $type; //Clef ou Passe Partiel ou Passe Total
-	private $lock; // canon
+    private $type; // Clef ou Passe Partiel ou Passe Total
+	private $lock; // Canon
 
 	public function __construct($type, $lock) {
 		$this->type = $type;
