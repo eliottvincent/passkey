@@ -1,7 +1,7 @@
 <?php
 class KeyVO {
 
-    public static $keyType = array("Simple"=>"Clé","Partiel"=>"Passe Partiel","Total"=>"Passe Total");
+    public static $keyType = array("simple"=>"Clé","partial"=>"Passe Partiel","total"=>"Passe Total");
 	public static $keysList = array();
 
     private $id;
