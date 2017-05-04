@@ -1,23 +1,34 @@
 <?php
-class KeyVO
-{
+class KeyVO {
 
-    public static $keyType = array("Simple"=>"Clé","Partiel"=>"Passe Partiel","Total"=>"PasseTotal");
+    public static $keyType = array("Simple"=>"Clé","Partiel"=>"Passe Partiel","Total"=>"Passe Total");
+	public static $keysList = array(); // TODO : Implement the list of keys
 
-    protected $id;
-    protected $type; //Clef ou Passe Partiel ou Passe Total
+    private $id;
+    private $type; //Clef ou Passe Partiel ou Passe Total
+	private $barrel; // canon
 
-    public __construct($type)
-    {
-      $this->type=$type;
-    }
+	public __construct($type, $barrel) {
+		$this->type = $type;
+		$this->barrel = $barrel;
+	}
 
+    // GETTER
+	public function getId() {
+		return $this->id;
+	}
+
+	public function getType() {
+		return $this->type;
+	}
+
+	public function getBarrel() {
+		return $this->barrel;
+}
+
+	// SETTER
     public function setId($id) {
         $this->id = $id;
-    }
-
-    public function getId() {
-        return $this->id;
     }
 
     public function setType($type) {
@@ -30,8 +41,7 @@ class KeyVO
       }
     }
 
-    public function getType() {
-        return $this->type;
-    }
-
+    public function setBarrel($barrel) {
+		$this->barrel = $barrel;
+	}
 }
