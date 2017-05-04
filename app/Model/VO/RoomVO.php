@@ -1,14 +1,15 @@
 <?php
 class RoomVO
 {
-    protected $id;
+    private $id;
 
+    // GETTER
+	public function getId() {
+		return $this->id;
+	}
+
+	// SETTER
     public function setId($id) {
         $this->id = $id;
     }
-
-    public function getId() {
-        return $this->id;
-    }
-
 }
