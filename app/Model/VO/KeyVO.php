@@ -6,11 +6,11 @@ class KeyVO {
 
     private $id;
     private $type; //Clef ou Passe Partiel ou Passe Total
-	private $barrel; // canon
+	private $lock; // canon
 
-	public __construct($type, $barrel) {
+	public __construct($type, $lock) {
 		$this->type = $type;
-		$this->barrel = $barrel;
+		$this->lock = $lock;
 
 		array_push($keysList, $this);
 	}
@@ -24,8 +24,8 @@ class KeyVO {
 		return $this->type;
 	}
 
-	public function getBarrel() {
-		return $this->barrel;
+	public function getLock() {
+		return $this->lock;
 	}
 
 	// SETTER
@@ -43,7 +43,7 @@ class KeyVO {
       }
     }
 
-    public function setBarrel($barrel) {
-		$this->barrel = $barrel;
+    public function setLock($lock) {
+		$this->lock = $lock;
 	}
 }
