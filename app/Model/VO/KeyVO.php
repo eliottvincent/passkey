@@ -2,17 +2,17 @@
 class KeyVO {
 
     public static $keyType = array("Simple"=>"Clé","Partiel"=>"Passe Partiel","Total"=>"Passe Total");
-	public static $keysList = array(); // TODO : Implement the list of keys
+	public static $keysList = array();
 
     private $id;
     private $type; //Clef ou Passe Partiel ou Passe Total
 	private $lock; // canon
 
-	public __construct($type, $lock) {
+	public function __construct($type, $lock) {
 		$this->type = $type;
 		$this->lock = $lock;
 
-		array_push($keysList, $this);
+		array_push($this->keysList, $this);
 	}
 
     // GETTER
