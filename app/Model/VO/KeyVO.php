@@ -11,6 +11,8 @@ class KeyVO {
 	public __construct($type, $barrel) {
 		$this->type = $type;
 		$this->barrel = $barrel;
+
+		array_push($keysList, $this);
 	}
 
     // GETTER
@@ -24,7 +26,7 @@ class KeyVO {
 
 	public function getBarrel() {
 		return $this->barrel;
-}
+	}
 
 	// SETTER
     public function setId($id) {
@@ -37,7 +39,7 @@ class KeyVO {
       }
       else
       {
-        throw new RuntimeException('Le type de clef <strong>' . $type . '</strong> n\'existe pas !');
+		  throw new RuntimeException('Le type de clef <strong>' . $type . '</strong> n\'existe pas !');
       }
     }
 
