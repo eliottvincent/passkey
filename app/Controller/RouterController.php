@@ -23,7 +23,7 @@ class RouterController extends Controller
 		}
 
 		// handling requests on http://passkey.enssat/
-		else if ($_REQUEST['url'] === '') {
+		else if (isset($_REQUEST['url']) && $_REQUEST['url'] === '') {
 			echo $this->createBlankPage($controller, $model)->render();
 		}
 
@@ -69,7 +69,6 @@ class RouterController extends Controller
 		// create the footer as a View
 		$footer = new View(null, null,"partials/foot.php");
 		$footer->content = "This is my fancy footer section";
-
 
 		// creating our final view
 		$compositeView = new CompositeView;
