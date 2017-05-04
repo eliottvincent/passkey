@@ -11,7 +11,7 @@ class Controller
 	// a Controller is linked to a Model
 	private $model;
 
-	public function __construct($model){
+	public function __construct($model) {
 		$this->model = $model;
 	}
 
