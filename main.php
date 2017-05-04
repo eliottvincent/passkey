@@ -3,7 +3,7 @@
 //$perso = new Personnage(30,20);
 //$perso->parler();
 
-require_once 'app/Autoloader.php';
+require_once 'core/Autoloader.php';
 Autoloader::register();
 
 $borrowService = implementationBorrowService_Dummy::getInstance();
