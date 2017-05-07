@@ -103,13 +103,11 @@ class CreateDoorController extends RouterController
 
 	public static function getDoors() {
 		$doors = array();
-
 		// Read Excel file.
 		$objReader = new PHPExcel_Reader_Excel2007();
 		$objPHPExcel = $objReader->load("datas/datas.xlsx");
 		$objPHPExcel->setActiveSheetIndex(0);
 		$sheet = $objPHPExcel->getActiveSheet();
-
 		$lastRow = $sheet->getHighestDataRow();
 
 		for ($i = 2; $i <= $lastRow; $i++) {
@@ -119,7 +117,6 @@ class CreateDoorController extends RouterController
 			$doors[] = array('door_id' => $door_id, 'door_name' => $door_name);
 
 		}
-
 		return $doors;
 	}
 }

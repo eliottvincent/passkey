@@ -53,6 +53,10 @@ class RouterController extends Controller
 		new CreateLockController();
 	}
 
+	function createKey() {
+		new CreateKeyController();
+	}
+
 	/**
 	 * Creates a blank page as a CompositeView
 	 *

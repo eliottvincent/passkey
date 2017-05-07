@@ -8,12 +8,12 @@
 			</div>
 		</div>
 		<div class="portlet-body form">
-			<form role="form" class="form-horizontal">
+			<form role="form" class="form-horizontal" action="" method="post">
 				<div class="form-body">
 					<div class="form-group form-md-line-input">
-						<label class="col-md-2 control-label" for="form_control_1">Identifiant de la clé</label>
+						<label class="col-md-2 control-label" for="form_control_1">Nom de la clé</label>
 						<div class="col-md-10">
-							<input type="text" class="form-control" id="form_control_1" placeholder="K-102H-G-001">
+							<input type="text" class="form-control" id="form_control_1" placeholder="K-102H-G-001" name="key_name">
 							<div class="form-control-focus"> </div>
 							<span class="help-block">Ce nom permettra d'identifier la clé dans l'application.</span>
 						</div>
@@ -24,22 +24,22 @@
 						<div class="col-md-10">
 							<div class="md-radio-inline">
 								<div class="md-radio">
-									<input type="radio" id="simple" name="keyType" class="md-radiobtn" checked="">
-									<label for="rdc">
+									<input type="radio" id="simple" name="key_type" class="md-radiobtn" checked="" value="simple">
+									<label for="simple">
 										<span></span>
 										<span class="check"></span>
 										<span class="box"></span>Clé</label>
 								</div>
 								<div class="md-radio">
-									<input type="radio" id="partial" name="keyType" class="md-radiobtn">
-									<label for="floor1">
+									<input type="radio" id="partial" name="key_type" class="md-radiobtn" value="partial">
+									<label for="partial">
 										<span></span>
 										<span class="check"></span>
 										<span class="box"></span>Passe partiel</label>
 								</div>
 								<div class="md-radio">
-									<input type="radio" id="total" name="keyType" class="md-radiobtn">
-									<label for="floor2">
+									<input type="radio" id="total" name="key_type" class="md-radiobtn" value="total">
+									<label for="total">
 										<span></span>
 										<span class="check"></span>
 										<span class="box"></span>Passe Total</label>
@@ -51,12 +51,11 @@
 					<div class="form-group form-md-line-input">
 						<label class="col-md-2 control-label" for="form_control_1">Associer un canon</label>
 						<div class="col-md-10">
-							<select class="form-control" id="form_control_1">
+							<select class="form-control" id="form_control_1" name="key_lock">
 								<option value="none">(Aucune)</option>
-								<option value="">Canon 1</option>
-								<option value="">Canon 2</option>
-								<option value="">Canon 3</option>
-								<option value="">Canon 4</option>
+								{% for lock in locks %}
+									<option value="l_{{ lock.lock_id }}">{{ lock.lock_name }}</option>
+								{% endfor %}
 							</select>
 							<div class="form-control-focus"> </div>
 						</div>
@@ -65,7 +64,7 @@
 				<div class="form-actions">
 					<div class="row">
 						<div class="col-md-offset-2 col-md-10">
-							<button type="button" class="btn blue">Ajouter un canon</button>
+							<button type="submit" class="btn blue">Ajouter une clé</button>
 							<button type="button" class="btn default">Annuler</button>
 						</div>
 					</div>
