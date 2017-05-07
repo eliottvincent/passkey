@@ -39,7 +39,8 @@ class CreateKeyController
 			$datas = array(
 				'key_name' => addslashes($_POST['key_name']),
 				'key_type' => addslashes($_POST['key_type']),
-				'key_lock' => addslashes($_POST['key_lock'])
+				'key_lock' => addslashes($_POST['key_lock']),
+				'key_number' => addslashes($_POST['key_number'])
 			);
 
 			$this->writeInFile($datas);
@@ -91,6 +92,7 @@ class CreateKeyController
 		$objPHPExcel->getActiveSheet()->setCellValue('B1', 'Key name');
 		$objPHPExcel->getActiveSheet()->setCellValue('C1', 'Key type');
 		$objPHPExcel->getActiveSheet()->setCellValue('D1', 'Key lock');
+		$objPHPExcel->getActiveSheet()->setCellValue('E1', 'Key number');
 		$objPHPExcel->getActiveSheet()->setTitle('Keys');
 
 		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
@@ -110,6 +112,7 @@ class CreateKeyController
 		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $datas['key_name']);
 		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $datas['key_type']);
 		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $datas['key_lock']);
+		$objPHPExcel->getActiveSheet()->setCellValue('E'.$row, $datas['key_number']);
 
 		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
 		$objWriter->save("datas/datas.xlsx");
