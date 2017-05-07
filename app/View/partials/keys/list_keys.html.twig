@@ -1,0 +1,55 @@
+<div class="page-content">
+	<div class="row">
+		<div class="col-md-12">
+			<!-- BEGIN SAMPLE TABLE PORTLET-->
+			<div class="portlet box blue">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="fa fa-cogs"></i> Liste des clés  </div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+					</div>
+				</div>
+				<div class="portlet-body">
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+							<tr>
+								<th> #id </th>
+								<th> Key name </th>
+								<th> Key type </th>
+								<th> Key lock </th>
+								<th> Key number </th>
+								<th> #actions </th>
+							</tr>
+							</thead>
+							<tbody>
+							{% for key in keys %}
+								<tr>
+									<td> {{ key.key_id }} </td>
+									<td> {{ key.key_name }} </td>
+									<td> {{ key.key_type }} </td>
+									<td> {{ key.key_lock }} </td>
+									<td> {{ key.key_number }} </td>
+									<td>
+										<form action="" method="get">
+											<input type="hidden" name="update" value="update_k{{ key.key_id }}"/>
+											<button type="submit" class="btn blue btn-sm">Modifier</button>
+										</form>
+
+										<form action="" method="get">
+											<input type="hidden" name="delete" value="delete_k{{ key.key_id }}"/>
+											<button type="submit" class="btn red btn-sm">Supprimer</button>
+										</form>
+									</td>
+								</tr>
+							{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- END SAMPLE TABLE PORTLET-->
+		</div>
+	</div>
+</div>

@@ -1,23 +1,36 @@
 <?php
-class KeyVO
-{
+class KeyVO {
 
-    public static $keyType = array("Simple"=>"Clé","Partiel"=>"Passe Partiel","Total"=>"PasseTotal");
+    public static $keyType = array("simple"=>"Clé","partial"=>"Passe Partiel","total"=>"Passe Total");
+	public static $keysList = array();
 
-    protected $id;
-    protected $type; //Clef ou Passe Partiel ou Passe Total
+    private $id;
+    private $type; // Clef ou Passe Partiel ou Passe Total
+	private $lock; // Canon
 
-    public __construct($type)
-    {
-      $this->type=$type;
-    }
+	public function __construct($type, $lock) {
+		$this->type = $type;
+		$this->lock = $lock;
 
+		array_push($this->keysList, $this);
+	}
+
+    // GETTER
+	public function getId() {
+		return $this->id;
+	}
+
+	public function getType() {
+		return $this->type;
+	}
+
+	public function getLock() {
+		return $this->lock;
+	}
+
+	// SETTER
     public function setId($id) {
         $this->id = $id;
-    }
-
-    public function getId() {
-        return $this->id;
     }
 
     public function setType($type) {
@@ -26,12 +39,11 @@ class KeyVO
       }
       else
       {
-        throw new RuntimeException('Le type de clef <strong>' . $type . '</strong> n\'existe pas !');
+		  throw new RuntimeException('Le type de clef <strong>' . $type . '</strong> n\'existe pas !');
       }
     }
 
-    public function getType() {
-        return $this->type;
-    }
-
+    public function setLock($lock) {
+		$this->lock = $lock;
+	}
 }
