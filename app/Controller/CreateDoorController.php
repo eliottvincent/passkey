@@ -15,10 +15,26 @@ class CreateDoorController extends RouterController
 			$this->displayForm();
 		} elseif (empty($_POST['door_name']) || empty($_POST['door_building'] || empty($_POST['door_floor']))){
 			// If we have not all values, error message display and form.
-			$this->errorForm();
+			$type = "danger";
+			$message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
+			$this->doorMessage($type, $message);
 		} else {
 			// If we have all values, the form is displayed.
-			$this->writeInFile();
+			if (!file_exists('datas/datas.xlsx')) {
+				$this->createDoorFile();
+			}
+
+			$datas = array(
+				'door_name' => addslashes($_POST['door_name']),
+				'door_building' => addslashes($_POST['door_building']),
+				'door_floor' => addslashes($_POST['door_floor'])
+			);
+			$this->writeInFile($datas);
+
+			$type = "success";
+			$message = "La porte a bien été créée.";
+			$this->doorMessage($type, $message);
+
 		}
 	}
 
@@ -33,23 +49,40 @@ class CreateDoorController extends RouterController
 		$composite->displayView($templates);
 	}
 
-	public function errorForm() {
+	public function doorMessage($type, $message) {
 		$composite = new CompositeView();
 		$templates[] = array("name" => "head.php");
 		$templates[] = array("name" => "header.php");
 		$templates[] = array("name" => "body.php");
-		$templates[] = array("name" => "submit_door.html.twig", "variables" => array("alert" => "Aucune valeur n'a été rentrée. Merci de compléter tous les champs."));
+		$templates[] = array("name" => "submit_door.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
 		$templates[] = array("name" => "create_door.html.twig");
 		$templates[] = array("name" => "foot.php");
 		$templates[] = array("name" => "footer.php");
 		$composite->displayView($templates);
 	}
 
-	public function writeInFile() {
+	public function writeInFile($datas) {
+		$objReader = new PHPExcel_Reader_Excel2007();
+		$objPHPExcel = $objReader->load("datas/datas.xlsx");
+
+		$objPHPExcel->setActiveSheetIndex(0);
+		$row = $objPHPExcel->getActiveSheet()->getHighestDataRow()+1;
+
+		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $datas['door_name']);
+		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $datas['door_building']);
+		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $datas['door_floor']);
+
+		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+		$objWriter->save("datas/datas.xlsx");
+	}
+
+	public function createDoorFile() {
 		$objPHPExcel = new PHPExcel();
 		$objPHPExcel->setActiveSheetIndex(0);
-		$objPHPExcel->getActiveSheet()->setCellValue('A1', 'Hello');
-		$objPHPExcel->getActiveSheet()->setTitle('Portes');
+		$objPHPExcel->getActiveSheet()->setCellValue('A1', 'Door name');
+		$objPHPExcel->getActiveSheet()->setCellValue('B1', 'Door building');
+		$objPHPExcel->getActiveSheet()->setCellValue('C1', 'Door floor');
+		$objPHPExcel->getActiveSheet()->setTitle('Doors');
 
 		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
 		$fileName = "datas.xlsx";
