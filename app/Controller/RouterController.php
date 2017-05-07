@@ -61,6 +61,7 @@ class RouterController extends Controller
 		new ListKeysController();
 	}
 
+
 	/**
 	 * Creates a blank page as a CompositeView
 	 *
@@ -70,22 +71,14 @@ class RouterController extends Controller
 	 */
 	function createBlankPage($controller, $model) {
 
-		$head = new View(null, null, 'app/View/partials/head.html.twig');
-
-		// create the header as a View
-		$header = new View(null, null,"app/View/partials/header.php");
-		$header->content = "This is my fancy header section";
-		$header->ip = function () {
-			return $_SERVER["REMOTE_ADDR"];
-		};
-
-		// create the body as a View
-		$body = new View($controller, $model,"app/View/partials/body.php");
-		$body->content = "This is my fancy body section";
-
-		// create the footer as a View
-		$footer = new View(null, null,"app/View/partials/foot.php");
-		$footer->content = "This is my fancy footer section";
+		$head = new View(null, null, "partials/head.html.twig");
+		$header = new View(null, null,"partials/header.html.twig");
+		$sidebar = new View($controller, $model,"partials/sidebar.html.twig");
+		$content = new View(null, null, "partials/content.html.twig");
+		$quicksidebar = new View(null, null, "partials/quicksidebar.html.twig");
+		$footer = new View(null, null, "partials/footer.html.twig");
+		$quicknav = new View(null, null, "partials/quicknav.html.twig");
+		$foot = new View(null, null,"partials/foot.html.twig");
 
 		// creating our final view
 		$compositeView = new CompositeView;
@@ -93,8 +86,12 @@ class RouterController extends Controller
 		// adding partials to the final view
 		$compositeView->attachView($head)
 			->attachView($header)
-			->attachView($body)
-			->attachView($footer);
+			->attachView($sidebar)
+			->attachView($content)
+			->attachView($quicksidebar)
+			->attachView($footer)
+			->attachView($quicknav)
+			->attachView($foot);
 
 		return $compositeView;
 	}
