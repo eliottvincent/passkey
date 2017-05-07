@@ -66,11 +66,14 @@ class CreateDoorController extends RouterController
 		$objPHPExcel = $objReader->load("datas/datas.xlsx");
 
 		$objPHPExcel->setActiveSheetIndex(0);
-		$row = $objPHPExcel->getActiveSheet()->getHighestDataRow()+1;
+		$lastRow = $objPHPExcel->getActiveSheet()->getHighestDataRow();
+		$id = $lastRow-1;
+		$row = $lastRow + 1;
 
-		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $datas['door_name']);
-		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $datas['door_building']);
-		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $datas['door_floor']);
+		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $id);
+		$objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $datas['door_name']);
+		$objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $datas['door_building']);
+		$objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $datas['door_floor']);
 
 		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
 		$objWriter->save("datas/datas.xlsx");
@@ -79,9 +82,10 @@ class CreateDoorController extends RouterController
 	public function createDoorFile() {
 		$objPHPExcel = new PHPExcel();
 		$objPHPExcel->setActiveSheetIndex(0);
-		$objPHPExcel->getActiveSheet()->setCellValue('A1', 'Door name');
-		$objPHPExcel->getActiveSheet()->setCellValue('B1', 'Door building');
-		$objPHPExcel->getActiveSheet()->setCellValue('C1', 'Door floor');
+		$objPHPExcel->getActiveSheet()->setCellValue('A1', 'Door id');
+		$objPHPExcel->getActiveSheet()->setCellValue('B1', 'Door name');
+		$objPHPExcel->getActiveSheet()->setCellValue('C1', 'Door building');
+		$objPHPExcel->getActiveSheet()->setCellValue('D1', 'Door floor');
 		$objPHPExcel->getActiveSheet()->setTitle('Doors');
 
 		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
