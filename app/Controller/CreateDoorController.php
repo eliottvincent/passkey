@@ -43,7 +43,7 @@ class CreateDoorController extends RouterController
 		$templates[] = array("name" => "head.php");
 		$templates[] = array("name" => "header.php");
 		$templates[] = array("name" => "body.php");
-		$templates[] = array("name" => "create_door.html.twig");
+		$templates[] = array("name" => "doors/create_door.html.twig");
 		$templates[] = array("name" => "foot.php");
 		$templates[] = array("name" => "footer.php");
 		$composite->displayView($templates);
@@ -55,7 +55,7 @@ class CreateDoorController extends RouterController
 		$templates[] = array("name" => "header.php");
 		$templates[] = array("name" => "body.php");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
-		$templates[] = array("name" => "create_door.html.twig");
+		$templates[] = array("name" => "doors/create_door.html.twig");
 		$templates[] = array("name" => "foot.php");
 		$templates[] = array("name" => "footer.php");
 		$composite->displayView($templates);

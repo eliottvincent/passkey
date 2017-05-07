@@ -56,7 +56,7 @@ class CreateKeyController
 		$templates[] = array("name" => "head.php");
 		$templates[] = array("name" => "header.php");
 		$templates[] = array("name" => "body.php");
-		$templates[] = array("name" => "create_key.html.twig", 'variables' => array('locks' => $locks));
+		$templates[] = array("name" => "keys/create_key.html.twig", 'variables' => array('locks' => $locks));
 		$templates[] = array("name" => "foot.php");
 		$templates[] = array("name" => "footer.php");
 		$composite->displayView($templates);
@@ -69,7 +69,7 @@ class CreateKeyController
 		$templates[] = array("name" => "header.php");
 		$templates[] = array("name" => "body.php");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
-		$templates[] = array("name" => "create_key.html.twig", 'variables' => array('locks' => $locks));
+		$templates[] = array("name" => "keys/create_key.html.twig", 'variables' => array('locks' => $locks));
 		$templates[] = array("name" => "foot.php");
 		$templates[] = array("name" => "footer.php");
 		$composite->displayView($templates);
