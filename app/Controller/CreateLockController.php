@@ -10,7 +10,7 @@ class CreateLockController
 {
 	public function __construct()
 	{
-		if (!isset($_POST['lock_name']) && !isset($_POST['lock_door'])) {
+		if (!isset($_POST['lock_name']) && !isset($_POST['lock_door']) && !isset($_POST['lock_number'])) {
 			// If we have no values, the form is displayed.
 			$this->displayForm();
 		} elseif (empty($_POST['lock_name']) || empty($_POST['lock_door'])) {
@@ -86,7 +86,7 @@ class CreateLockController
 		$templates[] = array("name" => "header.php");
 		$templates[] = array("name" => "body.php");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
-		$templates[] = array("name" => "create_lock.html.twig", 'variables' => array('doors' => $doors));
+		$templates[] = array("name" => "locks/create_lock.html.twig", 'variables' => array('doors' => $doors));
 		$templates[] = array("name" => "foot.php");
 		$templates[] = array("name" => "footer.php");
 		$composite->displayView($templates);
