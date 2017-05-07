@@ -31,4 +31,35 @@ class CompositeView implements ViewInterface
 		}
 		return $output;
 	}
+
+	/**
+	 * @param $templates An array of templates and variables
+	 */
+	public function displayView($templates) {
+		$twig = $this->twigInstance();
+		$this->displayTemplate($twig, $templates);
+	}
+
+	public function twigInstance() {
+		$loader = new Twig_Loader_Filesystem('app/View/partials');
+		$twig = new Twig_Environment($loader, array());
+		return $twig;
+	}
+
+	public function getTemplate($twig, $template) {
+		if (isset($template['variables']) && !empty($template['variables'])) {
+			$temp = $twig->render($template['name'], $template['variables']);
+		} else {
+			$temp = $twig->render($template['name']);
+		}
+
+		return $temp;
+	}
+
+	public function displayTemplate($twig, $templates) {
+		foreach($templates as $template) {
+			$template = $this->getTemplate($twig, $template);
+			echo $template;
+		}
+	}
 }

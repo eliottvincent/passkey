@@ -28,9 +28,10 @@ class RouterController extends Controller
 		}
 
 		// handling requests on http://passkey.enssat/something_else
-		else
-			echo 'I received a ' . (($_SERVER['REQUEST_METHOD'] === 'GET') ? 'GET' : 'POST') .' request on "/' . $_REQUEST['url'] . '", what should I do?';
-
+		else {
+			echo 'I received a ' . (($_SERVER['REQUEST_METHOD'] === 'GET') ? 'GET' : 'POST') . ' request on "/' . $_REQUEST['url'] . '", what should I do?';
+			$this->{$_REQUEST['url']}();
+		}
 	}
 
 	function showLoginPageTest() {
@@ -44,6 +45,10 @@ class RouterController extends Controller
 		$loginController->login();
 	}
 
+	function createDoor() {
+		new CreateDoorController();
+	}
+
 	/**
 	 * Creates a blank page as a CompositeView
 	 *
@@ -53,21 +58,21 @@ class RouterController extends Controller
 	 */
 	function createBlankPage($controller, $model) {
 
-		$head = new View(null, null, 'partials/head.php');
+		$head = new View(null, null, 'app/View/partials/head.php');
 
 		// create the header as a View
-		$header = new View(null, null,"partials/header.php");
+		$header = new View(null, null,"app/View/partials/header.php");
 		$header->content = "This is my fancy header section";
 		$header->ip = function () {
 			return $_SERVER["REMOTE_ADDR"];
 		};
 
 		// create the body as a View
-		$body = new View($controller, $model,"partials/body.php");
+		$body = new View($controller, $model,"app/View/partials/body.php");
 		$body->content = "This is my fancy body section";
 
 		// create the footer as a View
-		$footer = new View(null, null,"partials/foot.php");
+		$footer = new View(null, null,"app/View/partials/foot.php");
 		$footer->content = "This is my fancy footer section";
 
 		// creating our final view
@@ -83,10 +88,8 @@ class RouterController extends Controller
 	}
 
 	function getLoginPage() {
-		$html = new View(null, null,"partials/page_user_login_1.php");
+		$html = new View(null, null,"app/Views/partials/page_user_login_1.php");
 
 		return $html;
 	}
-
-
 }
