@@ -8,12 +8,12 @@
 			</div>
 		</div>
 		<div class="portlet-body form">
-			<form role="form" class="form-horizontal">
+			<form role="form" class="form-horizontal" action="" method="post">
 				<div class="form-body">
 					<div class="form-group form-md-line-input">
 						<label class="col-md-2 control-label" for="form_control_1">Nom du canon</label>
 						<div class="col-md-10">
-							<input type="text" class="form-control" id="form_control_1" placeholder="102H-G-001">
+							<input type="text" class="form-control" id="form_control_1" placeholder="102H-G-001" name="lock_name">
 							<div class="form-control-focus"> </div>
 							<span class="help-block">Ce nom permettra d'identifier le canon dans l'application.</span>
 						</div>
@@ -21,12 +21,11 @@
 					<div class="form-group form-md-line-input">
 						<label class="col-md-2 control-label" for="form_control_1">Associer une porte</label>
 						<div class="col-md-10">
-							<select class="form-control" id="form_control_1">
+							<select class="form-control" id="form_control_1" name="lock_door">
 								<option value="none">(Aucune)</option>
-								<option value="">Porte 1</option>
-								<option value="">Porte 2</option>
-								<option value="">Porte 3</option>
-								<option value="">Porte 4</option>
+								{% for door in doors %}
+									<option value="d_{{ door.door_id }}">{{ door.door_name }}</option>
+								{% endfor %}
 							</select>
 							<div class="form-control-focus"> </div>
 						</div>
@@ -35,7 +34,7 @@
 				<div class="form-actions">
 					<div class="row">
 						<div class="col-md-offset-2 col-md-10">
-							<button type="button" class="btn blue">Ajouter un canon</button>
+							<button type="submit" class="btn blue">Ajouter un canon</button>
 							<button type="button" class="btn default">Annuler</button>
 						</div>
 					</div>

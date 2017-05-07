@@ -13,7 +13,7 @@ class CreateDoorController extends RouterController
 		if (!isset($_POST['door_name']) && !isset($_POST['door_building']) && !isset($_POST['door_floor'])) {
 			// If we have no values, the form is displayed.
 			$this->displayForm();
-		} elseif (empty($_POST['door_name']) || empty($_POST['door_building'] || empty($_POST['door_floor']))){
+		} elseif (empty($_POST['door_name']) || empty($_POST['door_building']) || empty($_POST['door_floor'])){
 			// If we have not all values, error message display and form.
 			$type = "danger";
 			$message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
@@ -54,7 +54,7 @@ class CreateDoorController extends RouterController
 		$templates[] = array("name" => "head.php");
 		$templates[] = array("name" => "header.php");
 		$templates[] = array("name" => "body.php");
-		$templates[] = array("name" => "submit_door.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
+		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
 		$templates[] = array("name" => "create_door.html.twig");
 		$templates[] = array("name" => "foot.php");
 		$templates[] = array("name" => "footer.php");
@@ -99,5 +99,27 @@ class CreateDoorController extends RouterController
 
 		$fullpath = $folder . '/' . $fileName;
 		$objWriter->save($fullpath);
+	}
+
+	public static function getDoors() {
+		$doors = array();
+
+		// Read Excel file.
+		$objReader = new PHPExcel_Reader_Excel2007();
+		$objPHPExcel = $objReader->load("datas/datas.xlsx");
+		$objPHPExcel->setActiveSheetIndex(0);
+		$sheet = $objPHPExcel->getActiveSheet();
+
+		$lastRow = $sheet->getHighestDataRow();
+
+		for ($i = 2; $i <= $lastRow; $i++) {
+			$door_id = $sheet->getCell('A'.$i)->getValue();
+			$door_name = $sheet->getCell('B'.$i)->getValue();
+
+			$doors[] = array('door_id' => $door_id, 'door_name' => $door_name);
+
+		}
+
+		return $doors;
 	}
 }
