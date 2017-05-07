@@ -32,3 +32,6 @@
 	<link rel="shortcut icon" href="../../../index.php" />
 </head>
 <!-- END HEAD -->
+
+<!-- BEGIN BODY -->
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
