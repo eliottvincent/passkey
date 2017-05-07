@@ -54,7 +54,7 @@ class CreateKeyController
 	public function displayForm() {
 		$locks = CreateLockController::getLocks();
 		$composite = new CompositeView();
-		$templates[] = array("name" => "head.php");
+		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une clé'));
 		$templates[] = array("name" => "header.php");
 		$templates[] = array("name" => "body.php");
 		$templates[] = array("name" => "keys/create_key.html.twig", 'variables' => array('locks' => $locks));
@@ -66,7 +66,7 @@ class CreateKeyController
 	public function keyMessage($type, $message) {
 		$locks = CreateLockController::getLocks();
 		$composite = new CompositeView();
-		$templates[] = array("name" => "head.php");
+		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une clé'));
 		$templates[] = array("name" => "header.php");
 		$templates[] = array("name" => "body.php");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
@@ -116,6 +116,59 @@ class CreateKeyController
 
 		$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
 		$objWriter->save("datas/datas.xlsx");
+	}
+
+	public static function getKeys() {
+		$keys = array();
+		// Read Excel file.
+		$objReader = new PHPExcel_Reader_Excel2007();
+		$objPHPExcel = $objReader->load("datas/datas.xlsx");
+		$objPHPExcel->setActiveSheetIndex(2);
+		$sheet = $objPHPExcel->getActiveSheet();
+		$lastRow = $sheet->getHighestDataRow();
+
+		for ($i = 2; $i <= $lastRow; $i++) {
+			$key_id = $sheet->getCell('A'.$i)->getValue();
+			$key_name = $sheet->getCell('B'.$i)->getValue();
+			$key_type = $sheet->getCell('C'.$i)->getValue();
+			$key_lock = $sheet->getCell('D'.$i)->getValue();
+			$key_number = $sheet->getCell('E'.$i)->getValue();
+
+			if ($key_id != '') {
+				$keys[] = array(
+					'key_id' => $key_id,
+					'key_name' => $key_name,
+					'key_type' => $key_type,
+					'key_lock' => $key_lock,
+					'key_number' => $key_number
+				);
+			}
+		}
+		return $keys;
+	}
+
+	public function getKeyValues($row) {
+		$values = array();
+		// Read Excel file.
+		$objReader = new PHPExcel_Reader_Excel2007();
+		$objPHPExcel = $objReader->load("datas/datas.xlsx");
+		$objPHPExcel->setActiveSheetIndex(2);
+		$sheet = $objPHPExcel->getActiveSheet();
+
+		$key_id = $sheet->getCell('A'.$row)->getValue();
+		$key_name = $sheet->getCell('B'.$row)->getValue();
+		$key_type = $sheet->getCell('C'.$row)->getValue();
+		$key_lock = $sheet->getCell('D'.$row)->getValue();
+		$key_number = $sheet->getCell('E'.$row)->getValue();
+
+		$values = array(
+			'key_id' => $key_id,
+			'key_name' => $key_name,
+			'key_type' => $key_type,
+			'key_lock' => $key_lock,
+			'key_number' => $key_number
+		);
+		return $values;
 	}
 
 }

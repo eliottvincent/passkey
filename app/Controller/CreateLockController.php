@@ -70,7 +70,7 @@ class CreateLockController
 	public function displayForm() {
 		$doors = CreateDoorController::getDoors();
 		$composite = new CompositeView();
-		$templates[] = array("name" => "head.php");
+		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter un canon'));
 		$templates[] = array("name" => "header.php");
 		$templates[] = array("name" => "body.php");
 		$templates[] = array("name" => "locks/create_lock.html.twig", 'variables' => array('doors' => $doors));
@@ -82,7 +82,7 @@ class CreateLockController
 	public function lockMessage($type, $message) {
 		$doors = CreateDoorController::getDoors();
 		$composite = new CompositeView();
-		$templates[] = array("name" => "head.php");
+		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter un canon'));
 		$templates[] = array("name" => "header.php");
 		$templates[] = array("name" => "body.php");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
