@@ -70,7 +70,7 @@ class RouterController extends Controller
 	 */
 	function createBlankPage($controller, $model) {
 
-		$head = new View(null, null, 'app/View/partials/head.php');
+		$head = new View(null, null, 'app/View/partials/head.html.twig');
 
 		// create the header as a View
 		$header = new View(null, null,"app/View/partials/header.php");

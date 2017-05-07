@@ -54,7 +54,7 @@ class CreateKeyController
 	public function displayForm() {
 		$locks = CreateLockController::getLocks();
 		$composite = new CompositeView();
-		$templates[] = array("name" => "head.php");
+		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une clé'));
 		$templates[] = array("name" => "header.php");
 		$templates[] = array("name" => "body.php");
 		$templates[] = array("name" => "keys/create_key.html.twig", 'variables' => array('locks' => $locks));
@@ -66,7 +66,7 @@ class CreateKeyController
 	public function keyMessage($type, $message) {
 		$locks = CreateLockController::getLocks();
 		$composite = new CompositeView();
-		$templates[] = array("name" => "head.php");
+		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une clé'));
 		$templates[] = array("name" => "header.php");
 		$templates[] = array("name" => "body.php");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
