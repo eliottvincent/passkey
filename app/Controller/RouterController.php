@@ -26,7 +26,8 @@ class RouterController extends Controller
 
 		// handling requests on http://passkey.enssat/
 		else if (isset($_REQUEST['url']) && $_REQUEST['url'] === '') {
-			echo $this->createBlankPage($controller, $model)->render();
+			//echo $this->createBlankPage($controller, $model)->render();
+			$this->createBlankPage($controller, $model);
 		}
 
 		// handling requests on http://passkey.enssat/something_else
@@ -82,6 +83,19 @@ class RouterController extends Controller
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
+		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Accueil'));
+		$templates[] = array("name" => "header.html.twig", 'variables' => array('session' => $_SESSION));
+		$templates[] = array("name" => "sidebar.html.twig");
+		$templates[] = array("name" => "content.html.twig");
+		$templates[] = array("name" => "quicksidebar.html.twig");
+		$templates[] = array("name" => "footer.html.twig");
+		$templates[] = array("name" => "quicknav.html.twig");
+		$templates[] = array("name" => "foot.html.twig");
+
+		$compositeView = new CompositeView;
+		$compositeView->displayView($templates);
+
+		/*
 		$head = new View(null, null, "partials/head.html.twig");
 		$header = new View(null, null,"partials/header.html.twig", array('session' => $_SESSION));
 		$sidebar = new View($controller, $model,"partials/sidebar.html.twig");
@@ -91,10 +105,12 @@ class RouterController extends Controller
 		$quicknav = new View(null, null, "partials/quicknav.html.twig");
 		$foot = new View(null, null,"partials/foot.html.twig");
 
+
 		// creating our final view
 		$compositeView = new CompositeView;
 
 		// adding partials to the final view
+
 		$compositeView->attachView($head)
 			->attachView($header)
 			->attachView($sidebar)
@@ -105,6 +121,7 @@ class RouterController extends Controller
 			->attachView($foot);
 
 		return $compositeView;
+		*/
 	}
 
 	function createLoginPage() {
