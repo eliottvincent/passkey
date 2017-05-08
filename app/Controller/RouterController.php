@@ -6,6 +6,8 @@
  * Date: 04/05/2017
  * Time: 15:07
  */
+
+
 class RouterController extends Controller
 {
 
@@ -36,13 +38,18 @@ class RouterController extends Controller
 
 	function showLoginPageTest() {
 
-		echo $this->getLoginPage()->render();
+		echo $this->createLoginPage()->render();
 	}
 
 	function login() {
 
-		$loginController = new LoginController();
-		$loginController->login();
+		$authentificationController = new AuthentificationController();
+		$authentificationController->login();
+	}
+
+	function logout() {
+		$authentificationController = new AuthentificationController();
+		$authentificationController->logout();
 	}
 
 	function createDoor() {
@@ -71,8 +78,12 @@ class RouterController extends Controller
 	 */
 	function createBlankPage($controller, $model) {
 
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
 		$head = new View(null, null, "partials/head.html.twig");
-		$header = new View(null, null,"partials/header.html.twig");
+		$header = new View(null, null,"partials/header.html.twig", array('session' => $_SESSION));
 		$sidebar = new View($controller, $model,"partials/sidebar.html.twig");
 		$content = new View(null, null, "partials/content.html.twig");
 		$quicksidebar = new View(null, null, "partials/quicksidebar.html.twig");
@@ -96,8 +107,8 @@ class RouterController extends Controller
 		return $compositeView;
 	}
 
-	function getLoginPage() {
-		$html = new View(null, null,"app/Views/partials/page_user_login_1.php");
+	function createLoginPage() {
+		$html = new View(null, null,"partials/page_user_login_1.php");
 
 		return $html;
 	}
