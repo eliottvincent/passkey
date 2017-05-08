@@ -55,6 +55,9 @@ class Autoloader
 		if (file_exists('app/View/' . $class . '.php')) {
 			require_once 'app/View/' . $class . '.php';
 		}
+		if (file_exists('app/View/partials/' . $class . '.html.twig')) {
+			require_once 'app/View/partials/' . $class . '.html.twig';
+		}
 
         // CONTROLLER.
 		if (file_exists('app/Controller/' . $class . '.php')) {

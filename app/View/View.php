@@ -102,17 +102,4 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 		include $this->template;
 		return ob_get_clean();
 	}
-
-
-	/**
-	 * @return string
-	 */
-	public function output() {
-		$html = '<a href="?action=clicked" >Test</a>';
-		$html .= '<p>' . $this->model->string . '</p>';
-		return $html;
-
-	}
-
-
 }
