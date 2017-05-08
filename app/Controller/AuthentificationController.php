@@ -48,4 +48,11 @@ class LoginController
 			// TODO : handle wrong username here
 		}
 	}
+
+	function logout() {
+		session_start();
+		$url = $_REQUEST["url"];
+		session_destroy();
+		header("Location: /");
+	}
 }
