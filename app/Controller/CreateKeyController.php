@@ -111,7 +111,7 @@ class CreateKeyController
 
 		$objPHPExcel->setActiveSheetIndex(2);
 		$lastRow = $objPHPExcel->getActiveSheet()->getHighestDataRow();
-		$id = $lastRow-1;
+		$id = $lastRow;
 		$row = $lastRow + 1;
 
 		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $id);
