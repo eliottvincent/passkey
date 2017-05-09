@@ -71,11 +71,13 @@ class CreateLockController
 		$doors = CreateDoorController::getDoors();
 		$composite = new CompositeView();
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter un canon'));
-		$templates[] = array("name" => "header.php");
+		$templates[] = array("name" => "header.html.twig");
 		$templates[] = array("name" => "body.php");
+		$templates[] = array("name" => "content.html.twig");
 		$templates[] = array("name" => "locks/create_lock.html.twig", 'variables' => array('doors' => $doors));
-		$templates[] = array("name" => "foot.php");
-		$templates[] = array("name" => "footer.php");
+		$templates[] = array("name" => "content_end.html.twig");
+		$templates[] = array("name" => "foot.html.twig");
+		$templates[] = array("name" => "footer.html.twig");
 		$composite->displayView($templates);
 	}
 
@@ -83,12 +85,14 @@ class CreateLockController
 		$doors = CreateDoorController::getDoors();
 		$composite = new CompositeView();
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter un canon'));
-		$templates[] = array("name" => "header.php");
-		$templates[] = array("name" => "body.php");
+		$templates[] = array("name" => "header.html.twig");
+		$templates[] = array("name" => "body.html.twig");
+		$templates[] = array("name" => "content.html.twig");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
 		$templates[] = array("name" => "locks/create_lock.html.twig", 'variables' => array('doors' => $doors));
-		$templates[] = array("name" => "foot.php");
-		$templates[] = array("name" => "footer.php");
+		$templates[] = array("name" => "content_end.html.twig");
+		$templates[] = array("name" => "foot.html.twig");
+		$templates[] = array("name" => "footer.html.twig");
 		$composite->displayView($templates);
 	}
 
