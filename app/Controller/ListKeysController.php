@@ -55,7 +55,7 @@ class ListKeysController
 	public function displayList() {
 		$keys = CreateKeyController::getKeys();
 		$composite = new CompositeView();
-		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une porte'));
+		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Liste des clés'));
 		$templates[] = array("name" => "header.html.twig");
 		$templates[] = array("name" => "sidebar.html.twig");
 		$templates[] = array("name" => "content.html.twig");
@@ -70,7 +70,7 @@ class ListKeysController
 	public function displayDeleteKey($type, $message) {
 		$keys = CreateKeyController::getKeys();
 		$composite = new CompositeView();
-		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une porte'));
+		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Liste des clés'));
 		$templates[] = array("name" => "header.html.twig");
 		$templates[] = array("name" => "sidebar.html.twig");
 		$templates[] = array("name" => "content.html.twig");
