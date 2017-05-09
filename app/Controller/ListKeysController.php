@@ -21,7 +21,11 @@ class ListKeysController
 			}
 
 		} else {
-			$this->displayList();
+			if (file_exists('datas/datas.xlsx')) {
+				$this->displayList(true);
+			} else {
+				$this->displayList(false);
+			}
 		}
 	}
 
@@ -52,8 +56,13 @@ class ListKeysController
 		}
 	}
 
-	public function displayList() {
-		$keys = CreateKeyController::getKeys();
+	public function displayList($state) {
+		if ($state) {
+			$keys = CreateKeyController::getKeys();
+		} else {
+			$keys = null;
+		}
+
 		$composite = new CompositeView();
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Liste des clés'));
 		$templates[] = array("name" => "header.html.twig");

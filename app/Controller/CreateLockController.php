@@ -11,8 +11,14 @@ class CreateLockController
 	public function __construct()
 	{
 		if (!isset($_POST['lock_name']) && !isset($_POST['lock_door']) && !isset($_POST['lock_number'])) {
-			// If we have no values, the form is displayed.
-			$this->displayForm();
+
+			if (file_exists('/datas/datas.xslx')) {
+				// If we have no values, the form is displayed.
+				$this->displayForm(true);
+			} else {
+				$this->displayForm(false);
+			}
+
 		} elseif (empty($_POST['lock_name']) || empty($_POST['lock_door'])) {
 			// If we have not all values, error message display and form.
 			$type = "danger";
@@ -67,8 +73,12 @@ class CreateLockController
 		$objWriter->save("datas/datas.xlsx");
 	}
 
-	public function displayForm() {
-		$doors = CreateDoorController::getDoors();
+	public function displayForm($state) {
+		if ($state) {
+			$doors = CreateDoorController::getDoors();
+		} else {
+			$doors = null;
+		}
 		$composite = new CompositeView();
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter un canon'));
 		$templates[] = array("name" => "header.html.twig");
