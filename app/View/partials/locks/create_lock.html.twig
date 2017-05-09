@@ -12,17 +12,17 @@
 				<form role="form" class="form-horizontal" action="" method="post">
 					<div class="form-body">
 						<div class="form-group form-md-line-input">
-							<label class="col-md-2 control-label" for="form_control_1">Nom du canon</label>
+							<label class="col-md-2 control-label" for="form_control_1">Nom du canon *</label>
 							<div class="col-md-10">
-								<input type="text" class="form-control" id="form_control_1" placeholder="102H-G-001" name="lock_name">
+								<input type="text" class="form-control" id="form_control_1" placeholder="102H-G-001" name="lock_name" required>
 								<div class="form-control-focus"> </div>
 								<span class="help-block">Ce nom permettra d'identifier le canon dans l'application.</span>
 							</div>
 						</div>
 						<div class="form-group form-md-line-input">
-							<label class="col-md-2 control-label" for="form_control_1">Associer une porte</label>
+							<label class="col-md-2 control-label" for="form_control_1">Associer une porte *</label>
 							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="lock_door">
+								<select class="form-control" id="form_control_1" name="lock_door" required>
 									<option value="none">(Aucune)</option>
 									{% for door in doors %}
 										<option value="d_{{ door.door_id }}">{{ door.door_name }}</option>
