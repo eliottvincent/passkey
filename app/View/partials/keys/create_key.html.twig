@@ -52,7 +52,7 @@
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Associer un canon *</label>
 							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="key_lock" required>
+								<select class="form-control" id="form_control_1" name="key_lock[]" multiple required>
 									<option value="none">(Aucune)</option>
 									{% for lock in locks %}
 										<option value="l_{{ lock.lock_id }}">{{ lock.lock_name }}</option>

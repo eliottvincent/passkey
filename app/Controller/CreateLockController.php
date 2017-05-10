@@ -39,7 +39,16 @@ class CreateLockController
 				$this->createLockFile();
 			}
 
-			// If we have all the values.
+
+			/**foreach ($_POST['lock_door'] as $door) {
+				$datas = array(
+				'lock_name' => addslashes($_POST['lock_name']),
+				'lock_door' => addslashes($door)
+				);
+
+				$this->writeInFile($datas);
+			}**/
+
 			$datas = array(
 				'lock_name' => addslashes($_POST['lock_name']),
 				'lock_door' => addslashes($_POST['lock_door'])
