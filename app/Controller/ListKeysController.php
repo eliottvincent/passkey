@@ -30,7 +30,7 @@ class ListKeysController
 	}
 
 	public function deleteKey($id) {
-		$row = $id+2;
+		$row = $id+1;
 
 		$objReader = new PHPExcel_Reader_Excel2007();
 		$objPHPExcel = $objReader->load("datas/datas.xlsx");

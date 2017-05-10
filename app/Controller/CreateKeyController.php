@@ -39,18 +39,24 @@ class CreateKeyController
 				$this->createKeyFile();
 			}
 
-			foreach( $_POST['key_lock'] as $lock) {
-				// If we have all the values.
-				$datas = array(
-					'key_name' => addslashes($_POST['key_name']),
-					'key_type' => addslashes($_POST['key_type']),
-					'key_lock' => addslashes($lock),
-					'key_number' => addslashes($_POST['key_number'])
-				);
-
-				$this->writeInFile($datas);
+			$locks = '';
+			for ($i = 0; $i < sizeof($_POST['key_lock']); $i++) {
+				if ($i == sizeof($_POST['key_lock'])-1) {
+					$locks .= $_POST['key_lock'][$i];
+				} else {
+					$locks .= $_POST['key_lock'][$i] . '-';
+				}
 			}
 
+			// If we have all the values.
+			$datas = array(
+				'key_name' => addslashes($_POST['key_name']),
+				'key_type' => addslashes($_POST['key_type']),
+				'key_lock' => addslashes($locks),
+				'key_number' => addslashes($_POST['key_number'])
+			);
+
+			$this->writeInFile($datas);
 
 			$type = "success";
 			$message = "La clé a bien été enregistrée.";

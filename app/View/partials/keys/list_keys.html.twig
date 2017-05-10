@@ -28,8 +28,14 @@
 									<td> {{ key.key_id }} </td>
 									<td> {{ key.key_name }} </td>
 									<td> {{ key.key_type }} </td>
-									<td> {{ key.key_lock }} </td>
+									<td>
+										{% set locks = key.key_lock|split('-') %}
+										{% for lock in locks %}
+										{{ lock }}</br>
+										{% endfor %}
 									<td> {{ key.key_number }} </td>
+									</td>
+
 									<td>
 										<form action="" method="get">
 											<input type="hidden" name="update" value="update_k{{ key.key_id }}"/>
