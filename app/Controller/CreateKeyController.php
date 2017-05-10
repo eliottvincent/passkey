@@ -11,7 +11,7 @@ class CreateKeyController
 	public function __construct()
 	{
 		if (!isset($_POST['key_name']) && !isset($_POST['key_type']) && !isset($_POST['key_lock'])) {
-			if (file_exists('/datas/datas.xslx')) {
+			if (file_exists('datas/datas.xlsx')) {
 				// If we have no values, the form is displayed.
 				$this->displayForm(true);
 			} else {
