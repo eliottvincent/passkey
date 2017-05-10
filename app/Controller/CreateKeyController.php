@@ -149,7 +149,7 @@ class CreateKeyController
 			$key_id = $sheet->getCell('A'.$i)->getValue();
 			$key_name = $sheet->getCell('B'.$i)->getValue();
 			$key_type = $sheet->getCell('C'.$i)->getValue();
-			$key_lock = $sheet->getCell('D'.$i)->getValue();
+			$key_locks = $sheet->getCell('D'.$i)->getValue();
 			$key_number = $sheet->getCell('E'.$i)->getValue();
 
 			if ($key_id != '') {
@@ -157,7 +157,7 @@ class CreateKeyController
 					'key_id' => $key_id,
 					'key_name' => $key_name,
 					'key_type' => $key_type,
-					'key_lock' => $key_lock,
+					'key_lock' => $key_locks,
 					'key_number' => $key_number
 				);
 			}
