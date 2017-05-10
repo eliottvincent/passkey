@@ -21,10 +21,27 @@ class ListKeysController
 			}
 
 		} else {
+			$exist = false;
 			if (file_exists('datas/datas.xlsx')) {
+				$objReader = new PHPExcel_Reader_Excel2007();
+				$objPHPExcel = $objReader->load("datas/datas.xlsx");
+				$sheets = $objPHPExcel->getAllSheets();
+
+				foreach ($sheets as $sheet) {
+					if ($sheet->getTitle() == 'Keys') {
+						if ($sheet->getHighestDataRow() != 1) {
+							$exist = true;
+						}
+					}
+				}
+			}
+
+			if ($exist) {
 				$this->displayList(true);
 			} else {
-				$this->displayList(false);
+				$alert['type'] = 'danger';
+				$alert['message'] = 'Aucune clé n\'a été créée.';
+				$this->displayList(false, $alert);
 			}
 		}
 	}
@@ -56,7 +73,7 @@ class ListKeysController
 		}
 	}
 
-	public function displayList($state) {
+	public function displayList($state, $alert = null) {
 		if ($state) {
 			$keys = CreateKeyController::getKeys();
 		} else {
@@ -68,6 +85,11 @@ class ListKeysController
 		$templates[] = array("name" => "header.html.twig");
 		$templates[] = array("name" => "sidebar.html.twig");
 		$templates[] = array("name" => "content.html.twig");
+
+		if (isset($alert) && !empty($alert['type']) && !empty($alert['message'])) {
+			$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $alert['type'] , "alert_message" => $alert['message']));
+		}
+
 		$templates[] = array("name" => "keys/list_keys.html.twig", 'variables' => array('keys' => $keys));
 		$templates[] = array("name" => "quicksidebar.html.twig");
 		$templates[] = array("name" => "content_end.html.twig");
