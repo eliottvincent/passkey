@@ -11,14 +11,12 @@ class CreateLockController
 	public function __construct()
 	{
 		if (!isset($_POST['lock_name']) && !isset($_POST['lock_door']) && !isset($_POST['lock_number'])) {
-
-			if (file_exists('/datas/datas.xslx')) {
+			if (file_exists('datas/datas.xlsx')) {
 				// If we have no values, the form is displayed.
 				$this->displayForm(true);
 			} else {
 				$this->displayForm(false);
 			}
-
 		} elseif (empty($_POST['lock_name']) || empty($_POST['lock_door'])) {
 			// If we have not all values, error message display and form.
 			$type = "danger";
@@ -41,7 +39,16 @@ class CreateLockController
 				$this->createLockFile();
 			}
 
-			// If we have all the values.
+
+			/**foreach ($_POST['lock_door'] as $door) {
+				$datas = array(
+				'lock_name' => addslashes($_POST['lock_name']),
+				'lock_door' => addslashes($door)
+				);
+
+				$this->writeInFile($datas);
+			}**/
+
 			$datas = array(
 				'lock_name' => addslashes($_POST['lock_name']),
 				'lock_door' => addslashes($_POST['lock_door'])
