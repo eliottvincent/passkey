@@ -17,6 +17,7 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 	//protected $template = self::DEFAULT_TEMPLATE;
 	protected $template;
 	protected $fields = array();
+	protected $twigInstance;
 
 	/**
 	 * View constructor.
@@ -24,6 +25,7 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 	 * @param $model
 	 */
 	public function __construct($controller = null, $model = null, $template = null, array $fields = array()) {
+
 		if ($controller !== null) {
 		$this->controller = $controller;
 		}
@@ -39,6 +41,9 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 				$this->$name = $value;
 			}
 		}
+
+		$this->twigInstance = $this->twigInstance();
+
 	}
 
 	/**
@@ -109,6 +114,13 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 		ob_start();
 		include $this->template;
 		return ob_get_clean();
+	}
+
+	public function twigInstance() {
+		$loader = new Twig_Loader_Filesystem('app/View/partials');
+		$twig = new Twig_Environment($loader, array('debug' => true));
+		$twig->addExtension(new Twig_Extension_Debug());
+		return $twig;
 	}
 
 	public function render()
