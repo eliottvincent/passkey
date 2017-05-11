@@ -47,12 +47,12 @@ class CompositeView implements ViewInterface
 	}
 
 	public function getTemplate($twig, $template) {
-		if (isset($template['variables']) && !empty($template['variables'])) {
-			$temp = $twig->render($template['name'], $template['variables']);
-		} else {
-			$temp = $twig->render($template['name']);
+		if (property_exists($template, 'fields') && !empty($template->getFields())) {
+			$temp = $twig->render($template->getTemplate(), $template->getFields());
 		}
-
+		else {
+			$temp = $twig->render($template->getTemplate());
+		}
 		return $temp;
 	}
 
