@@ -83,45 +83,27 @@ class RouterController extends Controller
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Accueil'));
-		$templates[] = array("name" => "header.html.twig", 'variables' => array('session' => $_SESSION));
-		$templates[] = array("name" => "sidebar.html.twig");
-		$templates[] = array("name" => "content.html.twig");
-		$templates[] = array("name" => "quicksidebar.html.twig");
-		$templates[] = array("name" => "footer.html.twig");
-		$templates[] = array("name" => "quicknav.html.twig");
-		$templates[] = array("name" => "foot.html.twig");
+		$head = new View(null, null,"head.html.twig", array('title' => 'Accueil'));
+		$header = new View(null, null,"header.html.twig", array('session' => $_SESSION));
+		$sidebar = new View(null, null,"sidebar.html.twig");
+		$content = new View(null, null,"content.html.twig");
+		$quicksidebar = new View(null, null,"quicksidebar.html.twig");
+		$footer = new View(null, null,"footer.html.twig");
+		$quicknav = new View(null, null,"quicknav.html.twig");
+		$foot = new View(null, null,"foot.html.twig");
 
 		$compositeView = new CompositeView;
-		$compositeView->displayView($templates);
 
-		/*
-		$head = new View(null, null, "partials/head.html.twig");
-		$header = new View(null, null,"partials/header.html.twig", array('session' => $_SESSION));
-		$sidebar = new View($controller, $model,"partials/sidebar.html.twig");
-		$content = new View(null, null, "partials/content.html.twig");
-		$quicksidebar = new View(null, null, "partials/quicksidebar.html.twig");
-		$footer = new View(null, null, "partials/footer.html.twig");
-		$quicknav = new View(null, null, "partials/quicknav.html.twig");
-		$foot = new View(null, null,"partials/foot.html.twig");
+		$compositeView->attachTemplate($head)
+			->attachTemplate($header)
+			->attachTemplate($sidebar)
+			->attachTemplate($content)
+			->attachTemplate($quicksidebar)
+			->attachTemplate($footer)
+			->attachTemplate($quicknav)
+			->attachTemplate($foot);
 
-
-		// creating our final view
-		$compositeView = new CompositeView;
-
-		// adding partials to the final view
-
-		$compositeView->attachView($head)
-			->attachView($header)
-			->attachView($sidebar)
-			->attachView($content)
-			->attachView($quicksidebar)
-			->attachView($footer)
-			->attachView($quicknav)
-			->attachView($foot);
-
-		return $compositeView;
-		*/
+		$compositeView->render();
 	}
 
 	function createLoginPage() {
