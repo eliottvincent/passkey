@@ -113,9 +113,12 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 
 	public function render()
 	{
-		extract($this->fields);
-		ob_start();
-		include $this->template;
-		return ob_get_clean();
+		if (property_exists($this, 'fields') && !empty($this->getFields())) {
+			$temp = $this->twigInstance->render($this->getTemplate(), $this->getFields());
+		}
+		else {
+			$temp = $this->twigInstance->render($this->getTemplate());
+		}
+		return $temp;
 	}
 }
