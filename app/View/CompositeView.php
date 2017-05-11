@@ -9,51 +9,19 @@
 class CompositeView implements ViewInterface
 {
 	protected $views = array();
-	protected $templates = array();
 
-	public function attachView(ViewInterface $view) {
+	public function attachView(View $view) {
 		if (!in_array($view, $this->views, true)) {
 			$this->views[] = $view;
 		}
 		return $this;
 	}
 
-	public function detachView(ViewInterface $view) {
+	public function detachView(View $view) {
 		$this->views = array_filter($this->views, function ($value) use ($view) {
 			return $value !== $view;
 		});
 		return $this;
-	}
-
-	public function attachTemplate(View $template) {
-		if (!in_array($template, $this->templates, true)) {
-			$this->templates[] = $template;
-		}
-		return $this;
-	}
-
-	public function detachTemplate(View $template) {
-		$this->templates = array_filter($this->templates, function ($value) use ($template) {
-			return $value !== $template;
-		});
-		return $this;
-	}
-
-	public function twigInstance() {
-		$loader = new Twig_Loader_Filesystem('app/View/partials');
-		$twig = new Twig_Environment($loader, array('debug' => true));
-		$twig->addExtension(new Twig_Extension_Debug());
-		return $twig;
-	}
-
-	public function getTemplate($twig, $template) {
-		if (property_exists($template, 'fields') && !empty($template->getFields())) {
-			$temp = $twig->render($template->getTemplate(), $template->getFields());
-		}
-		else {
-			$temp = $twig->render($template->getTemplate());
-		}
-		return $temp;
 	}
 
 	public function oldRenderMethod() {
@@ -65,9 +33,8 @@ class CompositeView implements ViewInterface
 	}
 
 	public function render() {
-		$twig = $this->twigInstance();
-		foreach($this->templates as $template) {
-			echo $this->getTemplate($twig, $template);
+		foreach($this->views as $view) {
+			echo $view->render();
 		}
 	}
 }
