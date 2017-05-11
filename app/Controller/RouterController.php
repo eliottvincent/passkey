@@ -94,14 +94,14 @@ class RouterController extends Controller
 
 		$compositeView = new CompositeView;
 
-		$compositeView->attachTemplate($head)
-			->attachTemplate($header)
-			->attachTemplate($sidebar)
-			->attachTemplate($content)
-			->attachTemplate($quicksidebar)
-			->attachTemplate($footer)
-			->attachTemplate($quicknav)
-			->attachTemplate($foot);
+		$compositeView->attachView($head)
+			->attachView($header)
+			->attachView($sidebar)
+			->attachView($content)
+			->attachView($quicksidebar)
+			->attachView($footer)
+			->attachView($quicknav)
+			->attachView($foot);
 
 		$compositeView->render();
 	}
