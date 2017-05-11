@@ -41,23 +41,29 @@ class CreateDoorController extends RouterController
 	public function displayForm() {
 		$composite = new CompositeView();
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une porte'));
-		$templates[] = array("name" => "header.php");
-		$templates[] = array("name" => "body.php");
+		$templates[] = array("name" => "header.html.twig");
+		$templates[] = array("name" => "sidebar.html.twig");
+		$templates[] = array("name" => "content.html.twig");
 		$templates[] = array("name" => "doors/create_door.html.twig");
+		$templates[] = array("name" => "quicksidebar.html.twig");
+		$templates[] = array("name" => "content_end.html.twig");
 		$templates[] = array("name" => "foot.html.twig");
-		$templates[] = array("name" => "footer.php");
+		$templates[] = array("name" => "footer.html.twig");
 		$composite->displayView($templates);
 	}
 
 	public function doorMessage($type, $message) {
 		$composite = new CompositeView();
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une porte'));
-		$templates[] = array("name" => "header.php");
-		$templates[] = array("name" => "body.php");
+		$templates[] = array("name" => "header.html.twig");
+		$templates[] = array("name" => "sidebar.html.twig");
+		$templates[] = array("name" => "content.html.twig");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
 		$templates[] = array("name" => "doors/create_door.html.twig");
+		$templates[] = array("name" => "quicksidebar.html.twig");
+		$templates[] = array("name" => "content_end.html.twig");
 		$templates[] = array("name" => "foot.html.twig");
-		$templates[] = array("name" => "footer.php");
+		$templates[] = array("name" => "footer.html.twig");
 		$composite->displayView($templates);
 	}
 

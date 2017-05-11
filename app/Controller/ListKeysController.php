@@ -21,12 +21,33 @@ class ListKeysController
 			}
 
 		} else {
-			$this->displayList();
+			$exist = false;
+			if (file_exists('datas/datas.xlsx')) {
+				$objReader = new PHPExcel_Reader_Excel2007();
+				$objPHPExcel = $objReader->load("datas/datas.xlsx");
+				$sheets = $objPHPExcel->getAllSheets();
+
+				foreach ($sheets as $sheet) {
+					if ($sheet->getTitle() == 'Keys') {
+						if ($sheet->getHighestDataRow() != 1) {
+							$exist = true;
+						}
+					}
+				}
+			}
+
+			if ($exist) {
+				$this->displayList(true);
+			} else {
+				$alert['type'] = 'danger';
+				$alert['message'] = 'Aucune clé n\'a été créée.';
+				$this->displayList(false, $alert);
+			}
 		}
 	}
 
 	public function deleteKey($id) {
-		$row = $id+2;
+		$row = $id+1;
 
 		$objReader = new PHPExcel_Reader_Excel2007();
 		$objPHPExcel = $objReader->load("datas/datas.xlsx");
@@ -52,15 +73,28 @@ class ListKeysController
 		}
 	}
 
-	public function displayList() {
-		$keys = CreateKeyController::getKeys();
+	public function displayList($state, $alert = null) {
+		if ($state) {
+			$keys = CreateKeyController::getKeys();
+		} else {
+			$keys = null;
+		}
+
 		$composite = new CompositeView();
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Liste des clés'));
-		$templates[] = array("name" => "header.php");
-		$templates[] = array("name" => "body.php");
+		$templates[] = array("name" => "header.html.twig");
+		$templates[] = array("name" => "sidebar.html.twig");
+		$templates[] = array("name" => "content.html.twig");
+
+		if (isset($alert) && !empty($alert['type']) && !empty($alert['message'])) {
+			$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $alert['type'] , "alert_message" => $alert['message']));
+		}
+
 		$templates[] = array("name" => "keys/list_keys.html.twig", 'variables' => array('keys' => $keys));
-		$templates[] = array("name" => "foot.php");
-		$templates[] = array("name" => "footer.php");
+		$templates[] = array("name" => "quicksidebar.html.twig");
+		$templates[] = array("name" => "content_end.html.twig");
+		$templates[] = array("name" => "foot.html.twig");
+		$templates[] = array("name" => "footer.html.twig");
 		$composite->displayView($templates);
 	}
 
@@ -68,12 +102,15 @@ class ListKeysController
 		$keys = CreateKeyController::getKeys();
 		$composite = new CompositeView();
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Liste des clés'));
-		$templates[] = array("name" => "header.php");
-		$templates[] = array("name" => "body.php");
+		$templates[] = array("name" => "header.html.twig");
+		$templates[] = array("name" => "sidebar.html.twig");
+		$templates[] = array("name" => "content.html.twig");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
 		$templates[] = array("name" => "keys/list_keys.html.twig", 'variables' => array('keys' => $keys));
-		$templates[] = array("name" => "foot.php");
-		$templates[] = array("name" => "footer.php");
+		$templates[] = array("name" => "quicksidebar.html.twig");
+		$templates[] = array("name" => "content_end.html.twig");
+		$templates[] = array("name" => "foot.html.twig");
+		$templates[] = array("name" => "footer.html.twig");
 		$composite->displayView($templates);
 	}
 }

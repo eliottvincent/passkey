@@ -11,8 +11,12 @@ class CreateKeyController
 	public function __construct()
 	{
 		if (!isset($_POST['key_name']) && !isset($_POST['key_type']) && !isset($_POST['key_lock'])) {
-			// If we have no values, the form is displayed.
-			$this->displayForm();
+			if (file_exists('datas/datas.xlsx')) {
+				// If we have no values, the form is displayed.
+				$this->displayForm(true);
+			} else {
+				$this->displayForm(false);
+			}
 		} elseif (empty($_POST['key_name']) || empty($_POST['key_type']) || empty($_POST['key_lock'])) {
 			// If we have not all values, error message display and form.
 			$type = "danger";
@@ -35,11 +39,20 @@ class CreateKeyController
 				$this->createKeyFile();
 			}
 
+			$locks = '';
+			for ($i = 0; $i < sizeof($_POST['key_lock']); $i++) {
+				if ($i == sizeof($_POST['key_lock'])-1) {
+					$locks .= $_POST['key_lock'][$i];
+				} else {
+					$locks .= $_POST['key_lock'][$i] . '-';
+				}
+			}
+
 			// If we have all the values.
 			$datas = array(
 				'key_name' => addslashes($_POST['key_name']),
 				'key_type' => addslashes($_POST['key_type']),
-				'key_lock' => addslashes($_POST['key_lock']),
+				'key_lock' => addslashes($locks),
 				'key_number' => addslashes($_POST['key_number'])
 			);
 
@@ -51,15 +64,23 @@ class CreateKeyController
 		}
 	}
 
-	public function displayForm() {
-		$locks = CreateLockController::getLocks();
+	public function displayForm($state) {
+		if ($state) {
+			$locks = CreateLockController::getLocks();
+		} else {
+			$locks = null;
+		}
+
 		$composite = new CompositeView();
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une clé'));
-		$templates[] = array("name" => "header.php");
-		$templates[] = array("name" => "body.php");
+		$templates[] = array("name" => "header.html.twig");
+		$templates[] = array("name" => "sidebar.html.twig");
+		$templates[] = array("name" => "content.html.twig");
 		$templates[] = array("name" => "keys/create_key.html.twig", 'variables' => array('locks' => $locks));
-		$templates[] = array("name" => "foot.php");
-		$templates[] = array("name" => "footer.php");
+		$templates[] = array("name" => "quicksidebar.html.twig");
+		$templates[] = array("name" => "content_end.html.twig");
+		$templates[] = array("name" => "foot.html.twig");
+		$templates[] = array("name" => "footer.html.twig");
 		$composite->displayView($templates);
 	}
 
@@ -67,12 +88,15 @@ class CreateKeyController
 		$locks = CreateLockController::getLocks();
 		$composite = new CompositeView();
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une clé'));
-		$templates[] = array("name" => "header.php");
-		$templates[] = array("name" => "body.php");
+		$templates[] = array("name" => "header.html.twig");
+		$templates[] = array("name" => "sidebar.html.twig");
+		$templates[] = array("name" => "content.html.twig");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
 		$templates[] = array("name" => "keys/create_key.html.twig", 'variables' => array('locks' => $locks));
-		$templates[] = array("name" => "foot.php");
-		$templates[] = array("name" => "footer.php");
+		$templates[] = array("name" => "quicksidebar.html.twig");
+		$templates[] = array("name" => "content_end.html.twig");
+		$templates[] = array("name" => "foot.html.twig");
+		$templates[] = array("name" => "footer.html.twig");
 		$composite->displayView($templates);
 	}
 
@@ -105,7 +129,7 @@ class CreateKeyController
 
 		$objPHPExcel->setActiveSheetIndex(2);
 		$lastRow = $objPHPExcel->getActiveSheet()->getHighestDataRow();
-		$id = $lastRow-1;
+		$id = $lastRow;
 		$row = $lastRow + 1;
 
 		$objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $id);
@@ -131,7 +155,7 @@ class CreateKeyController
 			$key_id = $sheet->getCell('A'.$i)->getValue();
 			$key_name = $sheet->getCell('B'.$i)->getValue();
 			$key_type = $sheet->getCell('C'.$i)->getValue();
-			$key_lock = $sheet->getCell('D'.$i)->getValue();
+			$key_locks = $sheet->getCell('D'.$i)->getValue();
 			$key_number = $sheet->getCell('E'.$i)->getValue();
 
 			if ($key_id != '') {
@@ -139,7 +163,7 @@ class CreateKeyController
 					'key_id' => $key_id,
 					'key_name' => $key_name,
 					'key_type' => $key_type,
-					'key_lock' => $key_lock,
+					'key_lock' => $key_locks,
 					'key_number' => $key_number
 				);
 			}

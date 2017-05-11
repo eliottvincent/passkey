@@ -11,8 +11,12 @@ class CreateLockController
 	public function __construct()
 	{
 		if (!isset($_POST['lock_name']) && !isset($_POST['lock_door']) && !isset($_POST['lock_number'])) {
-			// If we have no values, the form is displayed.
-			$this->displayForm();
+			if (file_exists('datas/datas.xlsx')) {
+				// If we have no values, the form is displayed.
+				$this->displayForm(true);
+			} else {
+				$this->displayForm(false);
+			}
 		} elseif (empty($_POST['lock_name']) || empty($_POST['lock_door'])) {
 			// If we have not all values, error message display and form.
 			$type = "danger";
@@ -35,7 +39,16 @@ class CreateLockController
 				$this->createLockFile();
 			}
 
-			// If we have all the values.
+
+			/**foreach ($_POST['lock_door'] as $door) {
+				$datas = array(
+				'lock_name' => addslashes($_POST['lock_name']),
+				'lock_door' => addslashes($door)
+				);
+
+				$this->writeInFile($datas);
+			}**/
+
 			$datas = array(
 				'lock_name' => addslashes($_POST['lock_name']),
 				'lock_door' => addslashes($_POST['lock_door'])
@@ -67,15 +80,22 @@ class CreateLockController
 		$objWriter->save("datas/datas.xlsx");
 	}
 
-	public function displayForm() {
-		$doors = CreateDoorController::getDoors();
+	public function displayForm($state) {
+		if ($state) {
+			$doors = CreateDoorController::getDoors();
+		} else {
+			$doors = null;
+		}
 		$composite = new CompositeView();
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter un canon'));
-		$templates[] = array("name" => "header.php");
-		$templates[] = array("name" => "body.php");
+		$templates[] = array("name" => "header.html.twig");
+		$templates[] = array("name" => "sidebar.html.twig");
+		$templates[] = array("name" => "content.html.twig");
 		$templates[] = array("name" => "locks/create_lock.html.twig", 'variables' => array('doors' => $doors));
-		$templates[] = array("name" => "foot.php");
-		$templates[] = array("name" => "footer.php");
+		$templates[] = array("name" => "quicksidebar.html.twig");
+		$templates[] = array("name" => "content_end.html.twig");
+		$templates[] = array("name" => "foot.html.twig");
+		$templates[] = array("name" => "footer.html.twig");
 		$composite->displayView($templates);
 	}
 
@@ -83,12 +103,15 @@ class CreateLockController
 		$doors = CreateDoorController::getDoors();
 		$composite = new CompositeView();
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter un canon'));
-		$templates[] = array("name" => "header.php");
-		$templates[] = array("name" => "body.php");
+		$templates[] = array("name" => "header.html.twig");
+		$templates[] = array("name" => "sidebar.html.twig");
+		$templates[] = array("name" => "content.html.twig");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
 		$templates[] = array("name" => "locks/create_lock.html.twig", 'variables' => array('doors' => $doors));
-		$templates[] = array("name" => "foot.php");
-		$templates[] = array("name" => "footer.php");
+		$templates[] = array("name" => "quicksidebar.html.twig");
+		$templates[] = array("name" => "content_end.html.twig");
+		$templates[] = array("name" => "foot.html.twig");
+		$templates[] = array("name" => "footer.html.twig");
 		$composite->displayView($templates);
 	}
 
