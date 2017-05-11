@@ -8,13 +8,14 @@
  */
 class View implements TemplateInterface, ContainerInterface, ViewInterface {
 
-	const DEFAULT_TEMPLATE = "default.php";
 
 	// a View is linked to a Model and a Controller
 	private $model;
 	private $controller;
 
-	protected $template = self::DEFAULT_TEMPLATE;
+	const DEFAULT_TEMPLATE = "default.php";
+	//protected $template = self::DEFAULT_TEMPLATE;
+	protected $template;
 	protected $fields = array();
 
 	/**
