@@ -97,7 +97,15 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 	/**
 	 * @return string
 	 */
-	public function render() {
+	public function oldRenderMethod() {
+		extract($this->fields);
+		ob_start();
+		include $this->template;
+		return ob_get_clean();
+	}
+
+	public function render()
+	{
 		extract($this->fields);
 		ob_start();
 		include $this->template;

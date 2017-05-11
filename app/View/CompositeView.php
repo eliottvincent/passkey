@@ -24,12 +24,7 @@ class CompositeView implements ViewInterface
 		return $this;
 	}
 
-	public function render() {
-		$output = "";
-		foreach ($this->views as $view) {
-			$output .= $view->render();
 		}
-		return $output;
 	}
 
 	/**
@@ -61,6 +56,18 @@ class CompositeView implements ViewInterface
 		foreach($templates as $template) {
 			$template = $this->getTemplate($twig, $template);
 			echo $template;
+	public function oldRenderMethod() {
+		$output = "";
+		foreach ($this->views as $view) {
+			$output .= $view->render();
+		}
+		return $output;
+	}
+
+	public function render() {
+		$twig = $this->twigInstance();
+		foreach($this->templates as $template) {
+			echo $this->getTemplate($twig, $template);
 		}
 	}
 }

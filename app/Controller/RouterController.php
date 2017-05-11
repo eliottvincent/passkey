@@ -39,7 +39,7 @@ class RouterController extends Controller
 
 	function showLoginPageTest() {
 
-		echo $this->createLoginPage()->render();
+		echo $this->createLoginPage()->oldRenderMethod();
 	}
 
 	function login() {
