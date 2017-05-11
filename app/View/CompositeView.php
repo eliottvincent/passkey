@@ -56,10 +56,6 @@ class CompositeView implements ViewInterface
 		return $temp;
 	}
 
-	public function displayTemplate($twig, $templates) {
-		foreach($templates as $template) {
-			$template = $this->getTemplate($twig, $template);
-			echo $template;
 	public function oldRenderMethod() {
 		$output = "";
 		foreach ($this->views as $view) {
