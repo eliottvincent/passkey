@@ -57,6 +57,13 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 		return $this->template;
 	}
 
+	/*
+	 *
+	 */
+	public function getFields() {
+		return $this->fields;
+	}
+
 	public function __set($name, $value) {
 		$this->fields[$name] = $value;
 		return $this;
