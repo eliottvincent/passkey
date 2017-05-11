@@ -9,6 +9,7 @@
 class CompositeView implements ViewInterface
 {
 	protected $views = array();
+	protected $templates = array();
 
 	public function attachView(ViewInterface $view) {
 		if (!in_array($view, $this->views, true)) {
@@ -24,15 +25,18 @@ class CompositeView implements ViewInterface
 		return $this;
 	}
 
+	public function attachTemplate(View $template) {
+		if (!in_array($template, $this->templates, true)) {
+			$this->templates[] = $template;
 		}
+		return $this;
 	}
 
-	/**
-	 * @param $templates An array of templates and variables
-	 */
-	public function displayView($templates) {
-		$twig = $this->twigInstance();
-		$this->displayTemplate($twig, $templates);
+	public function detachTemplate(View $template) {
+		$this->templates = array_filter($this->templates, function ($value) use ($template) {
+			return $value !== $template;
+		});
+		return $this;
 	}
 
 	public function twigInstance() {
