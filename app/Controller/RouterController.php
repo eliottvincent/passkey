@@ -67,7 +67,8 @@ class RouterController extends Controller
 	}
 
 	function listKeys() {
-		new ListKeysController();
+		$key = new KeyController();
+		$key->list();
 	}
 
 
