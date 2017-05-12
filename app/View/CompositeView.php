@@ -17,7 +17,6 @@ class CompositeView implements ViewInterface
 			$header = new View(null, null,"header.html.twig", array('session' => $_SESSION));
 			$sidebar = new View(null, null,"sidebar.html.twig");
 			$content_start = new View(null, null,"content_start.html.twig");
-			$content = new View(null, null,"default_content.html.twig");
 			$quicksidebar = new View(null, null,"quicksidebar.html.twig");
 			$content_end = new View(null, null, "content_end.html.twig");
 			$footer = new View(null, null,"footer.html.twig");
@@ -28,7 +27,6 @@ class CompositeView implements ViewInterface
 				->attachView($header)
 				->attachView($sidebar)
 				->attachView($content_start)
-				//->attachView($content)
 				->attachView($quicksidebar)
 				->attachView($content_end)
 				->attachView($footer)
@@ -73,11 +71,24 @@ class CompositeView implements ViewInterface
 	 *
 	 * adds a View in views[], between content_start and content_end
 	 */
-	public function attachContentView(View $view) {
+	public function attachContentView(View $contentView) {
 
-		if (!in_array($view, $this->views, true)) {
-			$this->views[] = $view;
+		// first we need to search the position of the quicksidebar View...
+		// ...because we want to insert the content View just before it
+		$quicksidebarPosition = 0;
+		foreach ($this->views as $pos => $currentView) {
+			if ($currentView->getTemplate() === 'quicksidebar.html.twig') {
+				$quicksidebarPosition = $pos;
+			}
 		}
+
+		// then we separate $this->views[] in quicksidebarPosition
+		// and we insert the content View
+		// we merge the three arrays
+		$this->views = array_merge(
+			array_slice( $this->views, 0, $quicksidebarPosition, true ),
+			array($contentView),
+			array_slice( $this->views, $quicksidebarPosition, null, true ) );
 		return $this;
 	}
 

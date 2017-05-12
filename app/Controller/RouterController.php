@@ -83,13 +83,22 @@ class RouterController extends Controller
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
+		// creating a default CompositeView
 		$compositeView = new CompositeView(true);
+
+		// creating our content, as a View object
+		$blankContent = new View(null, null, 'default_content.html.twig');
+
+		// adding the content to our CompositeView
+		// here we use attachContentView() rather than attachView()...
+		// because the content view always needs to be between content_start and content_end
+		$compositeView->attachContentView($blankContent);
 
 		echo $compositeView->render();
 	}
 
 	function createLoginPage() {
-		$html = new View(null, null,"partials/page_user_login_1.php");
+		$html = new View(null, null,'partials/page_user_login_1.php');
 
 		return $html;
 	}
