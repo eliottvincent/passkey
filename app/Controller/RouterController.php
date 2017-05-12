@@ -90,7 +90,7 @@ class RouterController extends Controller
 		// authentication check
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
-		
+
 		new ListKeysController();
 	}
 
