@@ -62,7 +62,8 @@ class RouterController extends Controller
 	}
 
 	function createKey() {
-		new CreateKeyController();
+		$key = new KeyController();
+		$key->create();
 	}
 
 	function listKeys() {
