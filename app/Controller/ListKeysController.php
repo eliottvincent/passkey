@@ -84,10 +84,9 @@ class ListKeysController
 
 		if (isset($alert) && !empty($alert['type']) && !empty($alert['message'])) {
 			$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $alert['type'] , "alert_message" => $alert['message']));
+			$composite->attachContentView($submit_message);
 		}
 		$list_keys = new View(null, null,"keys/list_keys.html.twig", array('keys' => $keys));
-
-		$composite->attachContentView($submit_message);
 		$composite->attachContentView($list_keys);
 
 		echo $composite->render();
