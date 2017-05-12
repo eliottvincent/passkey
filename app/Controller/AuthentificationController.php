@@ -10,8 +10,7 @@ class AuthentificationController
 {
 	function check() {
 		session_start();
-		if (!isset($_SESSION["USERNAME"]))
-		{
+		if (!isset($_SESSION["USERNAME"])) {
 			$url = $_SERVER["REQUEST_URI"];
 			header("Location: ?action=showLoginPageTest&url=".$url);
 		}
@@ -46,11 +45,15 @@ class AuthentificationController
 
 				session_start();
 				$_SESSION['USERNAME']= $username;
-				//header("Location: /");
-				$url = $_SERVER["HTTP_ORIGIN"] . "/";
-				echo "<script> window.location.replace('" . $url . "') </script>";
-				//echo $url;
-				//header("Location " . $url);
+
+				$url = $_SERVER["HTTP_REFERER"];
+				$newUrl = substr($url, 0, strpos($url, "?"));
+
+				// header redirection doesn't work on some environments...
+				//header("Location: " . $newUrl);
+
+				// ...thus we use script injection
+				echo "<script> window.location.replace('" . $newUrl. "') </script>";
 			}
 			else {
 				// TODO : handle wrong password here
@@ -65,9 +68,11 @@ class AuthentificationController
 		// do not remove the echo, otherwise the redirection doesn't work
 
 		session_start();
-		$url = $_REQUEST["url"];
 		session_destroy();
-		//header("Location: $url");
-		echo "<script> window.location.replace('" . $url . "') </script>";
+
+		$url = $_SERVER["HTTP_REFERER"];
+		$newUrl = substr($url, 0, strpos($url, "?"));
+
+		echo "<script> window.location.replace('" . $newUrl. "') </script>";
 	}
 }
