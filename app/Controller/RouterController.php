@@ -75,7 +75,8 @@ class RouterController extends Controller
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		new CreateLockController();
+		$lock = new LockController();
+		$lock->create();
 	}
 
 	function createKey() {
