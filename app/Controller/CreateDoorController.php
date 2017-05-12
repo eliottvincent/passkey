@@ -43,7 +43,7 @@ class CreateDoorController extends RouterController
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une porte'));
 		$templates[] = array("name" => "header.html.twig");
 		$templates[] = array("name" => "sidebar.html.twig");
-		$templates[] = array("name" => "content.html.twig");
+		$templates[] = array("name" => "default_content.html.twig");
 		$templates[] = array("name" => "doors/create_door.html.twig");
 		$templates[] = array("name" => "quicksidebar.html.twig");
 		$templates[] = array("name" => "content_end.html.twig");
@@ -57,7 +57,7 @@ class CreateDoorController extends RouterController
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une porte'));
 		$templates[] = array("name" => "header.html.twig");
 		$templates[] = array("name" => "sidebar.html.twig");
-		$templates[] = array("name" => "content.html.twig");
+		$templates[] = array("name" => "default_content.html.twig");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
 		$templates[] = array("name" => "doors/create_door.html.twig");
 		$templates[] = array("name" => "quicksidebar.html.twig");

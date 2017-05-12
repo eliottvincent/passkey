@@ -90,7 +90,7 @@ class CreateLockController
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter un canon'));
 		$templates[] = array("name" => "header.html.twig");
 		$templates[] = array("name" => "sidebar.html.twig");
-		$templates[] = array("name" => "content.html.twig");
+		$templates[] = array("name" => "default_content.html.twig");
 		$templates[] = array("name" => "locks/create_lock.html.twig", 'variables' => array('doors' => $doors));
 		$templates[] = array("name" => "quicksidebar.html.twig");
 		$templates[] = array("name" => "content_end.html.twig");
@@ -105,7 +105,7 @@ class CreateLockController
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter un canon'));
 		$templates[] = array("name" => "header.html.twig");
 		$templates[] = array("name" => "sidebar.html.twig");
-		$templates[] = array("name" => "content.html.twig");
+		$templates[] = array("name" => "default_content.html.twig");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
 		$templates[] = array("name" => "locks/create_lock.html.twig", 'variables' => array('doors' => $doors));
 		$templates[] = array("name" => "quicksidebar.html.twig");

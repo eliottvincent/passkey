@@ -17,7 +17,7 @@ class CompositeView implements ViewInterface
 			$header = new View(null, null,"header.html.twig", array('session' => $_SESSION));
 			$sidebar = new View(null, null,"sidebar.html.twig");
 			$content_start = new View(null, null,"content_start.html.twig");
-			$content = new View(null, null,"content.html.twig");
+			$content = new View(null, null,"default_content.html.twig");
 			$quicksidebar = new View(null, null,"quicksidebar.html.twig");
 			$content_end = new View(null, null, "content_end.html.twig");
 			$footer = new View(null, null,"footer.html.twig");
@@ -37,6 +37,12 @@ class CompositeView implements ViewInterface
 		}
 	}
 
+	/**
+	 * @param View $view
+	 * @return $this
+	 *
+	 * adds a View at the end of views[]
+	 */
 	public function attachView(View $view) {
 
 		// sometimes the view is null
@@ -49,6 +55,12 @@ class CompositeView implements ViewInterface
 		return $this;
 	}
 
+	/**
+	 * @param View $view
+	 * @return $this
+	 *
+	 *
+	 */
 	public function detachView(View $view) {
 		$this->views = array_filter($this->views, function ($value) use ($view) {
 			return $value !== $view;

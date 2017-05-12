@@ -75,7 +75,7 @@ class CreateKeyController
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une clé'));
 		$templates[] = array("name" => "header.html.twig");
 		$templates[] = array("name" => "sidebar.html.twig");
-		$templates[] = array("name" => "content.html.twig");
+		$templates[] = array("name" => "default_content.html.twig");
 		$templates[] = array("name" => "keys/create_key.html.twig", 'variables' => array('locks' => $locks));
 		$templates[] = array("name" => "quicksidebar.html.twig");
 		$templates[] = array("name" => "content_end.html.twig");
@@ -90,7 +90,7 @@ class CreateKeyController
 		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter une clé'));
 		$templates[] = array("name" => "header.html.twig");
 		$templates[] = array("name" => "sidebar.html.twig");
-		$templates[] = array("name" => "content.html.twig");
+		$templates[] = array("name" => "default_content.html.twig");
 		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
 		$templates[] = array("name" => "keys/create_key.html.twig", 'variables' => array('locks' => $locks));
 		$templates[] = array("name" => "quicksidebar.html.twig");
