@@ -25,7 +25,7 @@ class CompositeView implements ViewInterface
 			$this->attachView($head)
 				->attachView($header)
 				->attachView($sidebar)
-				->attachView($content)
+				//->attachView($content)
 				->attachView($quicksidebar)
 				->attachView($footer)
 				->attachView($quicknav)
@@ -34,8 +34,13 @@ class CompositeView implements ViewInterface
 	}
 
 	public function attachView(View $view) {
-		if (!in_array($view, $this->views, true)) {
-			$this->views[] = $view;
+
+		// sometimes the view is null
+		if ($view !== null) {
+
+			if (!in_array($view, $this->views, true)) {
+				$this->views[] = $view;
+			}
 		}
 		return $this;
 	}
@@ -45,6 +50,10 @@ class CompositeView implements ViewInterface
 			return $value !== $view;
 		});
 		return $this;
+	}
+
+	public function addContentView(View $view) {
+
 	}
 
 	public function oldRenderMethod() {
