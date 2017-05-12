@@ -45,7 +45,7 @@ class AuthentificationController
 						$newUrl = substr($url, 0, strpos($url, "?"));
 
 						// header redirection doesn't work on some environments...
-						//header("Location: " . $newUrl);
+						// header("Location: " . $newUrl);
 
 						// ...thus we use script injection
 						echo "<script> window.location.replace('" . $newUrl. "') </script>";
@@ -65,9 +65,6 @@ class AuthentificationController
 			else {
 				$this->resendLoginPage('danger', 'Login invalide.');
 			}
-
-
-
 		}
 
 		else {
