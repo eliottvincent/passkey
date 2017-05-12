@@ -44,7 +44,6 @@ class AuthentificationController
 
 			if ($userFound->getPassword() === $password) {
 
-				echo 'user found';
 				session_start();
 				$_SESSION['USERNAME']= $username;
 				header("Location: /");
@@ -60,7 +59,6 @@ class AuthentificationController
 
 	function logout() {
 		// do not remove the echo, otherwise the redirection doesn't work
-		echo 'trick';
 
 		session_start();
 		$url = $_REQUEST["url"];
