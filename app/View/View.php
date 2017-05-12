@@ -27,15 +27,21 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 	public function __construct($controller = null, $model = null, $template = null, array $fields = array()) {
 
 		if ($controller !== null) {
-		$this->controller = $controller;
+			$this->controller = $controller;
 		}
 		if ($model !== null) {
-		$this->model = $model;
+			$this->model = $model;
 		}
 
 		if ($template !== null) {
 			$this->setTemplate($template);
 		}
+
+		// allow us to access fields by doing
+		// myView->myField
+
+		// also means that if we want to access to an object that's not a field ($template, $controller, $model) ...
+		// we need to use the getter function specific to the object (getTemplate(), etc.)
 		if (!empty($fields)) {
 			foreach ($fields as $name => $value) {
 				$this->$name = $value;
@@ -125,10 +131,15 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 
 	public function render()
 	{
+		// if the view has some fields
 		if (property_exists($this, 'fields') && !empty($this->getFields())) {
+
+			// then we render the template with our twigInstance, without forgetting to pass the fields
 			$temp = $this->twigInstance->render($this->getTemplate(), $this->getFields());
 		}
 		else {
+
+			// we render the template with our twigInstance, without fields
 			$temp = $this->twigInstance->render($this->getTemplate());
 		}
 		return $temp;
