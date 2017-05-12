@@ -86,33 +86,24 @@ class CreateLockController
 		} else {
 			$doors = null;
 		}
-		$composite = new CompositeView();
-		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter un canon'));
-		$templates[] = array("name" => "header.html.twig");
-		$templates[] = array("name" => "sidebar.html.twig");
-		$templates[] = array("name" => "content.html.twig");
-		$templates[] = array("name" => "locks/create_lock.html.twig", 'variables' => array('doors' => $doors));
-		$templates[] = array("name" => "quicksidebar.html.twig");
-		$templates[] = array("name" => "content_end.html.twig");
-		$templates[] = array("name" => "foot.html.twig");
-		$templates[] = array("name" => "footer.html.twig");
-		$composite->displayView($templates);
+		$composite = new CompositeView(true, 'Ajouter un canon');
+		$create_lock = new View(null, null,"locks/create_lock.html.twig", array('doors' => $doors));
+		$composite->attachContentView($create_lock);
+
+		echo $composite->render();
 	}
 
 	public function lockMessage($type, $message) {
 		$doors = CreateDoorController::getDoors();
-		$composite = new CompositeView();
-		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Ajouter un canon'));
-		$templates[] = array("name" => "header.html.twig");
-		$templates[] = array("name" => "sidebar.html.twig");
-		$templates[] = array("name" => "content.html.twig");
-		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
-		$templates[] = array("name" => "locks/create_lock.html.twig", 'variables' => array('doors' => $doors));
-		$templates[] = array("name" => "quicksidebar.html.twig");
-		$templates[] = array("name" => "content_end.html.twig");
-		$templates[] = array("name" => "foot.html.twig");
-		$templates[] = array("name" => "footer.html.twig");
-		$composite->displayView($templates);
+		$composite = new CompositeView(true, 'Ajouter un canon');
+
+		$submit_message = new View(null, null, 'submit_message.html.twig', array('alert_type' => $type , 'alert_message' => $message));
+		$create_lock = new View(null, null, 'locks/create_lock.html.twig', array('doors' => $doors));
+
+		$composite->attachContentView($submit_message);
+		$composite->attachContentView($create_lock);
+
+		echo $composite->render();
 	}
 
 	public function createLockFile() {

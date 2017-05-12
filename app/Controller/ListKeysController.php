@@ -80,37 +80,29 @@ class ListKeysController
 			$keys = null;
 		}
 
-		$composite = new CompositeView();
-		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Liste des clés'));
-		$templates[] = array("name" => "header.html.twig");
-		$templates[] = array("name" => "sidebar.html.twig");
-		$templates[] = array("name" => "content.html.twig");
+		$composite = new CompositeView(true, 'Liste des clés');
 
 		if (isset($alert) && !empty($alert['type']) && !empty($alert['message'])) {
-			$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $alert['type'] , "alert_message" => $alert['message']));
+			$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $alert['type'] , "alert_message" => $alert['message']));
 		}
+		$list_keys = new View(null, null,"keys/list_keys.html.twig", array('keys' => $keys));
 
-		$templates[] = array("name" => "keys/list_keys.html.twig", 'variables' => array('keys' => $keys));
-		$templates[] = array("name" => "quicksidebar.html.twig");
-		$templates[] = array("name" => "content_end.html.twig");
-		$templates[] = array("name" => "foot.html.twig");
-		$templates[] = array("name" => "footer.html.twig");
-		$composite->displayView($templates);
+		$composite->attachContentView($submit_message);
+		$composite->attachContentView($list_keys);
+
+		echo $composite->render();
 	}
 
 	public function displayDeleteKey($type, $message) {
 		$keys = CreateKeyController::getKeys();
-		$composite = new CompositeView();
-		$templates[] = array("name" => "head.html.twig", 'variables' => array('title' => 'Liste des clés'));
-		$templates[] = array("name" => "header.html.twig");
-		$templates[] = array("name" => "sidebar.html.twig");
-		$templates[] = array("name" => "content.html.twig");
-		$templates[] = array("name" => "submit_message.html.twig", "variables" => array("alert_type" => $type , "alert_message" => $message));
-		$templates[] = array("name" => "keys/list_keys.html.twig", 'variables' => array('keys' => $keys));
-		$templates[] = array("name" => "quicksidebar.html.twig");
-		$templates[] = array("name" => "content_end.html.twig");
-		$templates[] = array("name" => "foot.html.twig");
-		$templates[] = array("name" => "footer.html.twig");
-		$composite->displayView($templates);
+		$composite = new CompositeView(true, 'Liste des clés');
+
+		$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $type , "alert_message" => $message));
+		$list_keys = new View(null, null, "keys/list_keys.html.twig", array('keys' => $keys));
+
+		$composite->attachContentView($submit_message);
+		$composite->attachContentView($list_keys);
+
+		echo $composite->render();
 	}
 }

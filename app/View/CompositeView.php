@@ -10,21 +10,92 @@ class CompositeView implements ViewInterface
 {
 	protected $views = array();
 
-	public function attachView(ViewInterface $view) {
-		if (!in_array($view, $this->views, true)) {
-			$this->views[] = $view;
+	public function __construct($default = null, $title = 'Default title') {
+
+		if ($default !== null && $default === true) {
+			$head = new View(null, null,"head.html.twig", array('title' => $title));
+			$header = new View(null, null,"header.html.twig", array('session' => $_SESSION));
+			$sidebar = new View(null, null,"sidebar.html.twig");
+			$content_start = new View(null, null,"content_start.html.twig");
+			$quicksidebar = new View(null, null,"quicksidebar.html.twig");
+			$content_end = new View(null, null, "content_end.html.twig");
+			$footer = new View(null, null,"footer.html.twig");
+			$quicknav = new View(null, null,"quicknav.html.twig");
+			$foot = new View(null, null,"foot.html.twig");
+
+			$this->attachView($head)
+				->attachView($header)
+				->attachView($sidebar)
+				->attachView($content_start)
+				->attachView($quicksidebar)
+				->attachView($content_end)
+				->attachView($footer)
+				->attachView($quicknav)
+				->attachView($foot);
+		}
+	}
+
+	/**
+	 * @param View $view
+	 * @return $this
+	 *
+	 * adds a View at the end of views[]
+	 */
+	public function attachView(View $view) {
+
+		// sometimes the view is null
+		if ($view !== null) {
+
+			if (!in_array($view, $this->views, true)) {
+				$this->views[] = $view;
+			}
 		}
 		return $this;
 	}
 
-	public function detachView(ViewInterface $view) {
+	/**
+	 * @param View $view
+	 * @return $this
+	 *
+	 *
+	 */
+	public function detachView(View $view) {
 		$this->views = array_filter($this->views, function ($value) use ($view) {
 			return $value !== $view;
 		});
 		return $this;
 	}
 
-	public function render() {
+	/**
+	 * @param View $view
+	 *
+	 * adds a View in views[], between content_start and content_end
+	 */
+	public function attachContentView(View $contentView) {
+
+		if ($contentView !== null) {
+
+			// first we need to search the position of the quicksidebar View...
+			// ...because we want to insert the content View just before it
+			$quicksidebarPosition = 0;
+			foreach ($this->views as $pos => $currentView) {
+				if ($currentView->getTemplate() === 'quicksidebar.html.twig') {
+					$quicksidebarPosition = $pos;
+				}
+			}
+
+			// then we separate $this->views[] in quicksidebarPosition
+			// and we insert the content View
+			// we merge the three arrays
+			$this->views = array_merge(
+				array_slice( $this->views, 0, $quicksidebarPosition, true ),
+				array($contentView),
+				array_slice( $this->views, $quicksidebarPosition, null, true ) );
+		}
+		return $this;
+	}
+
+	public function oldRenderMethod() {
 		$output = "";
 		foreach ($this->views as $view) {
 			$output .= $view->render();
@@ -32,35 +103,11 @@ class CompositeView implements ViewInterface
 		return $output;
 	}
 
-	/**
-	 * @param $templates An array of templates and variables
-	 */
-	public function displayView($templates) {
-		$twig = $this->twigInstance();
-		$this->displayTemplate($twig, $templates);
-	}
-
-	public function twigInstance() {
-		$loader = new Twig_Loader_Filesystem('app/View/partials');
-		$twig = new Twig_Environment($loader, array('debug' => true));
-		$twig->addExtension(new Twig_Extension_Debug());
-		return $twig;
-	}
-
-	public function getTemplate($twig, $template) {
-		if (isset($template['variables']) && !empty($template['variables'])) {
-			$temp = $twig->render($template['name'], $template['variables']);
-		} else {
-			$temp = $twig->render($template['name']);
+	public function render() {
+		$output = "";
+		foreach($this->views as $view) {
+			$output .= $view->render();
 		}
-
-		return $temp;
-	}
-
-	public function displayTemplate($twig, $templates) {
-		foreach($templates as $template) {
-			$template = $this->getTemplate($twig, $template);
-			echo $template;
-		}
+		return $output;
 	}
 }
