@@ -68,8 +68,17 @@ class CompositeView implements ViewInterface
 		return $this;
 	}
 
-	public function addContentView(View $view) {
+	/**
+	 * @param View $view
+	 *
+	 * adds a View in views[], between content_start and content_end
+	 */
+	public function attachContentView(View $view) {
 
+		if (!in_array($view, $this->views, true)) {
+			$this->views[] = $view;
+		}
+		return $this;
 	}
 
 	public function oldRenderMethod() {
