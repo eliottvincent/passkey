@@ -43,7 +43,6 @@ class RouterController extends Controller
 	}
 
 	function login() {
-
 		$authentificationController = new AuthentificationController();
 		$authentificationController->login();
 	}

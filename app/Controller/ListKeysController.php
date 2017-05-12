@@ -8,8 +8,7 @@
  */
 class ListKeysController
 {
-	public function __construct()
-	{
+	public function __construct() {
 		if (isset($_GET['delete']) && !empty($_GET['delete'])) {
 			$id = explode('delete_k', $_GET['delete'])[1];
 			$delete = $this->deleteKey($id);

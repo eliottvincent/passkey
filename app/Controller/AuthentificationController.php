@@ -10,8 +10,7 @@ class AuthentificationController
 {
 	function check() {
 		session_start();
-		if (!isset($_SESSION["USERNAME"]))
-		{
+		if (!isset($_SESSION["USERNAME"])) {
 			$url = $_SERVER["REQUEST_URI"];
 			header("Location: ?action=showLoginPageTest&url=".$url);
 		}
