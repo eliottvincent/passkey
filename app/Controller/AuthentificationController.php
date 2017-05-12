@@ -46,7 +46,9 @@ class AuthentificationController
 
 				session_start();
 				$_SESSION['USERNAME']= $username;
-				header("Location: /");
+				//header("Location: /");
+				echo "<script> window.location.replace('/') </script>";
+
 			}
 			else {
 				// TODO : handle wrong password here
@@ -63,6 +65,7 @@ class AuthentificationController
 		session_start();
 		$url = $_REQUEST["url"];
 		session_destroy();
-		header("Location: $url");
+		//header("Location: $url");
+		echo "<script> window.location.replace('" . $url . "') </script>";
 	}
 }
