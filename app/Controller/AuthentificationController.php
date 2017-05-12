@@ -47,8 +47,10 @@ class AuthentificationController
 				session_start();
 				$_SESSION['USERNAME']= $username;
 				//header("Location: /");
-				echo "<script> window.location.replace('/') </script>";
-
+				$url = $_SERVER["HTTP_ORIGIN"] . "/";
+				echo "<script> window.location.replace('" . $url . "') </script>";
+				//echo $url;
+				//header("Location " . $url);
 			}
 			else {
 				// TODO : handle wrong password here
