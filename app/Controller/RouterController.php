@@ -62,18 +62,35 @@ class RouterController extends Controller
 	}
 
 	function createDoor() {
+
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
 		new CreateDoorController();
 	}
 
 	function createLock() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
 		new CreateLockController();
 	}
 
 	function createKey() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
 		new CreateKeyController();
 	}
 
 	function listKeys() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+		
 		new ListKeysController();
 	}
 
