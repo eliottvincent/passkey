@@ -10,10 +10,10 @@ class CompositeView implements ViewInterface
 {
 	protected $views = array();
 
-	public function __construct($default = null) {
+	public function __construct($default = null, $title = 'Default title') {
 
 		if ($default !== null && $default === true) {
-			$head = new View(null, null,"head.html.twig", array('title' => 'Default title'));
+			$head = new View(null, null,"head.html.twig", array('title' => $title));
 			$header = new View(null, null,"header.html.twig", array('session' => $_SESSION));
 			$sidebar = new View(null, null,"sidebar.html.twig");
 			$content_start = new View(null, null,"content_start.html.twig");
@@ -73,22 +73,25 @@ class CompositeView implements ViewInterface
 	 */
 	public function attachContentView(View $contentView) {
 
-		// first we need to search the position of the quicksidebar View...
-		// ...because we want to insert the content View just before it
-		$quicksidebarPosition = 0;
-		foreach ($this->views as $pos => $currentView) {
-			if ($currentView->getTemplate() === 'quicksidebar.html.twig') {
-				$quicksidebarPosition = $pos;
-			}
-		}
+		if ($contentView !== null) {
 
-		// then we separate $this->views[] in quicksidebarPosition
-		// and we insert the content View
-		// we merge the three arrays
-		$this->views = array_merge(
-			array_slice( $this->views, 0, $quicksidebarPosition, true ),
-			array($contentView),
-			array_slice( $this->views, $quicksidebarPosition, null, true ) );
+			// first we need to search the position of the quicksidebar View...
+			// ...because we want to insert the content View just before it
+			$quicksidebarPosition = 0;
+			foreach ($this->views as $pos => $currentView) {
+				if ($currentView->getTemplate() === 'quicksidebar.html.twig') {
+					$quicksidebarPosition = $pos;
+				}
+			}
+
+			// then we separate $this->views[] in quicksidebarPosition
+			// and we insert the content View
+			// we merge the three arrays
+			$this->views = array_merge(
+				array_slice( $this->views, 0, $quicksidebarPosition, true ),
+				array($contentView),
+				array_slice( $this->views, $quicksidebarPosition, null, true ) );
+		}
 		return $this;
 	}
 
