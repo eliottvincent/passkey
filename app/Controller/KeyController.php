@@ -49,7 +49,7 @@ class KeyController
 	 */
 	public function displayForm($state, $message = null) {
 		if ($state) {
-			$locks = CreateLockController::getLocks();
+			$locks = LockController::getLocks();
 		} else {
 			$locks = null;
 		}

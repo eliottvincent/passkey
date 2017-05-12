@@ -54,7 +54,7 @@ class LockController
 	 */
 	public function displayForm($state, $message = null) {
 		if ($state) {
-			$doors = CreateDoorController::getDoors();
+			$doors = DoorController::getDoors();
 		} else {
 			$doors = null;
 		}
