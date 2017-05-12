@@ -44,9 +44,9 @@ class RouterController extends Controller
 		$bodyView 	= new View(null, null, "login_body.html.twig");
 		$footView 	= new View(null, null, "foot.html.twig");
 
-		$compositeView->attachView($headView);
-		$compositeView->attachView($bodyView);
-		$compositeView->attachView($footView);
+		$compositeView->attachView($headView)
+			->attachView($bodyView)
+			->attachView($footView);
 
 		echo $compositeView->render();
 	}
