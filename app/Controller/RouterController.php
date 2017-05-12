@@ -67,7 +67,8 @@ class RouterController extends Controller
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		new CreateDoorController();
+		$door = new DoorController();
+		$door->create();
 	}
 
 	function createLock() {
