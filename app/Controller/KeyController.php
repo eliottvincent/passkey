@@ -25,7 +25,8 @@ class KeyController
 			} else {
 				$message['type'] = 'danger';
 				$message['message'] = 'Aucun canon n\' a été créé.';
-				$this->displayForm(false, $message);
+				$messages[] = $message;
+				$this->displayForm(false, $messages);
 			}
 		} elseif (empty($_POST['key_name']) || empty($_POST['key_type']) || empty($_POST['key_lock'])) {
 			// If we have not all values, error message display and form.
@@ -33,27 +34,50 @@ class KeyController
 			$m_message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
 			$message['type'] = $m_type;
 			$message['message'] = $m_message;
-			$this->displayForm(true, $message);
+			$messages[] = $message;
+			$this->displayForm(true, $messages);
 		} else {
+			// If we have all values.
+			$id = 'k_' . strtolower(str_replace(' ', '_', addslashes($_POST['key_name'])));
 
-			$id = strtolower(str_replace(' ', '_', addslashes($_POST['key_name'])));
+			// Check unicity.
+			$exist = false;
+			$keys = $this::getKeys();
 
-			$datas = array(
-				'key_id' => 'k_' . $id,
-				'key_name' => addslashes($_POST['key_name']),
-				'key_type' => addslashes($_POST['key_type']),
-				'key_locks' => $_POST['key_lock'],
-				'key_number' => addslashes($_POST['key_number'])
-			);
+			foreach ($keys as $key) {
+				if ($key['key_id'] == $id) {
+					$exist = true;
+				}
+			}
 
-			$_SESSION['KEYS'][] = $datas;
+			if (!$exist) {
+				$datas = array(
+					'key_id' => $id,
+					'key_name' => addslashes($_POST['key_name']),
+					'key_type' => addslashes($_POST['key_type']),
+					'key_locks' => $_POST['key_lock'],
+					'key_number' => addslashes($_POST['key_number'])
+				);
 
-			$m_type = "success";
-			$m_message = "La clé a bien été enregistrée.";
+				$_SESSION['KEYS'][] = $datas;
 
-			$message['type'] = $m_type;
-			$message['message'] = $m_message;
-			$this->displayForm(true, $message);
+				$m_type = "success";
+				$m_message = "La clé a bien été enregistrée.";
+
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+				$messages[] = $message;
+				$this->displayForm(true, $messages);
+			} else {
+				$m_type = "danger";
+				$m_message = "Une clé avec le même nom existe déjà.";
+
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+				$messages[] = $message;
+				$this->displayForm(true, $messages);
+			}
+
 		}
 	}
 
@@ -62,7 +86,7 @@ class KeyController
 	 * @param $state boolean if file datas/datas.xlsx exists
 	 * @param null $message array of the message displays
 	 */
-	public function displayForm($state, $message = null) {
+	public function displayForm($state, $messages = null) {
 		if ($state) {
 			$locks = LockController::getLocks();
 		} else {
@@ -71,9 +95,13 @@ class KeyController
 
 		$composite = new CompositeView(true, 'Ajouter une clé');
 
-		if ($message != null && !empty($message['type']) && !empty($message['message'])) {
-			$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-			$composite->attachContentView($message);
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$composite->attachContentView($message);
+				}
+			}
 		}
 
 		$create_key = new View(null ,null, 'keys/create_key.html.twig', array('locks' => $locks));

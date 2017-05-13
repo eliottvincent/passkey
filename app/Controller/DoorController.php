@@ -25,21 +25,42 @@ class DoorController
 			$this->displayForm( $message);
 		} else {
 			// If we have all values, the form is displayed.
-			$id = strtolower(str_replace(' ', '_', addslashes($_POST['door_name'])));
-			$datas = array(
-				'door_id' => 'd_' . $id,
-				'door_name' => addslashes($_POST['door_name']),
-				'door_building' => addslashes($_POST['door_building']),
-				'door_floor' => addslashes($_POST['door_floor'])
-			);
+			$id = 'd_' . strtolower(str_replace(' ', '_', addslashes($_POST['door_name'])));
 
-			$_SESSION['DOORS'][] = $datas;
+			// Check unicity.
+			$exist = false;
+			$doors = $this::getDoors();
 
-			$m_type = "success";
-			$m_message = "La porte a bien été créée.";
-			$message['type'] = $m_type;
-			$message['message'] = $m_message;
-			$this->displayForm($message);
+			foreach ($doors as $door) {
+				if ($door['door_id'] == $id) {
+					$exist = true;
+				}
+			}
+
+			if (!$exist) {
+				$datas = array(
+					'door_id' => $id,
+					'door_name' => addslashes($_POST['door_name']),
+					'door_building' => addslashes($_POST['door_building']),
+					'door_floor' => addslashes($_POST['door_floor'])
+				);
+
+				$_SESSION['DOORS'][] = $datas;
+
+				$m_type = "success";
+				$m_message = "La porte a bien été créée.";
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+				$this->displayForm($message);
+			} else {
+				$m_type = "danger";
+				$m_message = "Une porte avec le même nom existe déjà.";
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+				$this->displayForm($message);
+			}
+
+
 		}
 	}
 
