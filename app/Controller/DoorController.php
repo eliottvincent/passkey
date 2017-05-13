@@ -80,6 +80,40 @@ class DoorController
 		echo $composite->render();
 	}
 
+	public function list() {
+		$doors = $this::getDoors();
+		if (!empty($doors)) {
+			$this->displayList(true);
+		} else {
+			$alert['type'] = 'danger';
+			$alert['message'] = 'Nous n\'avons aucune porte d\'enregistrée.';
+			$alerts[] = $alert;
+			$this->displayList(false, $alerts);
+		}
+	}
+
+	public function displayList($state, $messages = null) {
+		if ($state) {
+			$doors = DoorController::getDoors();
+		} else {
+			$doors = null;
+		}
+		$composite = new CompositeView(true, 'Liste des portes');
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$composite->attachContentView($submit_message);
+				}
+			}
+		}
+		$list_doors = new View(null, null,"doors/list_doors.html.twig", array('doors' => $doors));
+		$composite->attachContentView($list_doors);
+
+		echo $composite->render();
+	}
+
 	/**
 	 * Used to get all doors created.
 	 * @return null

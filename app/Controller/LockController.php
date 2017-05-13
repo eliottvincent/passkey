@@ -103,7 +103,6 @@ class LockController
 	}
 
 	public function list() {
-
 		if (isset($_POST['delete']) && !empty($_POST['delete'])) {
 			$delete = $this->deleteLock(addslashes($_POST['delete']));
 			if ($delete) {

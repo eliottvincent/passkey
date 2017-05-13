@@ -61,8 +61,11 @@ class RouterController extends Controller
 		$authentificationController->logout();
 	}
 
-	function createDoor() {
+	/**
+	 * DOORS
+	 */
 
+	function createDoor() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
@@ -70,6 +73,19 @@ class RouterController extends Controller
 		$door = new DoorController();
 		$door->create();
 	}
+
+	function listDoors() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$door = new DoorController();
+		$door->list();
+	}
+
+	/**
+	 * LOCKS
+	 */
 
 	function createLock() {
 		// authentication check
@@ -97,6 +113,10 @@ class RouterController extends Controller
 		$lock = new LockController();
 		$lock->update();
 	}
+
+	/**
+	 * KEYS
+	 */
 
 	function createKey() {
 		// authentication check
