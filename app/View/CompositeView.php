@@ -10,13 +10,13 @@ class CompositeView implements ViewInterface
 {
 	protected $views = array();
 
-	public function __construct($default = null, $title = 'Default title') {
+	public function __construct($default = null, $title = 'Default title', $subtitle = null) {
 
 		if ($default !== null && $default === true) {
 			$head = new View(null, null,"head.html.twig", array('title' => $title));
 			$header = new View(null, null,"header.html.twig", array('session' => $_SESSION));
 			$sidebar = new View(null, null,"sidebar.html.twig");
-			$content_start = new View(null, null,"content_start.html.twig");
+			$content_start = new View(null, null,"content_start.html.twig", array('title' => $title, 'subtitle' => $subtitle));
 			$quicksidebar = new View(null, null,"quicksidebar.html.twig");
 			$content_end = new View(null, null, "content_end.html.twig");
 			$footer = new View(null, null,"footer.html.twig");

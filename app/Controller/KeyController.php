@@ -200,7 +200,7 @@ class KeyController
 		} else {
 			$keys = null;
 		}
-		$composite = new CompositeView(true, 'Liste des clés');
+		$composite = new CompositeView(true, 'Liste des clés', 'Cette page permet de modifier et/ou supprimer des clés.');
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
