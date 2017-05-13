@@ -36,10 +36,10 @@ class KeyController
 			$this->displayForm(true, $message);
 		} else {
 
-			$id = str_replace(' ', '_', addslashes($_POST['key_name']));
+			$id = strtolower(str_replace(' ', '_', addslashes($_POST['key_name'])));
 
 			$datas = array(
-				'key_id' => $id,
+				'key_id' => 'k_' . $id,
 				'key_name' => addslashes($_POST['key_name']),
 				'key_type' => addslashes($_POST['key_type']),
 				'key_locks' => $_POST['key_lock'],
