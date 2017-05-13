@@ -17,12 +17,14 @@ class LockController
 	 */
 	public function create() {
 		if (!isset($_POST['lock_name']) && !isset($_POST['lock_door']) && !isset($_POST['lock_number'])) {
-			// TODO : Check if doors exists or not
-			if (true) {
+			$doors = DoorController::getDoors();
+			if (!empty($doors)) {
 				// If we have no values, the form is displayed.
 				$this->displayForm(true);
 			} else {
-				$this->displayForm(false);
+				$message['type'] = 'danger';
+				$message['message'] = 'Aucune porte n\'a été créée';
+				$this->displayForm(false, $message);
 			}
 		} elseif (empty($_POST['lock_name']) || empty($_POST['lock_door'])) {
 			// If we have not all values, error message display and form.
@@ -75,7 +77,10 @@ class LockController
 		echo $composite->render();
 	}
 
-	// TODO
+	/**
+	 * Used to get all locks.
+	 * @return null
+	 */
 	public static function getLocks() {
 		if (isset($_SESSION['LOCKS'])) {
 			$locks = $_SESSION['LOCKS'];

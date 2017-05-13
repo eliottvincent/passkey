@@ -57,7 +57,10 @@ class DoorController
 		echo $composite->render();
 	}
 
-	//TODO
+	/**
+	 * Used to get all doors created.
+	 * @return null
+	 */
 	public static function getDoors() {
 		if (isset($_SESSION['DOORS'])) {
 			$doors = $_SESSION['DOORS'];
