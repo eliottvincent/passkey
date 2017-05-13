@@ -158,7 +158,7 @@ class LockController
 		} else {
 			$locks = null;
 		}
-		$composite = new CompositeView(true, 'Liste des canons');
+		$composite = new CompositeView(true, 'Liste des canons', 'Cette page permet de modifier et/ou supprimer des canons.');
 
 		if ($messages != null) {
 			foreach ($messages as $message) {

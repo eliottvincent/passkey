@@ -127,4 +127,13 @@
 				</div>
 			</div>
 		</div>
+
+		{% if title %}
+		<h1 class="page-title">
+			{{ title }}
+			{% if subtitle %}
+				<small>{{ subtitle }}</small>
+			{% endif %}
+		</h1>
+		{% endif %}
 		<!-- END PAGE BAR -->
