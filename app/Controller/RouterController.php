@@ -80,6 +80,24 @@ class RouterController extends Controller
 		$lock->create();
 	}
 
+	function listLocks() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$lock = new LockController();
+		$lock->list();
+	}
+
+	function updateLock() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$lock = new LockController();
+		$lock->update();
+	}
+
 	function createKey() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
