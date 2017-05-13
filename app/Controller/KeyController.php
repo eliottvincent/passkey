@@ -18,12 +18,14 @@ class KeyController
 	 */
 	public function create(){
 		if (!isset($_POST['key_name']) && !isset($_POST['key_type']) && !isset($_POST['key_lock'])) {
-			// TODO : Check if locks exists or not
-			if (true) {
+			$locks = LockController::getLocks();
+			if (!empty($locks)) {
 				// If we have no values, the form is displayed.
 				$this->displayForm(true);
 			} else {
-				$this->displayForm(false);
+				$message['type'] = 'danger';
+				$message['message'] = 'Aucun canon n\' a été créé.';
+				$this->displayForm(false, $message);
 			}
 		} elseif (empty($_POST['key_name']) || empty($_POST['key_type']) || empty($_POST['key_lock'])) {
 			// If we have not all values, error message display and form.
@@ -95,8 +97,8 @@ class KeyController
 			}
 
 		} else {
-			// TODO : Check if locks exists or not
-			if (true) {
+			$keys = $this::getKeys();
+			if (!empty($keys)) {
 				$this->displayList(true);
 			} else {
 				$alert['type'] = 'danger';
