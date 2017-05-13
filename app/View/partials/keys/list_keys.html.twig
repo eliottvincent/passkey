@@ -36,8 +36,8 @@
 									</td>
 
 									<td>
-										<form action="" method="post">
-											<input type="hidden" name="update" value="update_k{{ key.key_id }}"/>
+										<form action="./?action=updatekey" method="post">
+											<input type="hidden" name="update" value="{{ key.key_id }}"/>
 											<button type="submit" class="btn blue btn-sm">Modifier</button>
 										</form>
 

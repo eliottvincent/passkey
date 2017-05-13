@@ -44,9 +44,11 @@ class KeyController
 			$exist = false;
 			$keys = $this::getKeys();
 
-			foreach ($keys as $key) {
-				if ($key['key_id'] == $id) {
-					$exist = true;
+			if ($keys) {
+				foreach ($keys as $key) {
+					if ($key['key_id'] == $id) {
+						$exist = true;
+					}
 				}
 			}
 
@@ -145,7 +147,16 @@ class KeyController
 		} else {
 			$keys = $this::getKeys();
 			if (!empty($keys)) {
-				$this->displayList(true);
+				if (isset($_GET['update']) && $_GET['update'] == true) {
+					$alert['type'] = 'success';
+					$alert['message'] = 'La clé a bien été modifiée.';
+					$alerts[] = $alert;
+
+					$this->displayList(true, $alerts);
+				} else {
+					$this->displayList(true);
+				}
+
 			} else {
 				$alert['type'] = 'danger';
 				$alert['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
@@ -205,6 +216,73 @@ class KeyController
 		echo $composite->render();
 	}
 
+	public function update() {
+		if (isset($_POST['update']) && !empty($_POST['update'])) {
+			$key = $this::getKey(addslashes($_POST['update']));
+			$this->displayUpdateForm(true, $key);
+		} elseif (isset($_POST['key_hidden_name']) || isset($_POST['key_type']) || isset($_POST['key_lock']) || isset($_POST['key_number'])) {
+			$id = 'k_' . strtolower(str_replace(' ', '_', addslashes($_POST['key_hidden_name'])));
+
+			for ($i = 0; $i < sizeof($_SESSION['KEYS']); $i++) {
+				if ($_SESSION['KEYS'][$i]['key_id'] == $id) {
+					if (isset($_POST['key_type']) && ($_POST['key_type'] != $_SESSION['KEYS'][$i]['key_type']) && !empty($_POST['key_type'])) {
+						$_SESSION['KEYS'][$i]['key_type'] = addslashes($_POST['key_type']);
+					}
+
+					if (isset($_POST['key_lock']) && !empty($_POST['key_lock'])) {
+						$_SESSION['KEYS'][$i]['key_locks'] = $_POST['key_lock'];
+					}
+
+					if (isset($_POST['key_number']) && ($_POST['key_number'] != $_SESSION['KEYS'][$i]['key_number']) && !empty($_POST['key_number'])) {
+						$_SESSION['KEYS'][$i]['key_number'] = addslashes($_POST['key_number']);
+					}
+				}
+			}
+
+			// header redirection doesn't work on some environments...
+			//header("Location: " . $newUrl);
+
+			// ...thus we use script injection
+			$newUrl = './?action=listkeys&update=true';
+			echo "<script> window.location.replace('" . $newUrl. "') </script>";
+
+		} else {
+			$keys = $this::getKeys();
+			if (!empty($keys)) {
+				$this->displayList(true);
+			} else {
+				$alert['type'] = 'danger';
+				$alert['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
+				$alerts[] = $alert;
+				$this->displayList(false, $alerts);
+			}
+		}
+	}
+
+	public function displayUpdateForm($state, $datas, $messages = null) {
+		if ($state) {
+			$locks = LockController::getLocks();
+		} else {
+			$locks = null;
+		}
+
+		$composite = new CompositeView(true, 'Mettre à jour une clé');
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$composite->attachContentView($message);
+				}
+			}
+		}
+
+		$update_key = new View(null ,null, 'keys/update_key.html.twig', array('locks' => $locks, 'key' => $datas));
+		$composite->attachContentView($update_key);
+
+		echo $composite->render();
+	}
+
 	/**
 	 * To get all keys.
 	 * @return null
@@ -216,5 +294,17 @@ class KeyController
 		}
 
 		return null;
+	}
+
+	public static function getKey($id) {
+		$keys = KeyController::getKeys();
+
+		foreach ( $keys as $key ) {
+			if ($key['key_id'] == $id) {
+				return $key;
+			}
+		}
+
+		return false;
 	}
 }

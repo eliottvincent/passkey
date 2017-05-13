@@ -31,9 +31,11 @@ class DoorController
 			$exist = false;
 			$doors = $this::getDoors();
 
-			foreach ($doors as $door) {
-				if ($door['door_id'] == $id) {
-					$exist = true;
+			if ($doors) {
+				foreach ($doors as $door) {
+					if ($door['door_id'] == $id) {
+						$exist = true;
+					}
 				}
 			}
 
