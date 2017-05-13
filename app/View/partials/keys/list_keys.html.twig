@@ -29,9 +29,8 @@
 									<td> {{ key.key_name }} </td>
 									<td> {{ key.key_type }} </td>
 									<td>
-										{% set locks = key.key_lock|split('-') %}
-										{% for lock in locks %}
-										{{ lock }}</br>
+										{% for key_lock in key.key_locks %}
+											<p>{{ key_lock }}</p>
 										{% endfor %}
 									<td> {{ key.key_number }} </td>
 									</td>

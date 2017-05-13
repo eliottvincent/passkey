@@ -32,11 +32,15 @@ class LockController
 			$message['message'] = $m_message;
 			$this->displayForm(true, $message);
 		} else {
-			// If the sheet in datas.xlsx is not created.
+			$id = str_replace(' ', '_', addslashes($_POST['lock_name']));
+
 			$datas = array(
+				'lock_id' => $id,
 				'lock_name' => addslashes($_POST['lock_name']),
 				'lock_door' => addslashes($_POST['lock_door'])
 			);
+
+			$_SESSION['LOCKS'][] = $datas;
 
 			$m_type = "success";
 			$m_message = "Le canon a bien été enregistré.";
@@ -73,6 +77,12 @@ class LockController
 
 	// TODO
 	public static function getLocks() {
+		if (isset($_SESSION['LOCKS'])) {
+			$locks = $_SESSION['LOCKS'];
+			return $locks;
+		}
+
+		return null;
 	}
 
 }

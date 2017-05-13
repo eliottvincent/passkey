@@ -25,11 +25,15 @@ class DoorController
 			$this->displayForm( $message);
 		} else {
 			// If we have all values, the form is displayed.
+			$id = str_replace(' ', '_', addslashes($_POST['door_name']));
 			$datas = array(
+				'door_id' => $id,
 				'door_name' => addslashes($_POST['door_name']),
 				'door_building' => addslashes($_POST['door_building']),
 				'door_floor' => addslashes($_POST['door_floor'])
 			);
+
+			$_SESSION['DOORS'][] = $datas;
 
 			$m_type = "success";
 			$m_message = "La porte a bien été créée.";
@@ -55,5 +59,11 @@ class DoorController
 
 	//TODO
 	public static function getDoors() {
+		if (isset($_SESSION['DOORS'])) {
+			$doors = $_SESSION['DOORS'];
+			return $doors;
+		}
+
+		return null;
 	}
 }
