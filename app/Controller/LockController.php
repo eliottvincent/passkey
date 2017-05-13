@@ -34,22 +34,45 @@ class LockController
 			$message['message'] = $m_message;
 			$this->displayForm(true, $message);
 		} else {
-			$id = strtolower(str_replace(' ', '_', addslashes($_POST['lock_name'])));
+			// If we have all values.
 
-			$datas = array(
-				'lock_id' => 'l_' . $id,
-				'lock_name' => addslashes($_POST['lock_name']),
-				'lock_door' => addslashes($_POST['lock_door'])
-			);
+			$id = 'l_' . strtolower(str_replace(' ', '_', addslashes($_POST['lock_name'])));
 
-			$_SESSION['LOCKS'][] = $datas;
+			// Check unicity.
+			$exist = false;
+			$locks = $this::getLocks();
 
-			$m_type = "success";
-			$m_message = "Le canon a bien été enregistré.";
-			$message['type'] = $m_type;
-			$message['message'] = $m_message;
+			foreach ($locks as $lock) {
+				if ($lock['lock_id'] == $id) {
+					$exist = true;
+				}
+			}
 
-			$this->displayForm(true, $message);
+			if (!$exist) {
+				$datas = array(
+					'lock_id' => $id,
+					'lock_name' => addslashes($_POST['lock_name']),
+					'lock_door' => addslashes($_POST['lock_door'])
+				);
+
+				$_SESSION['LOCKS'][] = $datas;
+
+				$m_type = "success";
+				$m_message = "Le canon a bien été enregistré.";
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+
+				$this->displayForm(true, $message);
+			} else {
+				$m_type = "danger";
+				$m_message = "Un canon avec le même nom existe déjà.";
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+
+				$this->displayForm(true, $message);
+			}
+
+
 		}
 	}
 
