@@ -32,7 +32,16 @@
 										{% for key_lock in key.key_locks %}
 											<p>{{ key_lock }}</p>
 										{% endfor %}
-									<td> {{ key.key_number }} </td>
+
+									<td>
+										<p
+											{% if key.key_number < 3 %}
+												class="text-danger"
+											{% elseif key.key_number < 6 %}
+												class="text-warning"
+											{% endif %}
+										>{{ key.key_number }}</p>
+									</td>
 									</td>
 
 									<td>
