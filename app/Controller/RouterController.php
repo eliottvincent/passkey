@@ -6,6 +6,8 @@
  * Date: 04/05/2017
  * Time: 15:07
  */
+
+
 class RouterController extends Controller
 {
 
@@ -24,7 +26,8 @@ class RouterController extends Controller
 
 		// handling requests on http://passkey.enssat/
 		else if (isset($_REQUEST['url']) && $_REQUEST['url'] === '') {
-			echo $this->createBlankPage($controller, $model)->render();
+			//echo $this->createBlankPage($controller, $model)->render();
+			$this->createBlankPage($controller, $model);
 		}
 
 		// handling requests on http://passkey.enssat/something_else
@@ -35,31 +38,74 @@ class RouterController extends Controller
 	}
 
 	function showLoginPageTest() {
+		$compositeView = new CompositeView();
 
-		echo $this->getLoginPage()->render();
+		$headView 	= new View(null, null, "head.html.twig", array('title' => "Login"));
+		$bodyView 	= new View(null, null, "login_body.html.twig");
+		$footView 	= new View(null, null, "foot.html.twig");
+
+		$compositeView->attachView($headView)
+			->attachView($bodyView)
+			->attachView($footView);
+
+		echo $compositeView->render();
 	}
 
 	function login() {
+		$authentificationController = new AuthentificationController();
+		$authentificationController->login();
+	}
 
-		$loginController = new LoginController();
-		$loginController->login();
+	function logout() {
+		$authentificationController = new AuthentificationController();
+		$authentificationController->logout();
 	}
 
 	function createDoor() {
-		new CreateDoorController();
+
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$door = new DoorController();
+		$door->create();
 	}
 
 	function createLock() {
-		new CreateLockController();
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$lock = new LockController();
+		$lock->create();
 	}
 
 	function createKey() {
-		new CreateKeyController();
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+		$key = new KeyController();
+		$key->create();
+	}
+
+	function updateKey() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+		$key = new KeyController();
+		$key->update();
 	}
 
 	function listKeys() {
-		new ListKeysController();
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$key = new KeyController();
+		$key->list();
+
 	}
+
 
 	/**
 	 * Creates a blank page as a CompositeView
@@ -70,37 +116,26 @@ class RouterController extends Controller
 	 */
 	function createBlankPage($controller, $model) {
 
-		$head = new View(null, null, 'app/View/partials/head.html.twig');
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
 
-		// create the header as a View
-		$header = new View(null, null,"app/View/partials/header.php");
-		$header->content = "This is my fancy header section";
-		$header->ip = function () {
-			return $_SERVER["REMOTE_ADDR"];
-		};
+		// creating a default CompositeView
+		$compositeView = new CompositeView(true);
 
-		// create the body as a View
-		$body = new View($controller, $model,"app/View/partials/body.php");
-		$body->content = "This is my fancy body section";
+		// creating our content, as a View object
+		$blankContent = new View(null, null, 'default_content.html.twig');
 
-		// create the footer as a View
-		$footer = new View(null, null,"app/View/partials/foot.php");
-		$footer->content = "This is my fancy footer section";
+		// adding the content to our CompositeView
+		// here we use attachContentView() rather than attachView()...
+		// because the content view always needs to be between content_start and content_end
+		$compositeView->attachContentView($blankContent);
 
-		// creating our final view
-		$compositeView = new CompositeView;
-
-		// adding partials to the final view
-		$compositeView->attachView($head)
-			->attachView($header)
-			->attachView($body)
-			->attachView($footer);
-
-		return $compositeView;
+		echo $compositeView->render();
 	}
 
-	function getLoginPage() {
-		$html = new View(null, null,"app/Views/partials/page_user_login_1.php");
+	function createLoginPage() {
+		$html = new View(null, null,'partials/page_user_login_1.php');
 
 		return $html;
 	}

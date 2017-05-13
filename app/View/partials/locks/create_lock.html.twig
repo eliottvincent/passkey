@@ -1,46 +1,48 @@
-<div class="col-md-12">
-	<!-- BEGIN SAMPLE FORM PORTLET-->
-	<div class="portlet light bordered">
-		<div class="portlet-title">
-			<div class="caption font-green-haze">
-				<i class="icon-settings font-green-haze"></i>
-				<span class="caption-subject bold uppercase">Créer un nouveau canon</span>
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet light bordered">
+			<div class="portlet-title">
+				<div class="caption font-green-haze">
+					<i class="icon-settings font-green-haze"></i>
+					<span class="caption-subject bold uppercase">Créer un nouveau canon</span>
+				</div>
+			</div>
+			<div class="portlet-body form">
+				<form role="form" class="form-horizontal" action="" method="post">
+					<div class="form-body">
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Nom du canon *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="102H-G-001" name="lock_name" required>
+								<div class="form-control-focus"> </div>
+								<span class="help-block">Ce nom permettra d'identifier le canon dans l'application.</span>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Associer une porte *</label>
+							<div class="col-md-10">
+								<select class="form-control" id="form_control_1" name="lock_door" required>
+									<option value="none">(Aucune)</option>
+									{% for door in doors %}
+										<option value="{{ door.door_id }}">{{ door.door_name }}</option>
+									{% endfor %}
+								</select>
+								<div class="form-control-focus"> </div>
+							</div>
+						</div>
+					</div>
+					<div class="form-actions">
+						<div class="row">
+							<div class="col-md-offset-2 col-md-10">
+								<button type="submit" class="btn blue">Ajouter un canon</button>
+								<button type="button" class="btn default">Annuler</button>
+							</div>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
-		<div class="portlet-body form">
-			<form role="form" class="form-horizontal" action="" method="post">
-				<div class="form-body">
-					<div class="form-group form-md-line-input">
-						<label class="col-md-2 control-label" for="form_control_1">Nom du canon</label>
-						<div class="col-md-10">
-							<input type="text" class="form-control" id="form_control_1" placeholder="102H-G-001" name="lock_name">
-							<div class="form-control-focus"> </div>
-							<span class="help-block">Ce nom permettra d'identifier le canon dans l'application.</span>
-						</div>
-					</div>
-					<div class="form-group form-md-line-input">
-						<label class="col-md-2 control-label" for="form_control_1">Associer une porte</label>
-						<div class="col-md-10">
-							<select class="form-control" id="form_control_1" name="lock_door">
-								<option value="none">(Aucune)</option>
-								{% for door in doors %}
-									<option value="d_{{ door.door_id }}">{{ door.door_name }}</option>
-								{% endfor %}
-							</select>
-							<div class="form-control-focus"> </div>
-						</div>
-					</div>
-				</div>
-				<div class="form-actions">
-					<div class="row">
-						<div class="col-md-offset-2 col-md-10">
-							<button type="submit" class="btn blue">Ajouter un canon</button>
-							<button type="button" class="btn default">Annuler</button>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
+		<!-- END SAMPLE FORM PORTLET-->
 	</div>
-	<!-- END SAMPLE FORM PORTLET-->
 </div>

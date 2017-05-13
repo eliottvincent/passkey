@@ -16,6 +16,7 @@ class UserVO
 	private $phone;
 	private $status; // etudiant, exterieur, personnel
 	private $email;
+	private $password;
 
 	// GETTER
 	public function getUr1identifier() {
@@ -46,28 +47,13 @@ class UserVO
 		return $this->status;
 	}
 
-	public function setStatus($status) {
-		$this->status = $status;
-	}
-
-    protected $password;
-    public function setPassword($password) {
-    	$this->password = $password;
-	}
 	public function getPassword() {
     	return $this->password;
 	}
-    protected $email;
-    public function setEmail($email) {
-        $this->email = $email;
-    }
     public function getEmail() {
         return $this->email;
     }
 
-	public function getEmail() {
-		return $this->email;
-	}
 
 	// SETTER
 	public function setUr1identifier($ur1identifier) {
@@ -93,9 +79,15 @@ class UserVO
 	public function setPhone($phone) {
 		$this->phone = $phone;
 	}
-
-	public function setEmail($email) {
-		$this->email = $email;
+	public function setStatus($status) {
+		$this->status = $status;
 	}
+
+    public function setPassword($password) {
+    	$this->password = $password;
+	}
+    public function setEmail($email) {
+        $this->email = $email;
+    }
 
 }

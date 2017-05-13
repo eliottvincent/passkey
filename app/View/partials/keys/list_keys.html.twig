@@ -1,4 +1,3 @@
-<div class="page-content">
 	<div class="row">
 		<div class="col-md-12">
 			<!-- BEGIN SAMPLE TABLE PORTLET-->
@@ -29,16 +28,21 @@
 									<td> {{ key.key_id }} </td>
 									<td> {{ key.key_name }} </td>
 									<td> {{ key.key_type }} </td>
-									<td> {{ key.key_lock }} </td>
-									<td> {{ key.key_number }} </td>
 									<td>
-										<form action="" method="get">
-											<input type="hidden" name="update" value="update_k{{ key.key_id }}"/>
+										{% for key_lock in key.key_locks %}
+											<p>{{ key_lock }}</p>
+										{% endfor %}
+									<td> {{ key.key_number }} </td>
+									</td>
+
+									<td>
+										<form action="./?action=updatekey" method="post">
+											<input type="hidden" name="update" value="{{ key.key_id }}"/>
 											<button type="submit" class="btn blue btn-sm">Modifier</button>
 										</form>
 
-										<form action="" method="get">
-											<input type="hidden" name="delete" value="delete_k{{ key.key_id }}"/>
+										<form action="" method="post">
+											<input type="hidden" name="delete" value="{{ key.key_id }}"/>
 											<button type="submit" class="btn red btn-sm">Supprimer</button>
 										</form>
 									</td>
@@ -52,4 +56,3 @@
 			<!-- END SAMPLE TABLE PORTLET-->
 		</div>
 	</div>
-</div>

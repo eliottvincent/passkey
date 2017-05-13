@@ -13,6 +13,4 @@ interface interfaceBorrowService
 	public function getBorrowings();
 }
 
-
-
 ?>
