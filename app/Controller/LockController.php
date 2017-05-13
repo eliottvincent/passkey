@@ -42,9 +42,11 @@ class LockController
 			$exist = false;
 			$locks = $this::getLocks();
 
-			foreach ($locks as $lock) {
-				if ($lock['lock_id'] == $id) {
-					$exist = true;
+			if ($locks) {
+				foreach ($locks as $lock) {
+					if ($lock['lock_id'] == $id) {
+						$exist = true;
+					}
 				}
 			}
 

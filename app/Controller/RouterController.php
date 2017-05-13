@@ -88,6 +88,14 @@ class RouterController extends Controller
 		$key->create();
 	}
 
+	function updateKey() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+		$key = new KeyController();
+		$key->update();
+	}
+
 	function listKeys() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
