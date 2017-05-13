@@ -86,14 +86,32 @@ class KeyController
 	 * use to list keys
 	 */
 	public function list(){
-		if (isset($_GET['delete']) && !empty($_GET['delete'])) {
-			$id = explode('delete_k', $_GET['delete'])[1];
-			$delete = $this->deleteKey($id);
-
+		if (isset($_POST['delete']) && !empty($_POST['delete'])) {
+			$delete = $this->deleteKey(addslashes($_POST['delete']));
 			if ($delete) {
-				$this->displayDeleteKey('success', 'La clé a bien été supprimée');
+				$message['type'] = 'success';
+				$message['message'] = 'La clé a bien été supprimée';
+				$messages[] = $message;
+
+				if(!isset($_SESSION['KEYS'])) {
+					$message['type'] = 'danger';
+					$message['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
+					$messages[] = $message;
+				}
+				if (!empty($this::getKeys())) {
+					$this->displayList(true, $messages);
+				} else {
+					$this->displayList(false, $messages);
+				}
 			} else {
-				$this->displayDeleteKey('danger', 'La clé n\'existe pas.');
+				$message['type'] = 'danger';
+				$message['message'] = 'La clé n\'existe pas.';
+				$messages[] = $message;
+				if (!empty($this::getKeys())) {
+					$this->displayList(true, $messages);
+				} else {
+					$this->displayList(false, $messages);
+				}
 			}
 
 		} else {
@@ -102,15 +120,34 @@ class KeyController
 				$this->displayList(true);
 			} else {
 				$alert['type'] = 'danger';
-				$alert['message'] = 'Aucune clé n\'a été créée.';
-				$this->displayList(false, $alert);
+				$alert['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
+				$alerts[] = $alert;
+				$this->displayList(false, $alerts);
 			}
 		}
 	}
 
-	// TODO
+	/**
+	 * Used to delete a key from an id.
+	 * @param $id
+	 */
 	public function deleteKey($id) {
+		$keys = $this::getKeys();
+		foreach($keys as $key) {
 
+			if ($key['key_id'] == $id) {
+				$length = sizeof($_SESSION['KEYS']);
+				if ($length > 1) {
+					$nb =  array_search($key, $keys);
+					unset($_SESSION['KEYS'][$nb]);
+				} else {
+					unset($_SESSION['KEYS']);
+				}
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -118,7 +155,7 @@ class KeyController
 	 * @param $state boolean if file datas/datas.xlsx exists
 	 * @param null $message array of the message displays
 	 */
-	public function displayList($state, $message = null) {
+	public function displayList($state, $messages = null) {
 		if ($state) {
 			$keys = KeyController::getKeys();
 		} else {
@@ -126,9 +163,13 @@ class KeyController
 		}
 		$composite = new CompositeView(true, 'Liste des clés');
 
-		if ($message != null && !empty($message['type']) && !empty($message['message'])) {
-			$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-			$composite->attachContentView($submit_message);
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$composite->attachContentView($submit_message);
+				}
+			}
 		}
 		$list_keys = new View(null, null,"keys/list_keys.html.twig", array('keys' => $keys));
 		$composite->attachContentView($list_keys);

@@ -36,13 +36,13 @@
 									</td>
 
 									<td>
-										<form action="" method="get">
+										<form action="" method="post">
 											<input type="hidden" name="update" value="update_k{{ key.key_id }}"/>
 											<button type="submit" class="btn blue btn-sm">Modifier</button>
 										</form>
 
-										<form action="" method="get">
-											<input type="hidden" name="delete" value="delete_k{{ key.key_id }}"/>
+										<form action="" method="post">
+											<input type="hidden" name="delete" value="{{ key.key_id }}"/>
 											<button type="submit" class="btn red btn-sm">Supprimer</button>
 										</form>
 									</td>
