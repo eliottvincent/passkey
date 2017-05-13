@@ -25,7 +25,7 @@
 								<select class="form-control" id="form_control_1" name="lock_door" required>
 									<option value="none">(Aucune)</option>
 									{% for door in doors %}
-										<option value="d_{{ door.door_id }}">{{ door.door_name }}</option>
+										<option value="{{ door.door_id }}">{{ door.door_name }}</option>
 									{% endfor %}
 								</select>
 								<div class="form-control-focus"> </div>

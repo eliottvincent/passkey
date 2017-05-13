@@ -34,10 +34,10 @@ class LockController
 			$message['message'] = $m_message;
 			$this->displayForm(true, $message);
 		} else {
-			$id = str_replace(' ', '_', addslashes($_POST['lock_name']));
+			$id = strtolower(str_replace(' ', '_', addslashes($_POST['lock_name'])));
 
 			$datas = array(
-				'lock_id' => $id,
+				'lock_id' => 'l_' . $id,
 				'lock_name' => addslashes($_POST['lock_name']),
 				'lock_door' => addslashes($_POST['lock_door'])
 			);

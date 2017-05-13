@@ -55,7 +55,7 @@
 								<select class="form-control" id="form_control_1" name="key_lock[]" multiple required>
 									<option value="none">(Aucune)</option>
 									{% for lock in locks %}
-										<option value="l_{{ lock.lock_id }}">{{ lock.lock_name }}</option>
+										<option value="{{ lock.lock_id }}">{{ lock.lock_name }}</option>
 									{% endfor %}
 								</select>
 								<div class="form-control-focus"> </div>

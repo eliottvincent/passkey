@@ -25,9 +25,9 @@ class DoorController
 			$this->displayForm( $message);
 		} else {
 			// If we have all values, the form is displayed.
-			$id = str_replace(' ', '_', addslashes($_POST['door_name']));
+			$id = strtolower(str_replace(' ', '_', addslashes($_POST['door_name'])));
 			$datas = array(
-				'door_id' => $id,
+				'door_id' => 'd_' . $id,
 				'door_name' => addslashes($_POST['door_name']),
 				'door_building' => addslashes($_POST['door_building']),
 				'door_floor' => addslashes($_POST['door_floor'])
