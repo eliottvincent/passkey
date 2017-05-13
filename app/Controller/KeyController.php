@@ -33,6 +33,19 @@ class KeyController
 			$message['message'] = $m_message;
 			$this->displayForm(true, $message);
 		} else {
+
+			$id = str_replace(' ', '_', addslashes($_POST['key_name']));
+
+			$datas = array(
+				'key_id' => $id,
+				'key_name' => addslashes($_POST['key_name']),
+				'key_type' => addslashes($_POST['key_type']),
+				'key_locks' => $_POST['key_lock'],
+				'key_number' => addslashes($_POST['key_number'])
+			);
+
+			$_SESSION['KEYS'][] = $datas;
+
 			$m_type = "success";
 			$m_message = "La clé a bien été enregistrée.";
 
@@ -121,9 +134,16 @@ class KeyController
 		echo $composite->render();
 	}
 
-	// TODO
+	/**
+	 * To get all keys.
+	 * @return null
+	 */
 	public static function getKeys() {
-		$keys = null;
-		return $keys;
+		if (isset($_SESSION['KEYS'])) {
+			$keys = $_SESSION['KEYS'];
+			return $keys;
+		}
+
+		return null;
 	}
 }
