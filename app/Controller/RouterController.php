@@ -96,6 +96,16 @@ class RouterController extends Controller
 
 	}
 
+	function listBorrowings() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$key = new BorrowingsController();
+		$key->list();
+
+	}
+
 
 	/**
 	 * Creates a blank page as a CompositeView
