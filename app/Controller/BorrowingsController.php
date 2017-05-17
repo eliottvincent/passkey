@@ -52,7 +52,7 @@ class BorrowingsController
 	 */
 	public function displayList($message = null) {
 		$borrowings = $this->_borrowService->getBorrowings();
-		$composite = new CompositeView(true, 'Liste des emprunts');
+		$composite = new CompositeView(true, 'Liste des emprunts', null, "borrowings");
 
 		if ($message != null && !empty($message['type']) && !empty($message['message'])) {
 			$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
