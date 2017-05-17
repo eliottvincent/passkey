@@ -89,7 +89,7 @@ class LockController
 		} else {
 			$doors = null;
 		}
-		$composite = new CompositeView(true, 'Ajouter un canon', null, "lock");
+		$composite = new CompositeView(true, 'Ajouter un canon');
 
 		if ($message != null && !empty($message['type']) && !empty($message['message'])) {
 			$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
@@ -158,7 +158,7 @@ class LockController
 		} else {
 			$locks = null;
 		}
-		$composite = new CompositeView(true, 'Liste des canons', 'Cette page permet de modifier et/ou supprimer des canons.', "lock");
+		$composite = new CompositeView(true, 'Liste des canons', 'Cette page permet de modifier et/ou supprimer des canons.');
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -234,7 +234,7 @@ class LockController
 			$locks = null;
 		}
 
-		$composite = new CompositeView(true, 'Mettre à jour un canon', null, "lock");
+		$composite = new CompositeView(true, 'Mettre à jour un canon');
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -274,6 +274,28 @@ class LockController
 		}
 
 		return false;
+	}
+
+	public function deleteLockAjax() {
+		session_start();
+		if (isset($_POST['value'])) {
+
+			$first = substr($_POST['value'], 0, 1);
+
+			if ($first == 'l') {
+				$lock = new LockController();
+				$lock->deleteLock($_POST['value']);
+				$locks = LockController::getLocks();
+			}
+			$response['locks'] = $locks;
+			$response['status'] = 'success';
+			$response['message'] = 'This was successful';
+		} else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
+
+		echo json_encode($response);
 	}
 
 }
