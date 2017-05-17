@@ -144,6 +144,16 @@ class RouterController extends Controller
 
 	}
 
+	function listBorrowings() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$borrows = new BorrowingsController();
+		$borrows->list();
+
+	}
+
 	function deleteKeyAjax() {
 
 		// no need of authentication

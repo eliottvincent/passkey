@@ -95,7 +95,7 @@ class KeyController
 			$locks = null;
 		}
 
-		$composite = new CompositeView(true, 'Ajouter une clé');
+		$composite = new CompositeView(true, 'Ajouter une clé', null, "key");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -202,7 +202,7 @@ class KeyController
 		} else {
 			$keys = null;
 		}
-		$composite = new CompositeView(true, 'Liste des clés', 'Cette page permet de modifier et/ou supprimer des clés.');
+		$composite = new CompositeView(true, 'Liste des clés', 'Cette page permet de modifier et/ou supprimer des clés.', "key");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {

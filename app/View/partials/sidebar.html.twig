@@ -74,6 +74,27 @@
 				<li class="heading">
 					<h3 class="uppercase">Gestion du matériel</h3>
 				</li>
+				<li class="nav-item  {% if activePage == 'door' %}active open{% endif %}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="icon-puzzle"></i>
+						<span class="title">Emprunts</span>
+						<span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item  ">
+							<a href="./?action=listBorrowings" class="nav-link ">
+								<span class="title">Voir tous les emprunts</span>
+							</a>
+						</li>
+						<li class="nav-item  ">
+							<a href="./?action=listBorrowings" class="nav-link ">
+								<span class="title">Prêter</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+
+
 				<li class="nav-item  ">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="fa fa-columns"></i>
@@ -95,7 +116,7 @@
 					</ul>
 				</li>
 
-				<li class="nav-item  ">
+				<li class="nav-item  {% if activePage == 'lock' %}active open{% endif %}">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="icon-lock"></i>
 						<span class="title">Canons</span>
@@ -114,15 +135,14 @@
 						</li>
 					</ul>
 				</li>
-
-				<li class="nav-item  ">
+				<li class="nav-item  {% if activePage == 'key' %}active open{% endif %}">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="icon-key"></i>
 						<span class="title">Clés</span>
 						<span class="arrow"></span>
 					</a>
 					<ul class="sub-menu">
-						<li class="nav-item  ">
+						<li class="nav-item">
 							<a href="./?action=listkeys" class="nav-link ">
 								<span class="title">Voir toutes les clés</span>
 							</a>
@@ -139,7 +159,7 @@
 					<h3 class="uppercase">Autre heading</h3>
 				</li>
 
-				<li class="nav-item  active open">
+				<li class="nav-item">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="icon-layers"></i>
 						<span class="title">Autre catégorie</span>
@@ -147,7 +167,7 @@
 						<span class="arrow open"></span>
 					</a>
 					<ul class="sub-menu">
-						<li class="nav-item  active open">
+						<li class="nav-item">
 							<a href="layout_blank_page.html" class="nav-link ">
 								<span class="title">Item simple</span>
 								<span class="selected"></span>
