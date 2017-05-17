@@ -115,7 +115,7 @@ class KeyController
 	/**
 	 * use to list keys
 	 */
-	public function list(){
+	public function list($delete = null){
 		if (isset($_POST['delete']) && !empty($_POST['delete'])) {
 			$delete = $this->deleteKey(addslashes($_POST['delete']));
 			if ($delete) {
@@ -173,7 +173,6 @@ class KeyController
 	public function deleteKey($id) {
 		$keys = $this::getKeys();
 		foreach($keys as $key) {
-
 			if ($key['key_id'] == $id) {
 				$length = sizeof($_SESSION['KEYS']);
 				if ($length > 1) {
