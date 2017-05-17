@@ -12,7 +12,7 @@ function initialiser(e) {
 }
 
 function deleteKey() {
-	var value = this.getAttribute('value');
+	var keyId = this.getAttribute('value');
 	swal({
 		title: 'Êtes-vous sûr de vouloir supprimer cette clé ?',
 		text: 'Cette action est irréversible',
@@ -27,7 +27,7 @@ function deleteKey() {
 					url: "/?action=deleteKeyAjax",
 					type: "POST",
 					data: {
-						value: value,
+						keyId: keyId,
 					},
 					dataType: "json",
 					success: function (data) {
@@ -93,6 +93,7 @@ function deleteKey() {
 						}
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
+						console.log(thrownError);
 						swal("Erreur !", "Merci de réessayer", "error");
 					}
 				});
