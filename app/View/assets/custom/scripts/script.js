@@ -21,7 +21,7 @@ function initialiser(e) {
 }
 
 function deleteKey() {
-	var keyId = this.getAttribute('value');
+	var value = this.getAttribute('value');
 	swal({
 		title: 'Êtes-vous sûr de vouloir supprimer cette clé ?',
 		text: 'Cette action est irréversible',
@@ -36,7 +36,7 @@ function deleteKey() {
 					url: "delete.php",
 					type: "POST",
 					data: {
-						keyId: keyId,
+						value: value,
 					},
 					dataType: "json",
 					success: function (data) {
@@ -125,7 +125,6 @@ function deleteLock() {
 						}
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
-						console.log(thrownError);
 						swal("Erreur !", "Merci de réessayer", "error");
 					}
 				});
