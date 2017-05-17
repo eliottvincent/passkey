@@ -90,7 +90,8 @@ class CompositeView implements ViewInterface
 			$this->views = array_merge(
 				array_slice( $this->views, 0, $quicksidebarPosition, true ),
 				array($contentView),
-				array_slice( $this->views, $quicksidebarPosition, null, true ) );
+				array_slice( $this->views, $quicksidebarPosition, null, true )
+			);
 		}
 		return $this;
 	}

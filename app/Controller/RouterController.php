@@ -144,6 +144,24 @@ class RouterController extends Controller
 
 	}
 
+	function listBorrowings() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$borrows = new BorrowingsController();
+		$borrows->list();
+
+	}
+
+	function deleteKeyAjax() {
+
+		// no need of authentication
+		// but need of session start in deleteKeyAjax()
+		$keyController = new KeyController();
+		$keyController->deleteKeyAjax();
+	}
+
 
 	/**
 	 * Creates a blank page as a CompositeView
@@ -172,9 +190,4 @@ class RouterController extends Controller
 		echo $compositeView->render();
 	}
 
-	function createLoginPage() {
-		$html = new View(null, null,'partials/page_user_login_1.php');
-
-		return $html;
-	}
 }

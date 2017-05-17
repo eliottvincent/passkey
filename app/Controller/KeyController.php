@@ -171,17 +171,20 @@ class KeyController
 	 * @param $id
 	 */
 	public function deleteKey($id) {
-		$keys = $this::getKeys();
-		foreach($keys as $key) {
-			if ($key['key_id'] == $id) {
-				$length = sizeof($_SESSION['KEYS']);
-				if ($length > 1) {
-					$nb =  array_search($key, $keys);
-					unset($_SESSION['KEYS'][$nb]);
-				} else {
-					unset($_SESSION['KEYS']);
+		$keys = $this->getKeys();
+
+		if ($keys != null) {
+			foreach($keys as $key) {
+				if ($key['key_id'] == $id) {
+					$length = sizeof($_SESSION['KEYS']);
+					if ($length > 1) {
+						$nb =  array_search($key, $keys);
+						unset($_SESSION['KEYS'][$nb]);
+					} else {
+						unset($_SESSION['KEYS']);
+					}
+					return true;
 				}
-				return true;
 			}
 		}
 
@@ -291,8 +294,9 @@ class KeyController
 			$keys = $_SESSION['KEYS'];
 			return $keys;
 		}
-
-		return null;
+		else {
+			return null;
+		}
 	}
 
 	public static function getKey($id) {
@@ -305,5 +309,29 @@ class KeyController
 		}
 
 		return false;
+	}
+
+	public function deleteKeyAjax()
+	{
+
+		session_start();
+
+		if (isset($_POST['keyId'])) {
+			$first = substr($_POST['keyId'], 0, 1);
+
+			if ($first == 'k') {
+				$this->deleteKey($_POST['keyId']);
+				$keys = KeyController::getKeys();
+				$response['keys'] = $keys;
+			}
+			$response['status'] = 'success';
+			$response['message'] = 'This was successful';
+		} else {
+			echo
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
+		$finalJson = json_encode($response);
+		echo $finalJson;
 	}
 }
