@@ -106,7 +106,7 @@ class KeyController
 			}
 		}
 
-		$create_key = new View(null ,null, 'keys/create_key.html.twig', array('locks' => $locks));
+		$create_key = new View(null ,null, 'keys/create_key.html.twig', array('locks' => $locks, 'previousUrl' => $_SERVER["HTTP_REFERER"]));
 		$composite->attachContentView($create_key);
 
 		echo $composite->render();
@@ -279,7 +279,7 @@ class KeyController
 			}
 		}
 
-		$update_key = new View(null ,null, 'keys/update_key.html.twig', array('locks' => $locks, 'key' => $datas));
+		$update_key = new View(null ,null, 'keys/update_key.html.twig', array('locks' => $locks, 'key' => $datas, 'previousUrl' => $_SERVER["HTTP_REFERER"]));
 		$composite->attachContentView($update_key);
 
 		echo $composite->render();
