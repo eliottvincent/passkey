@@ -89,7 +89,7 @@ class LockController
 		} else {
 			$doors = null;
 		}
-		$composite = new CompositeView(true, 'Ajouter un canon');
+		$composite = new CompositeView(true, 'Ajouter un canon', null, "lock");
 
 		if ($message != null && !empty($message['type']) && !empty($message['message'])) {
 			$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
@@ -158,7 +158,7 @@ class LockController
 		} else {
 			$locks = null;
 		}
-		$composite = new CompositeView(true, 'Liste des canons', 'Cette page permet de modifier et/ou supprimer des canons.');
+		$composite = new CompositeView(true, 'Liste des canons', 'Cette page permet de modifier et/ou supprimer des canons.', "lock");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -234,7 +234,7 @@ class LockController
 			$locks = null;
 		}
 
-		$composite = new CompositeView(true, 'Mettre à jour un canon');
+		$composite = new CompositeView(true, 'Mettre à jour un canon', null, "lock");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {

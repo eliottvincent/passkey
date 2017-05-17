@@ -95,7 +95,7 @@ class KeyController
 			$locks = null;
 		}
 
-		$composite = new CompositeView(true, 'Ajouter une clé');
+		$composite = new CompositeView(true, 'Ajouter une clé', null, "key");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -171,17 +171,20 @@ class KeyController
 	 * @param $id
 	 */
 	public function deleteKey($id) {
-		$keys = $this::getKeys();
-		foreach($keys as $key) {
-			if ($key['key_id'] == $id) {
-				$length = sizeof($_SESSION['KEYS']);
-				if ($length > 1) {
-					$nb =  array_search($key, $keys);
-					unset($_SESSION['KEYS'][$nb]);
-				} else {
-					unset($_SESSION['KEYS']);
+		$keys = $this->getKeys();
+
+		if ($keys != null) {
+			foreach($keys as $key) {
+				if ($key['key_id'] == $id) {
+					$length = sizeof($_SESSION['KEYS']);
+					if ($length > 1) {
+						$nb =  array_search($key, $keys);
+						unset($_SESSION['KEYS'][$nb]);
+					} else {
+						unset($_SESSION['KEYS']);
+					}
+					return true;
 				}
-				return true;
 			}
 		}
 
@@ -199,7 +202,7 @@ class KeyController
 		} else {
 			$keys = null;
 		}
-		$composite = new CompositeView(true, 'Liste des clés', 'Cette page permet de modifier et/ou supprimer des clés.');
+		$composite = new CompositeView(true, 'Liste des clés', 'Cette page permet de modifier et/ou supprimer des clés.', "key");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -291,8 +294,9 @@ class KeyController
 			$keys = $_SESSION['KEYS'];
 			return $keys;
 		}
-
-		return null;
+		else {
+			return null;
+		}
 	}
 
 	public static function getKey($id) {
@@ -309,23 +313,25 @@ class KeyController
 
 	public function deleteKeyAjax()
 	{
-		if (isset($_POST['value'])) {
 
-			$first = substr($_POST['value'], 0, 1);
+		session_start();
+
+		if (isset($_POST['keyId'])) {
+			$first = substr($_POST['keyId'], 0, 1);
 
 			if ($first == 'k') {
-				$key = new KeyController();
-				$key->deleteKey($_POST['value']);
+				$this->deleteKey($_POST['keyId']);
 				$keys = KeyController::getKeys();
+				$response['keys'] = $keys;
 			}
-			$response['keys'] = $keys;
 			$response['status'] = 'success';
 			$response['message'] = 'This was successful';
 		} else {
+			echo
 			$response['status'] = 'error';
 			$response['message'] = 'This failed';
 		}
-
-		echo json_encode($response);
+		$finalJson = json_encode($response);
+		echo $finalJson;
 	}
 }
