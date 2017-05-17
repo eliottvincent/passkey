@@ -190,9 +190,4 @@ class RouterController extends Controller
 		echo $compositeView->render();
 	}
 
-	function createLoginPage() {
-		$html = new View(null, null,'partials/page_user_login_1.php');
-
-		return $html;
-	}
 }
