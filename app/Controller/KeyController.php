@@ -265,7 +265,7 @@ class KeyController
 			$locks = null;
 		}
 
-		$composite = new CompositeView(true, 'Mettre à jour une clé');
+		$composite = new CompositeView(true, 'Mettre à jour une clé', null, "key");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {

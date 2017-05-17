@@ -4,7 +4,7 @@
 			<div class="portlet box blue">
 				<div class="portlet-title">
 					<div class="caption">
-						<i class="fa fa-columns"></i> Liste des portes  </div>
+						<i class="fa fa-arrows-h"></i> Liste des emprunts  </div>
 					<div class="tools">
 						<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
 					</div>
@@ -15,18 +15,25 @@
 							<thead>
 							<tr>
 								<th> #id </th>
-								<th> Door name </th>
-								<th> Door building </th>
-								<th> Door floor </th>
+								<th> userEnssatPrimaryKey </th>
+								<th> keychainId </th>
+								<th> dueDate </th>
+								<th> returnDate </th>
+								<th> lostDate </th>
+								<th> comment </th>
 							</tr>
 							</thead>
 							<tbody>
-							{% for door in doors %}
+							{% for borrowing in borrowings %}
 								<tr>
-									<td> {{ door.door_id }} </td>
-									<td> {{ door.door_name }} </td>
-									<td> {{ door.door_building }} </td>
-									<td> {{ door.door_floor }} </td>
+									<td> {{ borrowing.borrowingId }} </td>
+									<td> {{ borrowing.userEnssatPrimaryKey }} </td>
+									<td> {{ borrowing.keychainId }} </td>
+									<td> {{ borrowing.borrowDate}} </td>
+									<td> {{ borrowing.dueDate }} </td>
+									<td> {{ borrowing.returnDate }} </td>
+									<td> {{ borrowing.lostDate }} </td>
+									<td> {{ borrowing.comment }} </td>
 								</tr>
 							{% endfor %}
 							</tbody>
