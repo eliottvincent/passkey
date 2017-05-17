@@ -46,8 +46,8 @@ class implementationBorrowService_Dummy implements interfaceBorrowService
 				'borrowingId'=>count($this->_borrowings)+1,
 				'userEnssatPrimaryKey'=>$user->getEnssatPrimaryKey(),
 				'keychainId'=>$randKeychain->getId(),
-				'borrowDate'=>$randKeychain->getCreationDate()->modify('+1 day')->format("Y-m-d"),
-				'dueDate'=>$randKeychain->getCreationDate()->modify('+20 day')->format("Y-m-d"),
+				'borrowDate'=>$randKeychain->getCreationDate()->modify('+1 day'),
+				'dueDate'=>$randKeychain->getCreationDate()->modify('+20 day'),
 				'returnDate'=>null,
 				'lostDate'=>null,
 				'comment'=>""
