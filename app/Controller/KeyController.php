@@ -171,7 +171,7 @@ class KeyController
 	 * @param $id
 	 */
 	public function deleteKey($id) {
-		$keys = KeyController::getKeys();
+		$keys = $this->getKeys();
 
 		if ($keys != null) {
 			foreach($keys as $key) {
@@ -294,7 +294,9 @@ class KeyController
 			$keys = $_SESSION['KEYS'];
 			return $keys;
 		}
-		return null;
+		else {
+			return null;
+		}
 	}
 
 	public static function getKey($id) {
@@ -311,6 +313,9 @@ class KeyController
 
 	public function deleteKeyAjax()
 	{
+
+		session_start();
+
 		if (isset($_POST['keyId'])) {
 			$first = substr($_POST['keyId'], 0, 1);
 

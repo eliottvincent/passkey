@@ -146,7 +146,8 @@ class RouterController extends Controller
 
 	function deleteKeyAjax() {
 
-		// no need of authentification
+		// no need of authentication
+		// but need of session start in deleteKeyAjax()
 		$keyController = new KeyController();
 		$keyController->deleteKeyAjax();
 	}
