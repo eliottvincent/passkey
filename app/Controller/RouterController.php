@@ -145,10 +145,15 @@ class RouterController extends Controller
 	}
 
 	function deleteKeyAjax() {
-
 		// no need of authentification
 		$keyController = new KeyController();
 		$keyController->deleteKeyAjax();
+	}
+
+	function deleteLockAjax() {
+		// no need of authentification
+		$lockController = new LockController();
+		$lockController->deleteLockAjax();
 	}
 
 

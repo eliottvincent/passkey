@@ -276,4 +276,26 @@ class LockController
 		return false;
 	}
 
+	public function deleteLockAjax() {
+		session_start();
+		if (isset($_POST['value'])) {
+
+			$first = substr($_POST['value'], 0, 1);
+
+			if ($first == 'l') {
+				$lock = new LockController();
+				$lock->deleteLock($_POST['value']);
+				$locks = LockController::getLocks();
+			}
+			$response['locks'] = $locks;
+			$response['status'] = 'success';
+			$response['message'] = 'This was successful';
+		} else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
+
+		echo json_encode($response);
+	}
+
 }

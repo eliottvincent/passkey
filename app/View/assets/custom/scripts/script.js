@@ -21,7 +21,7 @@ function initialiser(e) {
 }
 
 function deleteKey() {
-	var value = this.getAttribute('value');
+	var keyId = this.getAttribute('value');
 	swal({
 		title: 'Êtes-vous sûr de vouloir supprimer cette clé ?',
 		text: 'Cette action est irréversible',
@@ -33,14 +33,13 @@ function deleteKey() {
 			return new Promise(function (resolve, reject) {
 				$.ajax({
 					//url: "delete.php",
-					url: "delete.php",
+					url: "/?action=deleteKeyAjax",
 					type: "POST",
 					data: {
-						value: value,
+						value: keyId,
 					},
 					dataType: "json",
 					success: function (data) {
-						console.log(data.status);
 						if( data.status == 'error' ) {
 							swal("Erreur !", "Merci de réessayer", "error");
 						} else {
@@ -62,7 +61,7 @@ function deleteKey() {
 
 								document.querySelector('tbody').innerHTML = '';
  							} else {
-								var tr = document.querySelector('#' + value);
+								var tr = document.querySelector('#' + keyId);
 								document.querySelector('tbody').removeChild(tr);
 							}
 
@@ -90,7 +89,7 @@ function deleteLock() {
 			return new Promise(function (resolve, reject) {
 				$.ajax({
 					//url: "delete.php",
-					url: "delete.php",
+					url: "/?action=deleteLockAjax",
 					type: "POST",
 					data: {
 						value: value,

@@ -307,8 +307,8 @@ class KeyController
 		return false;
 	}
 
-	public function deleteKeyAjax()
-	{
+	public function deleteKeyAjax() {
+		session_start();
 		if (isset($_POST['value'])) {
 
 			$first = substr($_POST['value'], 0, 1);
@@ -316,7 +316,7 @@ class KeyController
 			if ($first == 'k') {
 				$key = new KeyController();
 				$key->deleteKey($_POST['value']);
-				$keys = KeyController::getKeys();
+				$keys = $key::getKeys();
 			}
 			$response['keys'] = $keys;
 			$response['status'] = 'success';
