@@ -22,7 +22,7 @@
 							</thead>
 							<tbody>
 							{% for lock in locks %}
-								<tr>
+								<tr id="{{ lock.lock_id }}">
 									<td> {{ lock.lock_id }} </td>
 									<td> {{ lock.lock_name }} </td>
 									<td> {{ lock.lock_door }} </td>
@@ -34,10 +34,10 @@
 											<button type="submit" class="btn blue btn-sm">Modifier</button>
 										</form>
 
-										<form action="" method="post">
+										<!-- <form action="" method="post"> -->
 											<input type="hidden" name="delete" value="{{ lock.lock_id }}"/>
-											<button type="submit" class="btn red btn-sm">Supprimer</button>
-										</form>
+											<button type="submit" class="btn red btn-sm btn-delete-l" value="{{ lock.lock_id }}">Supprimer</button>
+										<!-- </form> -->
 									</td>
 								</tr>
 							{% endfor %}

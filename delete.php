@@ -7,6 +7,7 @@
  */
 
 require_once 'app/Controller/KeyController.php';
+require_once 'app/Controller/LockController.php';
 
 session_start();
 
@@ -18,8 +19,13 @@ if (isset($_POST['value'])) {
 		$key = new KeyController();
 		$key->deleteKey($_POST['value']);
 		$keys = KeyController::getKeys();
+		$response['keys'] = $keys;
+	} else if ($first == 'l') {
+		$lock = new LockController();
+		$lock->deleteLock($_POST['value']);
+		$locks = LockController::getLocks();
+		$response['locks'] = $locks;
 	}
-	$response['keys'] = $keys;
 	$response['status'] = 'success';
 	$response['message'] = 'This was successful';
 } else {
