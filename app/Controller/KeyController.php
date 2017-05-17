@@ -306,4 +306,26 @@ class KeyController
 
 		return false;
 	}
+
+	public function deleteKeyAjax()
+	{
+		if (isset($_POST['value'])) {
+
+			$first = substr($_POST['value'], 0, 1);
+
+			if ($first == 'k') {
+				$key = new KeyController();
+				$key->deleteKey($_POST['value']);
+				$keys = KeyController::getKeys();
+			}
+			$response['keys'] = $keys;
+			$response['status'] = 'success';
+			$response['message'] = 'This was successful';
+		} else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
+
+		echo json_encode($response);
+	}
 }

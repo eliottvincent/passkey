@@ -144,6 +144,13 @@ class RouterController extends Controller
 
 	}
 
+	function deleteKeyAjax() {
+
+		// no need of authentification
+		$keyController = new KeyController();
+		$keyController->deleteKeyAjax();
+	}
+
 
 	/**
 	 * Creates a blank page as a CompositeView
