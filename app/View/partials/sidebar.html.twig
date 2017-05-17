@@ -74,25 +74,7 @@
 				<li class="heading">
 					<h3 class="uppercase">Gestion du matériel</h3>
 				</li>
-				<li class="nav-item  {% if activePage == 'door' %}active open{% endif %}">
-					<a href="javascript:;" class="nav-link nav-toggle">
-						<i class="icon-puzzle"></i>
-						<span class="title">Emprunts</span>
-						<span class="arrow"></span>
-					</a>
-					<ul class="sub-menu">
-						<li class="nav-item  ">
-							<a href="./?action=listBorrowings" class="nav-link ">
-								<span class="title">Voir tous les emprunts</span>
-							</a>
-						</li>
-						<li class="nav-item  ">
-							<a href="./?action=listBorrowings" class="nav-link ">
-								<span class="title">Prêter</span>
-							</a>
-						</li>
-					</ul>
-				</li>
+
 
 
 				<li class="nav-item  ">
@@ -150,6 +132,30 @@
 						<li class="nav-item  ">
 							<a href="./?action=createkey" class="nav-link ">
 								<span class="title">Ajouter une clé</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+
+                <li class="heading">
+					<h3 class="uppercase">Gestion des prêts</h3>
+				</li>
+
+                <li class="nav-item  {% if activePage == 'borrowings' %}active open{% endif %}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="fa fa-arrows-h"></i>
+						<span class="title">Emprunts</span>
+						<span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item  ">
+							<a href="./?action=listBorrowings" class="nav-link ">
+								<span class="title">Voir tous les emprunts</span>
+							</a>
+						</li>
+						<li class="nav-item  ">
+							<a href="./?action=listBorrowings" class="nav-link ">
+								<span class="title">Prêter</span>
 							</a>
 						</li>
 					</ul>
