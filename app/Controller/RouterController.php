@@ -101,8 +101,8 @@ class RouterController extends Controller
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		$key = new BorrowingsController();
-		$key->list();
+		$borrows = new BorrowingsController();
+		$borrows->list();
 
 	}
 
