@@ -42,40 +42,41 @@
 					</form>
 					<!-- END RESPONSIVE QUICK SEARCH FORM -->
 				</li>
-				<li class="nav-item start ">
-					<a href="javascript:;" class="nav-link nav-toggle">
+
+				<li class="nav-item start">
+					<a href="./" class="nav-link nav-toggle">
 						<i class="icon-home"></i>
-						<span class="title">Exemple de catégorie</span>
+						<span class="title">Exemple</span>
+					</a>
+				</li>
+
+				<li class="heading">
+					<h3 class="uppercase">Gestion des prêts</h3>
+				</li>
+
+                <li class="nav-item  {% if activePage == 'borrowings' %}active open{% endif %}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="fa fa-arrows-h"></i>
+						<span class="title">Emprunts</span>
 						<span class="arrow"></span>
 					</a>
 					<ul class="sub-menu">
-						<li class="nav-item start ">
-							<a href="index.html" class="nav-link ">
-								<i class="icon-bar-chart"></i>
-								<span class="title">Item sans success</span>
+						<li class="nav-item  ">
+							<a href="./?action=listBorrowings" class="nav-link ">
+								<span class="title">Voir tous les emprunts</span>
 							</a>
 						</li>
-						<li class="nav-item start ">
-							<a href="dashboard_2.html" class="nav-link ">
-								<i class="icon-bulb"></i>
-								<span class="title">Item avec success 1</span>
-								<span class="badge badge-success">1</span>
-							</a>
-						</li>
-						<li class="nav-item start ">
-							<a href="dashboard_3.html" class="nav-link ">
-								<i class="icon-graph"></i>
-								<span class="title">Item avec danger 5</span>
-								<span class="badge badge-danger">5</span>
+						<li class="nav-item  ">
+							<a href="./?action=listBorrowings" class="nav-link ">
+								<span class="title">Prêter</span>
 							</a>
 						</li>
 					</ul>
 				</li>
+
 				<li class="heading">
 					<h3 class="uppercase">Gestion du matériel</h3>
 				</li>
-
-
 
 				<li class="nav-item  {% if activePage == 'door' %}active open{% endif %}">
 					<a href="javascript:;" class="nav-link nav-toggle">
@@ -137,88 +138,6 @@
 					</ul>
 				</li>
 
-                <li class="heading">
-					<h3 class="uppercase">Gestion des prêts</h3>
-				</li>
-
-                <li class="nav-item  {% if activePage == 'borrowings' %}active open{% endif %}">
-					<a href="javascript:;" class="nav-link nav-toggle">
-						<i class="fa fa-arrows-h"></i>
-						<span class="title">Emprunts</span>
-						<span class="arrow"></span>
-					</a>
-					<ul class="sub-menu">
-						<li class="nav-item  ">
-							<a href="./?action=listBorrowings" class="nav-link ">
-								<span class="title">Voir tous les emprunts</span>
-							</a>
-						</li>
-						<li class="nav-item  ">
-							<a href="./?action=listBorrowings" class="nav-link ">
-								<span class="title">Prêter</span>
-							</a>
-						</li>
-					</ul>
-				</li>
-
-				<li class="heading">
-					<h3 class="uppercase">Autre heading</h3>
-				</li>
-
-				<li class="nav-item">
-					<a href="javascript:;" class="nav-link nav-toggle">
-						<i class="icon-layers"></i>
-						<span class="title">Autre catégorie</span>
-						<span class="selected"></span>
-						<span class="arrow open"></span>
-					</a>
-					<ul class="sub-menu">
-						<li class="nav-item">
-							<a href="layout_blank_page.html" class="nav-link ">
-								<span class="title">Item simple</span>
-								<span class="selected"></span>
-							</a>
-						</li>
-						<li class="nav-item  ">
-							<a href="layout_ajax_page.html" class="nav-link ">
-								<span class="title">Item simple</span>
-							</a>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item  ">
-					<a href="javascript:;" class="nav-link nav-toggle">
-						<i class="icon-social-dribbble"></i>
-						<span class="title">Autre catégorie</span>
-						<span class="arrow"></span>
-					</a>
-					<ul class="sub-menu">
-						<li class="nav-item  ">
-							<a href="javascript:;" class="nav-link nav-toggle">
-								<i class="icon-magnifier"></i>
-								<span class="title">Item avec sub-menu</span>
-								<span class="arrow"></span>
-							</a>
-							<ul class="sub-menu">
-								<li class="nav-item ">
-									<a href="page_general_search.html" class="nav-link ">Sub item</a>
-								</li>
-								<li class="nav-item ">
-									<a href="page_general_search_2.html" class="nav-link ">Sub item</a>
-								</li>
-								<li class="nav-item ">
-									<a href="page_general_search_3.html" class="nav-link ">Sub item</a>
-								</li>
-								<li class="nav-item ">
-									<a href="page_general_search_4.html" class="nav-link ">Sub item</a>
-								</li>
-								<li class="nav-item ">
-									<a href="page_general_search_5.html" class="nav-link ">Sub item</a>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</li>
 			</ul>
 			<!-- END SIDEBAR MENU -->
 			<!-- END SIDEBAR MENU -->
