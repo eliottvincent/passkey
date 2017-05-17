@@ -44,9 +44,9 @@ class RouterController extends Controller
 		$bodyView 	= new View(null, null, "login_body.html.twig");
 		$footView 	= new View(null, null, "foot.html.twig");
 
-		$compositeView->attachView($headView);
-		$compositeView->attachView($bodyView);
-		$compositeView->attachView($footView);
+		$compositeView->attachView($headView)
+			->attachView($bodyView)
+			->attachView($footView);
 
 		echo $compositeView->render();
 	}
@@ -61,22 +61,62 @@ class RouterController extends Controller
 		$authentificationController->logout();
 	}
 
-	function createDoor() {
+	/**
+	 * DOORS
+	 */
 
+	function createDoor() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		new CreateDoorController();
+		$door = new DoorController();
+		$door->create();
 	}
+
+	function listDoors() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$door = new DoorController();
+		$door->list();
+	}
+
+	/**
+	 * LOCKS
+	 */
 
 	function createLock() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		new CreateLockController();
+		$lock = new LockController();
+		$lock->create();
 	}
+
+	function listLocks() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$lock = new LockController();
+		$lock->list();
+	}
+
+	function updateLock() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$lock = new LockController();
+		$lock->update();
+	}
+
+	/**
+	 * KEYS
+	 */
 
 	function createKey() {
 		// authentication check
@@ -84,6 +124,14 @@ class RouterController extends Controller
 		$authentificationController->check();
 		$key = new KeyController();
 		$key->create();
+	}
+
+	function updateKey() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+		$key = new KeyController();
+		$key->update();
 	}
 
 	function listKeys() {
@@ -104,6 +152,12 @@ class RouterController extends Controller
 		$borrows = new BorrowingsController();
 		$borrows->list();
 
+	}
+
+	function deleteKeyAjax() {
+		// no need of authentification
+		$keyController = new KeyController();
+		$keyController->deleteKeyAjax();
 	}
 
 

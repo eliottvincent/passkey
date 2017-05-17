@@ -18,52 +18,78 @@ class AuthentificationController
 
 	function login() {
 
-		if (isset($_REQUEST['username']) && !empty($_REQUEST['username']))
+		// if there is a username
+		if (isset($_REQUEST['username']) && !empty($_REQUEST['username'])) {
 			$username = $_REQUEST['username'];
-		else
-			echo 'oups?! no username provided';
-		// TODO : handle case here
 
-		if (isset($_REQUEST['password']) && !empty($_REQUEST['password']))
-			$password = $_REQUEST['password'];
-		else
-			echo 'oups?! no username provided';
-		// TODO : handle case here
+			$userDAO = implementationUserDAO_Dummy::getInstance();
+			$users = $userDAO->getUsers();
 
-		$userDAO = implementationUserDAO_Dummy::getInstance();
-		$users = $userDAO->getUsers();
-
-		foreach ($users as $key => $user) {
-			if ($user->getUsername() === $username) {
-				$userFound = $user;
+			foreach ($users as $key => $user) {
+				if ($user->getUsername() === $username) {
+					$userFound = $user;
+				}
 			}
-		}
 
-		if (isset($userFound) && $userFound != null) {
+			if (isset($userFound) && $userFound != null) {
 
-			if ($userFound->getPassword() === $password) {
+				if (isset($_REQUEST['password']) && !empty($_REQUEST['password'])) {
+					$password = $_REQUEST['password'];
 
-				session_start();
-				$_SESSION['USERNAME']= $username;
+					if ($userFound->getPassword() === $password) {
 
-				$url = $_SERVER["HTTP_REFERER"];
-				$newUrl = substr($url, 0, strpos($url, "?"));
+						session_start();
+						$_SESSION['USERNAME']= $username;
 
-				// header redirection doesn't work on some environments...
-				//header("Location: " . $newUrl);
+						$url = $_SERVER["HTTP_REFERER"];
+						$newUrl = substr($url, 0, strpos($url, "?"));
 
-				// ...thus we use script injection
-				echo "<script> window.location.replace('" . $newUrl. "') </script>";
+						// header redirection doesn't work on some environments...
+						// header("Location: " . $newUrl);
+
+						// ...thus we use script injection
+						echo "<script> window.location.replace('" . $newUrl. "') </script>";
+					}
+
+					else {
+						$this->resendLoginPage('danger', 'Mot de passe invalide.');
+					}
+				}
+
+				else {
+					// redirecting to login with bad password alert
+					$this->resendLoginPage('danger', 'Mot de passe invalide.');
+				}
+
 			}
 			else {
-				// TODO : handle wrong password here
+				$this->resendLoginPage('danger', 'Login invalide.');
 			}
 		}
+
 		else {
-			// TODO : handle wrong username here
+			// redirecting to login page with bad username alert
+			$this->resendLoginPage('danger', 'Login invalide.');
 		}
+
+
 	}
 
+	function resendLoginPage($type, $message) {
+		$compositeView = new CompositeView();
+
+		$headView 	= new View(null, null, "head.html.twig", array('title' => "Login"));
+		$bodyView 	= new View(null, null, "login_body.html.twig");
+		$submit_message = new View(null, null, "submit_message.html.twig", array('alert_type' => $type , 'alert_message' => $message));
+		$footView 	= new View(null, null, "foot.html.twig");
+
+		$compositeView->attachView($headView)
+			->attachView($submit_message)
+			->attachView($bodyView)
+			->attachView($footView);
+
+		echo $compositeView->render();
+	}
 	function logout() {
 		// do not remove the echo, otherwise the redirection doesn't work
 
