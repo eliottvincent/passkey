@@ -24,7 +24,7 @@
 							</thead>
 							<tbody>
 							{% for key in keys %}
-								<tr>
+								<tr id="{{ key.key_id }}">
 									<td> {{ key.key_id }} </td>
 									<td> {{ key.key_name }} </td>
 									<td> {{ key.key_type }} </td>

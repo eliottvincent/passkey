@@ -144,22 +144,16 @@ class RouterController extends Controller
 
 	}
 
-	function listBorrowings() {
-		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
-
-		$borrows = new BorrowingsController();
-		$borrows->list();
-
-	}
-
 	function deleteKeyAjax() {
-
-		// no need of authentication
-		// but need of session start in deleteKeyAjax()
+		// no need of authentification
 		$keyController = new KeyController();
 		$keyController->deleteKeyAjax();
+	}
+
+	function deleteLockAjax() {
+		// no need of authentification
+		$lockController = new LockController();
+		$lockController->deleteLockAjax();
 	}
 
 
@@ -190,4 +184,9 @@ class RouterController extends Controller
 		echo $compositeView->render();
 	}
 
+	function createLoginPage() {
+		$html = new View(null, null,'partials/page_user_login_1.php');
+
+		return $html;
+	}
 }
