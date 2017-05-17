@@ -50,10 +50,10 @@
 											<button type="submit" class="btn blue btn-sm">Modifier</button>
 										</form>
 
-										<form action="" method="post">
+										<!--<form action="" method="post">-->
 											<input type="hidden" name="delete" value="{{ key.key_id }}"/>
-											<button type="submit" class="btn red btn-sm">Supprimer</button>
-										</form>
+											<button type="submit" class="btn red btn-sm btn-delete-k" value="{{ key.key_id }}">Supprimer</button>
+										<!--</form>-->
 									</td>
 								</tr>
 							{% endfor %}
