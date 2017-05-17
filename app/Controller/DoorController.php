@@ -67,14 +67,14 @@ class DoorController
 	}
 
 	public function displayForm($message = null) {
-		$composite = new CompositeView(true, 'Ajouter une porte');
+		$composite = new CompositeView(true, 'Ajouter une porte', null, "door");
 
 		if ($message != null && !empty($message['type']) && !empty($message['message'])) {
 			$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
 			$composite->attachContentView($message);
 		}
 
-		$create_door = new View(null,null, 'doors/create_door.html.twig');
+		$create_door = new View(null, null, 'doors/create_door.html.twig');
 		$composite->attachContentView($create_door);
 
 		echo $composite->render();
@@ -98,7 +98,7 @@ class DoorController
 		} else {
 			$doors = null;
 		}
-		$composite = new CompositeView(true, 'Liste des portes');
+		$composite = new CompositeView(true, 'Liste des portes', null, "door");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
