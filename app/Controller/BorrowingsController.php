@@ -43,7 +43,7 @@ public function create(){
 }
 
 public function displayForm($message = null) {
-	$composite = new CompositeView(true, 'Ajouter une porte');
+	$composite = new CompositeView(true, 'Créer un nouvel emprunt');
 
 	if ($message != null && !empty($message['type']) && !empty($message['message'])) {
 		$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
