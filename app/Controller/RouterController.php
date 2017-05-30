@@ -61,48 +61,50 @@ class RouterController extends Controller
 		$authentificationController->logout();
 	}
 
+
 	/**
 	 * DOORS
 	 */
-
-	function createDoor() {
-		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
-
-		$door = new DoorController();
-		$door->create();
-	}
 
 	function listDoors() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		$door = new DoorController();
-		$door->list();
+		$doorController = new DoorController();
+		$doorController->list();
 	}
 
-	/**
-	 * LOCKS
-	 */
-
-	function createLock() {
+	function createDoor() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		$lock = new LockController();
-		$lock->create();
+		$doorController = new DoorController();
+		$doorController->create();
 	}
+
+
+	/**
+	 * LOCKS
+	 */
 
 	function listLocks() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		$lock = new LockController();
-		$lock->list();
+		$lockController = new LockController();
+		$lockController->list();
+	}
+
+	function createLock() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$lockController = new LockController();
+		$lockController->create();
 	}
 
 	function updateLock() {
@@ -110,38 +112,44 @@ class RouterController extends Controller
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		$lock = new LockController();
-		$lock->update();
+		$lockController = new LockController();
+		$lockController->update();
+	}
+
+	function deleteLockAjax() {
+		// no need of authentification
+		$lockController = new LockController();
+		$lockController->deleteLockAjax();
 	}
 
 	/**
 	 * KEYS
 	 */
 
+	function listKeys() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$keyController = new KeyController();
+		$keyController->list();
+
+	}
+
 	function createKey() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
-		$key = new KeyController();
-		$key->create();
+		$keyController = new KeyController();
+		$keyController->create();
 	}
 
 	function updateKey() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
-		$key = new KeyController();
-		$key->update();
-	}
-
-	function listKeys() {
-		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
-
-		$key = new KeyController();
-		$key->list();
-
+		$keyController = new KeyController();
+		$keyController->update();
 	}
 
 	function deleteKeyAjax() {
@@ -150,10 +158,30 @@ class RouterController extends Controller
 		$keyController->deleteKeyAjax();
 	}
 
-	function deleteLockAjax() {
-		// no need of authentification
-		$lockController = new LockController();
-		$lockController->deleteLockAjax();
+
+	/**
+	 * USERS
+	 */
+
+
+	function listUsers() {
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$userController = new UserController();
+		$userController->list();
+	}
+
+	function createUser() {
+
+	}
+
+	function updateUser() {
+
+	}
+
+	function deleteUserAjax() {
+
 	}
 
 
