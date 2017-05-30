@@ -173,11 +173,17 @@ class RouterController extends Controller
 	}
 
 	function createUser() {
-
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+		$userController = new UserController();
+		$userController->create();
 	}
 
 	function updateUser() {
-
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+		$userController = new UserController();
+		$userController->update();
 	}
 
 	function deleteUserAjax() {
