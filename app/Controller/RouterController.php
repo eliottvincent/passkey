@@ -65,7 +65,6 @@ class RouterController extends Controller
 	/**
 	 * DOORS
 	 */
-
 	function listDoors() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
@@ -88,7 +87,6 @@ class RouterController extends Controller
 	/**
 	 * LOCKS
 	 */
-
 	function listLocks() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
@@ -122,10 +120,10 @@ class RouterController extends Controller
 		$lockController->deleteLockAjax();
 	}
 
+
 	/**
 	 * KEYS
 	 */
-
 	function listKeys() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
@@ -162,8 +160,6 @@ class RouterController extends Controller
 	/**
 	 * USERS
 	 */
-
-
 	function listUsers() {
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
