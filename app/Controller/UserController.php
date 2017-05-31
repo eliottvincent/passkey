@@ -8,7 +8,6 @@
  */
 class UserController
 {
-
 	/**
 	 * UserController constructor.
 	 */
@@ -17,6 +16,81 @@ class UserController
 	}
 
 	/**
+	 * to create a new user
+	 */
+	public function create() {
+
+		// if no values are posted -> displaying the form
+		if (!isset($_POST['user_name']) && !isset($_POST['key_type']) && !isset($_POST['key_lock'])) {
+			$this->displayForm(true);
+		}
+
+		// if some (but not all) values are posted -> error message
+		elseif (empty($_POST['user_enssatPrimaryKey']) ||
+			empty($_POST['user_ur1identifier']) ||
+			empty($_POST['user_username']) ||
+			empty($_POST['user_name']) ||
+			empty($_POST['user_surname']) ||
+			empty($_POST['user_status']) ||
+			empty($_POST['user_phone']) ||
+			empty($_POST['user_email'])) {
+
+			$m_type = "danger";
+			$m_message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
+			$message['type'] = $m_type;
+			$message['message'] = $m_message;
+			$messages[] = $message;
+			$this->displayForm(true, $messages);
+		}
+
+		// if we have all values
+		else {
+
+			// Check unicity
+			$exist = false;
+			$users = $this::getUsers();
+
+			if ($users) {
+				foreach ($users as $user) {
+					if ($user->getEnssatPrimaryKey() == $_POST['user_enssatPrimaryKey']) {
+						$exist = true;
+					}
+				}
+			}
+
+			if (!$exist) {
+				$data = array(
+					'user_enssatPrimaryKey' => addslashes($_POST['user_enssatPrimaryKey']),
+					'user_ur1identifier' => addslashes($_POST['user_ur1identifier']),
+					'user_username' => addslashes($_POST['user_username']),
+					'user_name' => addslashes($_POST['user_name']),
+					'user_surname' => addslashes($_POST['user_surname']),
+					'user_status' => addslashes($_POST['user_status']),
+					'user_phone' => addslashes($_POST['user_phone']),
+					'user_email' => addslashes($_POST['user_email']),
+				);
+
+				$_SESSION['USERS'][] = $data;
+
+				$m_type = "success";
+				$m_message = "L'utilisateur a bien été enregistré.";
+
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+				$messages[] = $message;
+				$this->displayForm(true, $messages);
+			}
+			else {
+				$m_type = "danger";
+				$m_message = "Un utilisateur avec le même identifiant ENSSAT existe déjà.";
+
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+				$messages[] = $message;
+				$this->displayForm(true, $messages);
+			}
+
+		}
 	}
 
 	/**
