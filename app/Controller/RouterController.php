@@ -75,7 +75,6 @@ class RouterController extends Controller
 	}
 
 	function createDoor() {
-		// authentication check
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
@@ -115,7 +114,8 @@ class RouterController extends Controller
 	}
 
 	function deleteLockAjax() {
-		// no need of authentification
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
 		$lockController = new LockController();
 		$lockController->deleteLockAjax();
 	}
@@ -151,7 +151,8 @@ class RouterController extends Controller
 	}
 
 	function deleteKeyAjax() {
-		// no need of authentification
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
 		$keyController = new KeyController();
 		$keyController->deleteKeyAjax();
 	}
@@ -183,7 +184,10 @@ class RouterController extends Controller
 	}
 
 	function deleteUserAjax() {
-
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+		$userController = new UserController();
+		$userController->deleteUserAjax();
 	}
 
 
