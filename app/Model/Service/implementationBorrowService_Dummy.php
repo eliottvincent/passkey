@@ -22,7 +22,6 @@ class implementationBorrowService_Dummy implements interfaceBorrowService
 	 */
 	private static $_instance = null;
 
-	private $_borrowings = array(); // userId, keychainId, dateBorrowed, dateReturned, dateLost, comment
 	private $_userDAO;
 	private $_keychainDAO;
 
@@ -39,21 +38,23 @@ class implementationBorrowService_Dummy implements interfaceBorrowService
 		$this->_userDAO = implementationUserDAO_Dummy::getInstance();
 		$this->_keychainDAO = implementationKeychainDAO_Dummy::getInstance();
 
-		foreach($this->_userDAO->getUsers() as $user)
+		if(!isset($_SESSION['BORROWINGS']))
 		{
-			$randKeychain = $this->_keychainDAO->getRandomKeychain();
-			$this->_borrowings[]=[
-				'borrowingId'=>count($this->_borrowings)+1,
-				'userEnssatPrimaryKey'=>$user->getEnssatPrimaryKey(),
-				'keychainId'=>$randKeychain->getId(),
-				'borrowDate'=>$randKeychain->getCreationDate()->modify('+1 day'),
-				'dueDate'=>$randKeychain->getCreationDate()->modify('+20 day'),
-				'returnDate'=>null,
-				'lostDate'=>null,
-				'comment'=>""
-			];
+			foreach($this->_userDAO->getUsers() as $user)
+			{
+				$randKeychain = $this->_keychainDAO->getRandomKeychain();
+				$_SESSION['BORROWINGS'][]=[
+					'borrowingId'=>count($_SESSION['BORROWINGS'])+1,
+					'userEnssatPrimaryKey'=>$user->getEnssatPrimaryKey(),
+					'keychainId'=>$randKeychain->getId(),
+					'borrowDate'=>$randKeychain->getCreationDate()->modify('+1 day')->format("d-m-Y"),
+					'dueDate'=>$randKeychain->getCreationDate()->modify('+20 day')->format("d-m-Y"),
+					'returnDate'=>null,
+					'lostDate'=>null,
+					'comment'=>""
+				];
+			}
 		}
-
 	}
 
 	/**
@@ -75,17 +76,17 @@ class implementationBorrowService_Dummy implements interfaceBorrowService
 
 
 	//on emprunte toujours un trousseau
-	public function borrowKeychain($userId,$keychainId,DateTime $dueDate)
+	public function borrowKeychain($userId,$keychainId)
 	{
 		$tDate = new DateTime;
 		$tDate->setTimestamp(time());
 
-		$this->_borrowings[]=[
-			'borrowingId'=>count($this->_borrowings)+1,
+		$_SESSION['BORROWINGS'][]=[
+			'borrowingId'=>count($_SESSION['BORROWINGS'])+1,
 			'userEnssatPrimaryKey'=>$userId,
 			'keychainId'=>$keychainId,
-			'borrowDate'=>$tDate,
-			'dueDate'=>$dueDate,
+			'borrowDate'=>$tDate->format("d-m-Y"),
+			'dueDate'=>$tDate->modify('+20 day')->format("d-m-Y"),
 			'returnDate'=>null,
 			'lostDate'=>null,
 			'comment'=>""
@@ -184,9 +185,8 @@ class implementationBorrowService_Dummy implements interfaceBorrowService
 
 	public function getBorrowings()
 	{
-		return $this->_borrowings;
+		return $_SESSION['BORROWINGS'];
 	}
-
 }
 
 ?>
