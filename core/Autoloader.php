@@ -63,5 +63,10 @@ class Autoloader
 		if (file_exists('app/Controller/' . $class . '.php')) {
 			require_once 'app/Controller/' . $class . '.php';
 		}
-    }
+
+		// HELPERS.
+		if (file_exists( 'app/Helpers/previous_url.php')) {
+			require_once 'app/Helpers/previous_url.php';
+		};
+	}
 }

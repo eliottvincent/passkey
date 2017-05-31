@@ -6,10 +6,12 @@
  * Date: 12/05/2017
  * Time: 17:01
  */
+
 class DoorController
 {
 	public function __construct()
 	{
+
 	}
 
 	public function create(){
@@ -74,7 +76,7 @@ class DoorController
 			$composite->attachContentView($message);
 		}
 
-		$create_door = new View(null, null, 'doors/create_door.html.twig', array('previousUrl' => $_SERVER["HTTP_REFERER"]));
+		$create_door = new View(null, null, 'doors/create_door.html.twig', array('previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($create_door);
 
 		echo $composite->render();
