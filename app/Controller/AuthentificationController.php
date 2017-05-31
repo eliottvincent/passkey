@@ -6,6 +6,7 @@
  * Date: 04/05/2017
  * Time: 14:40
  */
+
 class AuthentificationController
 {
 	function check() {
@@ -41,7 +42,7 @@ class AuthentificationController
 						session_start();
 						$_SESSION['USERNAME']= $username;
 
-						$url = $_SERVER["HTTP_REFERER"];
+						$url = getPreviousUrl();
 						$newUrl = substr($url, 0, strpos($url, "?"));
 
 						// header redirection doesn't work on some environments...
@@ -96,7 +97,7 @@ class AuthentificationController
 		session_start();
 		session_destroy();
 
-		$url = $_SERVER["HTTP_REFERER"];
+		$url = getPreviousUrl();
 		$newUrl = substr($url, 0, strpos($url, "?"));
 
 		echo "<script> window.location.replace('" . $newUrl. "') </script>";
