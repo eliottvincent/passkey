@@ -7,8 +7,10 @@
  */
 
 function getPreviousUrl() {
-
-	if (!empty($_SERVER['HTTP_REFERER'])) {
+	if (!empty($_SERVER['REQUEST_URI'])) {
+		return $_SERVER['REQUEST_URI'];
+	}
+	else if (!empty($_SERVER['HTTP_REFERER'])) {
 		return $_SERVER['HTTP_REFERER'];
 	} else {
 		return "/";

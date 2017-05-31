@@ -12,7 +12,7 @@ class AuthentificationController
 	function check() {
 		session_start();
 		if (!isset($_SESSION["USERNAME"])) {
-			$url = $_SERVER["REQUEST_URI"];
+			$url = getPreviousUrl();
 			header("Location: ?action=showLoginPageTest&url=".$url);
 		}
 	}
@@ -91,6 +91,7 @@ class AuthentificationController
 
 		echo $compositeView->render();
 	}
+
 	function logout() {
 		// do not remove the echo, otherwise the redirection doesn't work
 
