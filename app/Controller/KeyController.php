@@ -308,6 +308,8 @@ class KeyController
 	}
 
 	public function deleteKeyAjax() {
+		session_start();
+
 		if (isset($_POST['value'])) {
 
 			$first = substr($_POST['value'], 0, 1);

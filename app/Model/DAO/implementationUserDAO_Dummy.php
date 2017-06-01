@@ -68,12 +68,6 @@ class implementationUserDAO_Dummy implements interfaceUserDAO
 	public function getUsers()
 	{
 		return $this->_users;
-		/*
-        foreach($this->_users as $clef=>$user)
-        {
-          echo $user->getEnssatPrimaryKey()." ".$user->getUsername()." ".$user->getPhone()."\n";
-        }
-        */
 	}
 
 	public function getUserByEnssatPrimaryKey($enssatPrimaryKey)
