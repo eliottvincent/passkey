@@ -26,8 +26,6 @@ class implementationBorrowService_Dummy implements interfaceBorrowService
 	private $_userDAO;
 	private $_keychainDAO;
 
-
-
 	/**
 	 * Constructeur de la classe
 	 *
@@ -71,8 +69,6 @@ class implementationBorrowService_Dummy implements interfaceBorrowService
 
 		return self::$_instance;
 	}
-
-
 
 	//on emprunte toujours un trousseau
 	public function borrowKeychain($userId,$keychainId,DateTime $dueDate)
