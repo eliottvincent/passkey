@@ -1,17 +1,12 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Basile Bruhat
- * Date: 12/05/2017
- * Time: 17:01
- */
-
 class DoorController
 {
+	private $_doorService;
+
 	public function __construct()
 	{
-
+		$this->_doorService = implementationDoorService_Dummy::getInstance();
 	}
 
 	public function create(){
@@ -26,20 +21,19 @@ class DoorController
 			$message['message'] = $m_message;
 			$this->displayForm( $message);
 		} else {
-			// If we have all values, the form is displayed.
+			// If we have all values, the door is created.
 			$id = 'd_' . strtolower(str_replace(' ', '_', addslashes($_POST['door_name'])));
 
 			// Check unicity.
-			$exist = false;
-			$doors = $this::getDoors();
+			$exist = $this->_doorService->checkUnicity($id);
 
-			if ($doors) {
+			/**if ($doors) {
 				foreach ($doors as $door) {
 					if ($door['door_id'] == $id) {
 						$exist = true;
 					}
 				}
-			}
+			}**/
 
 			if (!$exist) {
 				$datas = array(
@@ -49,7 +43,9 @@ class DoorController
 					'door_floor' => addslashes($_POST['door_floor'])
 				);
 
-				$_SESSION['DOORS'][] = $datas;
+				/**$_SESSION['DOORS'][] = $datas;**/
+				// Create the door.
+				$this->_doorService->create($datas);
 
 				$m_type = "success";
 				$m_message = "La porte a bien été créée.";
@@ -96,7 +92,7 @@ class DoorController
 
 	public function displayList($state, $messages = null) {
 		if ($state) {
-			$doors = DoorController::getDoors();
+			$doors = $this::getDoors();
 		} else {
 			$doors = null;
 		}
