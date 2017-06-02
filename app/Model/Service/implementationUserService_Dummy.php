@@ -98,15 +98,14 @@ class implementationUserService_Dummy implements interfaceUserService
 		foreach($this->_users as $user) {
 			if ($user->getEnssatPrimaryKey() == (int) $enssatPrimaryKey) {
 
-				$length = sizeof($_SESSION['USERS']);
-				if ($length > 1) {
-					$nb =  array_search($user, $this->_users);
-					unset($_SESSION['USERS'][$nb]);
-				} else {
-					unset($_SESSION['USERS']);
-				}
-				return true;
+				// deleting the user in the session
+				$nb =  array_search($user, $this->_users);
+				unset($_SESSION["USERS"][$nb]);
+				unset($this->_sessionUsers[$nb]);
+				unset($this->_users[$nb]);
 
+				// updating service vars
+				return true;
 			}
 		}
 

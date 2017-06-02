@@ -17,7 +17,6 @@ var FormInputMask = function () {
 		//main function to initiate the module
 		init: function () {
 			handleInputMasks();
-			handleIPAddressInput();
 		}
 	};
 
