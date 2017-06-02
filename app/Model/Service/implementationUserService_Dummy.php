@@ -44,12 +44,13 @@ class implementationUserService_Dummy implements interfaceUserService
 
 			// we have to add the SORT_REGULAR flag
 			// so it compares items normally without changing their types
-			// otherwise, it'll try to convert types to String, and we canno't do it (Object of class UserVO could not be converted to string)
-			$this->_users = array_unique(array_merge($this->_sessionUsers, $this->_xmlUsers), SORT_REGULAR);
+			// otherwise, it'll try to convert types to String, and we cannot do it (Object of class UserVO could not be converted to string)
+			// $this->_users = array_unique(array_merge($this->_sessionUsers, $this->_xmlUsers), SORT_REGULAR);
 
 			// updating the session["USERS"]
-			unset($_SESSION["USERS"]);
-			$_SESSION["USERS"] = $this->_users;
+			// unset($_SESSION["USERS"]);
+
+			$this->_users = $this->_sessionUsers;
 		}
 		// else that means there are no users in session (first use)
 		else {
