@@ -33,8 +33,7 @@ class implementationBorrowService_Dummy implements interfaceBorrowService
 	 * @param void
 	 * @return void
 	 */
-	private function __construct()
-	{
+	private function __construct() {
 		$this->_userDAO = implementationUserDAO_Dummy::getInstance();
 		$this->_keychainDAO = implementationKeychainDAO_Dummy::getInstance();
 

@@ -25,7 +25,7 @@ class Autoloader
      * Import class file.
      * @param $class string Classname to include.
      */
-    static function autoload($class){
+    static function autoload($class) {
 
         /**
          * HOW TO USE

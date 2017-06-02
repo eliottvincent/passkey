@@ -74,6 +74,26 @@
 					</ul>
 				</li>
 
+				<li class="nav-item  {% if activePage == 'user' %}active open{% endif %}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="fa fa-users"></i>
+						<span class="title">Utilisateurs</span>
+						<span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item  ">
+							<a href="./?action=listUsers" class="nav-link ">
+								<span class="title">Voir tous les utilisateurs</span>
+							</a>
+						</li>
+						<li class="nav-item  ">
+							<a href="./?action=createUser" class="nav-link ">
+								<span class="title">Ajouter un utilisateur</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+
 				<li class="heading">
 					<h3 class="uppercase">Gestion du matériel</h3>
 				</li>
@@ -86,13 +106,13 @@
 					</a>
 					<ul class="sub-menu">
 						<li class="nav-item  ">
-							<a href="./?action=listdoors" class="nav-link ">
+							<a href="./?action=listDoors" class="nav-link ">
 								<span class="title">Voir toutes les portes</span>
 							</a>
 						</li>
 
 						<li class="nav-item  ">
-							<a href="./?action=createdoor" class="nav-link ">
+							<a href="./?action=createDoor" class="nav-link ">
 								<span class="title">Ajouter une porte</span>
 							</a>
 						</li>
@@ -107,12 +127,12 @@
 					</a>
 					<ul class="sub-menu">
 						<li class="nav-item  ">
-							<a href="./?action=listlocks" class="nav-link ">
+							<a href="./?action=listLocks" class="nav-link ">
 								<span class="title">Voir tous les canons</span>
 							</a>
 						</li>
 						<li class="nav-item  ">
-							<a href="./?action=createlock" class="nav-link ">
+							<a href="./?action=createLock" class="nav-link ">
 								<span class="title">Ajouter un canon</span>
 							</a>
 						</li>
@@ -126,12 +146,12 @@
 					</a>
 					<ul class="sub-menu">
 						<li class="nav-item">
-							<a href="./?action=listkeys" class="nav-link ">
+							<a href="./?action=listKeys" class="nav-link ">
 								<span class="title">Voir toutes les clés</span>
 							</a>
 						</li>
 						<li class="nav-item  ">
-							<a href="./?action=createkey" class="nav-link ">
+							<a href="./?action=createKey" class="nav-link ">
 								<span class="title">Ajouter une clé</span>
 							</a>
 						</li>

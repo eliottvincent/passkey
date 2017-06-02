@@ -41,7 +41,7 @@ class implementationUserDAO_Dummy implements interfaceUserDAO
 				$user->setEmail((string)$xmlUser->email);
 				$user->setPassword((string)$xmlUser->password);
 
-				array_push($this->_users,$user);
+				array_push($this->_users, $user);
 			}
 		} else {
 			throw new RuntimeException('Echec lors de l\'ouverture du fichier users.xml.');
@@ -68,12 +68,6 @@ class implementationUserDAO_Dummy implements interfaceUserDAO
 	public function getUsers()
 	{
 		return $this->_users;
-		/*
-        foreach($this->_users as $clef=>$user)
-        {
-          echo $user->getEnssatPrimaryKey()." ".$user->getUsername()." ".$user->getPhone()."\n";
-        }
-        */
 	}
 
 	public function getUserByEnssatPrimaryKey($enssatPrimaryKey)
