@@ -62,9 +62,9 @@ class RouterController extends Controller
 	}
 
 
-	/**
-	 * DOORS
-	 */
+	//================================================================================
+	// DOORS
+	//================================================================================
 	function listDoors() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
@@ -83,9 +83,10 @@ class RouterController extends Controller
 	}
 
 
-	/**
-	 * LOCKS
-	 */
+	//================================================================================
+	// LOCKS
+	//================================================================================
+
 	function listLocks() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
@@ -119,9 +120,11 @@ class RouterController extends Controller
 	}
 
 
-	/**
-	 * KEYS
-	 */
+
+	//================================================================================
+	// KEYS
+	//================================================================================
+
 	function listKeys() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
@@ -154,9 +157,10 @@ class RouterController extends Controller
 	}
 
 
-	/**
-	 * USERS
-	 */
+	//================================================================================
+	// USERS
+	//================================================================================
+
 	function listUsers() {
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
@@ -172,11 +176,24 @@ class RouterController extends Controller
 		$userController->create();
 	}
 
-	function updateUser() {
+	function updateUser()
+	{
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 		$userController = new UserController();
 		$userController->update();
+	}
+
+	function deleteUserAjax() {
+		$userController = new UserController();
+		$userController->deleteUserAjax();
+	}
+
+
+	//================================================================================
+	// BORROWINGS
+	//================================================================================
+
 	function listBorrowings() {
 		// authentication check
 		$authentificationController = new AuthentificationController();
@@ -193,17 +210,6 @@ class RouterController extends Controller
 
 		$borrows = new BorrowingsController();
 		$borrows->create();
-	}
-
-	function deleteKeyAjax() {
-		// no need of authentification
-		$keyController = new KeyController();
-		$keyController->deleteKeyAjax();
-	}
-
-	function deleteUserAjax() {
-		$userController = new UserController();
-		$userController->deleteUserAjax();
 	}
 
 
