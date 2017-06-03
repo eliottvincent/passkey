@@ -159,7 +159,14 @@ class LockController
 		} else {
 			$locks = null;
 		}
-		$composite = new CompositeView(true, 'Liste des canons', 'Cette page permet de modifier et/ou supprimer des canons.', "lock");
+		$composite = new CompositeView(
+			true,
+			'Liste des canons',
+			'Cette page permet de modifier et/ou supprimer des canons.',
+			"lock",
+			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
+			array("deleteLockScript" => "app/View/assets/custom/scripts/deleteLock.js",
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
