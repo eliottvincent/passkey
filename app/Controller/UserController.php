@@ -57,7 +57,7 @@ class UserController
 			$message['type'] = $m_type;
 			$message['message'] = $m_message;
 			$messages[] = $message;
-			$this->displayForm(true, $messages);
+			$this->displayForm($messages);
 		}
 
 		// if we have all values
@@ -86,7 +86,7 @@ class UserController
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
 				$messages[] = $message;
-				$this->displayForm(true, $messages);
+				$this->displayForm($messages);
 			}
 			else {
 				$m_type = "danger";
@@ -95,24 +95,18 @@ class UserController
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
 				$messages[] = $message;
-				$this->displayForm(true, $messages);
+				$this->displayForm($messages);
 			}
 
 		}
 	}
 
 	/**
-	 * Display form used to create key
+	 * Display form used to create a user
 	 * @param $state boolean if file datas/datas.xlsx exists
 	 * @param null $message array of the message displays
 	 */
-	public function displayForm($state, $messages = null) {
-		if ($state) {
-			$locks = LockController::getLocks();
-		} else {
-			$locks = null;
-		}
-
+	public function displayForm($messages = null) {
 		$composite = new CompositeView(true, 'Ajouter un utilisateur', null, "user");
 
 		if ($messages != null) {
@@ -153,7 +147,7 @@ class UserController
 				}
 			} else {
 				$message['type'] = 'danger';
-				$message['message'] = 'La clé n\'existe pas.';
+				$message['message'] = 'L\'utilisateur n\'existe pas.';
 				$messages[] = $message;
 				if (!empty($this::getUsers())) {
 					$this->displayList(true, $messages);
@@ -177,7 +171,7 @@ class UserController
 
 			} else {
 				$alert['type'] = 'danger';
-				$alert['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
+				$alert['message'] = 'Nous n\'avons aucun utilisateur d\'enregistré.';
 				$alerts[] = $alert;
 				$this->displayList(false, $alerts);
 			}
@@ -190,7 +184,7 @@ class UserController
 	//================================================================================
 
 	/**
-	 * Display list of keys.
+	 * Display list of users.
 	 * @param $state boolean if file datas/datas.xlsx exists
 	 * @param null $message array of the message displays
 	 */
