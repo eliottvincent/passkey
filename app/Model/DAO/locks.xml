@@ -1,0 +1,13 @@
+<?xml version='1.0' standalone='yes'?>
+<locks>
+	<lock>
+		<id>l_102H-G-001</id>
+		<name>102H G 001</name>
+		<door>d_102H_gauche</door>
+	</lock>
+	<lock>
+		<id>l_102H-D-001</id>
+		<name>102H D 001</name>
+		<door>d_102H_droite</door>
+	</lock>
+</locks>

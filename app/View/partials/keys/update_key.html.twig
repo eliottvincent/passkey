@@ -1,0 +1,114 @@
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet light bordered">
+			<div class="portlet-title">
+				<div class="caption font-green-haze">
+					<i class="icon-key font-green-haze"></i>
+					<span class="caption-subject bold uppercase">Mettre à jour une clé</span>
+				</div>
+			</div>
+			<div class="portlet-body form">
+				<form role="form" class="form-horizontal" action="" method="post">
+					<div class="form-body">
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Nom de la clé *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="K-102H-G-001" name="key_name" value="{{ key.key_name }}" required disabled>
+								<div class="form-control-focus"> </div>
+								<span class="help-block">Ce nom permettra d'identifier la clé dans l'application.</span>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Type de clé *</label>
+							<div class="col-md-10">
+								<div class="md-radio-inline">
+									<div class="md-radio">
+										<input
+											type="radio" id="simple" name="key_type" class="md-radiobtn" value="simple"
+											{% if key.key_type == 'simple' %}
+												checked=""
+											{% endif %}
+										>
+										<label for="simple">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>Clé</label>
+									</div>
+									<div class="md-radio">
+										<input
+											type="radio" id="partial" name="key_type" class="md-radiobtn" value="partial"
+											{% if key.key_type == 'partial' %}
+												checked=""
+											{% endif %}
+										>
+										<label for="partial">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>Passe partiel</label>
+									</div>
+									<div class="md-radio">
+										<input
+											type="radio" id="total" name="key_type" class="md-radiobtn" value="total"
+											{% if key.key_type == 'total' %}
+												checked=""
+											{% endif %}
+										>
+										<label for="total">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>Passe Total</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Associer un canon *</label>
+							<div class="col-md-10">
+								<select class="form-control" id="form_control_1" name="key_lock[]" multiple required>
+									<option value="none"
+									{% if 'none' in key.key_locks %}
+										selected
+									{% endif %}
+									>(Aucune)</option>
+									{% for lock in locks %}
+										<option value="{{ lock.lock_id }}"
+											{% if lock.lock_id in key.key_locks %}
+												selected
+											{% endif %}
+										>{{ lock.lock_name }}</option>
+									{% endfor %}
+								</select>
+								<div class="form-control-focus"> </div>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Nombre de clés *</label>
+							<div class="col-md-10">
+								<input type="number" class="form-control" id="form_control_1" min="0" max="20" name="key_number" value="{{ key.key_number }}" required>
+								<div class="form-control-focus"> </div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-actions">
+						<div class="row">
+							<div class="col-md-offset-2 col-md-10">
+								<!-- Used to send datas (because 'disabled' attribute cannot send datas)-->
+								<div class="hiddel-fields">
+									<input type="hidden" name="key_hidden_name" value="{{ key.key_name }}">
+								</div>
+								<button type="submit" class="btn blue">Modifier la clé</button>
+								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- END SAMPLE FORM PORTLET-->
+	</div>
+</div>

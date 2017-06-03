@@ -1,11 +1,10 @@
-<div class="page-content">
 	<div class="row">
 		<div class="col-md-12">
 			<!-- BEGIN SAMPLE TABLE PORTLET-->
 			<div class="portlet box blue">
 				<div class="portlet-title">
 					<div class="caption">
-						<i class="fa fa-cogs"></i> Liste des clés  </div>
+						<i class="icon-key"></i> Liste des clés  </div>
 					<div class="tools">
 						<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
 					</div>
@@ -25,22 +24,36 @@
 							</thead>
 							<tbody>
 							{% for key in keys %}
-								<tr>
+								<tr id="{{ key.key_id }}">
 									<td> {{ key.key_id }} </td>
 									<td> {{ key.key_name }} </td>
 									<td> {{ key.key_type }} </td>
-									<td> {{ key.key_lock }} </td>
-									<td> {{ key.key_number }} </td>
 									<td>
-										<form action="" method="get">
-											<input type="hidden" name="update" value="update_k{{ key.key_id }}"/>
+										{% for key_lock in key.key_locks %}
+											<p>{{ key_lock }}</p>
+										{% endfor %}
+
+									<td>
+										<p
+											{% if key.key_number < 3 %}
+												class="text-danger"
+											{% elseif key.key_number < 6 %}
+												class="text-warning"
+											{% endif %}
+										>{{ key.key_number }}</p>
+									</td>
+									</td>
+
+									<td>
+										<form action="./?action=updatekey" method="post">
+											<input type="hidden" name="update" value="{{ key.key_id }}"/>
 											<button type="submit" class="btn blue btn-sm">Modifier</button>
 										</form>
 
-										<form action="" method="get">
-											<input type="hidden" name="delete" value="delete_k{{ key.key_id }}"/>
-											<button type="submit" class="btn red btn-sm">Supprimer</button>
-										</form>
+										<!--<form action="" method="post">-->
+											<input type="hidden" name="delete" value="{{ key.key_id }}"/>
+											<button type="submit" class="btn red btn-sm btn-delete-k" value="{{ key.key_id }}">Supprimer</button>
+										<!--</form>-->
 									</td>
 								</tr>
 							{% endfor %}
@@ -52,4 +65,3 @@
 			<!-- END SAMPLE TABLE PORTLET-->
 		</div>
 	</div>
-</div>

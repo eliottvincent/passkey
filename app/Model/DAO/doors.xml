@@ -1,0 +1,27 @@
+<?xml version='1.0' standalone='yes'?>
+<doors>
+	<door>
+		<id>d_102h_gauche</id>
+		<name>102h Gauche</name>
+		<building>building_2</building>
+		<floor>floor_1</floor>
+	</door>
+	<door>
+		<id>d_102h_droite</id>
+		<name>102h Droite</name>
+		<building>building_2</building>
+		<floor>floor_1</floor>
+	</door>
+	<door>
+		<id>d_005v_gauche</id>
+		<name>005v Gauche</name>
+		<building>building_2</building>
+		<floor>floor_0</floor>
+	</door>
+	<door>
+		<id>d_005v_droite</id>
+		<name>005v Droite</name>
+		<building>building_2</building>
+		<floor>floor_0</floor>
+	</door>
+</doors>

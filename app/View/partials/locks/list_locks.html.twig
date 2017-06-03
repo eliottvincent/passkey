@@ -1,0 +1,51 @@
+	<div class="row">
+		<div class="col-md-12">
+			<!-- BEGIN SAMPLE TABLE PORTLET-->
+			<div class="portlet box blue">
+				<div class="portlet-title">
+					<div class="caption">
+						<i class="icon-lock"></i> Liste des canons  </div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+					</div>
+				</div>
+				<div class="portlet-body">
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+							<tr>
+								<th> #id </th>
+								<th> Lock name </th>
+								<th> Lock door </th>
+								<th> #actions </th>
+							</tr>
+							</thead>
+							<tbody>
+							{% for lock in locks %}
+								<tr id="{{ lock.lock_id }}">
+									<td> {{ lock.lock_id }} </td>
+									<td> {{ lock.lock_name }} </td>
+									<td> {{ lock.lock_door }} </td>
+									</td>
+
+									<td>
+										<form action="./?action=updatelock" method="post">
+											<input type="hidden" name="update" value="{{ lock.lock_id }}"/>
+											<button type="submit" class="btn blue btn-sm">Modifier</button>
+										</form>
+
+										<!-- <form action="" method="post"> -->
+											<input type="hidden" name="delete" value="{{ lock.lock_id }}"/>
+											<button type="submit" class="btn red btn-sm btn-delete-l" value="{{ lock.lock_id }}">Supprimer</button>
+										<!-- </form> -->
+									</td>
+								</tr>
+							{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- END SAMPLE TABLE PORTLET-->
+		</div>
+	</div>

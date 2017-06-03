@@ -8,8 +8,8 @@
  */
 class UserVO
 {
-	private $ur1identifier; // code apogee ou harpege
 	private $enssatPrimaryKey; // 32 bits
+	private $ur1identifier; // code apogee ou harpege
 	private $username;
 	private $name;
 	private $surname;
@@ -19,12 +19,12 @@ class UserVO
 	private $password;
 
 	// GETTER
-	public function getUr1identifier() {
-		return $this->ur1identifier;
-	}
-
 	public function getEnssatPrimaryKey() {
 		return $this->enssatPrimaryKey;
+	}
+
+	public function getUr1identifier() {
+		return $this->ur1identifier;
 	}
 
 	public function getUsername() {
@@ -56,12 +56,12 @@ class UserVO
 
 
 	// SETTER
-	public function setUr1identifier($ur1identifier) {
-		$this->ur1identifier = $ur1identifier;
-	}
-
 	public function setEnssatPrimaryKey($id) {
 		$this->enssatPrimaryKey = $id;
+	}
+
+	public function setUr1identifier($ur1identifier) {
+		$this->ur1identifier = $ur1identifier;
 	}
 
 	public function setUsername($username) {

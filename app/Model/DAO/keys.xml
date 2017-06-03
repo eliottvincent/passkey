@@ -1,0 +1,36 @@
+<?xml version='1.0' standalone='yes'?>
+<keys>
+	<key>
+		<enssatPrimaryKey>1</enssatPrimaryKey>
+		<ur1identifier>1</ur1identifier>
+		<username>jDalton</username>
+		<name>Dalton</name>
+		<surname>Joe</surname>
+		<status>Student</status>
+		<phone>5551</phone>
+		<email>joe@dalton.fr</email>
+		<password>jDalton</password>
+	</key>
+	<key>
+		<enssatPrimaryKey>1</enssatPrimaryKey>
+		<ur1identifier>1</ur1identifier>
+		<username>jDalton</username>
+		<name>Dalton</name>
+		<surname>Joe</surname>
+		<status>Student</status>
+		<phone>5551</phone>
+		<email>joe@dalton.fr</email>
+		<password>jDalton</password>
+	</key>
+	<key>
+		<enssatPrimaryKey>1</enssatPrimaryKey>
+		<ur1identifier>1</ur1identifier>
+		<username>jDalton</username>
+		<name>Dalton</name>
+		<surname>Joe</surname>
+		<status>Student</status>
+		<phone>5551</phone>
+		<email>joe@dalton.fr</email>
+		<password>jDalton</password>
+	</key>
+</keys>

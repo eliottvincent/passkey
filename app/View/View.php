@@ -8,14 +8,16 @@
  */
 class View implements TemplateInterface, ContainerInterface, ViewInterface {
 
-	const DEFAULT_TEMPLATE = "default.php";
 
 	// a View is linked to a Model and a Controller
 	private $model;
 	private $controller;
 
-	protected $template = self::DEFAULT_TEMPLATE;
+	const DEFAULT_TEMPLATE = "default.php";
+	//protected $template = self::DEFAULT_TEMPLATE;
+	protected $template;
 	protected $fields = array();
+	protected $twigInstance;
 
 	/**
 	 * View constructor.
@@ -23,21 +25,31 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 	 * @param $model
 	 */
 	public function __construct($controller = null, $model = null, $template = null, array $fields = array()) {
+
 		if ($controller !== null) {
-		$this->controller = $controller;
+			$this->controller = $controller;
 		}
 		if ($model !== null) {
-		$this->model = $model;
+			$this->model = $model;
 		}
 
 		if ($template !== null) {
 			$this->setTemplate($template);
 		}
+
+		// allow us to access fields by doing
+		// myView->myField
+
+		// also means that if we want to access to an object that's not a field ($template, $controller, $model) ...
+		// we need to use the getter function specific to the object (getTemplate(), etc.)
 		if (!empty($fields)) {
 			foreach ($fields as $name => $value) {
 				$this->$name = $value;
 			}
 		}
+
+		$this->twigInstance = $this->twigInstance();
+
 	}
 
 	/**
@@ -54,6 +66,13 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 	 */
 	public function getTemplate() {
 		return $this->template;
+	}
+
+	/*
+	 *
+	 */
+	public function getFields() {
+		return $this->fields;
 	}
 
 	public function __set($name, $value) {
@@ -96,10 +115,33 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 	/**
 	 * @return string
 	 */
-	public function render() {
+	public function oldRenderMethod() {
 		extract($this->fields);
 		ob_start();
 		include $this->template;
 		return ob_get_clean();
+	}
+
+	public function twigInstance() {
+		$loader = new Twig_Loader_Filesystem('app/View/partials');
+		$twig = new Twig_Environment($loader, array('debug' => true));
+		$twig->addExtension(new Twig_Extension_Debug());
+		return $twig;
+	}
+
+	public function render()
+	{
+		// if the view has some fields
+		if (property_exists($this, 'fields') && !empty($this->getFields())) {
+
+			// then we render the template with our twigInstance, without forgetting to pass the fields
+			$temp = $this->twigInstance->render($this->getTemplate(), $this->getFields());
+		}
+		else {
+
+			// we render the template with our twigInstance, without fields
+			$temp = $this->twigInstance->render($this->getTemplate());
+		}
+		return $temp;
 	}
 }

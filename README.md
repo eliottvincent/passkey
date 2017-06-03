@@ -12,3 +12,11 @@ PassKey is a key manager for the ENSSAT.
 $ php composer.phar install
 ```
 4. Setup [URL rewriting](https://www.google.fr/search?q=apache+url+rewriting) on your server so that all requests are handled by **index.php**
+5. Be sure to enable override by htaccess in apache2.conf by including this code :
+```
+<Directory /var/www/>
+Options Indexes FollowSymLinks
+AllowOverride All
+Require all granted
+</Directory>
+```
