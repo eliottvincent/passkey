@@ -39,7 +39,7 @@ class UserController
 			!isset($_POST['user_status']) &&
 			!isset($_POST['user_phone']) &&
 			!isset($_POST['user_email'])) {
-			$this->displayForm(true);
+			$this->displayForm();
 		}
 
 		// if some (but not all) values are posted -> error message
@@ -118,7 +118,7 @@ class UserController
 			}
 		}
 
-		$create_user = new View('users/create_user.html.twig', array('locks' => $locks, 'previousUrl' => getPreviousUrl()));
+		$create_user = new View('users/create_user.html.twig', array('previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($create_user);
 
 		echo $composite->render();
@@ -218,8 +218,10 @@ class UserController
 		session_start();
 
 		if (isset($_POST['value'])) {
+		// if (isset($_GET['value'])) {
 
 			if ($this->deleteUser($_POST['value']) == true) {
+			// if ($this->deleteUser($_GET['value']) == true) {
 				$response['users'] = $this->getUsers();
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';

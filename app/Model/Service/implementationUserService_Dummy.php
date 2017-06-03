@@ -55,10 +55,9 @@ class implementationUserService_Dummy implements interfaceUserService {
 		// else that means there are no users in session (first use)
 		else {
 
+			$_SESSION["USERS"] = $this->_xmlUsers;
 			$this->_users = $this->_xmlUsers;
-
-			// we set our session["USERS"] to match the users present in XML
-			$_SESSION["USERS"] = $this->_users;
+			$this->_sessionUsers = $this->_xmlUsers;
 		}
 	}
 
@@ -113,15 +112,9 @@ class implementationUserService_Dummy implements interfaceUserService {
 		$userToSave->setStatus((string) $userArray['user_status']);
 		$userToSave->setEmail((string) $userArray['user_email']);
 
-		// for the moment we only save the user in session
-		// if we move to DB storage, we'll have to handle the save in DB HERE
-
-		if (isset($_SESSION["USERS"])) {
-			$_SESSION["USERS"][] = $userToSave;
-		}
-		else {
-			array_push($_SESSION["USERS"], $userToSave);
-		}
+		array_push($_SESSION["USERS"], $userToSave);
+		array_push($this->_users, $userToSave);
+		array_push($this->_sessionUsers, $userToSave);
 	}
 
 
@@ -131,16 +124,19 @@ class implementationUserService_Dummy implements interfaceUserService {
 
 	public function deleteUser($enssatPrimaryKey) {
 
+		$this->updateServiceVariables();
+
 		foreach($this->_users as $user) {
+
 			if ($user->getEnssatPrimaryKey() == (int) $enssatPrimaryKey) {
 
-				// deleting the user in the session
 				$nb =  array_search($user, $this->_users);
-				unset($_SESSION["USERS"][$nb]);
-				// unset($this->_sessionUsers[$nb]);
-				// unset($this->_users[$nb]);
 
 				// updating service vars
+				unset($_SESSION["USERS"][$nb]);
+				unset($this->_sessionUsers[$nb]);
+				unset($this->_users[$nb]);
+
 				return true;
 			}
 		}
@@ -172,8 +168,8 @@ class implementationUserService_Dummy implements interfaceUserService {
 				$nb =  array_search($user, $this->_users);
 
 				$_SESSION["USERS"][$nb] = $userToUpdate;
-				// $this->_sessionUsers[$nb] = $userToUpdate;
-				// $this->_users[$nb] = $userToUpdate;
+				$this->_sessionUsers[$nb] = $userToUpdate;
+				$this->_users[$nb] = $userToUpdate;
 
 				// updating service vars
 				return true;
@@ -202,6 +198,14 @@ class implementationUserService_Dummy implements interfaceUserService {
 		return $exist;
 	}
 
+	private function updateServiceVariables() {
+
+		if (isset($_SESSION["USERS"])) {
+			$this->_sessionUsers = $_SESSION["USERS"];
+			$this->_users = $_SESSION["USERS"];
+		}
+
+	}
 
 
 }
