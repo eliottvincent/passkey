@@ -200,7 +200,14 @@ class KeyController
 		} else {
 			$keys = null;
 		}
-		$composite = new CompositeView(true, 'Liste des clés', 'Cette page permet de modifier et/ou supprimer des clés.', "key");
+		$composite = new CompositeView(
+			true,
+			'Liste des clés',
+			'Cette page permet de modifier et/ou supprimer des clés.',
+			"key",
+			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
+			array("deleteKeyScript" => "app/View/assets/custom/scripts/deleteKey.js",
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
