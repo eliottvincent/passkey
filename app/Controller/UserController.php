@@ -107,7 +107,14 @@ class UserController
 	 * @param null $message array of the message displays
 	 */
 	public function displayForm($messages = null) {
-		$composite = new CompositeView(true, 'Ajouter un utilisateur', null, "user");
+		$composite = new CompositeView(
+			true,
+			'Ajouter un utilisateur',
+			null,
+			"user",
+			null,
+			array("jQueryInputMask" => "app/View/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js",
+				"customMasks" => "app/View/assets/custom/scripts/form-input-mask.js"));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -194,7 +201,14 @@ class UserController
 		} else {
 			$users = null;
 		}
-		$composite = new CompositeView(true, 'Liste des utilisateurs', 'Cette page permet de modifier et/ou supprimer des utilisateurs.', "user");
+		$composite = new CompositeView(
+			true,
+			'Liste des utilisateurs',
+			'Cette page permet de modifier et/ou supprimer des utilisateurs.',
+			"user",
+			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
+			array("deleteUserScript" => "app/View/assets/custom/scripts/deleteUser.js",
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
