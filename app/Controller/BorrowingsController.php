@@ -46,11 +46,11 @@ public function displayForm($message = null) {
 	$composite = new CompositeView(true, 'Créer un nouvel emprunt');
 
 	if ($message != null && !empty($message['type']) && !empty($message['message'])) {
-		$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+		$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
 		$composite->attachContentView($message);
 	}
 
-	$create_door = new View(null,null, 'borrowings/create_borrowing.html.twig');
+	$create_door = new View('borrowings/create_borrowing.html.twig');
 	$composite->attachContentView($create_door);
 
 	echo $composite->render();
@@ -92,10 +92,10 @@ public function displayForm($message = null) {
 		$composite = new CompositeView(true, 'Liste des emprunts', null, "borrowings");
 
 		if ($message != null && !empty($message['type']) && !empty($message['message'])) {
-			$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+			$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
 			$composite->attachContentView($submit_message);
 		}
-		$list_borrowings = new View(null, null,"borrowings/list_borrowings.html.twig", array('borrowings' => $this->_borrowService->getBorrowings()));
+		$list_borrowings = new View("borrowings/list_borrowings.html.twig", array('borrowings' => $this->_borrowService->getBorrowings()));
 		$composite->attachContentView($list_borrowings);
 
 		echo $composite->render();

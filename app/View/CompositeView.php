@@ -13,15 +13,15 @@ class CompositeView implements ViewInterface
 	public function __construct($default = null, $title = 'Default title', $subtitle = null, $activePage = null) {
 
 		if ($default !== null && $default === true) {
-			$head = new View(null, null,"head.html.twig", array('title' => $title));
-			$header = new View(null, null,"header.html.twig", array('session' => $_SESSION));
-			$sidebar = new View(null, null,"sidebar.html.twig", array('activePage' => $activePage));
-			$content_start = new View(null, null,"content_start.html.twig", array('title' => $title, 'subtitle' => $subtitle));
-			$quicksidebar = new View(null, null,"quicksidebar.html.twig");
-			$content_end = new View(null, null, "content_end.html.twig");
-			$footer = new View(null, null,"footer.html.twig");
-			$quicknav = new View(null, null,"quicknav.html.twig");
-			$foot = new View(null, null,"foot.html.twig");
+			$head = new View("head.html.twig", array('title' => $title));
+			$header = new View("header.html.twig", array('session' => $_SESSION));
+			$sidebar = new View("sidebar.html.twig", array('activePage' => $activePage));
+			$content_start = new View("content_start.html.twig", array('title' => $title, 'subtitle' => $subtitle));
+			$quicksidebar = new View("quicksidebar.html.twig");
+			$content_end = new View("content_end.html.twig");
+			$footer = new View("footer.html.twig");
+			$quicknav = new View("quicknav.html.twig");
+			$foot = new View("foot.html.twig");
 
 			$this->attachView($head)
 				->attachView($header)

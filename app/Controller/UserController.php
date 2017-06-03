@@ -118,13 +118,13 @@ class UserController
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
 					$composite->attachContentView($message);
 				}
 			}
 		}
 
-		$create_user = new View(null ,null, 'users/create_user.html.twig', array('locks' => $locks, 'previousUrl' => getPreviousUrl()));
+		$create_user = new View('users/create_user.html.twig', array('locks' => $locks, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($create_user);
 
 		echo $composite->render();
@@ -214,12 +214,12 @@ class UserController
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
 					$composite->attachContentView($submit_message);
 				}
 			}
 		}
-		$list_users = new View(null, null,"users/list_users.html.twig", array('users' => $users));
+		$list_users = new View("users/list_users.html.twig", array('users' => $users));
 		$composite->attachContentView($list_users);
 
 		echo $composite->render();
@@ -326,7 +326,7 @@ class UserController
 			}
 		}
 
-		$update_user = new View(null ,null, 'users/update_user.html.twig', array('user' => $user, 'previousUrl' => getPreviousUrl()));
+		$update_user = new View("users/update_user.html.twig", array("user" => $user, "previousUrl" => getPreviousUrl()));
 		$composite->attachContentView($update_user);
 
 		echo $composite->render();

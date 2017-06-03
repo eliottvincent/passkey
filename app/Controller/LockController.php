@@ -93,11 +93,11 @@ class LockController
 		$composite = new CompositeView(true, 'Ajouter un canon', null, "lock");
 
 		if ($message != null && !empty($message['type']) && !empty($message['message'])) {
-			$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+			$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
 			$composite->attachContentView($message);
 		}
 
-		$create_lock = new View(null, null,"locks/create_lock.html.twig", array('doors' => $doors, 'previousUrl' => getPreviousUrl()));
+		$create_lock = new View("locks/create_lock.html.twig", array('doors' => $doors, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($create_lock);
 
 		echo $composite->render();
@@ -164,12 +164,12 @@ class LockController
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
 					$composite->attachContentView($submit_message);
 				}
 			}
 		}
-		$list_locks = new View(null, null,"locks/list_locks.html.twig", array('locks' => $locks));
+		$list_locks = new View("locks/list_locks.html.twig", array('locks' => $locks));
 		$composite->attachContentView($list_locks);
 
 		echo $composite->render();
@@ -240,13 +240,13 @@ class LockController
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
 					$composite->attachContentView($message);
 				}
 			}
 		}
 
-		$update_lock = new View(null ,null, 'locks/update_lock.html.twig', array('doors' => $doors, 'lock' => $datas, 'previousUrl' => getPreviousUrl()));
+		$update_lock = new View('locks/update_lock.html.twig', array('doors' => $doors, 'lock' => $datas, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($update_lock);
 
 		echo $composite->render();

@@ -40,9 +40,9 @@ class RouterController extends Controller
 	function showLoginPageTest() {
 		$compositeView = new CompositeView();
 
-		$headView 	= new View(null, null, "head.html.twig", array('title' => "Login"));
-		$bodyView 	= new View(null, null, "login_body.html.twig");
-		$footView 	= new View(null, null, "foot.html.twig");
+		$headView 	= new View("head.html.twig", array('title' => "Login"));
+		$bodyView 	= new View("login_body.html.twig");
+		$footView 	= new View("foot.html.twig");
 
 		$compositeView->attachView($headView)
 			->attachView($bodyView)
@@ -230,7 +230,7 @@ class RouterController extends Controller
 		$compositeView = new CompositeView(true);
 
 		// creating our content, as a View object
-		$blankContent = new View(null, null, 'default_content.html.twig');
+		$blankContent = new View('default_content.html.twig');
 
 		// adding the content to our CompositeView
 		// here we use attachContentView() rather than attachView()...
@@ -241,7 +241,7 @@ class RouterController extends Controller
 	}
 
 	function createLoginPage() {
-		$html = new View(null, null,'partials/page_user_login_1.php');
+		$html = new View('partials/page_user_login_1.php');
 
 		return $html;
 	}

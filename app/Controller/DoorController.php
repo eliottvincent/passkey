@@ -68,11 +68,11 @@ class DoorController
 		$composite = new CompositeView(true, 'Ajouter une porte', null, "door");
 
 		if ($message != null && !empty($message['type']) && !empty($message['message'])) {
-			$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+			$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
 			$composite->attachContentView($message);
 		}
 
-		$create_door = new View(null, null, 'doors/create_door.html.twig', array('previousUrl' => getPreviousUrl()));
+		$create_door = new View('doors/create_door.html.twig', array('previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($create_door);
 
 		echo $composite->render();
@@ -101,12 +101,12 @@ class DoorController
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
 					$composite->attachContentView($submit_message);
 				}
 			}
 		}
-		$list_doors = new View(null, null,"doors/list_doors.html.twig", array('doors' => $doors));
+		$list_doors = new View("doors/list_doors.html.twig", array('doors' => $doors));
 		$composite->attachContentView($list_doors);
 
 		echo $composite->render();

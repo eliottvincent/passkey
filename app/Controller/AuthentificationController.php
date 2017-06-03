@@ -79,10 +79,10 @@ class AuthentificationController
 	function resendLoginPage($type, $message) {
 		$compositeView = new CompositeView();
 
-		$headView 	= new View(null, null, "head.html.twig", array('title' => "Login"));
-		$bodyView 	= new View(null, null, "login_body.html.twig");
-		$submit_message = new View(null, null, "submit_message.html.twig", array('alert_type' => $type , 'alert_message' => $message));
-		$footView 	= new View(null, null, "foot.html.twig");
+		$headView 	= new View("head.html.twig", array('title' => "Login"));
+		$bodyView 	= new View("login_body.html.twig");
+		$submit_message = new View("submit_message.html.twig", array('alert_type' => $type , 'alert_message' => $message));
+		$footView 	= new View("foot.html.twig");
 
 		$compositeView->attachView($headView)
 			->attachView($submit_message)

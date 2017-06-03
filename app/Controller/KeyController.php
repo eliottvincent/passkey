@@ -101,13 +101,13 @@ class KeyController
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
 					$composite->attachContentView($message);
 				}
 			}
 		}
 
-		$create_key = new View(null ,null, 'keys/create_key.html.twig', array('locks' => $locks, 'previousUrl' => getPreviousUrl()));
+		$create_key = new View('keys/create_key.html.twig', array('locks' => $locks, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($create_key);
 
 		echo $composite->render();
@@ -205,12 +205,12 @@ class KeyController
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
 					$composite->attachContentView($submit_message);
 				}
 			}
 		}
-		$list_keys = new View(null, null,"keys/list_keys.html.twig", array('keys' => $keys));
+		$list_keys = new View("keys/list_keys.html.twig", array('keys' => $keys));
 		$composite->attachContentView($list_keys);
 
 		echo $composite->render();
@@ -271,13 +271,13 @@ class KeyController
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
 					$composite->attachContentView($message);
 				}
 			}
 		}
 
-		$update_key = new View(null ,null, 'keys/update_key.html.twig', array('locks' => $locks, 'key' => $datas, 'previousUrl' => getPreviousUrl()));
+		$update_key = new View('keys/update_key.html.twig', array('locks' => $locks, 'key' => $datas, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($update_key);
 
 		echo $composite->render();

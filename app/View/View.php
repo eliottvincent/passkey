@@ -24,14 +24,7 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 	 * @param $controller
 	 * @param $model
 	 */
-	public function __construct($controller = null, $model = null, $template = null, array $fields = array()) {
-
-		if ($controller !== null) {
-			$this->controller = $controller;
-		}
-		if ($model !== null) {
-			$this->model = $model;
-		}
+	public function __construct($template = null, array $fields = array()) {
 
 		if ($template !== null) {
 			$this->setTemplate($template);
