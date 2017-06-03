@@ -124,7 +124,7 @@ class UserController
 			}
 		}
 
-		$create_user = new View(null ,null, 'users/create_user.html.twig', array('locks' => $locks, 'previousUrl' => $_SERVER["HTTP_REFERER"]));
+		$create_user = new View(null ,null, 'users/create_user.html.twig', array('locks' => $locks, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($create_user);
 
 		echo $composite->render();
@@ -326,7 +326,7 @@ class UserController
 			}
 		}
 
-		$update_user = new View(null ,null, 'keys/update_user.html.twig', array('locks' => $locks, 'key' => $datas, 'previousUrl' => $_SERVER["HTTP_REFERER"]));
+		$update_user = new View(null ,null, 'users/update_user.html.twig', array('user' => $user, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($update_user);
 
 		echo $composite->render();

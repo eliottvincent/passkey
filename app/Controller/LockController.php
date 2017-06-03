@@ -97,7 +97,7 @@ class LockController
 			$composite->attachContentView($message);
 		}
 
-		$create_lock = new View(null, null,"locks/create_lock.html.twig", array('doors' => $doors, 'previousUrl' => $_SERVER["HTTP_REFERER"]));
+		$create_lock = new View(null, null,"locks/create_lock.html.twig", array('doors' => $doors, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($create_lock);
 
 		echo $composite->render();
@@ -246,7 +246,7 @@ class LockController
 			}
 		}
 
-		$update_lock = new View(null ,null, 'locks/update_lock.html.twig', array('doors' => $doors, 'lock' => $datas, 'previousUrl' => $_SERVER["HTTP_REFERER"]));
+		$update_lock = new View(null ,null, 'locks/update_lock.html.twig', array('doors' => $doors, 'lock' => $datas, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($update_lock);
 
 		echo $composite->render();
