@@ -6,8 +6,12 @@
  * Date: 01/06/2017
  * Time: 13:59
  */
-class implementationUserService_Dummy implements interfaceUserService
-{
+class implementationUserService_Dummy implements interfaceUserService {
+
+
+	//================================================================================
+	// properties
+	//================================================================================
 
 	/**
 	 * @var Singleton
@@ -21,14 +25,18 @@ class implementationUserService_Dummy implements interfaceUserService
 	private $_sessionUsers = null;
 	private $_xmlUsers = null;
 
+
+	//================================================================================
+	// constructor and initialization
+	//================================================================================
+
 	/**
 	 * Constructeur de la classe
 	 *
 	 * @param void
 	 * @return void
 	 */
-	private function __construct()
-	{
+	private function __construct() {
 
 		// instantiating the DAOs we need
 		$this->_userDAO = implementationUserDAO_Dummy::getInstance();
@@ -41,14 +49,6 @@ class implementationUserService_Dummy implements interfaceUserService
 
 		// if we got users in session
 		if ($this->_sessionUsers !== null) {
-
-			// we have to add the SORT_REGULAR flag
-			// so it compares items normally without changing their types
-			// otherwise, it'll try to convert types to String, and we cannot do it (Object of class UserVO could not be converted to string)
-			// $this->_users = array_unique(array_merge($this->_sessionUsers, $this->_xmlUsers), SORT_REGULAR);
-
-			// updating the session["USERS"]
-			// unset($_SESSION["USERS"]);
 
 			$this->_users = $this->_sessionUsers;
 		}
@@ -79,13 +79,17 @@ class implementationUserService_Dummy implements interfaceUserService
 		return self::$_instance;
 	}
 
+
+	//================================================================================
+	// getters
+	//================================================================================
+
 	public function getUsers() {
 
 		return $this->_users;
 	}
 
-	public function getUser($enssatPrimaryKey)
-	{
+	public function getUser($enssatPrimaryKey) {
 		foreach ($this->_users as $user ) {
 			if ($user->getEnssatPrimaryKey() == (int) $enssatPrimaryKey) {
 				return $user;
@@ -93,16 +97,48 @@ class implementationUserService_Dummy implements interfaceUserService
 		}
 	}
 
-	public function deleteUser($enssatPrimaryKey)
-	{
+
+	//================================================================================
+	// CREATE
+	//================================================================================
+
+	public function saveUser($userArray) {
+		$userToSave = new UserVO;
+		$userToSave->setEnssatPrimaryKey((float) $userArray['user_enssatPrimaryKey']);
+		$userToSave->setUr1Identifier((int) $userArray['user_ur1identifier']);
+		$userToSave->setUsername((string) $userArray['user_username']);
+		$userToSave->setName((string) $userArray['user_name']);
+		$userToSave->setSurname((string) $userArray['user_surname']);
+		$userToSave->setPhone((int) $userArray['user_phone']);
+		$userToSave->setStatus((string) $userArray['user_status']);
+		$userToSave->setEmail((string) $userArray['user_email']);
+
+		// for the moment we only save the user in session
+		// if we move to DB storage, we'll have to handle the save in DB HERE
+
+		if (isset($_SESSION["USERS"])) {
+			$_SESSION["USERS"][] = $userToSave;
+		}
+		else {
+			array_push($_SESSION["USERS"], $userToSave);
+		}
+	}
+
+
+	//================================================================================
+	// DELETE
+	//================================================================================
+
+	public function deleteUser($enssatPrimaryKey) {
+
 		foreach($this->_users as $user) {
 			if ($user->getEnssatPrimaryKey() == (int) $enssatPrimaryKey) {
 
 				// deleting the user in the session
 				$nb =  array_search($user, $this->_users);
 				unset($_SESSION["USERS"][$nb]);
-				unset($this->_sessionUsers[$nb]);
-				unset($this->_users[$nb]);
+				// unset($this->_sessionUsers[$nb]);
+				// unset($this->_users[$nb]);
 
 				// updating service vars
 				return true;
@@ -112,8 +148,45 @@ class implementationUserService_Dummy implements interfaceUserService
 		return false;
 	}
 
-	public function checkUnicity($enssatPrimaryKey)
-	{
+
+	//================================================================================
+	// UPDATE
+	//================================================================================
+
+	public function updateUser($userArray) {
+
+		$userToUpdate = new UserVO;
+		$userToUpdate->setEnssatPrimaryKey((float) $userArray['user_enssatPrimaryKey']);
+		$userToUpdate->setUr1Identifier((int) $userArray['user_ur1identifier']);
+		$userToUpdate->setUsername((string) $userArray['user_username']);
+		$userToUpdate->setName((string) $userArray['user_name']);
+		$userToUpdate->setSurname((string) $userArray['user_surname']);
+		$userToUpdate->setPhone((int) $userArray['user_phone']);
+		$userToUpdate->setStatus((string) $userArray['user_status']);
+		$userToUpdate->setEmail((string) $userArray['user_email']);
+
+		foreach($this->_users as $user) {
+			if ($user->getEnssatPrimaryKey() == $userToUpdate->getEnssatPrimaryKey()) {
+
+				// deleting the user in the session
+				$nb =  array_search($user, $this->_users);
+
+				$_SESSION["USERS"][$nb] = $userToUpdate;
+				// $this->_sessionUsers[$nb] = $userToUpdate;
+				// $this->_users[$nb] = $userToUpdate;
+
+				// updating service vars
+				return true;
+			}
+		}
+	}
+
+
+	//================================================================================
+	// OTHER
+	//================================================================================
+
+	public function checkUnicity($enssatPrimaryKey) {
 		$exist = false;
 
 		if ($this->_users) {
@@ -129,26 +202,6 @@ class implementationUserService_Dummy implements interfaceUserService
 		return $exist;
 	}
 
-	public function saveUser($userArray)
-	{
-		$userToSave = new UserVO;
-		$userToSave->setEnssatPrimaryKey((float) $userArray['user_enssatPrimaryKey']);
-		$userToSave->setUr1Identifier((int) $userArray['user_ur1identifier']);
-		$userToSave->setUsername((string) $userArray['user_username']);
-		$userToSave->setName((string) $userArray['user_name']);
-		$userToSave->setSurname((string) $userArray['user_surname']);
-		$userToSave->setPhone((int) $userArray['user_phone']);
-		$userToSave->setStatus((string) $userArray['user_status']);
-		$userToSave->setEmail((string) $userArray['user_email']);
 
-		// for the moment we only save the user in session
-		// if we move to DB storage, we'll have to handle the save in DB HERE
 
-		if (isset($_SESSION["USERS"])) {
-			$_SESSION['USERS'][] = $userToSave;
-		}
-		else {
-			array_push($_SESSION["USERS"], $userToSave);
-		}
-	}
 }

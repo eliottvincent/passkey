@@ -64,7 +64,7 @@ class UserController
 		else {
 
 			// Check unicity
-			$exist = $this->_userService->checkUnicity($_POST['user_enssatPrimaryKey']);
+			$exist = $this->checkUnicity($_POST['user_enssatPrimaryKey']);
 
 			if (!$exist) {
 				$userToSave = array(
@@ -78,7 +78,7 @@ class UserController
 					'user_email' => addslashes($_POST['user_email']),
 				);
 
-				$this->_userService->saveUser($userToSave);
+				$this->saveUser($userToSave);
 
 				$m_type = "success";
 				$m_message = "L'utilisateur a bien été enregistré.";
@@ -167,7 +167,7 @@ class UserController
 			if (!empty($users)) {
 				if (isset($_GET['update']) && $_GET['update'] == true) {
 					$alert['type'] = 'success';
-					$alert['message'] = 'La clé a bien été modifiée.';
+					$alert['message'] = "L'utilisateur a bien été modifié.";
 					$alerts[] = $alert;
 
 					$this->displayList(true, $alerts);
@@ -188,15 +188,6 @@ class UserController
 	//================================================================================
 	// DELETE
 	//================================================================================
-
-	/**
-	 * Used to delete a user from an id.
-	 * @param $enssatPrimaryKey
-	 */
-	public function deleteUser($enssatPrimaryKey) {
-
-		return $this->_userService->deleteUser($enssatPrimaryKey);
-	}
 
 	/**
 	 * Display list of keys.
@@ -261,42 +252,47 @@ class UserController
 	 *
 	 */
 	public function update() {
+
+		//
 		if (isset($_POST['update']) && !empty($_POST['update'])) {
-			$user = $this::getUser(addslashes($_POST['update']));
-			$this->displayUpdateForm(true, $user);
-		} elseif (isset($_POST['user_hidden_name']) || isset($_POST['key_type']) || isset($_POST['key_lock']) || isset($_POST['key_number'])) {
-			$id = 'u_' . strtolower(str_replace(' ', '_', addslashes($_POST['key_hidden_name'])));
+			$user = $this::getUser($_POST['update']);
+			$this->displayUpdateForm($user);
+		}
 
-			for ($i = 0; $i < sizeof($_SESSION['KEYS']); $i++) {
-				if ($_SESSION['KEYS'][$i]['key_id'] == $id) {
-					if (isset($_POST['key_type']) && ($_POST['key_type'] != $_SESSION['KEYS'][$i]['key_type']) && !empty($_POST['key_type'])) {
-						$_SESSION['KEYS'][$i]['key_type'] = addslashes($_POST['key_type']);
-					}
+		// if all values were posted (= form submission)
+		elseif (isset($_POST['user_enssatPrimaryKey']) &&
+			isset($_POST['user_ur1identifier']) &&
+			isset($_POST['user_username']) &&
+			isset($_POST['user_name']) &&
+			isset($_POST['user_surname']) &&
+			isset($_POST['user_status']) &&
+			isset($_POST['user_phone']) &&
+			isset($_POST['user_email'])) {
 
-					if (isset($_POST['key_lock']) && !empty($_POST['key_lock'])) {
-						$_SESSION['KEYS'][$i]['key_locks'] = $_POST['key_lock'];
-					}
+			$userToUpdate = array(
+				'user_enssatPrimaryKey' => addslashes($_POST['user_enssatPrimaryKey']),
+				'user_ur1identifier' => addslashes($_POST['user_ur1identifier']),
+				'user_username' => addslashes($_POST['user_username']),
+				'user_name' => addslashes($_POST['user_name']),
+				'user_surname' => addslashes($_POST['user_surname']),
+				'user_phone' => addslashes($_POST['user_phone']),
+				'user_status' => addslashes($_POST['user_status']),
+				'user_email' => addslashes($_POST['user_email']),
+			);
 
-					if (isset($_POST['key_number']) && ($_POST['key_number'] != $_SESSION['KEYS'][$i]['key_number']) && !empty($_POST['key_number'])) {
-						$_SESSION['KEYS'][$i]['key_number'] = addslashes($_POST['key_number']);
-					}
-				}
-			}
+			$this->updateUser($userToUpdate);
 
-			// header redirection doesn't work on some environments...
-			//header("Location: " . $newUrl);
+			redirectToUrl('./?action=listUsers&update=true');
+		}
 
-			// ...thus we use script injection
-			$newUrl = './?action=listkeys&update=true';
-			echo "<script> window.location.replace('" . $newUrl. "') </script>";
-
-		} else {
+		else {
 			$users = $this::getUsers();
 			if (!empty($users)) {
 				$this->displayList(true);
-			} else {
+			}
+			else {
 				$alert['type'] = 'danger';
-				$alert['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
+				$alert['message'] = 'Nous n\'avons aucun utilisateur d\'enregistré.';
 				$alerts[] = $alert;
 				$this->displayList(false, $alerts);
 			}
@@ -308,19 +304,15 @@ class UserController
 	 * @param $datas
 	 * @param null $messages
 	 */
-	public function displayUpdateForm($state, $datas, $messages = null) {
-		if ($state) {
-			$locks = LockController::getLocks();
-		} else {
-			$locks = null;
-		}
+	public function displayUpdateForm($user, $messages = null) {
 
-		$composite = new CompositeView(true, 'Mettre à jour une clé', null, "user");
+		$composite = new CompositeView(true, "Mettre à jour un utilisateur", null, "user");
 
 		if ($messages != null) {
+
 			foreach ($messages as $message) {
-				if (!empty($message['type']) && !empty($message['message'])) {
-					$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+				if (!empty($message['type']) && !empty($message["message"])) {
+					$message = new View("submit_message.html.twig", array("alert_type" => $message["type"] , "alert_message" => $message["message"]));
 					$composite->attachContentView($message);
 				}
 			}
@@ -334,14 +326,14 @@ class UserController
 
 
 	//================================================================================
-	// functions to Service
+	// calls to Service
 	//================================================================================
 
 	/**
 	 * To get all users.
 	 * @return null
 	 */
-	public function getUsers() {
+	private function getUsers() {
 		return $this->_userService->getUsers();
 	}
 
@@ -349,9 +341,42 @@ class UserController
 	 * @param $enssatPrimaryKey
 	 * @return mixed
 	 */
-	public function getUser($enssatPrimaryKey) {
+	private function getUser($enssatPrimaryKey) {
 
-		return $this->_userService->getUserByEnssatPrimaryKey($enssatPrimaryKey);
+		return $this->_userService->getUser($enssatPrimaryKey);
 	}
+
+	/**
+	 * @param $enssatPrimaryKey
+	 * @return mixed
+	 */
+	private function checkUnicity($enssatPrimaryKey) {
+
+		return $this->_userService->checkUnicity($enssatPrimaryKey);
+	}
+
+	/**
+	 * @param $userToSave
+	 */
+	private function saveUser($userToSave) {
+
+		$this->_userService->saveUser($userToSave);
+	}
+
+	/**
+	 * Used to delete a user from an id.
+	 * @param $enssatPrimaryKey
+	 */
+	private function deleteUser($enssatPrimaryKey) {
+
+		return $this->_userService->deleteUser($enssatPrimaryKey);
+	}
+
+	private function updateUser($userToUpdate) {
+
+		$this->_userService->updateUser($userToUpdate);
+	}
+
+
 
 }
