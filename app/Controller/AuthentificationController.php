@@ -45,11 +45,7 @@ class AuthentificationController
 						$url = getPreviousUrl();
 						$newUrl = substr($url, 0, strpos($url, "?"));
 
-						// header redirection doesn't work on some environments...
-						// header("Location: " . $newUrl);
-
-						// ...thus we use script injection
-						echo "<script> window.location.replace('" . $newUrl. "') </script>";
+						redirectToUrl($newUrl);
 					}
 
 					else {
@@ -101,6 +97,6 @@ class AuthentificationController
 		$url = getPreviousUrl();
 		$newUrl = substr($url, 0, strpos($url, "?"));
 
-		echo "<script> window.location.replace('" . $newUrl. "') </script>";
+		redirectToUrl($newUrl);
 	}
 }

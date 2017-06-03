@@ -239,13 +239,7 @@ class KeyController
 				}
 			}
 
-			// header redirection doesn't work on some environments...
-			//header("Location: " . $newUrl);
-
-			// ...thus we use script injection
-			$newUrl = './?action=listkeys&update=true';
-			echo "<script> window.location.replace('" . $newUrl. "') </script>";
-
+			redirectToUrl('./?action=listkeys&update=true');
 		} else {
 			$keys = $this::getKeys();
 			if (!empty($keys)) {

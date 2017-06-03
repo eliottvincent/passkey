@@ -208,12 +208,7 @@ class LockController
 				}
 			}
 
-			// header redirection doesn't work on some environments...
-			//header("Location: " . $newUrl);
-
-			// ...thus we use script injection
-			$newUrl = './?action=listlocks&update=true';
-			echo "<script> window.location.replace('" . $newUrl. "') </script>";
+			redirectToUrl('./?action=listlocks&update=true');
 
 		} else {
 				$locks = $this::getLocks();
