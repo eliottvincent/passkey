@@ -105,16 +105,6 @@ class View implements TemplateInterface, ContainerInterface, ViewInterface {
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function oldRenderMethod() {
-		extract($this->fields);
-		ob_start();
-		include $this->template;
-		return ob_get_clean();
-	}
-
 	public function twigInstance() {
 		$loader = new Twig_Loader_Filesystem('app/View/partials');
 		$twig = new Twig_Environment($loader, array('debug' => true));

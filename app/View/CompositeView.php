@@ -96,14 +96,6 @@ class CompositeView implements ViewInterface
 		return $this;
 	}
 
-	public function oldRenderMethod() {
-		$output = "";
-		foreach ($this->views as $view) {
-			$output .= $view->render();
-		}
-		return $output;
-	}
-
 	public function render() {
 		$output = "";
 		foreach($this->views as $view) {

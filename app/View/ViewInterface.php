@@ -8,6 +8,5 @@
 
 interface ViewInterface
 {
-	public function oldRenderMethod();
 	public function render();
 }
