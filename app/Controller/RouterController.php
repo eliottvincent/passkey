@@ -8,13 +8,10 @@
  */
 
 
-class RouterController extends Controller
+class RouterController
 {
 
 	function dispatchRoute() {
-
-		$model = new Model();
-		$controller = new Controller($model);
 
 		// handling requests on http://passkey.enssat/?action=some_action
 		if (isset($_GET['action']) && !empty($_GET['action'])) {
@@ -27,7 +24,7 @@ class RouterController extends Controller
 		// handling requests on http://passkey.enssat/
 		else if (isset($_REQUEST['url']) && $_REQUEST['url'] === '') {
 			//echo $this->createBlankPage($controller, $model)->render();
-			$this->createBlankPage($controller, $model);
+			$this->createBlankPage();
 		}
 
 		// handling requests on http://passkey.enssat/something_else
@@ -234,7 +231,7 @@ class RouterController extends Controller
 	 * @param $model
 	 * @return CompositeView
 	 */
-	function createBlankPage($controller, $model) {
+	function createBlankPage() {
 
 		// authentication check
 		$authentificationController = new AuthentificationController();
