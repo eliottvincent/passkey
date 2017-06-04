@@ -1,15 +1,86 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: chloecorfmat
- * Date: 12/05/2017
- * Time: 17:02
- */
-class LockController
-{
+
+class LockController {
+
+
+	//================================================================================
+	// constructor
+	//================================================================================
+
+	/**
+	 * LockController constructor.
+	 */
 	public function __construct() {
-		$this->_doorService = implementationLockService_Dummy::getInstance();
+		$this->_lockService = implementationLockService_Dummy::getInstance();
+	}
+
+
+	//================================================================================
+	// LIST
+	//================================================================================
+
+	/**
+	 *  used to list all locks
+	 */
+	public function list() {
+
+		$locks = $this->getLocks();
+
+		if (!empty($locks)) {
+
+			if (isset($_GET["update"]) && $_GET["update"] == true) {
+
+				$alert['type'] = 'success';
+				$alert['message'] = "Le canon a bien été modifiée.";
+				$alerts[] = $alert;
+
+				$this->displayList(true, $alerts);
+			}
+			else {
+
+				$this->displayList(true);
+			}
+		}
+		else {
+			$alert['type'] = 'danger';
+			$alert['message'] = 'Nous n\'avons aucun canon d\'enregistré.';
+			$alerts[] = $alert;
+			$this->displayList(false, $alerts);
+		}
+	}
+
+	/**
+	 * @param $state
+	 * @param null $messages
+	 */
+	public function displayList($state, $messages = null) {
+		if ($state) {
+			$locks = LockController::getLocks();
+		} else {
+			$locks = null;
+		}
+		$composite = new CompositeView(
+			true,
+			'Liste des canons',
+			'Cette page permet de modifier et/ou supprimer des canons.',
+			"lock",
+			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
+			array("deleteLockScript" => "app/View/assets/custom/scripts/deleteLock.js",
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$composite->attachContentView($submit_message);
+				}
+			}
+		}
+		$list_locks = new View("locks/list_locks.html.twig", array('locks' => $locks));
+		$composite->attachContentView($list_locks);
+
+		echo $composite->render();
 	}
 
 	/**
@@ -300,4 +371,17 @@ class LockController
 		echo json_encode($response);
 	}
 
+
+	//================================================================================
+	// calls to Service
+	//================================================================================
+
+	/**
+	 * To get all doors
+	 * @return null
+	 */
+	public function getLocks() {
+
+		return $this->_lockService->getLocks();
+	}
 }

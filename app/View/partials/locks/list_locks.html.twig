@@ -22,21 +22,21 @@
 							</thead>
 							<tbody>
 							{% for lock in locks %}
-								<tr id="{{ lock.lock_id }}">
-									<td> {{ lock.lock_id }} </td>
-									<td> {{ lock.lock_name }} </td>
-									<td> {{ lock.lock_door }} </td>
+								<tr id="{{ lock.id }}">
+									<td> {{ lock.id }} </td>
+									<td> {{ lock.name }} </td>
+									<td> {{ lock.door }} </td>
 									</td>
 
 									<td>
 										<form action="./?action=updatelock" method="post">
-											<input type="hidden" name="update" value="{{ lock.lock_id }}"/>
+											<input type="hidden" name="update" value="{{ lock.id }}"/>
 											<button type="submit" class="btn blue btn-sm">Modifier</button>
 										</form>
 
 										<!-- <form action="" method="post"> -->
-											<input type="hidden" name="delete" value="{{ lock.lock_id }}"/>
-											<button type="submit" class="btn red btn-sm btn-delete-l" value="{{ lock.lock_id }}">Supprimer</button>
+											<input type="hidden" name="delete" value="{{ lock.id }}"/>
+											<button type="submit" class="btn red btn-sm btn-delete-l" value="{{ lock.id }}">Supprimer</button>
 										<!-- </form> -->
 									</td>
 								</tr>
