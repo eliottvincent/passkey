@@ -151,6 +151,8 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 				$_SESSION["DOORS"][$key] = $doorToUpdate;
 				$this->_sessionDoors[$key] = $doorToUpdate;
 				$this->_doors[$key] = $doorToUpdate;
+
+				return true;
 			}
 
 		}

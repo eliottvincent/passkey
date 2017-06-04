@@ -27,19 +27,7 @@ class DoorController {
 		$doors = $this->getDoors();
 
 		if (!empty($doors)) {
-
-			if (isset($_GET["update"]) && $_GET["update"] == true) {
-
-				$alert['type'] = 'success';
-				$alert['message'] = "La porte a bien été modifiée.";
-				$alerts[] = $alert;
-
-				$this->displayList(true, $alerts);
-			}
-			else {
-
-				$this->displayList(true);
-			}
+			$this->displayList(true);
 		}
 		else {
 			$alert['type'] = 'danger';
@@ -230,15 +218,21 @@ class DoorController {
 			isset($_POST['door_floor'])) {
 
 			$doorToUpdate = array(
-				// TODO : get the REAL id instead of re-generating it!!!
-				'door_id' => $id = 'd_' . strtolower(str_replace(' ', '_', addslashes($_POST['door_name']))),
+				'door_id' => $_POST['door_id'],
 				'door_name' => addslashes($_POST['door_name']),
 				'door_building' => addslashes($_POST['door_building']),
 				'door_floor' => addslashes($_POST['door_floor']));
 
-			$this->updateDoor($doorToUpdate);
-
-			redirectToUrl('./?action=listDoors&update=true');
+			if ($this->updateDoor($doorToUpdate) == false) {
+				$message['type'] = 'danger';
+				$message['message'] = 'Erreur lors de la modification de la porte.';
+				$this->displayList(true, array($message));
+			}
+			else {
+				$message['type'] = 'success';
+				$message['message'] = 'La porte a bien été modifiée.';
+				$this->displayList(true, array($message));
+			}
 		}
 
 		else {
@@ -257,13 +251,16 @@ class DoorController {
 	}
 
 	/**
-	 * @param $state
-	 * @param $datas
+	 * @param $door
 	 * @param null $messages
 	 */
 	public function displayUpdateForm($door, $messages = null) {
 
-		$compositeView = new CompositeView(true, "Mettre à jour une porte", null, "door");
+		$compositeView = new CompositeView(
+			true,
+			"Mettre à jour une porte",
+			null,
+			"door");
 
 		if ($messages != null) {
 
@@ -326,7 +323,7 @@ class DoorController {
 	 */
 	private function updateDoor($doorToUpdate) {
 
-		$this->_doorService->updateDoor($doorToUpdate);
+		return $this->_doorService->updateDoor($doorToUpdate);
 	}
 
 	/**
