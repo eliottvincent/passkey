@@ -2,17 +2,12 @@
 class KeyVO {
 
     public static $keyType = array("simple"=>"Clé","partial"=>"Passe Partiel","total"=>"Passe Total");
-	public static $keysList = array();
 
     private $id;
     private $type; // Clef ou Passe Partiel ou Passe Total
 	private $lock; // Canon
 
-	public function __construct($type, $lock) {
-		$this->type = $type;
-		$this->lock = $lock;
-
-		array_push($this->keysList, $this);
+	public function __construct() {
 	}
 
     // GETTER
@@ -34,13 +29,7 @@ class KeyVO {
     }
 
     public function setType($type) {
-      if(array_key_exists($type,$this->keyType)){
-        $this->type = $type;
-      }
-      else
-      {
-		  throw new RuntimeException('Le type de clef <strong>' . $type . '</strong> n\'existe pas !');
-      }
+		$this->type = $type;
     }
 
     public function setLock($lock) {
