@@ -82,6 +82,20 @@ class RouterController extends Controller
 		$doorController->create();
 	}
 
+	function updateDoor() {
+		// authentication check
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$doorController = new DoorController();
+		$doorController->update();
+	}
+
+	function deleteDoorAjax() {
+		$doorController = new DoorController();
+		$doorController->deleteDoorAjax();
+	}
+
 
 	//================================================================================
 	// LOCKS
