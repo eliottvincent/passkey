@@ -1,36 +1,18 @@
 <?xml version='1.0' standalone='yes'?>
 <keys>
 	<key>
-		<enssatPrimaryKey>1</enssatPrimaryKey>
-		<ur1identifier>1</ur1identifier>
-		<username>jDalton</username>
-		<name>Dalton</name>
-		<surname>Joe</surname>
-		<status>Student</status>
-		<phone>5551</phone>
-		<email>joe@dalton.fr</email>
-		<password>jDalton</password>
+		<id>k_1</id>
+		<name>super clé</name>
+		<type>simple</type>
 	</key>
 	<key>
-		<enssatPrimaryKey>1</enssatPrimaryKey>
-		<ur1identifier>1</ur1identifier>
-		<username>jDalton</username>
-		<name>Dalton</name>
-		<surname>Joe</surname>
-		<status>Student</status>
-		<phone>5551</phone>
-		<email>joe@dalton.fr</email>
-		<password>jDalton</password>
+		<id>k_2</id>
+		<name>clé de fou</name>
+		<type>partial</type>
 	</key>
 	<key>
-		<enssatPrimaryKey>1</enssatPrimaryKey>
-		<ur1identifier>1</ur1identifier>
-		<username>jDalton</username>
-		<name>Dalton</name>
-		<surname>Joe</surname>
-		<status>Student</status>
-		<phone>5551</phone>
-		<email>joe@dalton.fr</email>
-		<password>jDalton</password>
+		<id>k_2</id>
+		<name>clé géniale</name>
+		<type>total</type>
 	</key>
 </keys>
