@@ -29,19 +29,7 @@ class LockController {
 		$locks = $this->getLocks();
 
 		if (!empty($locks)) {
-
-			if (isset($_GET["update"]) && $_GET["update"] == true) {
-
-				$alert['type'] = 'success';
-				$alert['message'] = "Le canon a bien été modifiée.";
-				$alerts[] = $alert;
-
-				$this->displayList(true, $alerts);
-			}
-			else {
-
-				$this->displayList(true);
-			}
+			$this->displayList(true);
 		}
 		else {
 			$alert['type'] = 'danger';
@@ -211,52 +199,90 @@ class LockController {
 		echo json_encode($response);
 	}
 
-	public function displayUpdateForm($state, $datas, $messages = null) {
-		if ($state) {
-			$doors = DoorController::getDoors();
-		} else {
-			$locks = null;
+
+	//================================================================================
+	// UPDATE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function update() {
+
+		if (isset($_POST['update']) && !empty($_POST['update'])) {
+			$lock = $this->getLock($_POST['update']);
+			$this->displayUpdateForm($lock);
 		}
 
-		$composite = new CompositeView(true, 'Mettre à jour un canon', null, "lock");
+		// if all values were posted (= form submission)
+		elseif (isset($_POST['lock_name']) &&
+			isset($_POST['lock_door'])) {
+
+			$lockToUpdate = array(
+				'lock_id' => addslashes($_POST['lock_id']),
+				'lock_name' => addslashes($_POST['lock_name']),
+				'lock_door' => addslashes($_POST['lock_door'])
+			);
+
+			if ($this->updateLock($lockToUpdate) == false) {
+				$message['type'] = 'danger';
+				$message['message'] = 'Erreur lors de la modification du cannon.';
+				$this->displayList(true, array($message));
+			}
+			else {
+				$message['type'] = 'success';
+				$message['message'] = 'Le canon a bien été modifié.';
+				$this->displayList(true, array($message));
+			}
+		}
+
+		else {
+
+			$locks = $this->getLocks();
+
+			if (!empty($locks)) {
+				$this->displayList(true);
+			}
+			else {
+				$message['type'] = 'danger';
+				$message['message'] = 'Nous n\'avons aucun canon d\'enregistré.';
+				$this->displayList(false, array($message));
+			}
+		}
+	}
+
+	/**
+	 * @param $lock
+	 * @param null $messages
+	 */
+	public function displayUpdateForm($lock, $messages = null) {
+
+		$doors = $this->getDoors();
+
+		$compositeView = new CompositeView(
+			true,
+			'Mettre à jour un canon',
+			null,
+			"lock");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
 					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-					$composite->attachContentView($message);
+					$compositeView->attachContentView($message);
 				}
 			}
 		}
 
-		$update_lock = new View('locks/update_lock.html.twig', array('doors' => $doors, 'lock' => $datas, 'previousUrl' => getPreviousUrl()));
-		$composite->attachContentView($update_lock);
+		$update_lock = new View('locks/update_lock.html.twig', array('lock' => $lock, 'doors' => $doors, 'previousUrl' => getPreviousUrl()));
+		$compositeView->attachContentView($update_lock);
 
-		echo $composite->render();
+		echo $compositeView->render();
 	}
 
 
-	public function deleteLockAjax() {
-		session_start();
-		if (isset($_POST['value'])) {
 
-			$first = substr($_POST['value'], 0, 1);
 
-			if ($first == 'l') {
-				$lock = new LockController();
-				$lock->deleteLock($_POST['value']);
-				$locks = LockController::getLocks();
-			}
-			$response['locks'] = $locks;
-			$response['status'] = 'success';
-			$response['message'] = 'This was successful';
-		} else {
-			$response['status'] = 'error';
-			$response['message'] = 'This failed';
-		}
-
-		echo json_encode($response);
-	}
 
 
 	//================================================================================
@@ -270,6 +296,15 @@ class LockController {
 	public function getLocks() {
 
 		return $this->_lockService->getLocks();
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function getLock($id) {
+
+		return $this->_lockService->getLock($id);
 	}
 
 	/**
@@ -296,6 +331,14 @@ class LockController {
 	public function deleteLock($id) {
 
 		return $this->_lockService->deleteLock($id);
+	}
+
+	/**
+	 * @param $lockToUpdate
+	 */
+	private function updateLock($lockToUpdate) {
+
+		return $this->_lockService->updateLock($lockToUpdate);
 	}
 
 	/**
