@@ -1,12 +1,12 @@
 <?xml version='1.0' standalone='yes'?>
 <locks>
 	<lock>
-		<id>l_102H-G-001</id>
+		<id>l_102h-g-001</id>
 		<name>102H G 001</name>
 		<door>d_102h_gauche</door>
 	</lock>
 	<lock>
-		<id>l_102H-D-001</id>
+		<id>l_102h-d-001</id>
 		<name>102H D 001</name>
 		<door>d_102h_droite</door>
 	</lock>
