@@ -33,17 +33,7 @@ class UserController {
 
 		if (!empty($users)) {
 
-			if (isset($_GET['update']) && $_GET['update'] == true) {
-
-				$alert['type'] = 'success';
-				$alert['message'] = "L'utilisateur a bien été modifié.";
-				$alerts[] = $alert;
-
-				$this->displayList(true, $alerts);
-			} else {
-				$this->displayList(true);
-			}
-
+			$this->displayList(true);
 		}
 		else {
 			$alert['type'] = 'danger';
@@ -270,21 +260,28 @@ class UserController {
 				'user_email' => addslashes($_POST['user_email']),
 			);
 
-			$this->updateUser($userToUpdate);
-
-			redirectToUrl('./?action=listUsers&update=true');
+			if ($this->updateUser($userToUpdate) == false) {
+				$message['type'] = 'danger';
+				$message['message'] = 'Erreur lors de la modification de l\'utilisateur.';
+				$this->displayList(true, array($message));
+			}
+			else {
+				$message['type'] = 'success';
+				$message['message'] = 'L\'utilisateur a bien été modifié.';
+				$this->displayList(true, array($message));
+			}
 		}
 
 		else {
 			$users = $this->getUsers();
+
 			if (!empty($users)) {
 				$this->displayList(true);
 			}
 			else {
-				$alert['type'] = 'danger';
-				$alert['message'] = 'Nous n\'avons aucun utilisateur d\'enregistré.';
-				$alerts[] = $alert;
-				$this->displayList(false, $alerts);
+				$message['type'] = 'danger';
+				$message['message'] = 'Nous n\'avons aucun utilisateur d\'enregistré.';
+				$this->displayList(false, array($message));
 			}
 		}
 	}
@@ -356,7 +353,7 @@ class UserController {
 
 	private function updateUser($userToUpdate) {
 
-		$this->_userService->updateUser($userToUpdate);
+		return $this->_userService->updateUser($userToUpdate);
 	}
 
 	/**
