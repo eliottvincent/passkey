@@ -68,7 +68,6 @@ class implementationUserService_Dummy implements interfaceUserService {
 	 * @param void
 	 * @return Singleton
 	 */
-
 	public static function getInstance() {
 
 		if(is_null(self::$_instance)) {
@@ -80,7 +79,7 @@ class implementationUserService_Dummy implements interfaceUserService {
 
 
 	//================================================================================
-	// getters
+	// Getters
 	//================================================================================
 
 	public function getUsers() {
@@ -89,6 +88,7 @@ class implementationUserService_Dummy implements interfaceUserService {
 	}
 
 	public function getUser($enssatPrimaryKey) {
+
 		foreach ($this->_users as $user ) {
 			if ($user->getEnssatPrimaryKey() == (int) $enssatPrimaryKey) {
 				return $user;
@@ -102,7 +102,8 @@ class implementationUserService_Dummy implements interfaceUserService {
 	//================================================================================
 
 	public function saveUser($userArray) {
-		$userToSave = new UserVO;
+
+		$userToSave = new UserVO();
 		$userToSave->setEnssatPrimaryKey((float) $userArray['user_enssatPrimaryKey']);
 		$userToSave->setUr1Identifier((int) $userArray['user_ur1identifier']);
 		$userToSave->setUsername((string) $userArray['user_username']);
@@ -126,16 +127,13 @@ class implementationUserService_Dummy implements interfaceUserService {
 
 		$this->updateServiceVariables();
 
-		foreach($this->_users as $user) {
+		foreach($this->_users as $key=>$user) {
 
 			if ($user->getEnssatPrimaryKey() == (int) $enssatPrimaryKey) {
 
-				$nb =  array_search($user, $this->_users);
-
-				// updating service vars
-				unset($_SESSION["USERS"][$nb]);
-				unset($this->_sessionUsers[$nb]);
-				unset($this->_users[$nb]);
+				unset($_SESSION["USERS"][$key]);
+				unset($this->_sessionUsers[$key]);
+				unset($this->_users[$key]);
 
 				return true;
 			}
@@ -151,7 +149,7 @@ class implementationUserService_Dummy implements interfaceUserService {
 
 	public function updateUser($userArray) {
 
-		$userToUpdate = new UserVO;
+		$userToUpdate = new UserVO();
 		$userToUpdate->setEnssatPrimaryKey((float) $userArray['user_enssatPrimaryKey']);
 		$userToUpdate->setUr1Identifier((int) $userArray['user_ur1identifier']);
 		$userToUpdate->setUsername((string) $userArray['user_username']);
@@ -161,20 +159,19 @@ class implementationUserService_Dummy implements interfaceUserService {
 		$userToUpdate->setStatus((string) $userArray['user_status']);
 		$userToUpdate->setEmail((string) $userArray['user_email']);
 
-		foreach($this->_users as $user) {
+		foreach($this->_users as $key=>$user) {
+
 			if ($user->getEnssatPrimaryKey() == $userToUpdate->getEnssatPrimaryKey()) {
 
-				// deleting the user in the session
-				$nb =  array_search($user, $this->_users);
+				$_SESSION["USERS"][$key] = $userToUpdate;
+				$this->_sessionUsers[$key] = $userToUpdate;
+				$this->_users[$key] = $userToUpdate;
 
-				$_SESSION["USERS"][$nb] = $userToUpdate;
-				$this->_sessionUsers[$nb] = $userToUpdate;
-				$this->_users[$nb] = $userToUpdate;
-
-				// updating service vars
 				return true;
 			}
 		}
+
+		return false;
 	}
 
 
@@ -183,19 +180,19 @@ class implementationUserService_Dummy implements interfaceUserService {
 	//================================================================================
 
 	public function checkUnicity($enssatPrimaryKey) {
-		$exist = false;
 
 		if ($this->_users) {
+
 			foreach ($this->_users as $user) {
 
 				if ($user->getEnssatPrimaryKey() == (int) $enssatPrimaryKey) {
-					$exist = true;
+
+						return true;
 				}
 			}
 		}
 
-		echo $exist;
-		return $exist;
+		return false;
 	}
 
 	private function updateServiceVariables() {
