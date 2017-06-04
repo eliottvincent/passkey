@@ -1,3 +1,94 @@
+	//================================================================================
+	// CREATE
+	//================================================================================
+
+	public function create() {
+
+		// if no values are posted -> displaying the form
+		if (!isset($_POST['door_name']) &&
+			!isset($_POST['door_building']) &&
+			!isset($_POST['door_floor'])) {
+
+			$this->displayForm();
+		}
+
+		// if some (but not all) values are posted -> error message
+		elseif (empty($_POST['door_name']) ||
+			empty($_POST['door_building']) ||
+			empty($_POST['door_floor'])) {
+
+			$m_type = "danger";
+			$m_message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
+			$message['type'] = $m_type;
+			$message['message'] = $m_message;
+			$this->displayForm( $message);
+		}
+
+		// if we have all values, we can create the door
+		else {
+
+			// id generation
+			$id = 'd_' . strtolower(str_replace(' ', '_', addslashes($_POST['door_name'])));
+
+			// unicity check
+			$exist = $this->checkUnicity($id);
+
+			if (!$exist) {
+				$doorToSave = array(
+					'door_id' => $id,
+					'door_name' => addslashes($_POST['door_name']),
+					'door_building' => addslashes($_POST['door_building']),
+					'door_floor' => addslashes($_POST['door_floor'])
+				);
+
+				$this->saveDoor($doorToSave);
+
+				$m_type = "success";
+				$m_message = "La porte a bien été créée.";
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+
+				$this->displayForm($message);
+			}
+			else {
+				$m_type = "danger";
+				$m_message = "Une porte avec le même nom existe déjà.";
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+
+				$this->displayForm($message);
+			}
+
+
+		}
+	}
+
+	/**
+	 * Display form used to create a door
+	 * @param null $message
+	 */
+	public function displayForm($messages = null) {
+		$compositeView = new CompositeView(
+			true,
+			'Ajouter une porte',
+			null,
+			"door");
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$compositeView->attachContentView($message);
+				}
+			}
+		}
+
+		$create_door = new View('doors/create_door.html.twig', array('previousUrl' => getPreviousUrl()));
+		$compositeView->attachContentView($create_door);
+
+		echo $compositeView->render();
+	}
+
 	/**
 	 * used to list all doors
 	 */

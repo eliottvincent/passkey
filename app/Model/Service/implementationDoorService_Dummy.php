@@ -105,7 +105,23 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 
 
 	//================================================================================
+	// CREATE
 	//================================================================================
+
+	public function saveDoor($doorArray) {
+
+		$doorToSave = new DoorVO();
+		$doorToSave->setId((string) $doorArray['door_id']);
+		$doorToSave->setName((string) $doorArray['door_name']);
+		$doorToSave->setBuilding((string) $doorArray['door_building']);
+		$doorToSave->setFloor((string) $doorArray['door_floor']);
+
+		array_push($_SESSION["DOORS"], $doorToSave);
+		array_push($this->_doors, $doorToSave);
+		array_push($this->_sessionDoors, $doorToSave);
+	}
+
+
 	//================================================================================
 	// DELETE
 	//================================================================================
