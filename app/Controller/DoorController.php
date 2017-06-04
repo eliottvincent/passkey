@@ -108,7 +108,7 @@ class DoorController {
 			$message['type'] = $m_type;
 			$message['message'] = $m_message;
 
-			$this->displayForm( $message);
+			$this->displayForm(array($message));
 		}
 
 		// if we have all values, we can create the door
@@ -135,7 +135,7 @@ class DoorController {
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
 
-				$this->displayForm($message);
+				$this->displayForm(array($message));
 			}
 			else {
 				$m_type = "danger";
@@ -143,7 +143,7 @@ class DoorController {
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
 
-				$this->displayForm($message);
+				$this->displayForm(array($message));
 			}
 
 
