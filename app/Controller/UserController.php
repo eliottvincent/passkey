@@ -21,6 +21,75 @@ class UserController {
 
 
 	//================================================================================
+	// LIST
+	//================================================================================
+
+	/**
+	 * used to list users
+	 */
+	public function list() {
+
+		$users = $this->getUsers();
+
+		if (!empty($users)) {
+
+			if (isset($_GET['update']) && $_GET['update'] == true) {
+
+				$alert['type'] = 'success';
+				$alert['message'] = "L'utilisateur a bien été modifié.";
+				$alerts[] = $alert;
+
+				$this->displayList(true, $alerts);
+			} else {
+				$this->displayList(true);
+			}
+
+		}
+		else {
+			$alert['type'] = 'danger';
+			$alert['message'] = 'Nous n\'avons aucun utilisateur d\'enregistré.';
+			$alerts[] = $alert;
+			$this->displayList(false, $alerts);
+		}
+	}
+
+	/**
+	 * Display list of users.
+	 * @param $state boolean if file datas/datas.xlsx exists
+	 * @param null $message array of the message displays
+	 */
+	public function displayList($state, $messages = null) {
+		if ($state) {
+			$users = $this->getUsers();
+		} else {
+			$users = null;
+		}
+		$compositeView = new CompositeView(
+			true,
+			'Liste des utilisateurs',
+			'Cette page permet de modifier et/ou supprimer des utilisateurs.',
+			"user",
+			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
+			array("deleteUserScript" => "app/View/assets/custom/scripts/deleteUser.js",
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$compositeView->attachContentView($submit_message);
+				}
+			}
+		}
+
+		$list_users = new View("users/list_users.html.twig", array('users' => $users));
+		$compositeView->attachContentView($list_users);
+
+		echo $compositeView->render();
+	}
+
+
+	//================================================================================
 	// CREATE
 	//================================================================================
 
@@ -128,70 +197,6 @@ class UserController {
 
 		$create_user = new View('users/create_user.html.twig', array('previousUrl' => getPreviousUrl()));
 		$compositeView->attachContentView($create_user);
-
-		echo $compositeView->render();
-	}
-
-	/**
-	 * used to list users
-	 */
-	public function list() {
-
-		$users = $this->getUsers();
-
-		if (!empty($users)) {
-
-			if (isset($_GET['update']) && $_GET['update'] == true) {
-
-				$alert['type'] = 'success';
-				$alert['message'] = "L'utilisateur a bien été modifié.";
-				$alerts[] = $alert;
-
-				$this->displayList(true, $alerts);
-			} else {
-				$this->displayList(true);
-			}
-
-		}
-		else {
-			$alert['type'] = 'danger';
-			$alert['message'] = 'Nous n\'avons aucun utilisateur d\'enregistré.';
-			$alerts[] = $alert;
-			$this->displayList(false, $alerts);
-		}
-	}
-
-	/**
-	 * Display list of users.
-	 * @param $state boolean if file datas/datas.xlsx exists
-	 * @param null $message array of the message displays
-	 */
-	public function displayList($state, $messages = null) {
-		if ($state) {
-			$users = $this->getUsers();
-		} else {
-			$users = null;
-		}
-		$compositeView = new CompositeView(
-			true,
-			'Liste des utilisateurs',
-			'Cette page permet de modifier et/ou supprimer des utilisateurs.',
-			"user",
-			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
-			array("deleteUserScript" => "app/View/assets/custom/scripts/deleteUser.js",
-				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
-
-		if ($messages != null) {
-			foreach ($messages as $message) {
-				if (!empty($message['type']) && !empty($message['message'])) {
-					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-					$compositeView->attachContentView($submit_message);
-				}
-			}
-		}
-
-		$list_users = new View("users/list_users.html.twig", array('users' => $users));
-		$compositeView->attachContentView($list_users);
 
 		echo $compositeView->render();
 	}
