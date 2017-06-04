@@ -1,6 +1,12 @@
 <?php
 
 class implementationDoorService_Dummy implements interfaceDoorService {
+
+
+	//================================================================================
+	// properties
+	//================================================================================
+
 	/**
 	 * @var Singleton
 	 * @access private
@@ -8,7 +14,15 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 	 */
 	private static $_instance = null;
 
-	private $_doors = array(); // doorId, doorName, doorBuilding, doorFloor
+	private $_doorDAO;
+	private $_doors = array();
+	private $_sessionDoors = null;
+	private $_xmlDoors;
+
+
+	//================================================================================
+	// constructor and initialization
+	//================================================================================
 
 	/**
 	 * Constructeur de la classe
@@ -16,10 +30,32 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 	 * @param void
 	 * @return void
 	 */
-	private function __construct()
-	{
-		$this->_doors = implementationDoorDAO_Dummy::getInstance();
-		if(!isset($_SESSION['DOORS'])) {
+	private function __construct() {
+
+		// instantiating the DAOs we need
+		$this->_doorDAO = implementationDoorDAO_Dummy::getInstance();
+
+		// getting the data we need
+		$this->_xmlDoors = $this->_doorDAO->getDoors();
+		if (isset($_SESSION["DOORS"])) {
+			$this->_sessionDoors = $_SESSION["DOORS"];
+		}
+
+		// if we got doors in session
+		if ($this->_sessionDoors !== null) {
+
+			$this->_doors = $this->_sessionDoors;
+		}
+
+		// else that means there are no doors in session (first use)
+		else {
+
+			$_SESSION["DOORS"] = $this->_xmlDoors;
+			$this->_doors = $this->_xmlDoors;
+			$this->_sessionDoors = $this->_xmlDoors;
+		}
+
+		/*if(!isset($_SESSION['DOORS'])) {
 			for ($i = 0; $i < sizeof($this->_doors->getDoors()); $i++) {
 				$door = $this->_doors->getDoors()[$i];
 				$_SESSION['DOORS'][] = [
@@ -29,7 +65,7 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 					'door_floor' => $door->getFloor()
 				];
 			}
-		}
+		}*/
 	}
 
 	/**
