@@ -12,6 +12,13 @@
 				<form role="form" class="form-horizontal" action="" method="post">
 					<div class="form-body">
 						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Id de la porte *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" value="{{ door.id }}" name="door_id" required readonly>
+								<div class="form-control-focus"></div>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Nom de la porte *</label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" id="form_control_1" placeholder="102H Gauche" value="{{ door.name }}" name="door_name" required>
