@@ -107,7 +107,7 @@ class LockController {
 		} else {
 			// If we have all values.
 
-			$id = 'l_' . strtolower(str_replace(' ', '_', addslashes($_POST['lock_name'])));
+			$this->displayForm(array($message));
 
 			// Check unicity.
 			$exist = false;
@@ -135,14 +135,14 @@ class LockController {
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
 
-				$this->displayForm(true, $message);
-			} else {
+				$this->displayForm(array($message));
+			}
 				$m_type = "danger";
 				$m_message = "Un canon avec le même nom existe déjà.";
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
 
-				$this->displayForm(true, $message);
+				$this->displayForm(array($message));
 			}
 
 
