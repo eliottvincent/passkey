@@ -104,9 +104,30 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 	}
 
 
+	//================================================================================
+	//================================================================================
+	//================================================================================
+	// DELETE
+	//================================================================================
+
+	public function deleteDoor($id) {
+
+		$this->updateServiceVariables();
+
+		foreach ($this->_doors as $key=>$door) {
+
+			if ($door->getId() == (string) $id) {
+
+				unset($_SESSION["DOORS"][$key]);
+				unset($this->_sessionDoors[$key]);
+				unset($this->_doors[$key]);
+
 				return true;
 			}
 		}
+
+		return false;
+	}
 		return false;
 	}
 

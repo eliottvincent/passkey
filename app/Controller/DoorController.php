@@ -63,3 +63,36 @@
 	}
 
 
+	//================================================================================
+	// DELETE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function deleteDoorAjax() {
+
+		session_start();
+
+		if (isset($_POST['value'])) {
+
+			if ($this->deleteDoor($_POST['value']) == true) {
+				$response['doors'] = $this->getDoors();
+				$response['status'] = 'success';
+				$response['message'] = 'This was successful';
+			}
+			else {
+				$response['status'] = 'error';
+				$response['message'] = 'This failed';
+			}
+		}
+		else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
+
+		echo json_encode($response);
+	}
+
+	}
+
