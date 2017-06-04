@@ -84,10 +84,26 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 		return self::$_instance;
 	}
 
-	public function checkUnicity($id) {
-		$doors = $this->_doors->getDoors();
-		foreach ($doors as $door) {
-			if ($door->getId() == $id) {
+
+	//================================================================================
+	// Getters
+	//================================================================================
+
+	public function getDoors() {
+
+		return $this->_doors;
+	}
+
+	public function getDoor($id) {
+
+		foreach ($this->_doors as $door) {
+			if ($door->getId() == (string) $id) {
+				return $door;
+			}
+		}
+	}
+
+
 				return true;
 			}
 		}
