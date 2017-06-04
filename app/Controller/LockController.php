@@ -152,7 +152,6 @@ class LockController {
 
 	/**
 	 * To display the form used to create lock.
-	 * @param $state boolean if some doors isset or not
 	 * @param null $message array The type and the text of the message
 	 */
 	public function displayForm($messages = null) {
@@ -180,52 +179,36 @@ class LockController {
 		echo $compositeView->render();
 	}
 
-	public function deleteLock($id) {
-		$locks = $this::getLocks();
-		foreach($locks as $lock) {
-			if ($lock['lock_id'] == $id) {
-				$length = sizeof($_SESSION['LOCKS']);
-				if ($length > 1) {
-					$nb =  array_search($lock, $locks);
-					unset($_SESSION['LOCKS'][$nb]);
-				} else {
-					unset($_SESSION['LOCKS']);
-				}
-				return true;
+
+	//================================================================================
+	// DELETE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function deleteLockAjax() {
+
+		session_start();
+
+		if (isset($_POST['value'])) {
+
+			if ($this->deleteLock($_POST['value']) == true) {
+				$response['locks'] = $this->getLocks();
+				$response['status'] = 'success';
+				$response['message'] = 'This was successful';
+			}
+			else {
+				$response['status'] = 'error';
+				$response['message'] = 'This failed';
 			}
 		}
+		else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
 
-		return false;
-	}
-
-	public function update() {
-		if (isset($_POST['update']) && !empty($_POST['update'])) {
-			$lock = $this::getLock(addslashes($_POST['update']));
-			$this->displayUpdateForm(true, $lock);
-		} elseif (isset($_POST['lock_hidden_name']) || isset($_POST['lock_door'])) {
-			$id = 'l_' . strtolower(str_replace(' ', '_', addslashes($_POST['lock_hidden_name'])));
-
-			for ($i = 0; $i < sizeof($_SESSION['LOCKS']); $i++) {
-				if ($_SESSION['LOCKS'][$i]['lock_id'] == $id) {
-					if (isset($_POST['lock_door']) && ($_POST['lock_door'] != $_SESSION['LOCKS'][$i]['lock_door']) && !empty($_POST['lock_door'])) {
-						$_SESSION['LOCKS'][$i]['lock_door'] = addslashes($_POST['lock_door']);
-					}
-				}
-			}
-
-			redirectToUrl('./?action=listlocks&update=true');
-
-		} else {
-				$locks = $this::getLocks();
-				if (!empty($locks)) {
-					$this->displayList(true);
-				} else {
-					$alert['type'] = 'danger';
-					$alert['message'] = 'Nous n\'avons aucun canon d\'enregistré.';
-					$alerts[] = $alert;
-					$this->displayList(false, $alerts);
-				}
-			}
+		echo json_encode($response);
 	}
 
 	public function displayUpdateForm($state, $datas, $messages = null) {
@@ -304,6 +287,15 @@ class LockController {
 	private function saveLock($lockToSave) {
 
 		$this->_lockService->saveLock($lockToSave);
+	}
+
+	/**
+	 * @param $id
+	 * @return bool
+	 */
+	public function deleteLock($id) {
+
+		return $this->_lockService->deleteLock($id);
 	}
 
 	/**

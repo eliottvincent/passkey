@@ -98,3 +98,35 @@ class implementationLockService_Dummy implements interfaceLockService {
 		array_push($this->_locks, $lockToSave);
 		array_push($this->_sessionLocks, $lockToSave);
 	}
+
+
+	//================================================================================
+	// DELETE
+	//================================================================================
+
+	public function deleteLock($id) {
+
+		$this->updateServiceVariables();
+
+		foreach($this->_locks as $key=>$lock) {
+
+			if ($lock->getId() == (string) $id) {
+
+				unset($_SESSION["LOCKS"][$key]);
+				unset($this->_sessionLocks[$key]);
+				unset($this->_locks[$key]);
+				return true;
+			}
+		}
+
+		return false;
+	}
+	private function updateServiceVariables() {
+
+		if (isset($_SESSION["LOCKS"])) {
+			$this->_sessionLocks = $_SESSION["LOCKS"];
+			$this->_locks = $_SESSION["LOCKS"];
+		}
+
+	}
+}
