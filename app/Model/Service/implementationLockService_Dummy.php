@@ -81,5 +81,20 @@ class implementationLockService_Dummy implements interfaceLockService {
 			}
 		}
 	}
+
+
+	//================================================================================
+	// CREATE
+	//================================================================================
+
+	public function saveLock($lockArray) {
+
+		$lockToSave = new LockVO();
+		$lockToSave->setId((string) $lockArray['lock_id']);
+		$lockToSave->setName((string) $lockArray['lock_name']);
+		$lockToSave->setDoor((string) $lockArray['lock_door']);
+
+		array_push($_SESSION["LOCKS"], $lockToSave);
+		array_push($this->_locks, $lockToSave);
+		array_push($this->_sessionLocks, $lockToSave);
 	}
-}
