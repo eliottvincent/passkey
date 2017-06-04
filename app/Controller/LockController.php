@@ -8,8 +8,7 @@
  */
 class LockController
 {
-	public function __construct()
-	{
+	public function __construct() {
 		$this->_doorService = implementationLockService_Dummy::getInstance();
 	}
 
