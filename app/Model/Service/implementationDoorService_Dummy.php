@@ -144,6 +144,31 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 
 		return false;
 	}
+
+
+	//================================================================================
+	// UPDATE
+	//================================================================================
+
+	public function updateDoor($doorArray) {
+
+		$doorToUpdate = new DoorVO();
+		$doorToUpdate->setId((string) $doorArray['door_id']);
+		$doorToUpdate->setName((string) $doorArray['door_name']);
+		$doorToUpdate->setBuilding((string) $doorArray['door_building']);
+		$doorToUpdate->setFloor((string) $doorArray['door_floor']);
+
+		foreach ($this->_doors as $key=>$door) {
+
+			if ($door->getId() == $doorToUpdate->getId()) {
+
+				$_SESSION["DOORS"][$key] = $doorToUpdate;
+				$this->_sessionDoors[$key] = $doorToUpdate;
+				$this->_doors[$key] = $doorToUpdate;
+			}
+
+		}
+
 		return false;
 	}
 

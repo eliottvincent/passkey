@@ -185,5 +185,77 @@
 		echo json_encode($response);
 	}
 
+
+	//================================================================================
+	// UPDATE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function update() {
+
+		if (isset($_POST['update']) && !empty($_POST['update'])) {
+			$door = $this->getDoor($_POST['update']);
+			$this->displayUpdateForm($door);
+		}
+
+		// if all values were posted (= form submission)
+		elseif (isset($_POST['door_name']) &&
+			isset($_POST['door_building']) &&
+			isset($_POST['door_floor'])) {
+
+			$doorToUpdate = array(
+				// TODO : get the REAL id instead of re-generating it!!!
+				'door_id' => $id = 'd_' . strtolower(str_replace(' ', '_', addslashes($_POST['door_name']))),
+				'door_name' => addslashes($_POST['door_name']),
+				'door_building' => addslashes($_POST['door_building']),
+				'door_floor' => addslashes($_POST['door_floor']));
+
+			$this->updateDoor($doorToUpdate);
+
+			redirectToUrl('./?action=listDoors&update=true');
+		}
+
+		else {
+			$doors = $this->getDoors();
+
+			if (!empty($doors)) {
+				$this->displayList(true);
+			}
+			else {
+				$alert['type'] = 'danger';
+				$alert['message'] = 'Nous n\'avons aucune porte d\'enregistrée.';
+				$alerts[] = $alert;
+				$this->displayList(false, $alerts);
+			}
+		}
 	}
 
+	/**
+	 * @param $state
+	 * @param $datas
+	 * @param null $messages
+	 */
+	public function displayUpdateForm($door, $messages = null) {
+
+		$compositeView = new CompositeView(true, "Mettre à jour une porte", null, "door");
+
+		if ($messages != null) {
+
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message["message"])) {
+					$message = new View("submit_message.html.twig", array("alert_type" => $message["type"] , "alert_message" => $message["message"]));
+					$compositeView->attachContentView($message);
+				}
+			}
+		}
+
+		$update_door = new View("doors/update_door.html.twig", array("door" => $door, "previousUrl" => getPreviousUrl()));
+		$compositeView->attachContentView($update_door);
+
+		echo $compositeView->render();
+	}
+
+
+	}
