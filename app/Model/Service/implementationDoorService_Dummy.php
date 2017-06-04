@@ -172,19 +172,34 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 		return false;
 	}
 
-	public function create($datas) {
-		$_SESSION['DOORS'][] = $datas;
-		$door = new DoorVO(null, null, null, null);
 
-		$door->setId($datas['door_id']);
-		$door->setName($datas['door_name']);
-		$door->setBuilding($datas['door_building']);
-		$door->setFloor($datas['door_floor']);
+	//================================================================================
+	// OTHER
+	//================================================================================
+
+	public function checkUnicity($id) {
+
+		if ($this->_doors) {
+
+			foreach ($this->_doors as $door) {
+
+				if ($door->getId() == (string) $id) {
+
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
 
 
-		// TODO : push $d is not an array
-		$d = $this->_doors->getDoors();
-		array_push($d, $door);
+	private function updateServiceVariables() {
+
+		if (isset($_SESSION["DOORS"])) {
+			$this->_sessionDoors = $_SESSION["DOORS"];
+			$this->_doors = $_SESSION["DOORS"];
+		}
 
 	}
 }
