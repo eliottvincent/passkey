@@ -274,4 +274,59 @@ class DoorController {
 	}
 
 
+	//================================================================================
+	// calls to Service
+	//================================================================================
+
+	/**
+	 * To get all doors
+	 * @return null
+	 */
+	public function getDoors() {
+
+		return $this->_doorService->getDoors();
 	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function getDoor($id) {
+
+		return $this->_doorService->getDoor($id);
+	}
+
+	/**
+	 * @param $doorToSave
+	 */
+	private function saveDoor($doorToSave) {
+
+		$this->_doorService->saveDoor($doorToSave);
+	}
+
+	/**
+	 * Used to delete a door from an id.
+	 * @param $enssatPrimaryKey
+	 */
+	private function deleteDoor($id) {
+
+		return $this->_doorService->deleteDoor($id);
+	}
+
+	/**
+	 * @param $doorToUpdate
+	 */
+	private function updateDoor($doorToUpdate) {
+
+		$this->_doorService->updateDoor($doorToUpdate);
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function checkUnicity($id) {
+
+		return $this->_doorService->checkUnicity($id);
+	}
+}
