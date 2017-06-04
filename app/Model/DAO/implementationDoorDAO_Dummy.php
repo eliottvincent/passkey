@@ -8,8 +8,7 @@ date_default_timezone_set('Europe/Paris');
  * Date: 30/05/2017
  * Time: 15:13
  */
-class implementationDoorDAO_Dummy implements interfaceDoorDAO
-{
+class implementationDoorDAO_Dummy implements interfaceDoorDAO {
 	private $_doors = array();
 
 	/**
@@ -59,9 +58,4 @@ class implementationDoorDAO_Dummy implements interfaceDoorDAO
 		return $this->_doors;
 	}
 
-	public function getRandomDoor()
-	{
-		return $this->_doors[array_rand($this->_doors,1)];
-
-	}
 }
