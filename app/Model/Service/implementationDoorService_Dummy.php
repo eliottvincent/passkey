@@ -8,9 +8,7 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 	//================================================================================
 
 	/**
-	 * @var Singleton
-	 * @access private
-	 * @static
+	 * @var null
 	 */
 	private static $_instance = null;
 
@@ -54,18 +52,6 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 			$this->_doors = $this->_xmlDoors;
 			$this->_sessionDoors = $this->_xmlDoors;
 		}
-
-		/*if(!isset($_SESSION['DOORS'])) {
-			for ($i = 0; $i < sizeof($this->_doors->getDoors()); $i++) {
-				$door = $this->_doors->getDoors()[$i];
-				$_SESSION['DOORS'][] = [
-					'door_id' => $door->getId(),
-					'door_name' => $door->getName(),
-					'door_building' => $door->getBuilding(),
-					'door_floor' => $door->getFloor()
-				];
-			}
-		}*/
 	}
 
 	/**
@@ -73,7 +59,7 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 	 * si elle n'existe pas encore puis la retourne.
 	 *
 	 * @param void
-	 * @return Singleton
+	 * @return implementationDoorService_Dummy
 	 */
 	public static function getInstance() {
 
