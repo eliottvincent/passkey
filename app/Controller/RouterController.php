@@ -214,7 +214,7 @@ class RouterController
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		$borrows = new BorrowingsController();
+		$borrows = new BorrowingController();
 		$borrows->list();
 	}
 
@@ -223,7 +223,7 @@ class RouterController
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		$borrows = new BorrowingsController();
+		$borrows = new BorrowingController();
 		$borrows->create();
 	}
 

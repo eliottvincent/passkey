@@ -8,6 +8,14 @@
  */
 class BorrowingVO {
 
+	private static $borrowingStatus = array(
+		"DoesNotExists"=>"n\'existe pas",
+		"Borrowed"=>"en cours",
+		"Late"=>"en retard",
+		"Returned"=>"rendu",
+		"Lost"=>"perdu",
+	);
+
 	private $id;
 	private $borrowDate;
 	private $dueDate;

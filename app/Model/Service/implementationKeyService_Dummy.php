@@ -14,7 +14,9 @@ class implementationKeyService_Dummy implements interfaceKeyService {
 	//================================================================================
 
 	/**
-	 * @var null
+	 * @var Singleton
+	 * @access private
+	 * @static
 	 */
 	private static $_instance = null;
 
