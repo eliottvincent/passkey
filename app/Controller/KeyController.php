@@ -27,7 +27,7 @@ class KeyController {
 	//================================================================================
 
 	/**
-	 * use to list keys
+	 * used to list keys
 	 */
 	public function list() {
 
