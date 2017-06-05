@@ -110,7 +110,7 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 		$borrowingToSave->setLostDate(null);
 		$borrowingToSave->setKeychain((string) $borrowingArray['borrowing_keychain']);
 		$borrowingToSave->setUser((string) $borrowingArray['borrowing_user']);
-		$borrowingToSave->setStatus((string) $borrowingArray['borrowing_status']);
+		$borrowingToSave->setStatus('borrowed');
 
 		array_push($_SESSION['BORROWINGS'],$borrowingToSave);
 		array_push($this->_borrowings ,$borrowingToSave);

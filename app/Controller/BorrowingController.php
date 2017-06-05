@@ -12,6 +12,8 @@ class BorrowingController {
 	 */
 	public function __construct() {
 		$this->_borrowingService = implementationBorrowingService_Dummy::getInstance();
+		$this->_keyService = implementationKeyService_Dummy::getInstance();
+		$this->_userService = implementationUserService_Dummy::getInstance();
 	}
 
 	//================================================================================
@@ -76,50 +78,94 @@ class BorrowingController {
 	// CREATE
 	//================================================================================
 
-	public function create(){
-	if (!isset($_POST['borrower']) && !isset($_POST['keychain'])) {
-		// If we have no values, the form is displayed.
-		$this->displayForm();
-	} elseif (empty($_POST['borrower']) || empty($_POST['keychain'])){
-		// If we have not all values, error message display and form.
-		$m_type = "danger";
-		$m_message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
-		$message['type'] = $m_type;
-		$message['message'] = $m_message;
-		$this->displayForm( $message);
-	} else {
-		// If we have all values, the form is displayed.
+	public function create() {
 
+		// if no values are posted -> displaying the form
+		if (!isset($_POST['borrowing_user']) &&
+			!isset($_POST['borrowing_keychain'])) {
 
-			$borrowings = $this->_borrowService->getBorrowings();
+			$this->displayForm();
+		}
 
-			$this->_borrowService->borrowKeychain($_POST['borrower'], $_POST['keychain']);
+		// if some (but not all) values are posted -> error message
+		elseif (empty($_POST['borrowing_user']) ||
+			empty($_POST['borrowing_keychain'])) {
 
-			$m_type = "success";
-			$m_message = "L'emprunt a bien été créée.";
+			$m_type = "danger";
+			$m_message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
 			$message['type'] = $m_type;
 			$message['message'] = $m_message;
-			$this->displayForm($message);
+
+			$this->displayForm(array($message));
+		}
+
+		// if we have all values, we can create the borrowing
+		else {
+
+			// id generation
+			$id = 'b_'
+				. strtolower(str_replace(' ', '_', addslashes($_POST['borrowing_user'])))
+				. strtolower(str_replace(' ', '_', addslashes($_POST['borrowing_keychain'])));
+
+				// unicity check
+			$exist = $this->checkUnicity($id);
+
+			if (!$exist) {
+				$borrowingToSave = array(
+					'borrowing_id' => $id,
+					'borrowing_user' => addslashes($_POST['borrowing_user']),
+					'borrowing_keychain' => addslashes($_POST['borrowing_keychain'])
+				);
+
+				$this->saveBorrowing($borrowingToSave);
+
+				$m_type = "success";
+				$m_message = "L'emprunt a bien été créée.";
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+
+				$this->displayForm(array($message));
+
+			}
+			else {
+				$m_type = "danger";
+				$m_message = "Un emprunt avec le même nom existe déjà.";
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+
+				$this->displayForm(array($message));
+			}
+		}
 	}
-}
 
-	public function displayForm($message = null) {
-	$composite = new CompositeView(true, 'Créer un nouvel emprunt');
+	/**
+	 * Display form used to create a borrowing
+	 * @param null $message array of the message displays
+	 */
+	public function displayForm($messages = null) {
 
-	if ($message != null && !empty($message['type']) && !empty($message['message'])) {
-		$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-		$composite->attachContentView($message);
-	}
+		$keys = $this->getKeys();
+		$users = $this->getUsers();
 
-	$create_door = new View('borrowings/create_borrowing.html.twig');
-	$composite->attachContentView($create_door);
+		$compositeView = new CompositeView(
+			true,
+			'Ajouter un emprunt',
+			null,
+			"borrowing");
 
-	echo $composite->render();
-}
-	// TODO
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$compositeView->attachContentView($message);
+				}
+			}
+		}
 
-	public function deleteKey($id) {
+		$create_borrowing = new View('borrowings/create_borrowing.html.twig', array('keys' => $keys, 'users' => $users, 'previousUrl' => getPreviousUrl()));
+		$compositeView->attachContentView($create_borrowing);
 
+		echo $compositeView->render();
 	}
 
 	//================================================================================
