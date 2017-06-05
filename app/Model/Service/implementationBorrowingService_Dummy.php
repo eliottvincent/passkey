@@ -203,6 +203,17 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 
 	}
 
+	public function getStatuses() {
+
+		return array(
+			"doesnotexist"=>"n\'existe pas",
+			"borrowed"=>"en cours",
+			"late"=>"en retard",
+			"returned"=>"rendu",
+			"lost"=>"perdu",
+		);
+	}
+
 
 	//================================================================================
 	// CLEMENT
