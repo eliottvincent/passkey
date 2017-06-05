@@ -3,16 +3,30 @@
 	<key>
 		<id>k_1</id>
 		<type>simple</type>
-		<lock>l_102h-g-001</lock>
+		<locks>
+			<lock>l_102h-d-001</lock>
+			<lock>l_102h-g-001</lock>
+		</locks>
+		<name>ma clé</name>
+		<copies>2</copies>
 	</key>
 	<key>
 		<id>k_2</id>
 		<type>partial</type>
-		<lock>l_102h-d-001</lock>
+		<locks>
+			<lock>l_102h-g-001</lock>
+		</locks>
+		<name>ma clé</name>
+		<copies>3</copies>
 	</key>
 	<key>
 		<id>k_2</id>
 		<type>total</type>
-		<lock>l_102h-g-001</lock>
+		<locks>
+			<lock>l_102h-d-001</lock>
+			<lock>l_102h-g-001</lock>
+		</locks>
+		<name>my key</name>
+		<copies>3</copies>
 	</key>
 </keys>
