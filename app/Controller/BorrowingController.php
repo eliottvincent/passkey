@@ -221,4 +221,49 @@ class BorrowingController {
 
 		return $this->_borrowingService->getBorrowing($id);
 	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	public function getUsers() {
+
+		return $this->_userService->getUsers();
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	public function getKeys() {
+
+		return $this->_keyService->getKeys();
+	}
+
+	/**
+	 * @param $keyToSave
+	 */
+	private function saveBorrowing($borrowingToSave) {
+
+		$this->_borrowingService->saveBorrowing($borrowingToSave);
+	}
+
+
+	/**
+	 * Used to delete a borrowing from an id.
+	 * @param $id
+	 */
+	private function deleteBorrowing($id) {
+
+		return $this->_borrowingService->deleteBorrowing($id);
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function checkUnicity($id) {
+
+		return $this->_borrowingService->checkUnicity($id);
+	}
 }
