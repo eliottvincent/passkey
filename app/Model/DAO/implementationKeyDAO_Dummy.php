@@ -30,10 +30,9 @@ class implementationKeyDAO_Dummy implements interfaceKeyDAO {
 
 				$key->setId((string) $xmlKey->id);
 				$key->setLocks(array());
-				foreach ($xmlKey->locks[0] as $lock) {	// TODO : find why we need to access to [0] 🤔
+				foreach ($xmlKey->locks->children() as $lock) {
 					$key->addLock((string) $lock);
 				}
-
 				$key->setType((string) $xmlKey->type);
 				$key->setName((string) $xmlKey->name);
 				$key->setCopies((int) $xmlKey->copies);
