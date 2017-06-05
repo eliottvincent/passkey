@@ -6,8 +6,7 @@
  * Date: 30/05/2017
  * Time: 15:28
  */
-class UserController
-{
+class UserController {
 
 	//================================================================================
 	// constructor
@@ -18,6 +17,65 @@ class UserController
 	 */
 	public function __construct() {
 		$this->_userService = implementationUserService_Dummy::getInstance();
+	}
+
+
+	//================================================================================
+	// LIST
+	//================================================================================
+
+	/**
+	 * used to list users
+	 */
+	public function list() {
+
+		$users = $this->getUsers();
+
+		if (!empty($users)) {
+
+			$this->displayList(true);
+		}
+		else {
+			$alert['type'] = 'danger';
+			$alert['message'] = 'Nous n\'avons aucun utilisateur d\'enregistré.';
+			$alerts[] = $alert;
+			$this->displayList(false, $alerts);
+		}
+	}
+
+	/**
+	 * Display list of users.
+	 * @param $state boolean if file datas/datas.xlsx exists
+	 * @param null $message array of the message displays
+	 */
+	public function displayList($state, $messages = null) {
+		if ($state) {
+			$users = $this->getUsers();
+		} else {
+			$users = null;
+		}
+		$compositeView = new CompositeView(
+			true,
+			'Liste des utilisateurs',
+			'Cette page permet de modifier et/ou supprimer des utilisateurs.',
+			"user",
+			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
+			array("deleteUserScript" => "app/View/assets/custom/scripts/deleteUser.js",
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$compositeView->attachContentView($submit_message);
+				}
+			}
+		}
+
+		$list_users = new View("users/list_users.html.twig", array('users' => $users));
+		$compositeView->attachContentView($list_users);
+
+		echo $compositeView->render();
 	}
 
 
@@ -39,7 +97,8 @@ class UserController
 			!isset($_POST['user_status']) &&
 			!isset($_POST['user_phone']) &&
 			!isset($_POST['user_email'])) {
-			$this->displayForm(true);
+
+			$this->displayForm();
 		}
 
 		// if some (but not all) values are posted -> error message
@@ -57,14 +116,14 @@ class UserController
 			$message['type'] = $m_type;
 			$message['message'] = $m_message;
 			$messages[] = $message;
-			$this->displayForm(true, $messages);
+			$this->displayForm($messages);
 		}
 
-		// if we have all values
+		// if we have all values, we can create the user
 		else {
 
-			// Check unicity
-			$exist = $this->_userService->checkUnicity($_POST['user_enssatPrimaryKey']);
+			// unicity check
+			$exist = $this->checkUnicity($_POST['user_enssatPrimaryKey']);
 
 			if (!$exist) {
 				$userToSave = array(
@@ -78,7 +137,7 @@ class UserController
 					'user_email' => addslashes($_POST['user_email']),
 				);
 
-				$this->_userService->saveUser($userToSave);
+				$this->saveUser($userToSave);
 
 				$m_type = "success";
 				$m_message = "L'utilisateur a bien été enregistré.";
@@ -86,7 +145,8 @@ class UserController
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
 				$messages[] = $message;
-				$this->displayForm(true, $messages);
+
+				$this->displayForm($messages);
 			}
 			else {
 				$m_type = "danger";
@@ -95,135 +155,46 @@ class UserController
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
 				$messages[] = $message;
-				$this->displayForm(true, $messages);
+
+				$this->displayForm($messages);
 			}
 
 		}
 	}
 
 	/**
-	 * Display form used to create key
-	 * @param $state boolean if file datas/datas.xlsx exists
+	 * Display form used to create a user
 	 * @param null $message array of the message displays
 	 */
-	public function displayForm($state, $messages = null) {
-		if ($state) {
-			$locks = LockController::getLocks();
-		} else {
-			$locks = null;
-		}
-
-		$composite = new CompositeView(true, 'Ajouter un utilisateur', null, "user");
+	public function displayForm($messages = null) {
+		$compositeView = new CompositeView(
+			true,
+			'Ajouter un utilisateur',
+			null,
+			"user",
+			null,
+			array("jQueryInputMask" => "app/View/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js",
+				"customMasks" => "app/View/assets/custom/scripts/form-input-mask.js"));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-					$composite->attachContentView($message);
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$compositeView->attachContentView($message);
 				}
 			}
 		}
 
-		$create_user = new View(null ,null, 'users/create_user.html.twig', array('locks' => $locks, 'previousUrl' => $_SERVER["HTTP_REFERER"]));
-		$composite->attachContentView($create_user);
+		$create_user = new View('users/create_user.html.twig', array('previousUrl' => getPreviousUrl()));
+		$compositeView->attachContentView($create_user);
 
-		echo $composite->render();
-	}
-
-	/**
-	 * use to list users
-	 */
-	public function list($delete = null) {
-		if (isset($_POST['delete']) && !empty($_POST['delete'])) {
-			$delete = $this->deleteUser(addslashes($_POST['delete']));
-			if ($delete) {
-				$message['type'] = 'success';
-				$message['message'] = 'L\'utilisateur a bien été supprimé';
-				$messages[] = $message;
-
-				if(!isset($_SESSION['USERS'])) {
-					$message['type'] = 'danger';
-					$message['message'] = 'Nous n\'avons aucun utilisateur d\'enregistré.';
-					$messages[] = $message;
-				}
-				if (!empty($this::getUsers())) {
-					$this->displayList(true, $messages);
-				} else {
-					$this->displayList(false, $messages);
-				}
-			} else {
-				$message['type'] = 'danger';
-				$message['message'] = 'La clé n\'existe pas.';
-				$messages[] = $message;
-				if (!empty($this::getUsers())) {
-					$this->displayList(true, $messages);
-				} else {
-					$this->displayList(false, $messages);
-				}
-			}
-
-		} else {
-			$users = $this::getUsers();
-			if (!empty($users)) {
-				if (isset($_GET['update']) && $_GET['update'] == true) {
-					$alert['type'] = 'success';
-					$alert['message'] = 'La clé a bien été modifiée.';
-					$alerts[] = $alert;
-
-					$this->displayList(true, $alerts);
-				} else {
-					$this->displayList(true);
-				}
-
-			} else {
-				$alert['type'] = 'danger';
-				$alert['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
-				$alerts[] = $alert;
-				$this->displayList(false, $alerts);
-			}
-		}
+		echo $compositeView->render();
 	}
 
 
 	//================================================================================
 	// DELETE
 	//================================================================================
-
-	/**
-	 * Used to delete a user from an id.
-	 * @param $enssatPrimaryKey
-	 */
-	public function deleteUser($enssatPrimaryKey) {
-
-		return $this->_userService->deleteUser($enssatPrimaryKey);
-	}
-
-	/**
-	 * Display list of keys.
-	 * @param $state boolean if file datas/datas.xlsx exists
-	 * @param null $message array of the message displays
-	 */
-	public function displayList($state, $messages = null) {
-		if ($state) {
-			$users = UserController::getUsers();
-		} else {
-			$users = null;
-		}
-		$composite = new CompositeView(true, 'Liste des utilisateurs', 'Cette page permet de modifier et/ou supprimer des utilisateurs.', "user");
-
-		if ($messages != null) {
-			foreach ($messages as $message) {
-				if (!empty($message['type']) && !empty($message['message'])) {
-					$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-					$composite->attachContentView($submit_message);
-				}
-			}
-		}
-		$list_users = new View(null, null,"users/list_users.html.twig", array('users' => $users));
-		$composite->attachContentView($list_users);
-
-		echo $composite->render();
-	}
 
 	/**
 	 *
@@ -261,44 +232,56 @@ class UserController
 	 *
 	 */
 	public function update() {
+
+		//
 		if (isset($_POST['update']) && !empty($_POST['update'])) {
-			$user = $this::getUser(addslashes($_POST['update']));
-			$this->displayUpdateForm(true, $user);
-		} elseif (isset($_POST['user_hidden_name']) || isset($_POST['key_type']) || isset($_POST['key_lock']) || isset($_POST['key_number'])) {
-			$id = 'u_' . strtolower(str_replace(' ', '_', addslashes($_POST['key_hidden_name'])));
+			$user = $this->getUser($_POST['update']);
+			$this->displayUpdateForm($user);
+		}
 
-			for ($i = 0; $i < sizeof($_SESSION['KEYS']); $i++) {
-				if ($_SESSION['KEYS'][$i]['key_id'] == $id) {
-					if (isset($_POST['key_type']) && ($_POST['key_type'] != $_SESSION['KEYS'][$i]['key_type']) && !empty($_POST['key_type'])) {
-						$_SESSION['KEYS'][$i]['key_type'] = addslashes($_POST['key_type']);
-					}
+		// if all values were posted (= form submission)
+		elseif (isset($_POST['user_enssatPrimaryKey']) &&
+			isset($_POST['user_ur1identifier']) &&
+			isset($_POST['user_username']) &&
+			isset($_POST['user_name']) &&
+			isset($_POST['user_surname']) &&
+			isset($_POST['user_status']) &&
+			isset($_POST['user_phone']) &&
+			isset($_POST['user_email'])) {
 
-					if (isset($_POST['key_lock']) && !empty($_POST['key_lock'])) {
-						$_SESSION['KEYS'][$i]['key_locks'] = $_POST['key_lock'];
-					}
+			$userToUpdate = array(
+				'user_enssatPrimaryKey' => addslashes($_POST['user_enssatPrimaryKey']),
+				'user_ur1identifier' => addslashes($_POST['user_ur1identifier']),
+				'user_username' => addslashes($_POST['user_username']),
+				'user_name' => addslashes($_POST['user_name']),
+				'user_surname' => addslashes($_POST['user_surname']),
+				'user_phone' => addslashes($_POST['user_phone']),
+				'user_status' => addslashes($_POST['user_status']),
+				'user_email' => addslashes($_POST['user_email']),
+			);
 
-					if (isset($_POST['key_number']) && ($_POST['key_number'] != $_SESSION['KEYS'][$i]['key_number']) && !empty($_POST['key_number'])) {
-						$_SESSION['KEYS'][$i]['key_number'] = addslashes($_POST['key_number']);
-					}
-				}
+			if ($this->updateUser($userToUpdate) == false) {
+				$message['type'] = 'danger';
+				$message['message'] = 'Erreur lors de la modification de l\'utilisateur.';
+				$this->displayList(true, array($message));
 			}
+			else {
+				$message['type'] = 'success';
+				$message['message'] = 'L\'utilisateur a bien été modifié.';
+				$this->displayList(true, array($message));
+			}
+		}
 
-			// header redirection doesn't work on some environments...
-			//header("Location: " . $newUrl);
+		else {
+			$users = $this->getUsers();
 
-			// ...thus we use script injection
-			$newUrl = './?action=listkeys&update=true';
-			echo "<script> window.location.replace('" . $newUrl. "') </script>";
-
-		} else {
-			$users = $this::getUsers();
 			if (!empty($users)) {
 				$this->displayList(true);
-			} else {
-				$alert['type'] = 'danger';
-				$alert['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
-				$alerts[] = $alert;
-				$this->displayList(false, $alerts);
+			}
+			else {
+				$message['type'] = 'danger';
+				$message['message'] = 'Nous n\'avons aucun utilisateur d\'enregistré.';
+				$this->displayList(false, array($message));
 			}
 		}
 	}
@@ -308,40 +291,37 @@ class UserController
 	 * @param $datas
 	 * @param null $messages
 	 */
-	public function displayUpdateForm($state, $datas, $messages = null) {
-		if ($state) {
-			$locks = LockController::getLocks();
-		} else {
-			$locks = null;
-		}
+	public function displayUpdateForm($user, $messages = null) {
 
-		$composite = new CompositeView(true, 'Mettre à jour une clé', null, "user");
+		$compositeView = new CompositeView(true, "Mettre à jour un utilisateur", null, "user");
 
 		if ($messages != null) {
+
 			foreach ($messages as $message) {
-				if (!empty($message['type']) && !empty($message['message'])) {
-					$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-					$composite->attachContentView($message);
+				if (!empty($message['type']) && !empty($message["message"])) {
+					$message = new View("submit_message.html.twig", array("alert_type" => $message["type"] , "alert_message" => $message["message"]));
+					$compositeView->attachContentView($message);
 				}
 			}
 		}
 
-		$update_user = new View(null ,null, 'keys/update_user.html.twig', array('locks' => $locks, 'key' => $datas, 'previousUrl' => $_SERVER["HTTP_REFERER"]));
-		$composite->attachContentView($update_user);
+		$update_user = new View("users/update_user.html.twig", array("user" => $user, "previousUrl" => getPreviousUrl()));
+		$compositeView->attachContentView($update_user);
 
-		echo $composite->render();
+		echo $compositeView->render();
 	}
 
 
 	//================================================================================
-	// functions to Service
+	// calls to Service
 	//================================================================================
 
 	/**
 	 * To get all users.
 	 * @return null
 	 */
-	public function getUsers() {
+	private function getUsers() {
+
 		return $this->_userService->getUsers();
 	}
 
@@ -349,9 +329,41 @@ class UserController
 	 * @param $enssatPrimaryKey
 	 * @return mixed
 	 */
-	public function getUser($enssatPrimaryKey) {
+	private function getUser($enssatPrimaryKey) {
 
-		return $this->_userService->getUserByEnssatPrimaryKey($enssatPrimaryKey);
+		return $this->_userService->getUser($enssatPrimaryKey);
 	}
+
+	/**
+	 * @param $userToSave
+	 */
+	private function saveUser($userToSave) {
+
+		$this->_userService->saveUser($userToSave);
+	}
+
+	/**
+	 * Used to delete a user from an id.
+	 * @param $enssatPrimaryKey
+	 */
+	private function deleteUser($enssatPrimaryKey) {
+
+		return $this->_userService->deleteUser($enssatPrimaryKey);
+	}
+
+	private function updateUser($userToUpdate) {
+
+		return $this->_userService->updateUser($userToUpdate);
+	}
+
+	/**
+	 * @param $enssatPrimaryKey
+	 * @return mixed
+	 */
+	private function checkUnicity($enssatPrimaryKey) {
+
+		return $this->_userService->checkUnicity($enssatPrimaryKey);
+	}
+
 
 }

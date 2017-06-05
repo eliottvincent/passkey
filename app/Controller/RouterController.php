@@ -8,13 +8,10 @@
  */
 
 
-class RouterController extends Controller
+class RouterController
 {
 
 	function dispatchRoute() {
-
-		$model = new Model();
-		$controller = new Controller($model);
 
 		// handling requests on http://passkey.enssat/?action=some_action
 		if (isset($_GET['action']) && !empty($_GET['action'])) {
@@ -27,7 +24,7 @@ class RouterController extends Controller
 		// handling requests on http://passkey.enssat/
 		else if (isset($_REQUEST['url']) && $_REQUEST['url'] === '') {
 			//echo $this->createBlankPage($controller, $model)->render();
-			$this->createBlankPage($controller, $model);
+			$this->createBlankPage();
 		}
 
 		// handling requests on http://passkey.enssat/something_else
@@ -40,9 +37,9 @@ class RouterController extends Controller
 	function showLoginPageTest() {
 		$compositeView = new CompositeView();
 
-		$headView 	= new View(null, null, "head.html.twig", array('title' => "Login"));
-		$bodyView 	= new View(null, null, "login_body.html.twig");
-		$footView 	= new View(null, null, "foot.html.twig");
+		$headView 	= new View("head.html.twig", array('title' => "Login"));
+		$bodyView 	= new View("login_body.html.twig");
+		$footView 	= new View("foot.html.twig");
 
 		$compositeView->attachView($headView)
 			->attachView($bodyView)
@@ -52,13 +49,13 @@ class RouterController extends Controller
 	}
 
 	function login() {
-		$authentificationController = new AuthentificationController();
-		$authentificationController->login();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->login();
 	}
 
 	function logout() {
-		$authentificationController = new AuthentificationController();
-		$authentificationController->logout();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->logout();
 	}
 
 
@@ -67,19 +64,33 @@ class RouterController extends Controller
 	//================================================================================
 	function listDoors() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$doorController = new DoorController();
 		$doorController->list();
 	}
 
 	function createDoor() {
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$doorController = new DoorController();
 		$doorController->create();
+	}
+
+	function updateDoor() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$doorController = new DoorController();
+		$doorController->update();
+	}
+
+	function deleteDoorAjax() {
+		$doorController = new DoorController();
+		$doorController->deleteDoorAjax();
 	}
 
 
@@ -89,8 +100,8 @@ class RouterController extends Controller
 
 	function listLocks() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$lockController = new LockController();
 		$lockController->list();
@@ -98,8 +109,8 @@ class RouterController extends Controller
 
 	function createLock() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$lockController = new LockController();
 		$lockController->create();
@@ -107,8 +118,8 @@ class RouterController extends Controller
 
 	function updateLock() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$lockController = new LockController();
 		$lockController->update();
@@ -127,8 +138,8 @@ class RouterController extends Controller
 
 	function listKeys() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$keyController = new KeyController();
 		$keyController->list();
@@ -137,16 +148,18 @@ class RouterController extends Controller
 
 	function createKey() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
 		$keyController = new KeyController();
 		$keyController->create();
 	}
 
 	function updateKey() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
 		$keyController = new KeyController();
 		$keyController->update();
 	}
@@ -162,24 +175,25 @@ class RouterController extends Controller
 	//================================================================================
 
 	function listUsers() {
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$userController = new UserController();
 		$userController->list();
 	}
 
 	function createUser() {
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
 		$userController = new UserController();
 		$userController->create();
 	}
 
-	function updateUser()
-	{
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+	function updateUser() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
 		$userController = new UserController();
 		$userController->update();
 	}
@@ -196,20 +210,33 @@ class RouterController extends Controller
 
 	function listBorrowings() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
-		$borrows = new BorrowingsController();
-		$borrows->list();
+		$borrowingController = new BorrowingController();
+		$borrowingController->list();
 	}
 
 	function createBorrowing() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
-		$borrows = new BorrowingsController();
-		$borrows->create();
+		$borrowingController = new BorrowingController();
+		$borrowingController->create();
+	}
+
+	function updateBorrowing() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$borrowingController = new BorrowingController();
+		$borrowingController->update();
+	}
+
+	function deleteBorrowingAjax() {
+		$borrowingController = new BorrowingController();
+		$borrowingController->deleteBorrowingAjax();
 	}
 
 
@@ -220,17 +247,17 @@ class RouterController extends Controller
 	 * @param $model
 	 * @return CompositeView
 	 */
-	function createBlankPage($controller, $model) {
+	function createBlankPage() {
 
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		// creating a default CompositeView
 		$compositeView = new CompositeView(true);
 
 		// creating our content, as a View object
-		$blankContent = new View(null, null, 'default_content.html.twig');
+		$blankContent = new View('default_content.html.twig');
 
 		// adding the content to our CompositeView
 		// here we use attachContentView() rather than attachView()...
@@ -241,7 +268,7 @@ class RouterController extends Controller
 	}
 
 	function createLoginPage() {
-		$html = new View(null, null,'partials/page_user_login_1.php');
+		$html = new View('partials/page_user_login_1.php');
 
 		return $html;
 	}

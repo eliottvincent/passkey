@@ -1,14 +1,26 @@
 <?php
 
 class implementationDoorService_Dummy implements interfaceDoorService {
+
+
+	//================================================================================
+	// properties
+	//================================================================================
+
 	/**
-	 * @var Singleton
-	 * @access private
-	 * @static
+	 * @var null
 	 */
 	private static $_instance = null;
 
-	private $_doors = array(); // doorId, doorName, doorBuilding, doorFloor
+	private $_doorDAO;
+	private $_doors = array();
+	private $_sessionDoors = null;
+	private $_xmlDoors;
+
+
+	//================================================================================
+	// constructor and initialization
+	//================================================================================
 
 	/**
 	 * Constructeur de la classe
@@ -16,19 +28,29 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 	 * @param void
 	 * @return void
 	 */
-	private function __construct()
-	{
-		$this->_doors = implementationDoorDAO_Dummy::getInstance();
-		if(!isset($_SESSION['DOORS'])) {
-			for ($i = 0; $i < sizeof($this->_doors->getDoors()); $i++) {
-				$door = $this->_doors->getDoors()[$i];
-				$_SESSION['DOORS'][] = [
-					'door_id' => $door->getId(),
-					'door_name' => $door->getName(),
-					'door_building' => $door->getBuilding(),
-					'door_floor' => $door->getFloor()
-				];
-			}
+	private function __construct() {
+
+		// instantiating the DAOs we need
+		$this->_doorDAO = implementationDoorDAO_Dummy::getInstance();
+
+		// getting the data we need
+		$this->_xmlDoors = $this->_doorDAO->getDoors();
+		if (isset($_SESSION["DOORS"])) {
+			$this->_sessionDoors = $_SESSION["DOORS"];
+		}
+
+		// if we got doors in session
+		if ($this->_sessionDoors !== null) {
+
+			$this->_doors = $this->_sessionDoors;
+		}
+
+		// else that means there are no doors in session (first use)
+		else {
+
+			$_SESSION["DOORS"] = $this->_xmlDoors;
+			$this->_doors = $this->_xmlDoors;
+			$this->_sessionDoors = $this->_xmlDoors;
 		}
 	}
 
@@ -37,7 +59,7 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 	 * si elle n'existe pas encore puis la retourne.
 	 *
 	 * @param void
-	 * @return Singleton
+	 * @return implementationDoorService_Dummy
 	 */
 	public static function getInstance() {
 
@@ -48,29 +70,124 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 		return self::$_instance;
 	}
 
-	public function checkUnicity($id) {
-		$doors = $this->_doors->getDoors();
-		foreach ($doors as $door) {
-			if ($door->getId() == $id) {
+
+	//================================================================================
+	// Getters
+	//================================================================================
+
+	public function getDoors() {
+
+		return $this->_doors;
+	}
+
+	public function getDoor($id) {
+
+		foreach ($this->_doors as $door) {
+			if ($door->getId() == (string) $id) {
+				return $door;
+			}
+		}
+	}
+
+
+	//================================================================================
+	// CREATE
+	//================================================================================
+
+	public function saveDoor($doorArray) {
+
+		$doorToSave = new DoorVO();
+		$doorToSave->setId((string) $doorArray['door_id']);
+		$doorToSave->setName((string) $doorArray['door_name']);
+		$doorToSave->setBuilding((string) $doorArray['door_building']);
+		$doorToSave->setFloor((string) $doorArray['door_floor']);
+
+		array_push($_SESSION["DOORS"], $doorToSave);
+		array_push($this->_doors, $doorToSave);
+		array_push($this->_sessionDoors, $doorToSave);
+	}
+
+
+	//================================================================================
+	// DELETE
+	//================================================================================
+
+	public function deleteDoor($id) {
+
+		$this->updateServiceVariables();
+
+		foreach ($this->_doors as $key=>$door) {
+
+			if ($door->getId() == (string) $id) {
+
+				unset($_SESSION["DOORS"][$key]);
+				unset($this->_sessionDoors[$key]);
+				unset($this->_doors[$key]);
+
 				return true;
 			}
 		}
+
 		return false;
 	}
 
-	public function create($datas) {
-		$_SESSION['DOORS'][] = $datas;
-		$door = new DoorVO(null, null, null, null);
 
-		$door->setId($datas['door_id']);
-		$door->setName($datas['door_name']);
-		$door->setBuilding($datas['door_building']);
-		$door->setFloor($datas['door_floor']);
+	//================================================================================
+	// UPDATE
+	//================================================================================
+
+	public function updateDoor($doorArray) {
+
+		$doorToUpdate = new DoorVO();
+		$doorToUpdate->setId((string) $doorArray['door_id']);
+		$doorToUpdate->setName((string) $doorArray['door_name']);
+		$doorToUpdate->setBuilding((string) $doorArray['door_building']);
+		$doorToUpdate->setFloor((string) $doorArray['door_floor']);
+
+		foreach ($this->_doors as $key=>$door) {
+
+			if ($door->getId() == $doorToUpdate->getId()) {
+
+				$_SESSION["DOORS"][$key] = $doorToUpdate;
+				$this->_sessionDoors[$key] = $doorToUpdate;
+				$this->_doors[$key] = $doorToUpdate;
+
+				return true;
+			}
+
+		}
+
+		return false;
+	}
 
 
-		// TODO : push $d is not an array
-		$d = $this->_doors->getDoors();
-		array_push($d, $door);
+	//================================================================================
+	// OTHER
+	//================================================================================
+
+	public function checkUnicity($id) {
+
+		if ($this->_doors) {
+
+			foreach ($this->_doors as $door) {
+
+				if ($door->getId() == (string) $id) {
+
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+
+	private function updateServiceVariables() {
+
+		if (isset($_SESSION["DOORS"])) {
+			$this->_sessionDoors = $_SESSION["DOORS"];
+			$this->_doors = $_SESSION["DOORS"];
+		}
 
 	}
 }

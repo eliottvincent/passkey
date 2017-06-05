@@ -14,8 +14,7 @@ $klein = new \Klein\Klein();
 $klein->respond(function () {
 
 	// creating a new Model, RouterController
-	$model = new Model();
-	$controller = new RouterController($model);
+	$controller = new RouterController();
 	$controller->dispatchRoute();
 });
 

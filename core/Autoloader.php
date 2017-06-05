@@ -68,5 +68,9 @@ class Autoloader
 		if (file_exists( 'app/Helpers/previous_url.php')) {
 			require_once 'app/Helpers/previous_url.php';
 		};
+
+        if (file_exists( 'app/Helpers/redirect_to_url.php')) {
+			require_once 'app/Helpers/redirect_to_url.php';
+		};
 	}
 }
