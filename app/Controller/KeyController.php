@@ -259,10 +259,9 @@ class KeyController {
 				$this->displayList(true);
 			}
 			else {
-				$alert['type'] = 'danger';
-				$alert['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
-				$alerts[] = $alert;
-				$this->displayList(false, $alerts);
+				$message['type'] = 'danger';
+				$message['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
+				$this->displayList(false, array($message));
 			}
 		}
 	}
@@ -297,8 +296,6 @@ class KeyController {
 
 		echo $composite->render();
 	}
-
-
 
 
 	//================================================================================
