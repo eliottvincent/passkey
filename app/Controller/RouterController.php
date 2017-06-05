@@ -150,6 +150,7 @@ class RouterController
 		// authentication check
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
+
 		$keyController = new KeyController();
 		$keyController->create();
 	}
@@ -158,6 +159,7 @@ class RouterController
 		// authentication check
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
+
 		$keyController = new KeyController();
 		$keyController->update();
 	}
@@ -183,6 +185,7 @@ class RouterController
 	function createUser() {
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
+
 		$userController = new UserController();
 		$userController->create();
 	}
@@ -191,6 +194,7 @@ class RouterController
 	{
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
+
 		$userController = new UserController();
 		$userController->update();
 	}

@@ -41,12 +41,13 @@ class implementationKeyService_Dummy implements interfaceKeyService {
 
 		// getting the data we need
 		$this->_xmlKeys = $this->_keyDAO->getKeys();
+
 		if (isset($_SESSION["KEYS"])) {
 			$this->_sessionKeys = $_SESSION["KEYS"];
 		}
 
 		// if we got keys in session
-		if ($this->_sessionKeys!== null) {
+		if ($this->_sessionKeys !== null) {
 
 			$this->_keys = $this->_sessionKeys;
 		}
@@ -103,13 +104,16 @@ class implementationKeyService_Dummy implements interfaceKeyService {
 	public function saveKey($keyArray) {
 
 		$keyToSave = new KeyVO();
-		$keyToSave->setId((string) $keyArray['id']);
-		$keyToSave->setType((string) $keyArray['type']);
-		$keyToSave->setLock((string) $keyArray['lock']);
+		$keyToSave->setId((string) $keyArray['key_id']);
+		$keyToSave->setName((string) $keyArray['key_name']);
+		$keyToSave->setType((string) $keyArray['key_type']);
+		$keyToSave->setLocks((array) $keyArray['key_locks']);
+		$keyToSave->setCopies((int) $keyArray['key_copies']);
 
 		array_push($_SESSION["KEYS"], $keyToSave);
 		array_push($this->_keys, $keyToSave);
 		array_push($this->_sessionKeys, $keyToSave);
+
 	}
 
 

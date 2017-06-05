@@ -28,6 +28,7 @@ class KeyController {
 	 * use to list keys
 	 */
 	public function list() {
+
 		$keys = $this->getKeys();
 
 		if (!empty($keys)) {
@@ -77,73 +78,75 @@ class KeyController {
 	}
 
 
+	//================================================================================
+	// CREATE
+	//================================================================================
+
 	/**
 	 * to create a new key
 	 */
-	public function create(){
-		if (!isset($_POST['key_name']) && !isset($_POST['key_type']) && !isset($_POST['key_lock'])) {
-			$locks = LockController::getLocks();
-			if (!empty($locks)) {
-				// If we have no values, the form is displayed.
-				$this->displayForm(true);
-			} else {
-				$message['type'] = 'danger';
-				$message['message'] = 'Aucun canon n\' a été créé.';
-				$messages[] = $message;
-				$this->displayForm(false, $messages);
-			}
-		} elseif (empty($_POST['key_name']) || empty($_POST['key_type']) || empty($_POST['key_lock'])) {
-			// If we have not all values, error message display and form.
+	public function create() {
+
+		// if no values are posted -> displaying the form
+		if (!isset($_POST['key_name']) &&
+			!isset($_POST['key_type']) &&
+			!isset($_POST['key_locks']) &&
+			!isset($_POST['key_copies'])) {
+
+			$this->displayForm();
+		}
+
+		// if some (but not all) values are posted -> error message
+		elseif (empty($_POST['key_name']) ||
+			empty($_POST['key_type']) ||
+			empty($_POST['key_locks']) ||
+			empty($_POST['key_copies'])) {
+
 			$m_type = "danger";
 			$m_message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
 			$message['type'] = $m_type;
 			$message['message'] = $m_message;
-			$messages[] = $message;
-			$this->displayForm(true, $messages);
-		} else {
-			// If we have all values.
+
+			$this->displayForm(array($message));
+		}
+
+		// if we have all values, we can create the key
+		else {
+
+			// id generation
 			$id = 'k_' . strtolower(str_replace(' ', '_', addslashes($_POST['key_name'])));
 
-			// Check unicity.
-			$exist = false;
-			$keys = $this::getKeys();
-
-			if ($keys) {
-				foreach ($keys as $key) {
-					if ($key['key_id'] == $id) {
-						$exist = true;
-					}
-				}
-			}
+			// unicity check
+			$exist = $this->checkUnicity($id);
 
 			if (!$exist) {
-				$datas = array(
+				$keyToSave = array(
 					'key_id' => $id,
 					'key_name' => addslashes($_POST['key_name']),
 					'key_type' => addslashes($_POST['key_type']),
-					'key_locks' => $_POST['key_lock'],
-					'key_number' => addslashes($_POST['key_number'])
+					'key_locks' => addslashes($_POST['key_locks']),
+					'key_copies' => addslashes($_POST['key_copies'])
 				);
 
-				$_SESSION['KEYS'][] = $datas;
+				$this->saveKey($keyToSave);
 
 				$m_type = "success";
-				$m_message = "La clé a bien été enregistrée.";
-
+				$m_message = "La clé a bien été créée.";
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
-				$messages[] = $message;
-				$this->displayForm(true, $messages);
-			} else {
+
+				//$this->displayList(true, array($message));
+				$this->displayForm(array($message));
+
+			}
+			else {
 				$m_type = "danger";
 				$m_message = "Une clé avec le même nom existe déjà.";
-
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
-				$messages[] = $message;
-				$this->displayForm(true, $messages);
-			}
 
+				$this->displayForm(array($message));
+			}
 		}
 	}
 
@@ -152,83 +155,32 @@ class KeyController {
 	 * @param $state boolean if file datas/datas.xlsx exists
 	 * @param null $message array of the message displays
 	 */
-	public function displayForm($state, $messages = null) {
-		if ($state) {
-			$locks = LockController::getLocks();
-		} else {
-			$locks = null;
-		}
+	public function displayForm($messages = null) {
 
-		$composite = new CompositeView(true, 'Ajouter une clé', null, "key");
+		$locks = $this->getLocks();
+
+		$compositeView = new CompositeView(
+			true,
+			'Ajouter une clé',
+			null,
+			"key");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
 					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-					$composite->attachContentView($message);
+					$compositeView->attachContentView($message);
 				}
 			}
 		}
 
 		$create_key = new View('keys/create_key.html.twig', array('locks' => $locks, 'previousUrl' => getPreviousUrl()));
-		$composite->attachContentView($create_key);
+		$compositeView->attachContentView($create_key);
 
-		echo $composite->render();
+		echo $compositeView->render();
 	}
 
-	/**
-	 * use to list keys
-	 */
-	public function list($delete = null){
-		if (isset($_POST['delete']) && !empty($_POST['delete'])) {
-			$delete = $this->deleteKey(addslashes($_POST['delete']));
-			if ($delete) {
-				$message['type'] = 'success';
-				$message['message'] = 'La clé a bien été supprimée';
-				$messages[] = $message;
 
-				if(!isset($_SESSION['KEYS'])) {
-					$message['type'] = 'danger';
-					$message['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
-					$messages[] = $message;
-				}
-				if (!empty($this::getKeys())) {
-					$this->displayList(true, $messages);
-				} else {
-					$this->displayList(false, $messages);
-				}
-			} else {
-				$message['type'] = 'danger';
-				$message['message'] = 'La clé n\'existe pas.';
-				$messages[] = $message;
-				if (!empty($this::getKeys())) {
-					$this->displayList(true, $messages);
-				} else {
-					$this->displayList(false, $messages);
-				}
-			}
-
-		} else {
-			$keys = $this::getKeys();
-			if (!empty($keys)) {
-				if (isset($_GET['update']) && $_GET['update'] == true) {
-					$alert['type'] = 'success';
-					$alert['message'] = 'La clé a bien été modifiée.';
-					$alerts[] = $alert;
-
-					$this->displayList(true, $alerts);
-				} else {
-					$this->displayList(true);
-				}
-
-			} else {
-				$alert['type'] = 'danger';
-				$alert['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
-				$alerts[] = $alert;
-				$this->displayList(false, $alerts);
-			}
-		}
-	}
 
 	/**
 	 * Used to delete a key from an id.
@@ -252,39 +204,7 @@ class KeyController {
 		return false;
 	}
 
-	/**
-	 * Display list of keys.
-	 * @param $state boolean if file datas/datas.xlsx exists
-	 * @param null $message array of the message displays
-	 */
-	public function displayList($state, $messages = null) {
-		if ($state) {
-			$keys = KeyController::getKeys();
-		} else {
-			$keys = null;
-		}
-		$composite = new CompositeView(
-			true,
-			'Liste des clés',
-			'Cette page permet de modifier et/ou supprimer des clés.',
-			"key",
-			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
-			array("deleteKeyScript" => "app/View/assets/custom/scripts/deleteKey.js",
-				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
 
-		if ($messages != null) {
-			foreach ($messages as $message) {
-				if (!empty($message['type']) && !empty($message['message'])) {
-					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-					$composite->attachContentView($submit_message);
-				}
-			}
-		}
-		$list_keys = new View("keys/list_keys.html.twig", array('keys' => $keys));
-		$composite->attachContentView($list_keys);
-
-		echo $composite->render();
-	}
 
 	public function update() {
 		if (isset($_POST['update']) && !empty($_POST['update'])) {
@@ -347,30 +267,6 @@ class KeyController {
 		echo $composite->render();
 	}
 
-	/**
-	 * To get all keys.
-	 * @return null
-	 */
-	public static function getKeys() {
-		if (isset($_SESSION['KEYS'])) {
-			$keys = $_SESSION['KEYS'];
-			return $keys;
-		}
-
-		return null;
-	}
-
-	public static function getKey($id) {
-		$keys = KeyController::getKeys();
-
-		foreach ( $keys as $key ) {
-			if ($key['key_id'] == $id) {
-				return $key;
-			}
-		}
-
-		return false;
-	}
 
 	public function deleteKeyAjax() {
 		session_start();
@@ -426,7 +322,7 @@ class KeyController {
 	}
 
 	/**
-	 * @param $doorToSave
+	 * @param $keyToSave
 	 */
 	private function saveKey($keyToSave) {
 
