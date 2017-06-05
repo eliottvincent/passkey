@@ -181,27 +181,35 @@ class KeyController {
 	}
 
 
+	//================================================================================
+	// DELETE
+	//================================================================================
 
 	/**
-	 * Used to delete a key from an id.
-	 * @param $id
+	 *
 	 */
-	public function deleteKey($id) {
-		$keys = $this::getKeys();
-		foreach($keys as $key) {
-			if ($key['key_id'] == $id) {
-				$length = sizeof($_SESSION['KEYS']);
-				if ($length > 1) {
-					$nb =  array_search($key, $keys);
-					unset($_SESSION['KEYS'][$nb]);
-				} else {
-					unset($_SESSION['KEYS']);
-				}
-				return true;
+	public function deleteKeyAjax() {
+
+		session_start();
+
+		if (isset($_POST['value'])) {
+
+			if ($this->deleteKey($_POST['value']) == true) {
+				$response['keys'] = $this->getKeys();
+				$response['status'] = 'success';
+				$response['message'] = 'This was successful';
+			}
+			else {
+				$response['status'] = 'error';
+				$response['message'] = 'This failed';
 			}
 		}
+		else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
 
-		return false;
+		echo json_encode($response);
 	}
 
 
@@ -268,28 +276,7 @@ class KeyController {
 	}
 
 
-	public function deleteKeyAjax() {
-		session_start();
 
-		if (isset($_POST['value'])) {
-
-			$first = substr($_POST['value'], 0, 1);
-
-			if ($first == 'k') {
-				$key = new KeyController();
-				$key->deleteKey($_POST['value']);
-				$keys = $key::getKeys();
-			}
-			$response['keys'] = $keys;
-			$response['status'] = 'success';
-			$response['message'] = 'This was successful';
-		} else {
-			$response['status'] = 'error';
-			$response['message'] = 'This failed';
-		}
-
-		echo json_encode($response);
-	}
 
 	//================================================================================
 	// calls to Service
@@ -327,6 +314,15 @@ class KeyController {
 	private function saveKey($keyToSave) {
 
 		$this->_keyService->saveKey($keyToSave);
+	}
+
+	/**
+	 * Used to delete a key from an id.
+	 * @param $id
+	 */
+	private function deleteKey($id) {
+
+		return $this->_keyService->deleteKey($id);
 	}
 
 

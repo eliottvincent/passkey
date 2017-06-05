@@ -150,7 +150,8 @@ class implementationKeyService_Dummy implements interfaceKeyService {
 		$keyToUpdate = new KeyVO();
 		$keyToUpdate->setId((string) $keyArray['key_id']);
 		$keyToUpdate->setType((string) $keyArray['key_type']);
-		$keyToUpdate->setLock((string) $keyArray['key_lock']);
+		$keyToUpdate->setLocks((string) $keyArray['key_lock']);
+		$keyToUpdate->setLocks((string) $keyArray['key_lock']);
 
 		foreach ($this->_keys as $key=>$currentKey) {
 
