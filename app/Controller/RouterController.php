@@ -190,8 +190,7 @@ class RouterController
 		$userController->create();
 	}
 
-	function updateUser()
-	{
+	function updateUser() {
 		$authenticationController = new AuthenticationController();
 		$authenticationController->check();
 
@@ -225,6 +224,14 @@ class RouterController
 
 		$borrowingController = new BorrowingController();
 		$borrowingController->create();
+	}
+
+	function updateBorrowing() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$borrowingController = new BorrowingController();
+		$borrowingController->update();
 	}
 
 	function deleteBorrowingAjax() {
