@@ -16,6 +16,7 @@ class KeyController {
 	 */
 	public function __construct() {
 		$this->_keyService = implementationKeyService_Dummy::getInstance();
+		$this->_lockService = implementationLockService_Dummy::getInstance();
 	}
 
 
@@ -392,5 +393,53 @@ class KeyController {
 		}
 
 		echo json_encode($response);
+	}
+
+	//================================================================================
+	// calls to Service
+	//================================================================================
+
+	/**
+	 * To get all keys.
+	 * @return null
+	 */
+	public function getKeys() {
+
+		return $this->_keyService->getKeys();
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	public function getKey($id) {
+
+		return $this->_keyService->getKey($id);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getLocks() {
+
+		return $this->_lockService->getLocks();
+	}
+
+	/**
+	 * @param $doorToSave
+	 */
+	private function saveKey($keyToSave) {
+
+		$this->_keyService->saveKey($keyToSave);
+	}
+
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function checkUnicity($id) {
+
+		return $this->_keyService->checkUnicity($id);
 	}
 }

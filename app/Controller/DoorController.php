@@ -134,8 +134,6 @@ class DoorController {
 
 				$this->displayForm(array($message));
 			}
-
-
 		}
 	}
 
