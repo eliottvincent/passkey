@@ -37,7 +37,6 @@ class KeyVO {
 		return $this->copies;
 	}
 
-
 	// SETTER
 
 	public function setId($id) {
@@ -58,6 +57,10 @@ class KeyVO {
 
 	public function setCopies($copies) {
 		$this->copies = $copies;
+	}
+
+	public function addLock($lock) {
+		array_push($this->locks, $lock);
 	}
 
 }

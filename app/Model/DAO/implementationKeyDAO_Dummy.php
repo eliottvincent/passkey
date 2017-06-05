@@ -24,15 +24,19 @@ class implementationKeyDAO_Dummy implements interfaceKeyDAO {
 	private function __construct() {
 		if (file_exists(dirname(__FILE__).'/keys.xml')) {
 			$keys = simplexml_load_file(dirname(__FILE__).'/keys.xml');
-			foreach($keys->children() as $xmlkey)
+			foreach($keys->children() as $xmlKey)
 			{
 				$key = new KeyVO();
 
-				$key->setId((string) $xmlkey->id);
-				$key->setLocks($xmlkey->locks[0]);	// TODO : find a better way to assign the array 🤔
-				$key->setType((string) $xmlkey->type);
-				$key->setName((string) $xmlkey->name);
-				$key->setCopies((int) $xmlkey->copies);
+				$key->setId((string) $xmlKey->id);
+				$key->setLocks(array());
+				foreach ($xmlKey->locks[0] as $lock) {	// TODO : find why we need to access to [0] 🤔
+					$key->addLock((string) $lock);
+				}
+
+				$key->setType((string) $xmlKey->type);
+				$key->setName((string) $xmlKey->name);
+				$key->setCopies((int) $xmlKey->copies);
 
 				array_push($this->_keys, $key);
 			}
