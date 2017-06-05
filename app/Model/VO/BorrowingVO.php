@@ -9,9 +9,14 @@
 class BorrowingVO {
 
 	private $id;
+	private $borrowDate;
 	private $dueDate;
+	private $returnDate;
+	private $lostDate;
 	private $keychain;
 	private $user;
+	private $status;
+
 
 	/**
 	 * BorrowingVO constructor.
@@ -39,6 +44,22 @@ class BorrowingVO {
 	/**
 	 * @return mixed
 	 */
+	public function getBorrowDate()
+	{
+		return $this->borrowDate;
+	}
+
+	/**
+	 * @param mixed $borrowDate
+	 */
+	public function setBorrowDate($borrowDate)
+	{
+		$this->borrowDate = $borrowDate;
+	}
+
+	/**
+	 * @return mixed
+	 */
 	public function getDueDate()
 	{
 		return $this->dueDate;
@@ -50,6 +71,38 @@ class BorrowingVO {
 	public function setDueDate($dueDate)
 	{
 		$this->dueDate = $dueDate;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getReturnDate()
+	{
+		return $this->returnDate;
+	}
+
+	/**
+	 * @param mixed $returnDate
+	 */
+	public function setReturnDate($returnDate)
+	{
+		$this->returnDate = $returnDate;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getLostDate()
+	{
+		return $this->lostDate;
+	}
+
+	/**
+	 * @param mixed $lostDate
+	 */
+	public function setLostDate($lostDate)
+	{
+		$this->lostDate = $lostDate;
 	}
 
 	/**
@@ -84,6 +137,21 @@ class BorrowingVO {
 		$this->user = $user;
 	}
 
+	/**
+	 * @return mixed
+	 */
+	public function getStatus()
+	{
+		return $this->status;
+	}
+
+	/**
+	 * @param mixed $status
+	 */
+	public function setStatus($status)
+	{
+		$this->status = $status;
+	}
 
 
 

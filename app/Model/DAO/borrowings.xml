@@ -4,18 +4,29 @@
 		<id>b_1</id>
 		<user>1</user>
 		<keychain>1</keychain>
+		<borrowDate>2017-04-24</borrowDate>
 		<dueDate>2017-09-24</dueDate>
+		<returnDate></returnDate>
+		<lostDate></lostDate>
+		<status>borrowed</status>
 	</borrowing>
 	<borrowing>
 		<id>b_2</id>
 		<user>2</user>
 		<keychain>3</keychain>
+		<borrowDate>2017-04-24</borrowDate>
 		<dueDate>2017-09-24</dueDate>
+		<returnDate></returnDate>
+		<lostDate>2017-05-24</lostDate>
+		<status>lost</status>
 	</borrowing>
 	<borrowing>
 		<id>b_3</id>
 		<user>3</user>
 		<keychain>3</keychain>
+		<borrowDate>2017-04-24</borrowDate>
 		<dueDate>2017-09-24</dueDate>
+		<returnDate>2017-05-24</returnDate>
+		<status>returned</status>
 	</borrowing>
 </borrowings>
