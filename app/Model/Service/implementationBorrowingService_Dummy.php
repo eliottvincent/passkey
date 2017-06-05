@@ -203,7 +203,7 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 
 	}
 
-	
+
 	//================================================================================
 	// CLEMENT
 	//================================================================================
@@ -287,33 +287,7 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 		$this->_cancelBorrowing($borrowingId,"lost",$comment);
 	}
 
-
-
-
-	/*$this->_userDAO = implementationUserDAO_Dummy::getInstance();
-		$this->_keychainDAO = implementationKeychainDAO_Dummy::getInstance();
-
-		if(!isset($_SESSION['BORROWINGS']))
-		{
-			foreach($this->_userDAO->getUsers() as $user)
-			{
-				$randKeychain = $this->_keychainDAO->getRandomKeychain();
-				$_SESSION['BORROWINGS'][]=[
-					'borrowingId'=>count($_SESSION['BORROWINGS'])+1,
-					'userEnssatPrimaryKey'=>$user->getEnssatPrimaryKey(),
-					'keychainId'=>$randKeychain->getId(),
-					'borrowDate'=>$randKeychain->getCreationDate()->modify('+1 day')->format("d-m-Y"),
-					'dueDate'=>$randKeychain->getCreationDate()->modify('+20 day')->format("d-m-Y"),
-					'returnDate'=>null,
-					'lostDate'=>null,
-					'comment'=>""
-				];
-			}
-		}*/
-
-	/*
-	//on emprunte toujours un trousseau
-	public function borrowKeychain($userId,$keychainId)
+	public function borrowKeychain($user, $keychain, DateTime $dueDate)
 	{
 		$tDate = new DateTime;
 		$tDate->setTimestamp(time());
@@ -328,7 +302,7 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 			'lostDate'=>null,
 			'comment'=>""
 		];
-	}*/
+	}
 }
 
 ?>
