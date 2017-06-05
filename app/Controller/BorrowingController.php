@@ -202,6 +202,104 @@ class BorrowingController {
 
 
 	//================================================================================
+	// UPDATE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function update() {
+
+		if (isset($_POST['update']) && !empty($_POST['update'])) {
+			$borrowing = $this->getBorrowing($_POST['update']);
+			$this->displayUpdateForm($borrowing);
+		}
+
+		// if all values were posted (= form submission)
+		elseif (isset($_POST['borrowing_id']) &&
+			isset($_POST['borrowing_user']) &&
+			isset($_POST['borrowing_keychain']) &&
+			isset($_POST['borrowing_borrowdate']) &&
+			isset($_POST['borrowing_duedate']) &&
+			isset($_POST['borrowing_returndate']) &&
+			isset($_POST['borrowing_lostdate']) &&
+			isset($_POST['borrowing_status'])) {
+
+			$borrowingToUpdate = array(
+				'borrowing_id' => $_POST['borrowing_id'],
+				'borrowing_user' => addslashes($_POST['borrowing_user']),
+				'borrowing_keychain' => addslashes($_POST['borrowing_keychain']),
+				'borrowing_borrowdate' => addslashes($_POST['borrowing_borrowdate']),
+				'borrowing_duedate' => addslashes($_POST['borrowing_duedate']),
+				'borrowing_returndate' => addslashes($_POST['borrowing_returndate']),
+				'borrowing_lostdate' => addslashes($_POST['borrowing_lostdate']),
+				'borrowing_status' => addslashes($_POST['borrowing_status'])
+			);
+
+			if ($this->updateBorrowing($borrowingToUpdate) == false) {
+				$message['type'] = 'danger';
+				$message['message'] = 'Erreur lors de la modification de l\'emprunt.';
+				$this->displayList(true, array($message));
+			}
+			else {
+				$message['type'] = 'success';
+				$message['message'] = 'L\'emprunt a bien été modifié.';
+				$this->displayList(true, array($message));
+			}
+		}
+
+		else {
+			$borrowings = $this->getBorrowings();
+
+			if (!empty($borrowings)) {
+				$this->displayList(true);
+			}
+			else {
+				$message['type'] = 'danger';
+				$message['message'] = 'Nous n\'avons aucun emprunt d\'enregistré.';
+				$this->displayList(false, array($message));
+			}
+		}
+	}
+
+	/**
+	 * @param $state
+	 * @param $datas
+	 * @param null $messages
+	 */
+	public function displayUpdateForm($borrowing, $messages = null) {
+
+		$keys = $this->getKeys();
+		$users = $this->getUsers();
+		$statuses = $this->getStatuses();
+
+		$composite = new CompositeView(
+			true,
+			'Mettre à jour un emprunt',
+			null,
+			"borrowing",
+			array("bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"),
+			array("form-datetime-picker" => "app/View/assets/custom/scripts/update-borrowing-datetime-picker.js",
+				"bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")
+		);
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$composite->attachContentView($message);
+				}
+			}
+		}
+
+		$update_borrowing = new View('borrowings/update_borrowing.html.twig', array('borrowing' => $borrowing, 'keys' => $keys, 'users' => $users, 'statuses' => $statuses, 'previousUrl' => getPreviousUrl()));
+		$composite->attachContentView($update_borrowing);
+
+		echo $composite->render();
+	}
+
+
+	//================================================================================
 	// calls to Service
 	//================================================================================
 
@@ -259,11 +357,27 @@ class BorrowingController {
 	}
 
 	/**
+	 * @param $borrowingToUpdate
+	 */
+	private function updateBorrowing($borrowingToUpdate) {
+
+		return $this->_borrowingService->updateBorrowing($borrowingToUpdate);
+	}
+
+	/**
 	 * @param $id
 	 * @return mixed
 	 */
 	private function checkUnicity($id) {
 
 		return $this->_borrowingService->checkUnicity($id);
+	}
+
+	/**
+	 *
+	 */
+	private function getStatuses() {
+
+		return $this->_borrowingService->getStatuses();
 	}
 }
