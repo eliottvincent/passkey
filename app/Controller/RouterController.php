@@ -214,8 +214,8 @@ class RouterController
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		$borrows = new BorrowingController();
-		$borrows->list();
+		$borrowingController = new BorrowingController();
+		$borrowingController->list();
 	}
 
 	function createBorrowing() {
@@ -223,8 +223,8 @@ class RouterController
 		$authentificationController = new AuthentificationController();
 		$authentificationController->check();
 
-		$borrows = new BorrowingController();
-		$borrows->create();
+		$borrowingController = new BorrowingController();
+		$borrowingController->create();
 	}
 
 

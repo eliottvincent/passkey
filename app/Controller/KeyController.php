@@ -137,7 +137,6 @@ class KeyController {
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
 
-				//$this->displayList(true, array($message));
 				$this->displayForm(array($message));
 
 			}
@@ -153,8 +152,7 @@ class KeyController {
 	}
 
 	/**
-	 * Display form used to create key
-	 * @param $state boolean if file datas/datas.xlsx exists
+	 * Display form used to create a key
 	 * @param null $message array of the message displays
 	 */
 	public function displayForm($messages = null) {

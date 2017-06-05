@@ -9,11 +9,11 @@
 class BorrowingVO {
 
 	private static $borrowingStatus = array(
-		"DoesNotExists"=>"n\'existe pas",
-		"Borrowed"=>"en cours",
-		"Late"=>"en retard",
-		"Returned"=>"rendu",
-		"Lost"=>"perdu",
+		"doesnotexist"=>"n\'existe pas",
+		"borrowed"=>"en cours",
+		"late"=>"en retard",
+		"returned"=>"rendu",
+		"lost"=>"perdu",
 	);
 
 	private $id;
