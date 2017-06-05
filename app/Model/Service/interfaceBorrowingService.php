@@ -1,7 +1,7 @@
 <?php
 
 
-interface interfaceBorrowService
+interface interfaceBorrowingService
 {
 	//on emprunte toujours un trousseau
 
