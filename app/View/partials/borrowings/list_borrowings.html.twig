@@ -27,7 +27,7 @@
 							</thead>
 							<tbody>
 							{% for borrowing in borrowings %}
-								<tr>
+								<tr id="{{ borrowing.id }}">
 									<td> {{ borrowing.id }} </td>
 									<td> {{ borrowing.user }} </td>
 									<td> {{ borrowing.keychain }} </td>

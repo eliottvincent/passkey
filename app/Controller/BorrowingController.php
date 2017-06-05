@@ -168,6 +168,39 @@ class BorrowingController {
 		echo $compositeView->render();
 	}
 
+
+	//================================================================================
+	// DELETE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function deleteBorrowingAjax() {
+
+		session_start();
+
+		if (isset($_POST['value'])) {
+
+			if ($this->deleteBorrowing($_POST['value']) == true) {
+				$response['borrowings'] = $this->getBorrowings();
+				$response['status'] = 'success';
+				$response['message'] = 'This was successful';
+			}
+			else {
+				$response['status'] = 'error';
+				$response['message'] = 'This failed';
+			}
+		}
+		else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
+
+		echo json_encode($response);
+	}
+
+
 	//================================================================================
 	// calls to Service
 	//================================================================================

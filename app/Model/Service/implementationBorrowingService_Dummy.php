@@ -130,9 +130,9 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 
 			if ($borrowing->getId() == (string) $id) {
 
-				unset($_SESSION["BORROWINGS"][$borrowing]);
-				unset($this->_sessionBorrowings[$borrowing]);
-				unset($this->_borrowings[$borrowing]);
+				unset($_SESSION["BORROWINGS"][$key]);
+				unset($this->_sessionBorrowings[$key]);
+				unset($this->_borrowings[$key]);
 
 				return true;
 			}
