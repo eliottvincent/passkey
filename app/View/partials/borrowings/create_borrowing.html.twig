@@ -14,18 +14,24 @@
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Emprunteur *</label>
 							<div class="col-md-10">
-								<input type="text" class="form-control" id="form_control_1" placeholder="Clem C" name="borrower" required>
-								<div class="form-control-focus"> </div>
+								<select class="form-control" id="form_control_1" name="borrowing_user" required>
+									{% for user in users %}
+										<option value="{{ user.enssatPrimaryKey }}">{{ user.name }}</option>
+									{% endfor %}
+								</select>
 								<span class="help-block">Personne empruntant un trousseau</span>
 							</div>
 						</div>
 
 						<div class="form-group form-md-line-input">
-							<label class="col-md-2 control-label" for="form_control_1">Nom du trousseau *</label>
+							<label class="col-md-2 control-label" for="form_control_1">Trousseau *</label>
 							<div class="col-md-10">
-								<input type="text" class="form-control" id="form_control_1" placeholder="Clem C" name="keychain" required>
-								<div class="form-control-focus"> </div>
-								<span class="help-block">Trousseau emprunté</span>
+								<select class="form-control" id="form_control_1" name="borrowing_keychain" required>
+									{% for key in keys %}
+										<option value="{{ key.id }}">{{ key.name }}</option>
+									{% endfor %}
+								</select>
+								<span class="help-block">Clé à emprunter</span>
 							</div>
 						</div>
 					</div>

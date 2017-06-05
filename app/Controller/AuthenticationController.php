@@ -7,7 +7,7 @@
  * Time: 14:40
  */
 
-class AuthentificationController
+class AuthenticationController
 {
 	function check() {
 		session_start();
@@ -45,11 +45,7 @@ class AuthentificationController
 						$url = getPreviousUrl();
 						$newUrl = substr($url, 0, strpos($url, "?"));
 
-						// header redirection doesn't work on some environments...
-						// header("Location: " . $newUrl);
-
-						// ...thus we use script injection
-						echo "<script> window.location.replace('" . $newUrl. "') </script>";
+						redirectToUrl($newUrl);
 					}
 
 					else {
@@ -79,10 +75,10 @@ class AuthentificationController
 	function resendLoginPage($type, $message) {
 		$compositeView = new CompositeView();
 
-		$headView 	= new View(null, null, "head.html.twig", array('title' => "Login"));
-		$bodyView 	= new View(null, null, "login_body.html.twig");
-		$submit_message = new View(null, null, "submit_message.html.twig", array('alert_type' => $type , 'alert_message' => $message));
-		$footView 	= new View(null, null, "foot.html.twig");
+		$headView 	= new View("head.html.twig", array('title' => "Login"));
+		$bodyView 	= new View("login_body.html.twig");
+		$submit_message = new View("submit_message.html.twig", array('alert_type' => $type , 'alert_message' => $message));
+		$footView 	= new View("foot.html.twig");
 
 		$compositeView->attachView($headView)
 			->attachView($submit_message)
@@ -101,6 +97,6 @@ class AuthentificationController
 		$url = getPreviousUrl();
 		$newUrl = substr($url, 0, strpos($url, "?"));
 
-		echo "<script> window.location.replace('" . $newUrl. "') </script>";
+		redirectToUrl($newUrl);
 	}
 }

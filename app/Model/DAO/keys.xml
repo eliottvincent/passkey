@@ -1,36 +1,32 @@
 <?xml version='1.0' standalone='yes'?>
 <keys>
 	<key>
-		<enssatPrimaryKey>1</enssatPrimaryKey>
-		<ur1identifier>1</ur1identifier>
-		<username>jDalton</username>
-		<name>Dalton</name>
-		<surname>Joe</surname>
-		<status>Student</status>
-		<phone>5551</phone>
-		<email>joe@dalton.fr</email>
-		<password>jDalton</password>
+		<id>k_1</id>
+		<type>simple</type>
+		<locks>
+			<lock>l_102h-d-001</lock>
+			<lock>l_102h-g-001</lock>
+		</locks>
+		<name>ma clé</name>
+		<copies>2</copies>
 	</key>
 	<key>
-		<enssatPrimaryKey>1</enssatPrimaryKey>
-		<ur1identifier>1</ur1identifier>
-		<username>jDalton</username>
-		<name>Dalton</name>
-		<surname>Joe</surname>
-		<status>Student</status>
-		<phone>5551</phone>
-		<email>joe@dalton.fr</email>
-		<password>jDalton</password>
+		<id>k_2</id>
+		<type>partial</type>
+		<locks>
+			<lock>l_102h-g-001</lock>
+		</locks>
+		<name>ma clé</name>
+		<copies>3</copies>
 	</key>
 	<key>
-		<enssatPrimaryKey>1</enssatPrimaryKey>
-		<ur1identifier>1</ur1identifier>
-		<username>jDalton</username>
-		<name>Dalton</name>
-		<surname>Joe</surname>
-		<status>Student</status>
-		<phone>5551</phone>
-		<email>joe@dalton.fr</email>
-		<password>jDalton</password>
+		<id>k_3</id>
+		<type>total</type>
+		<locks>
+			<lock>l_102h-d-001</lock>
+			<lock>l_102h-g-001</lock>
+		</locks>
+		<name>my key</name>
+		<copies>3</copies>
 	</key>
 </keys>

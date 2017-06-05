@@ -12,9 +12,16 @@
 				<form role="form" class="form-horizontal" action="" method="post">
 					<div class="form-body">
 						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Id de la clé *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" name="key_id" value="{{ key.id }}" required readonly>
+								<div class="form-control-focus"> </div>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Nom de la clé *</label>
 							<div class="col-md-10">
-								<input type="text" class="form-control" id="form_control_1" placeholder="K-102H-G-001" name="key_name" value="{{ key.key_name }}" required disabled>
+								<input type="text" class="form-control" id="form_control_1" placeholder="K-102H-G-001" name="key_name" value="{{ key.name }}" required>
 								<div class="form-control-focus"> </div>
 								<span class="help-block">Ce nom permettra d'identifier la clé dans l'application.</span>
 							</div>
@@ -26,11 +33,7 @@
 								<div class="md-radio-inline">
 									<div class="md-radio">
 										<input
-											type="radio" id="simple" name="key_type" class="md-radiobtn" value="simple"
-											{% if key.key_type == 'simple' %}
-												checked=""
-											{% endif %}
-										>
+											type="radio" id="simple" name="key_type" class="md-radiobtn"  {{ (key.type == 'simple') ? 'checked' : '' }} value="simple">
 										<label for="simple">
 											<span></span>
 											<span class="check"></span>
@@ -38,11 +41,7 @@
 									</div>
 									<div class="md-radio">
 										<input
-											type="radio" id="partial" name="key_type" class="md-radiobtn" value="partial"
-											{% if key.key_type == 'partial' %}
-												checked=""
-											{% endif %}
-										>
+											type="radio" id="partial" name="key_type" class="md-radiobtn" {{ (key.type == 'partial') ? 'checked' : '' }} value="partial">
 										<label for="partial">
 											<span></span>
 											<span class="check"></span>
@@ -50,11 +49,7 @@
 									</div>
 									<div class="md-radio">
 										<input
-											type="radio" id="total" name="key_type" class="md-radiobtn" value="total"
-											{% if key.key_type == 'total' %}
-												checked=""
-											{% endif %}
-										>
+											type="radio" id="total" name="key_type" class="md-radiobtn" {{ (key.type == 'total') ? 'checked' : '' }} value="total">
 										<label for="total">
 											<span></span>
 											<span class="check"></span>
@@ -67,18 +62,17 @@
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Associer un canon *</label>
 							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="key_lock[]" multiple required>
+								<select class="form-control" id="form_control_1" name="key_locks" multiple required>
 									<option value="none"
-									{% if 'none' in key.key_locks %}
+									{% if 'none' in key.locks %}
 										selected
-									{% endif %}
-									>(Aucune)</option>
+									{% endif %}>(Aucune)</option>
 									{% for lock in locks %}
-										<option value="{{ lock.lock_id }}"
-											{% if lock.lock_id in key.key_locks %}
+										<option value="{{ lock.id }}"
+											{% if lock.id in key.locks %}
 												selected
 											{% endif %}
-										>{{ lock.lock_name }}</option>
+										>{{ lock.name }}</option>
 									{% endfor %}
 								</select>
 								<div class="form-control-focus"> </div>
@@ -88,7 +82,7 @@
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Nombre de clés *</label>
 							<div class="col-md-10">
-								<input type="number" class="form-control" id="form_control_1" min="0" max="20" name="key_number" value="{{ key.key_number }}" required>
+								<input type="number" class="form-control" id="form_control_1" min="0" max="20" name="key_copies" value="{{ key.copies }}" required>
 								<div class="form-control-focus"> </div>
 							</div>
 						</div>
@@ -97,10 +91,6 @@
 					<div class="form-actions">
 						<div class="row">
 							<div class="col-md-offset-2 col-md-10">
-								<!-- Used to send datas (because 'disabled' attribute cannot send datas)-->
-								<div class="hiddel-fields">
-									<input type="hidden" name="key_hidden_name" value="{{ key.key_name }}">
-								</div>
 								<button type="submit" class="btn blue">Modifier la clé</button>
 								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
 							</div>

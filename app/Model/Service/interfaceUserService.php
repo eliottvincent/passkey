@@ -7,15 +7,17 @@
  * Time: 13:59
  */
 
-interface interfaceUserService
-{
+interface interfaceUserService {
+
 	public function getUsers();
 
 	public function getUser($enssatPrimaryKey);
 
+	public function saveUser($userArray);
+
 	public function deleteUser($enssatPrimaryKey);
 
-	public function checkUnicity($enssatPrimaryKey);
+	public function updateUser($userArray);
 
-	public function saveUser($user);
+	public function checkUnicity($enssatPrimaryKey);
 }

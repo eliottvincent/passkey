@@ -1,0 +1,119 @@
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet light bordered">
+			<div class="portlet-title">
+				<div class="caption font-green-haze">
+					<i class="icon-settings font-green-haze"></i>
+					<span class="caption-subject bold uppercase">Mettre à jour un emprunt</span>
+				</div>
+			</div>
+			<div class="portlet-body form">
+				<form role="form" class="form-horizontal" action="" method="post">
+					<div class="form-body">
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Id de l'emprunt *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" value="{{ borrowing.id }}" name="borrowing_id" required readonly>
+								<div class="form-control-focus"></div>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Emprunteur *</label>
+							<div class="col-md-10">
+								<select class="form-control" id="form_control_1" name="borrowing_user" required>
+									{% for user in users %}
+										<option value="{{ user.enssatPrimaryKey }}" {{ (borrowing.user == user.enssatPrimaryKey) ? 'selected' : ''}} >{{ user.name }}</option>
+									{% endfor %}
+								</select>
+								<span class="help-block">Personne empruntant un trousseau</span>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Trousseau *</label>
+							<div class="col-md-10">
+								<select class="form-control" id="form_control_1" name="borrowing_keychain" required>
+									{% for key in keys %}
+										<option value="{{ key.id }}" {{ (borrowing.keychain == key.id) ? 'selected' : ''}} >{{ key.name }}</option>
+									{% endfor %}
+								</select>
+								<span class="help-block">Clé à emprunter</span>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Date de l'emprunt</label>
+							<div class="col-md-4">
+									<input type="text" size="16" readonly class="form-control" name="borrowing_borrowdate" value="{{ borrowing.duedate }}">
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Date de retour prévu</label>
+							<div class="col-md-4">
+								<div class="input-group date form_datetime">
+									<input type="text" size="16" readonly class="form-control" name="borrowing_duedate" value="{{ borrowing.duedate }}">
+									<span class="input-group-btn">
+										<button class="btn default date-set" type="button">
+											<i class="fa fa-calendar"></i>
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Date de retour effectif</label>
+							<div class="col-md-4">
+								<div class="input-group date form_datetime">
+									<input type="text" size="16" readonly class="form-control" name="borrowing_returndate" value="{{ borrowing.returndate }}">
+									<span class="input-group-btn">
+										<button class="btn default date-set" type="button">
+											<i class="fa fa-calendar"></i>
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Date de perte</label>
+							<div class="col-md-4">
+								<div class="input-group date form_datetime">
+									<input type="text" size="16" readonly class="form-control" name="borrowing_lostdate" value="{{ borrowing.lostdate }}">
+									<span class="input-group-btn">
+										<button class="btn default date-set" type="button">
+											<i class="fa fa-calendar"></i>
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group form-md-line-input">
+						<label class="col-md-2 control-label" for="form_control_1">Statut *</label>
+						<div class="col-md-10">
+							<select class="form-control" id="form_control_1" name="borrowing_status" required>
+								{% for key, status in statuses %}
+									<option value="{{ key }}" {{ (borrowing.status == key) ? 'selected' : ''}} >{{ status }}</option>
+								{% endfor %}
+							</select>
+							<span class="help-block">Statut actuel de l'emprunt.</span>
+						</div>
+					</div>
+
+					<div class="form-actions">
+						<div class="row">
+							<div class="col-md-offset-2 col-md-10">
+								<button type="submit" class="btn blue">Modifier l'emprunt</button>
+								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- END SAMPLE FORM PORTLET-->
+	</div>
+</div>
