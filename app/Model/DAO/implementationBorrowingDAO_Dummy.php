@@ -30,9 +30,13 @@ class implementationBorrowingDAO_Dummy implements interfaceBorrowingDAO {
 				$borrowing = new BorrowingVO();
 
 				$borrowing->setId((string) $xmlBorrowing->id);
+				$borrowing->setBorrowDate((string) $xmlBorrowing->borrowDate);
 				$borrowing->setDueDate((string) $xmlBorrowing->dueDate);
+				$borrowing->setReturnDate((string) $xmlBorrowing->returnDate);
+				$borrowing->setLostDate((string) $xmlBorrowing->lostDate);
 				$borrowing->setKeychain((string) $xmlBorrowing->keychain);
 				$borrowing->setUser((string) $xmlBorrowing->user);
+				$borrowing->setStatus((string) $xmlBorrowing->status);
 
 				array_push($this->_borrowings, $borrowing);
 			}
