@@ -18,41 +18,40 @@
 								<th> Key name </th>
 								<th> Key type </th>
 								<th> Key lock </th>
-								<th> Key number </th>
+								<th> Key copies </th>
 								<th> #actions </th>
 							</tr>
 							</thead>
 							<tbody>
 							{% for key in keys %}
-								<tr id="{{ key.key_id }}">
-									<td> {{ key.key_id }} </td>
-									<td> {{ key.key_name }} </td>
-									<td> {{ key.key_type }} </td>
+								<tr id="{{ key.id }}">
+									<td> {{ key.id }} </td>
+									<td> {{ key.name }} </td>
+									<td> {{ key.type }} </td>
 									<td>
-										{% for key_lock in key.key_locks %}
-											<p>{{ key_lock }}</p>
+										{% for lock in key.locks %}
+											<p>{{ lock }}</p>
 										{% endfor %}
-
 									<td>
 										<p
-											{% if key.key_number < 3 %}
+											{% if key.copies < 3 %}
 												class="text-danger"
-											{% elseif key.key_number < 6 %}
+											{% elseif key.copies < 6 %}
 												class="text-warning"
 											{% endif %}
-										>{{ key.key_number }}</p>
+										>{{ key.copies }}</p>
 									</td>
 									</td>
 
 									<td>
 										<form action="./?action=updatekey" method="post">
-											<input type="hidden" name="update" value="{{ key.key_id }}"/>
+											<input type="hidden" name="update" value="{{ key.id }}"/>
 											<button type="submit" class="btn blue btn-sm">Modifier</button>
 										</form>
 
 										<!--<form action="" method="post">-->
-											<input type="hidden" name="delete" value="{{ key.key_id }}"/>
-											<button type="submit" class="btn red btn-sm btn-delete-k" value="{{ key.key_id }}">Supprimer</button>
+											<input type="hidden" name="delete" value="{{ key.id }}"/>
+											<button type="submit" class="btn red btn-sm btn-delete-k" value="{{ key.id }}">Supprimer</button>
 										<!--</form>-->
 									</td>
 								</tr>

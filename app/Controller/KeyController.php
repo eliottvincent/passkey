@@ -7,12 +7,74 @@
  * Time: 15:21
  */
 
-class KeyController
-{
-	public function __construct()
-	{
+class KeyController {
 
+	//================================================================================
+
+	/**
+	 * KeyController constructor.
+	 */
+	public function __construct() {
+		$this->_keyService = implementationKeyService_Dummy::getInstance();
 	}
+
+
+	//================================================================================
+	// LIST
+	//================================================================================
+
+	/**
+	 * use to list keys
+	 */
+	public function list() {
+		$keys = $this->getKeys();
+
+		if (!empty($keys)) {
+			$this->displayList(true);
+		}
+		else {
+			$message['type'] = 'danger';
+			$message['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
+			$this->displayList(false, array($message));
+		}
+	}
+
+	/**
+	 * Display list of keys.
+	 * @param $state boolean if file datas/datas.xlsx exists
+	 * @param null $message array of the message displays
+	 */
+	public function displayList($state, $messages = null) {
+		if ($state) {
+			$keys = $this->getKeys();
+		} else {
+			$keys = null;
+		}
+
+		$compositeView = new CompositeView(
+			true,
+			'Liste des clés',
+			'Cette page permet de modifier et/ou supprimer des clés.',
+			"key",
+			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
+			array("deleteKeyScript" => "app/View/assets/custom/scripts/deleteKey.js",
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$compositeView->attachContentView($submit_message);
+				}
+			}
+		}
+
+		$list_keys = new View("keys/list_keys.html.twig", array('keys' => $keys));
+		$compositeView->attachContentView($list_keys);
+
+		echo $compositeView->render();
+	}
+
 
 	/**
 	 * to create a new key
