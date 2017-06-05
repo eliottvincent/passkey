@@ -7,9 +7,7 @@ interface interfaceDoorDAO
 	public static function getInstance();
 
 	public function getDoors();
-
-	public function getRandomDoor();
-
+	
 }
 
 ?>
