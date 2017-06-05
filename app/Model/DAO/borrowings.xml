@@ -1,0 +1,21 @@
+<?xml version='1.0' standalone='yes'?>
+<borrowings>
+	<borrowing>
+		<id>b_1</id>
+		<user>1</user>
+		<keychain>1</keychain>
+		<dueDate>2017-09-24</dueDate>
+	</borrowing>
+	<borrowing>
+		<id>b_2</id>
+		<user>2</user>
+		<keychain>3</keychain>
+		<dueDate>2017-09-24</dueDate>
+	</borrowing>
+	<borrowing>
+		<id>b_3</id>
+		<user>3</user>
+		<keychain>3</keychain>
+		<dueDate>2017-09-24</dueDate>
+	</borrowing>
+</borrowings>
