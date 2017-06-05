@@ -213,36 +213,52 @@ class KeyController {
 	}
 
 
+	//================================================================================
+	// UPDATE
+	//================================================================================
 
+	/**
+	 *
+	 */
 	public function update() {
+
 		if (isset($_POST['update']) && !empty($_POST['update'])) {
-			$key = $this::getKey(addslashes($_POST['update']));
-			$this->displayUpdateForm(true, $key);
-		} elseif (isset($_POST['key_hidden_name']) || isset($_POST['key_type']) || isset($_POST['key_lock']) || isset($_POST['key_number'])) {
-			$id = 'k_' . strtolower(str_replace(' ', '_', addslashes($_POST['key_hidden_name'])));
+			$key = $this->getKey($_POST['update']);
+			$this->displayUpdateForm($key);
+		}
 
-			for ($i = 0; $i < sizeof($_SESSION['KEYS']); $i++) {
-				if ($_SESSION['KEYS'][$i]['key_id'] == $id) {
-					if (isset($_POST['key_type']) && ($_POST['key_type'] != $_SESSION['KEYS'][$i]['key_type']) && !empty($_POST['key_type'])) {
-						$_SESSION['KEYS'][$i]['key_type'] = addslashes($_POST['key_type']);
-					}
+		// if all values were posted (= form submission)
+		elseif (isset($_POST['key_name']) &&
+			isset($_POST['key_type']) &&
+			isset($_POST['key_locks']) &&
+			isset($_POST['key_copies'])) {
 
-					if (isset($_POST['key_lock']) && !empty($_POST['key_lock'])) {
-						$_SESSION['KEYS'][$i]['key_locks'] = $_POST['key_lock'];
-					}
+			$keyToUpdate = array(
+				'key_id' => $_POST['key_id'],
+				'key_name' => addslashes($_POST['key_name']),
+				'key_type' => addslashes($_POST['key_type']),
+				'key_locks' => addslashes($_POST['key_locks']),
+				'key_copies' => addslashes($_POST['key_copies']));
 
-					if (isset($_POST['key_number']) && ($_POST['key_number'] != $_SESSION['KEYS'][$i]['key_number']) && !empty($_POST['key_number'])) {
-						$_SESSION['KEYS'][$i]['key_number'] = addslashes($_POST['key_number']);
-					}
-				}
+			if ($this->updateKey($keyToUpdate) == false) {
+				$message['type'] = 'danger';
+				$message['message'] = 'Erreur lors de la modification de la clé.';
+				$this->displayList(true, array($message));
 			}
+			else {
+				$message['type'] = 'success';
+				$message['message'] = 'La clé a bien été modifiée.';
+				$this->displayList(true, array($message));
+			}
+		}
 
-			redirectToUrl('./?action=listkeys&update=true');
-		} else {
-			$keys = $this::getKeys();
+		else {
+			$keys = $this->getKeys();
+
 			if (!empty($keys)) {
 				$this->displayList(true);
-			} else {
+			}
+			else {
 				$alert['type'] = 'danger';
 				$alert['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
 				$alerts[] = $alert;
@@ -251,16 +267,23 @@ class KeyController {
 		}
 	}
 
-	public function displayUpdateForm($state, $datas, $messages = null) {
-		if ($state) {
-			$locks = LockController::getLocks();
-		} else {
-			$locks = null;
-		}
+	/**
+	 * @param $state
+	 * @param $datas
+	 * @param null $messages
+	 */
+	public function displayUpdateForm($key, $messages = null) {
 
-		$composite = new CompositeView(true, 'Mettre à jour une clé', null, "key");
+		$locks = $this->_lockService->getLocks();
+
+		$composite = new CompositeView(
+			true,
+			'Mettre à jour une clé',
+			null,
+			"key");
 
 		if ($messages != null) {
+
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
 					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
@@ -269,7 +292,7 @@ class KeyController {
 			}
 		}
 
-		$update_key = new View('keys/update_key.html.twig', array('locks' => $locks, 'key' => $datas, 'previousUrl' => getPreviousUrl()));
+		$update_key = new View('keys/update_key.html.twig', array('locks' => $locks, 'key' => $key, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($update_key);
 
 		echo $composite->render();
@@ -325,6 +348,13 @@ class KeyController {
 		return $this->_keyService->deleteKey($id);
 	}
 
+	/**
+	 * @param $keyToUpdate
+	 */
+	private function updateKey($keyToUpdate) {
+
+		return $this->_keyService->updateKey($keyToUpdate);
+	}
 
 	/**
 	 * @param $id

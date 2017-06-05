@@ -12,7 +12,7 @@
 				<form role="form" class="form-horizontal" action="" method="post">
 					<div class="form-body">
 						<div class="form-group form-md-line-input">
-							<label class="col-md-2 control-label" for="form_control_1">Nom du canon *</label>
+							<label class="col-md-2 control-label" for="form_control_1">Id du canon *</label>
 							<div class="col-md-10">
 								<input type="text" class="form-control" id="form_control_1" name="lock_id" value="{{ lock.id }}" required readonly>
 								<div class="form-control-focus"> </div>
@@ -42,9 +42,6 @@
 					<div class="form-actions">
 						<div class="row">
 							<div class="col-md-offset-2 col-md-10">
-								<div class="hiddel-fields">
-									<input type="hidden" name="lock_hidden_name" value="{{ lock.name }}">
-								</div>
 								<button type="submit" class="btn blue">Modifier le canon</button>
 								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
 							</div>
