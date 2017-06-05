@@ -49,13 +49,13 @@ class RouterController
 	}
 
 	function login() {
-		$authentificationController = new AuthentificationController();
-		$authentificationController->login();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->login();
 	}
 
 	function logout() {
-		$authentificationController = new AuthentificationController();
-		$authentificationController->logout();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->logout();
 	}
 
 
@@ -64,16 +64,16 @@ class RouterController
 	//================================================================================
 	function listDoors() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$doorController = new DoorController();
 		$doorController->list();
 	}
 
 	function createDoor() {
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$doorController = new DoorController();
 		$doorController->create();
@@ -81,8 +81,8 @@ class RouterController
 
 	function updateDoor() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$doorController = new DoorController();
 		$doorController->update();
@@ -100,8 +100,8 @@ class RouterController
 
 	function listLocks() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$lockController = new LockController();
 		$lockController->list();
@@ -109,8 +109,8 @@ class RouterController
 
 	function createLock() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$lockController = new LockController();
 		$lockController->create();
@@ -118,8 +118,8 @@ class RouterController
 
 	function updateLock() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$lockController = new LockController();
 		$lockController->update();
@@ -138,8 +138,8 @@ class RouterController
 
 	function listKeys() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$keyController = new KeyController();
 		$keyController->list();
@@ -148,8 +148,8 @@ class RouterController
 
 	function createKey() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$keyController = new KeyController();
 		$keyController->create();
@@ -157,8 +157,8 @@ class RouterController
 
 	function updateKey() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$keyController = new KeyController();
 		$keyController->update();
@@ -175,16 +175,16 @@ class RouterController
 	//================================================================================
 
 	function listUsers() {
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$userController = new UserController();
 		$userController->list();
 	}
 
 	function createUser() {
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$userController = new UserController();
 		$userController->create();
@@ -192,8 +192,8 @@ class RouterController
 
 	function updateUser()
 	{
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$userController = new UserController();
 		$userController->update();
@@ -211,8 +211,8 @@ class RouterController
 
 	function listBorrowings() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$borrowingController = new BorrowingController();
 		$borrowingController->list();
@@ -220,11 +220,16 @@ class RouterController
 
 	function createBorrowing() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$borrowingController = new BorrowingController();
 		$borrowingController->create();
+	}
+
+	function deleteBorrowingAjax() {
+		$borrowingController = new BorrowingController();
+		$borrowingController->deleteBorrowingAjax();
 	}
 
 
@@ -238,8 +243,8 @@ class RouterController
 	function createBlankPage() {
 
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		// creating a default CompositeView
 		$compositeView = new CompositeView(true);

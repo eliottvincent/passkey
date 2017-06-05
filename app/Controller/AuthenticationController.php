@@ -7,7 +7,7 @@
  * Time: 14:40
  */
 
-class AuthentificationController
+class AuthenticationController
 {
 	function check() {
 		session_start();
