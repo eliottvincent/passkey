@@ -3,8 +3,7 @@ require_once 'app/Model/VO/KeyVO.php';
 require_once 'app/Model/DAO/interfaceKeyDAO.php';
 
 
-class implementationKeyDAO_Dummy implements interfaceKeyDAO
-{
+class implementationKeyDAO_Dummy implements interfaceKeyDAO {
 
 	private $_keys = array();
 
@@ -27,20 +26,18 @@ class implementationKeyDAO_Dummy implements interfaceKeyDAO
 			$keys = simplexml_load_file(dirname(__FILE__).'/keys.xml');
 			foreach($keys->children() as $xmlkey)
 			{
-				$key = new keyVO;
-				/**$key->setEnssatPrimaryKey((float) $xmlkey->enssatPrimaryKey);
-				$key->setUr1Identifier((int)$xmlkey->ur1identifier);
-				$key->setkeyname((string)$xmlkey->keyname);
-				$key->setName((string)$xmlkey->name);
-				$key->setSurname((string)$xmlkey->surname);
-				$key->setPhone((int)$xmlkey->phone);
-				$key->setStatus((string)$xmlkey->status);
-				$key->setEmail((string)$xmlkey->email);**/
+				$key = new KeyVO();
 
-				array_push($this->_keys,$key);
+				$key->setId((string) $xmlkey->id);
+				$key->setLocks($xmlkey->locks[0]);	// TODO : find a better way to assign the array 🤔
+				$key->setType((string) $xmlkey->type);
+				$key->setName((string) $xmlkey->name);
+				$key->setCopies((int) $xmlkey->copies);
+
+				array_push($this->_keys, $key);
 			}
 		} else {
-			throw new RuntimeException('Echec lors de l\'ouverture du fichier keys.xml.');
+			exit('Echec lors de l\'ouverture du fichier keys.xml.');
 		}
 
 	}
@@ -61,22 +58,10 @@ class implementationKeyDAO_Dummy implements interfaceKeyDAO
 		return self::$_instance;
 	}
 
-	public function getkeys()
+	public function getKeys()
 	{
 		return $this->_keys;
-		/*
-        foreach($this->_keys as $clef=>$key)
-        {
-          echo $key->getEnssatPrimaryKey()." ".$key->getkeyname()." ".$key->getPhone()."\n";
-        }
-        */
 	}
-
-	public function getkeyByEnssatPrimaryKey($enssatPrimaryKey)
-	{
-
-	}
-
 
 }
 
