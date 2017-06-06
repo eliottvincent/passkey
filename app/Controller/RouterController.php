@@ -239,10 +239,15 @@ class RouterController
 		$borrowingController->deleteBorrowingAjax();
 	}
 
+	//================================================================================
+	// DASHBOARD
+	//================================================================================
+
 	//DashboardController
 	function displayDashboard() {
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
 
 		$dashboard = new DashboardController();
 		$dashboard->displayDash();
