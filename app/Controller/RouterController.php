@@ -239,6 +239,15 @@ class RouterController
 		$borrowingController->deleteBorrowingAjax();
 	}
 
+	//DashboardController
+	function displayDashboard() {
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$dashboard = new DashboardController();
+		$dashboard->displayDash();
+	}
+
 
 	/**
 	 * Creates a blank page as a CompositeView
