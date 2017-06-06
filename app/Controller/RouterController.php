@@ -174,6 +174,15 @@ class RouterController extends Controller
 		$lockController->deleteLockAjax();
 	}
 
+	//DashboardController
+	function displayDashboard() {
+		$authentificationController = new AuthentificationController();
+		$authentificationController->check();
+
+		$dashboard = new DashboardController();
+		$dashboard->displayDash();
+	}
+
 
 	/**
 	 * Creates a blank page as a CompositeView
