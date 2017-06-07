@@ -6,11 +6,11 @@
  * Date: 07/06/2017
  * Time: 09:58
  */
-interface interfaceTrackingDAO
+interface interfaceActionDAO
 {
 
 	public static function getInstance();
 
 	// Retrieves all users currently in the database.
-	public function getTrackings();
+	public function getActions();
 }

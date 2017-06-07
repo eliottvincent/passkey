@@ -6,9 +6,9 @@
  * Date: 07/06/2017
  * Time: 10:01
  */
-class implementationTrackingDAO_Dummy {
+class implementationActionDAO_Dummy {
 
-	private $_trackings = array();
+	private $_actions = array();
 
 	/**
 	 * @var Singleton
@@ -38,15 +38,15 @@ class implementationTrackingDAO_Dummy {
 	public static function getInstance() {
 
 		if(is_null(self::$_instance)) {
-			self::$_instance = new implementationTrackingDAO_Dummy();
+			self::$_instance = new implementationActionDAO_Dummy();
 		}
 
 		return self::$_instance;
 	}
 
-	public function getTrackings()
+	public function getActions()
 	{
-		return $this->_trackings;
+		return $this->_actions;
 	}
 
 }
