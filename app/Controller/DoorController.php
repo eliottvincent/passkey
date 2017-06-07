@@ -28,26 +28,22 @@ class DoorController {
 		$doors = $this->getDoors();
 
 		if (!empty($doors)) {
-			$this->displayList(true);
+			$this->displayList();
 		}
 		else {
-			$alert['type'] = 'danger';
-			$alert['message'] = 'Nous n\'avons aucune porte d\'enregistrée.';
-			$alerts[] = $alert;
-			$this->displayList(false, $alerts);
+			$message['type'] = 'danger';
+			$message['message'] = 'Nous n\'avons aucune porte d\'enregistrée.';
+			$this->displayList(array($message));
 		}
 	}
 
 	/**
-	 * @param $state
 	 * @param null $messages
+	 * @internal param $state
 	 */
-	public function displayList($state, $messages = null) {
-		if ($state) {
-			$doors = $this->getDoors();
-		} else {
-			$doors = null;
-		}
+	public function displayList($messages = null) {
+		$doors = $this->getDoors();
+
 		$compositeView = new CompositeView(
 			true,
 			'Liste des portes',
@@ -225,12 +221,12 @@ class DoorController {
 			if ($this->updateDoor($doorToUpdate) == false) {
 				$message['type'] = 'danger';
 				$message['message'] = 'Erreur lors de la modification de la porte.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 			else {
 				$message['type'] = 'success';
 				$message['message'] = 'La porte a bien été modifiée.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 		}
 
@@ -238,13 +234,12 @@ class DoorController {
 			$doors = $this->getDoors();
 
 			if (!empty($doors)) {
-				$this->displayList(true);
+				$this->displayList();
 			}
 			else {
-				$alert['type'] = 'danger';
-				$alert['message'] = 'Nous n\'avons aucune porte d\'enregistrée.';
-				$alerts[] = $alert;
-				$this->displayList(false, $alerts);
+				$message['type'] = 'danger';
+				$message['message'] = 'Nous n\'avons aucune porte d\'enregistrée.';
+				$this->displayList(array($message));
 			}
 		}
 	}
