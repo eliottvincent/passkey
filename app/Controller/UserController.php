@@ -204,7 +204,6 @@ class UserController {
 		if (isset($_POST['value'])) {
 
 			if ($this->deleteUser($_POST['value']) == true) {
-				$response['users'] = $this->getUsers();
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}

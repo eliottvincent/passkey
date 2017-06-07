@@ -179,7 +179,6 @@ class LockController {
 		if (isset($_POST['value'])) {
 
 			if ($this->deleteLock($_POST['value']) == true) {
-				$response['locks'] = $this->getLocks();
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}

@@ -192,10 +192,11 @@ class KeyController {
 
 		session_start();
 
-		if (isset($_POST['value'])) {
+		//if (isset($_POST['value'])) {
+		if (isset($_GET['value'])) {
 
-			if ($this->deleteKey($_POST['value']) == true) {
-				$response['keys'] = $this->getKeys();
+			//if ($this->deleteKey($_POST['value']) == true) {
+			if ($this->deleteKey($_GET['value']) == true) {
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}
