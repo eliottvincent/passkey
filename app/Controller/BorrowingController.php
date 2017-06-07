@@ -179,7 +179,7 @@ class BorrowingController {
 
 		if (isset($_POST['value'])) {
 
-			if ($this->deleteBorrowing($_POST['value']) == true) {
+			if ($this->deleteBorrowing(urldecode($_POST['value'])) == true) {
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}
