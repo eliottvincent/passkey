@@ -12,7 +12,6 @@ class implementationActionService_Dummy implements interfaceActionService {
 	// properties
 	//================================================================================
 
-
 	/**
 	 * @var Singleton
 	 * @access private
@@ -23,7 +22,7 @@ class implementationActionService_Dummy implements interfaceActionService {
 	private $_actionDAO;
 	private $_actions = array();
 	private $_sessionActions = null;
-	private $_xmlTrackings = null;
+	private $_xmlActions = null;
 
 	/**
 	 * implementationActionService_Dummy constructor.
@@ -33,7 +32,7 @@ class implementationActionService_Dummy implements interfaceActionService {
 		$this->_actionDAO = implementationActionDAO_Dummy::getInstance();
 
 		// getting data we need
-		// $this->_xmlTrackings = $this->$_actionDAO->getActions();
+		// $this->_xmlActions = $this->$_actionDAO->getActions();
 
 		if (isset($_SESSION["ACTIONS"])) {
 			$this->_sessionActions = $_SESSION["ACTIONS"];
@@ -99,8 +98,8 @@ class implementationActionService_Dummy implements interfaceActionService {
 		$tDate->setTimestamp(time());
 
 		$actionToSave = new ActionVO();
-		$actionToSave->setId((int) $actionArray['tracking_id']);	// TODO : generate id here ?
-		$actionToSave->setType((string) $actionArray['tracking_type']);
+		$actionToSave->setId((int) $actionArray['action_id']);	// TODO : generate id here ?
+		$actionToSave->setType((string) $actionArray['action_type']);
 		$actionToSave->setDate((string) $tDate->format('Y-m-d H:i:s'));
 
 		array_push($_SESSION["ACTIONS"], $actionToSave);
@@ -184,8 +183,8 @@ class implementationActionService_Dummy implements interfaceActionService {
 	private function updateServiceVariables() {
 
 		if (isset($_SESSION["ACTIONS"])) {
-			$this->_sessionTrackings = $_SESSION["ACTIONS"];
-			$this->_trackings = $_SESSION["ACTIONS"];
+			$this->_sessionActions = $_SESSION["ACTIONS"];
+			$this->_actions = $_SESSION["ACTIONS"];
 		}
 
 	}
