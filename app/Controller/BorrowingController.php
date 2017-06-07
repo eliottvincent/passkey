@@ -28,26 +28,23 @@ class BorrowingController {
 		$borrowings = $this->getBorrowings();
 
 		if (!empty($borrowings)) {
-			$this->displayList(true);
+			$this->displayList();
 		}
 		else {
 			$message['type'] = 'danger';
 			$message['message'] = 'Nous n\'avons aucun emprunt d\'enregistré.';
-			$this->displayList(false, array($message));
+			$this->displayList(array($message));
 		}
 	}
 
 	/**
 	 * Display list of borrowings.
-	 * @param null $message array of the message displays
+	 * @param null $messages
+	 * @internal param null $message array of the message displays
 	 */
-	public function displayList($state, $messages = null) {
+	public function displayList($messages = null) {
 
-		if ($state) {
-			$borrowings = $this->getBorrowings();
-		} else {
-			$borrowings = null;
-		}
+		$borrowings = $this->getBorrowings();
 
 		$compositeView = new CompositeView(
 			true,
@@ -239,12 +236,12 @@ class BorrowingController {
 			if ($this->updateBorrowing($borrowingToUpdate) == false) {
 				$message['type'] = 'danger';
 				$message['message'] = 'Erreur lors de la modification de l\'emprunt.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 			else {
 				$message['type'] = 'success';
 				$message['message'] = 'L\'emprunt a bien été modifié.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 		}
 
@@ -252,12 +249,12 @@ class BorrowingController {
 			$borrowings = $this->getBorrowings();
 
 			if (!empty($borrowings)) {
-				$this->displayList(true);
+				$this->displayList();
 			}
 			else {
 				$message['type'] = 'danger';
 				$message['message'] = 'Nous n\'avons aucun emprunt d\'enregistré.';
-				$this->displayList(false, array($message));
+				$this->displayList(array($message));
 			}
 		}
 	}
