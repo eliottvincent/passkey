@@ -29,26 +29,23 @@ class LockController {
 		$locks = $this->getLocks();
 
 		if (!empty($locks)) {
-			$this->displayList(true);
+			$this->displayList();
 		}
 		else {
-			$alert['type'] = 'danger';
-			$alert['message'] = 'Nous n\'avons aucun canon d\'enregistré.';
-			$alerts[] = $alert;
-			$this->displayList(false, $alerts);
+			$message['type'] = 'danger';
+			$message['message'] = 'Nous n\'avons aucun canon d\'enregistré.';
+			$this->displayList(array($message));
 		}
 	}
 
 	/**
-	 * @param $state
 	 * @param null $messages
+	 * @internal param $state
 	 */
-	public function displayList($state, $messages = null) {
-		if ($state) {
-			$locks = LockController::getLocks();
-		} else {
-			$locks = null;
-		}
+	public function displayList($messages = null) {
+
+		$locks = $this->getLocks();
+
 		$composite = new CompositeView(
 			true,
 			'Liste des canons',
@@ -227,12 +224,12 @@ class LockController {
 			if ($this->updateLock($lockToUpdate) == false) {
 				$message['type'] = 'danger';
 				$message['message'] = 'Erreur lors de la modification du cannon.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 			else {
 				$message['type'] = 'success';
 				$message['message'] = 'Le canon a bien été modifié.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 		}
 
@@ -241,12 +238,12 @@ class LockController {
 			$locks = $this->getLocks();
 
 			if (!empty($locks)) {
-				$this->displayList(true);
+				$this->displayList();
 			}
 			else {
 				$message['type'] = 'danger';
 				$message['message'] = 'Nous n\'avons aucun canon d\'enregistré.';
-				$this->displayList(false, array($message));
+				$this->displayList(array($message));
 			}
 		}
 	}
