@@ -174,7 +174,7 @@ class DoorController {
 
 		if (isset($_POST['value'])) {
 
-			if ($this->deleteDoor($_POST['value']) == true) {
+			if ($this->deleteDoor(urldecode($_POST['value'])) == true) {
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}

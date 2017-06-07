@@ -203,7 +203,7 @@ class UserController {
 
 		if (isset($_POST['value'])) {
 
-			if ($this->deleteUser($_POST['value']) == true) {
+			if ($this->deleteUser(urldecode($_POST['value'])) == true) {
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}

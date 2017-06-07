@@ -192,11 +192,9 @@ class KeyController {
 
 		session_start();
 
-		//if (isset($_POST['value'])) {
-		if (isset($_GET['value'])) {
+		if (isset($_POST['value'])) {
 
-			//if ($this->deleteKey($_POST['value']) == true) {
-			if ($this->deleteKey($_GET['value']) == true) {
+			if ($this->deleteKey(urldecode($_POST['value'])) == true) {
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}
@@ -207,7 +205,7 @@ class KeyController {
 		}
 		else {
 			$response['status'] = 'error';
-			$response['message'] = 'This failed';
+			$response['message'] = 'This failed ';
 		}
 
 		echo json_encode($response);

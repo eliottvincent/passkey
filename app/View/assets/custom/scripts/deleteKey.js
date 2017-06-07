@@ -26,7 +26,6 @@ function deleteKey() {
 		preConfirm: function () {
 			return new Promise(function (resolve, reject) {
 				$.ajax({
-					//url: "delete.php",
 					url: "/?action=deleteKeyAjax",
 					type: "POST",
 					data: {
