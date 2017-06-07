@@ -351,6 +351,10 @@ class UserController {
 		return $this->_userService->deleteUser($enssatPrimaryKey);
 	}
 
+	/**
+	 * @param $userToUpdate
+	 * @return mixed
+	 */
 	private function updateUser($userToUpdate) {
 
 		return $this->_userService->updateUser($userToUpdate);
