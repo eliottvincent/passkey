@@ -9,6 +9,7 @@ date_default_timezone_set('Europe/Paris');
  * Time: 15:13
  */
 class implementationDoorDAO_Dummy implements interfaceDoorDAO {
+
 	private $_doors = array();
 
 	/**
