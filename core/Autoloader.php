@@ -11,7 +11,7 @@ class Autoloader
     /**
      * Register autoloader
      */
-    static function register(){
+    static function register() {
 
         // Needed for Composer loading (always needed).
         if (file_exists('vendor/autoload.php')) {
