@@ -180,7 +180,6 @@ class BorrowingController {
 		if (isset($_POST['value'])) {
 
 			if ($this->deleteBorrowing($_POST['value']) == true) {
-				$response['borrowings'] = $this->getBorrowings();
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}

@@ -175,7 +175,6 @@ class DoorController {
 		if (isset($_POST['value'])) {
 
 			if ($this->deleteDoor($_POST['value']) == true) {
-				$response['doors'] = $this->getDoors();
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}
