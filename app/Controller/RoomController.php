@@ -162,6 +162,39 @@ class RoomController {
 
 		echo $compositeView->render();
 	}
+
+
+	//================================================================================
+	// DELETE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function deleteRoomAjax() {
+
+		session_start();
+
+		if (isset($_POST['value'])) {
+
+			if ($this->deleteRoom(urldecode($_POST['value'])) == true) {
+				$response['status'] = 'success';
+				$response['message'] = 'This was successful';
+			}
+			else {
+				$response['status'] = 'error';
+				$response['message'] = 'This failed';
+			}
+		}
+		else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
+
+		echo json_encode($response);
+	}
+
+
 	//================================================================================
 	// calls to Service
 	//================================================================================
@@ -192,6 +225,14 @@ class RoomController {
 		$this->_roomService->saveRoom($roomToSave);
 	}
 
+	/**
+	 * Used to delete a door from an id.
+	 * @param $enssatPrimaryKey
+	 */
+	private function deleteRoom($id) {
+
+		return $this->_roomService->deleteRoom($id);
+	}
 
 	/**
 	 * @param $id
