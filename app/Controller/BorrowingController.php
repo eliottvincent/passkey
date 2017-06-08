@@ -315,6 +315,27 @@ class BorrowingController {
 		echo $composite->render();
 	}
 
+	//================================================================================
+	// DETAILED
+	//================================================================================
+
+	public function detailed($id) {
+		$borrow = $this->getBorrowing($id);
+
+		$composite = new CompositeView(
+			true,
+			"Détail de l'emprunt",
+			null,
+			"borrowing"
+		);
+
+		$detailed_borrowing = new View('borrowings/detailed_borrowing.html.twig', array('borrow' => $borrow));
+		$composite->attachContentView($detailed_borrowing);
+
+		echo $composite->render();
+
+	}
+
 
 	//================================================================================
 	// calls to Service
