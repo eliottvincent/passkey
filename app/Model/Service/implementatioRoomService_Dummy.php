@@ -65,12 +65,12 @@ class implementatioRoomService_Dummy implements interfaceRoomService
 	 * si elle n'existe pas encore puis la retourne.
 	 *
 	 * @param void
-	 * @return implementationRoomDAO_Dummy
+	 * @return implementatioRoomService_Dummy
 	 */
 	public static function getInstance() {
 
 		if(is_null(self::$_instance)) {
-			self::$_instance = new implementationRoomDAO_Dummy();
+			self::$_instance = new implementatioRoomService_Dummy();
 		}
 
 		return self::$_instance;
