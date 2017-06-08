@@ -131,6 +131,43 @@ class RouterController
 	}
 
 
+	//================================================================================
+	// LOCKS
+	//================================================================================
+
+	function listRooms() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->list();
+	}
+
+	function createRoom() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->create();
+	}
+
+	function updateRoom() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->update();
+	}
+
+	function deleteRoomAjax() {
+		$roomController = new RoomController();
+		$roomController->deleteRoomAjax();
+	}
+
+
 
 	//================================================================================
 	// KEYS
