@@ -1,0 +1,130 @@
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet light bordered">
+			<div class="portlet-title">
+				<div class="caption font-green-haze">
+					<i class="fa fa-columns font-green-haze"></i>
+					<span class="caption-subject bold uppercase">Modifier une salle</span>
+				</div>
+			</div>
+			<div class="portlet-body form">
+				<form role="form" class="form-horizontal" action="" method="post">
+					<div class="form-body">
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Id de la salle *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="102H" name="room_id" value="{{ room.id }}" required readonly>
+								<div class="form-control-focus"> </div>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Nom de la salle *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="102H" name="room_name" value="{{ room.name }}" required>
+								<div class="form-control-focus"> </div>
+								<span class="help-block">Ce nom permettra d'identifier la salle dans l'application.</span>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Bâtiment *</label>
+							<div class="col-md-10">
+								<div class="md-radio-inline">
+									<div class="md-radio">
+										<input type="radio" id="building1" name="room_building" class="md-radiobtn" {{ (room.building == 'building_1') ? 'checked' : '' }} value="building_1">
+										<label for="building1">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>Bâtiment 1</label>
+									</div>
+									<div class="md-radio">
+										<input type="radio" id="building2" name="room_building" class="md-radiobtn" {{ (room.building == 'building_2') ? 'checked' : '' }} value="building_2">
+										<label for="building2">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>Bâtiment 2</label>
+									</div>
+									<div class="md-radio">
+										<input type="radio" id="building3" name="room_building" class="md-radiobtn" {{ (room.building == 'building_3') ? 'checked' : '' }} value="building_3">
+										<label for="building3">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>Bâtiment 3</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Étage *</label>
+							<div class="col-md-10">
+								<div class="md-radio-inline">
+									<div class="md-radio">
+										<input type="radio" id="rdc" name="room_floor" class="md-radiobtn" {{ (room.floor == 'floor_0') ? 'checked' : '' }} value="floor_0">
+										<label for="rdc">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>Rez-de-chaussée</label>
+									</div>
+									<div class="md-radio">
+										<input type="radio" id="rdc" name="room_floor" class="md-radiobtn" {{ (room.floor == 'floor_1') ? 'checked' : '' }} value="floor_1">
+										<label for="floor1">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>Étage 1</label>
+									</div>
+									<div class="md-radio">
+										<input type="radio" id="rdc" name="room_floor" class="md-radiobtn" {{ (room.floor == 'floor_2') ? 'checked' : '' }} value="floor_2">
+										<label for="floor2">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>Étage 2</label>
+									</div>
+									<div class="md-radio">
+										<input type="radio" id="rdc" name="room_floor" class="md-radiobtn" {{ (room.floor == 'floor_3') ? 'checked' : '' }} value="floor_3">
+
+										<label for="floor3">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>Étage 3</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Associer une ou plusieurs porte(s) *</label>
+							<div class="col-md-10">
+								<select class="form-control" id="form_control_1" name="room_doors" multiple required>
+									<option value="none"
+										{% if 'none' in room.doors %}
+									selected
+										{% endif %}>(Aucune)</option>
+									{% for door in doors %}
+										<option value="{{ door.id }}"
+											{% if door.id in room.doors %}
+												selected
+											{% endif %}
+										>{{ door.name }}</option>
+									{% endfor %}
+								</select>
+								<div class="form-control-focus"> </div>
+							</div>
+						</div>
+
+
+						<div class="form-actions">
+							<div class="row">
+								<div class="col-md-offset-2 col-md-10">
+									<button type="submit" class="btn blue">Modifier la salle</button>
+									<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
+								</div>
+							</div>
+						</div>
+				</form>
+			</div>
+		</div>
+		<!-- END SAMPLE FORM PORTLET-->
+	</div>
+</div>
