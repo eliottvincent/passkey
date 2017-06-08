@@ -116,18 +116,63 @@ class implementatioRoomService_Dummy implements interfaceRoomService
 
 	}
 
-	public function deleteRoom($id)
-	{
-		// TODO: Implement deleteRoom() method.
+
+	//================================================================================
+	// DELETE
+	//================================================================================
+
+	public function deleteRoom($id) {
+
+		$this->updateServiceVariables();
+
+		foreach ($this->_rooms as $key=>$room) {
+
+			if ($room->getId() == (string) $id) {
+
+				unset($_SESSION["ROOMS"][$key]);
+				unset($this->_sessionRooms[$key]);
+				unset($this->_rooms[$key]);
+
+				return true;
+			}
+		}
+
+		return false;
 	}
+
 
 	public function updateRoom($roomArray)
 	{
 		// TODO: Implement updateRoom() method.
 	}
 
+
+	//================================================================================
+	// OTHER
+	//================================================================================
+
 	public function checkUnicity($id)
 	{
-		// TODO: Implement checkUnicity() method.
+		if ($this->_rooms) {
+
+			foreach ($this->_rooms as $room) {
+
+				if ($room->getId() == (string) $id) {
+
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	private function updateServiceVariables() {
+
+		if (isset($_SESSION["ROOMS"])) {
+			$this->_sessionRooms = $_SESSION["ROOMS"];
+			$this->_rooms = $_SESSION["ROOMS"];
+		}
+
 	}
 }
