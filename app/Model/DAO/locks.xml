@@ -4,10 +4,12 @@
 		<id>l_102h-g-001</id>
 		<name>102H G 001</name>
 		<door>d_102h_gauche</door>
+		<length>23</length>
 	</lock>
 	<lock>
 		<id>l_102h-d-001</id>
 		<name>102H D 001</name>
 		<door>d_102h_droite</door>
+		<length>18</length>
 	</lock>
 </locks>

@@ -81,6 +81,7 @@ class LockController {
 
 		// if no values are posted
 		if (!isset($_POST['lock_name']) &&
+			!isset($_POST['lock_length']) &&
 			!isset($_POST['lock_door'])) {
 
 			$this->displayForm();
@@ -89,6 +90,7 @@ class LockController {
 
 		// if some (but not all) values are posted
 		elseif (empty($_POST['lock_name']) ||
+			empty($_POST['lock_length']) ||
 			empty($_POST['lock_door'])) {
 
 			$m_type = "danger";
@@ -112,7 +114,8 @@ class LockController {
 				$lockToSave = array(
 					'lock_id' => $id,
 					'lock_name' => addslashes($_POST['lock_name']),
-					'lock_door' => addslashes($_POST['lock_door'])
+					'lock_door' => addslashes($_POST['lock_door']),
+					'lock_length' => addslashes($_POST['lock_length'])
 				);
 
 				$this->saveLock($lockToSave);
@@ -217,7 +220,8 @@ class LockController {
 			$lockToUpdate = array(
 				'lock_id' => addslashes($_POST['lock_id']),
 				'lock_name' => addslashes($_POST['lock_name']),
-				'lock_door' => addslashes($_POST['lock_door'])
+				'lock_door' => addslashes($_POST['lock_door']),
+				'lock_length' => addslashes($_POST['lock_length'])
 			);
 
 			if ($this->updateLock($lockToUpdate) == false) {
