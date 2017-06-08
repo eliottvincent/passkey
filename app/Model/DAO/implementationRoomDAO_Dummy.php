@@ -49,6 +49,8 @@ class implementationRoomDAO_Dummy implements interfaceRoomDAO {
 		if (is_null(self::$_instance)) {
 			self::$_instance = new implementationRoomDAO_Dummy();
 		}
+
+		return self::$_instance;
 	}
 
 	public function getRooms()
