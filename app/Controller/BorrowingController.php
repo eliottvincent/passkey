@@ -58,8 +58,12 @@ class BorrowingController {
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-					$compositeView->attachContentView($submit_message);
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'],
+						"alert_message" => $message['message'],
+						"alert_link" => $message['link'],
+						"alert_link_href" => $message['link_href'],
+						"alert_link_text" => $message['link_text']));
+					$compositeView->attachContentView($message);
 				}
 			}
 		}
@@ -286,7 +290,11 @@ class BorrowingController {
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'],
+						"alert_message" => $message['message'],
+						"alert_link" => $message['link'],
+						"alert_link_href" => $message['link_href'],
+						"alert_link_text" => $message['link_text']));
 					$composite->attachContentView($message);
 				}
 			}
