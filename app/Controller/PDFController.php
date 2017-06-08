@@ -27,4 +27,12 @@ class PDFController
 		$dompdf->render();
 		$dompdf->stream("sample.pdf", array("Attachment"=>0));
 	}
+	public function creationPDF(){
+		$keyname = $_GET['keyname'];
+		$username = $_GET['user'];
+
+		$this->test("<div><p> Bonjour, vous etes ". $username .
+			" et la clé que vous avez emprunter est : " . $keyname .
+			" ! </p></div>");
+	}
 }
