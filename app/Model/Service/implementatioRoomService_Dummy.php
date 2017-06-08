@@ -105,6 +105,14 @@ class implementatioRoomService_Dummy implements interfaceRoomService
 	{
 
 		$roomToSave = new RoomVO();
+		$roomToSave->setId((string) $roomArray['room_id']);
+		$roomToSave->setName((string) $roomArray['room_name']);
+		$roomToSave->setBuilding((string) $roomArray['room_building']);
+		$roomToSave->setFloor((string) $roomArray['room_floor']);
+
+		array_push($_SESSION["ROOMS"], $roomToSave);
+		array_push($this->_rooms, $roomToSave);
+		array_push($this->_sessionRooms, $roomToSave);
 
 	}
 
