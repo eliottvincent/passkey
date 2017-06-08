@@ -68,7 +68,7 @@
 						</li>
 						<li class="nav-item  ">
 							<a href="./?action=listBorrowings" class="nav-link ">
-								<span class="title">Prêter</span>
+								<span class="title">Emprunter</span>
 							</a>
 						</li>
 					</ul>
@@ -87,7 +87,7 @@
 					<ul class="sub-menu">
 						<li class="nav-item  ">
 							<a href="./?action=listBorrowings" class="nav-link ">
-								<span class="title">Voir tous les emprunts</span>
+								<span class="title">Liste des emprunts</span>
 							</a>
 						</li>
 						<li class="nav-item  ">
@@ -154,6 +154,25 @@
 						<li class="nav-item  ">
 							<a href="./?action=createkey" class="nav-link ">
 								<span class="title">Ajouter une clé</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item  {% if activePage == 'keychain' %}active open{% endif %}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="icon-key"></i>
+						<span class="title">Trousseaux</span>
+						<span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item">
+							<a href="./?action=listKeychains" class="nav-link ">
+								<span class="title">Voir tous les trousseaux</span>
+							</a>
+						</li>
+						<li class="nav-item  ">
+							<a href="./?action=createKeychain" class="nav-link ">
+								<span class="title">Créer un trousseau</span>
 							</a>
 						</li>
 					</ul>

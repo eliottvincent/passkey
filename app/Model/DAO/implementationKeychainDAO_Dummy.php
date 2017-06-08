@@ -72,6 +72,18 @@ class implementationKeychainDAO_Dummy implements interfaceKeyChainDAO
 		return $this->_keychains[array_rand($this->_keychains,1)];
 	}
 
+	public function createKeychain(){
+		$keychain = new KeychainVO;
+
+		$keychain->setId((float) 1);
+		$tDate = new DateTime;
+		$tDate->setTimestamp();
+		$keychain->setCreationDate($tDate);
+		$keychain->setDestructionDate($tDate + 30);//Destruction date dans 30 jours
+
+		return $keychain;
+	}
+
 
 }
 
