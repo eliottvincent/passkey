@@ -78,6 +78,27 @@
 					<h3 class="uppercase">Gestion du matériel</h3>
 				</li>
 
+				<li class="nav-item  ">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="icon-puzzle"></i>
+						<span class="title">Emprunts</span>
+						<span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item  ">
+							<a href="./?action=listBorrowings" class="nav-link ">
+								<span class="title">Voir tous les emprunts</span>
+							</a>
+						</li>
+						<li class="nav-item  ">
+							<a href="./?action=createBorrowing" class="nav-link ">
+								<span class="title">Prêter</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+
+
 				<li class="nav-item  {% if activePage == 'door' %}active open{% endif %}">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="fa fa-columns"></i>
@@ -133,6 +154,25 @@
 						<li class="nav-item  ">
 							<a href="./?action=createkey" class="nav-link ">
 								<span class="title">Ajouter une clé</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item  {% if activePage == 'keychain' %}active open{% endif %}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="icon-key"></i>
+						<span class="title">Trousseaux</span>
+						<span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item">
+							<a href="./?action=listKeychains" class="nav-link ">
+								<span class="title">Voir tous les trousseaux</span>
+							</a>
+						</li>
+						<li class="nav-item  ">
+							<a href="./?action=createKeychain" class="nav-link ">
+								<span class="title">Créer un trousseau</span>
 							</a>
 						</li>
 					</ul>
