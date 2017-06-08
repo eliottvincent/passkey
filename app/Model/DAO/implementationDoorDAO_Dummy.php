@@ -34,8 +34,7 @@ class implementationDoorDAO_Dummy implements interfaceDoorDAO {
 
 				$door->setId((string)$xmlDoor->id);
 				$door->setName((string)$xmlDoor->name);
-				$door->setBuilding((string)$xmlDoor->building);
-				$door->setFloor((string)$xmlDoor->floor);
+				$door->setRoom((string)$xmlDoor->room);
 
 				array_push($this->_doors, $door);
 			}
