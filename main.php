@@ -6,7 +6,7 @@
 require_once 'core/Autoloader.php';
 Autoloader::register();
 
-$borrowService = implementationBorrowService_Dummy::getInstance();
+$borrowService = implementationBorrowingService_Dummy::getInstance();
 //print_r($borrowService->getBorrowings());
 
 

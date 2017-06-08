@@ -5,16 +5,23 @@
 			<div class="portlet-title">
 				<div class="caption font-green-haze">
 					<i class="icon-lock font-green-haze"></i>
-					<span class="caption-subject bold uppercase">Créer un nouveau canon</span>
+					<span class="caption-subject bold uppercase">Mettre à jour un canon</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
 				<form role="form" class="form-horizontal" action="" method="post">
 					<div class="form-body">
 						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Id du canon *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" name="lock_id" value="{{ lock.id }}" required readonly>
+								<div class="form-control-focus"> </div>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Nom du canon *</label>
 							<div class="col-md-10">
-								<input type="text" class="form-control" id="form_control_1" placeholder="102H-G-001" name="lock_name" value="{{ lock.lock_name }}" required disabled>
+								<input type="text" class="form-control" id="form_control_1" placeholder="102H-G-001" name="lock_name" value="{{ lock.name }}" required>
 								<div class="form-control-focus"> </div>
 								<span class="help-block">Ce nom permettra d'identifier le canon dans l'application.</span>
 							</div>
@@ -23,17 +30,9 @@
 							<label class="col-md-2 control-label" for="form_control_1">Associer une porte *</label>
 							<div class="col-md-10">
 								<select class="form-control" id="form_control_1" name="lock_door" required>
-									<option value="none"
-										{% if lock.lock_door == 'none' %}
-											selected
-										{% endif %}
-									>(Aucune)</option>
+									<option value="none" {{ (lock.door == 'none') ? 'selected' : '' }} >(Aucune)</option>
 									{% for door in doors %}
-										<option value="{{ door.door_id }}"
-											{% if lock.lock_door == door.door_id %}
-												selected
-											{% endif %}
-										>{{ door.door_name }}</option>
+										<option value="{{ door.id }}" {{ (lock.door == door.id) ? 'selected' : ''}} >{{ door.name }}</option>
 									{% endfor %}
 								</select>
 								<div class="form-control-focus"> </div>
@@ -43,11 +42,8 @@
 					<div class="form-actions">
 						<div class="row">
 							<div class="col-md-offset-2 col-md-10">
-								<div class="hiddel-fields">
-									<input type="hidden" name="lock_hidden_name" value="{{ lock.lock_name }}">
-								</div>
-								<button type="submit" class="btn blue">Ajouter un canon</button>
-								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Annuler</button>
+								<button type="submit" class="btn blue">Modifier le canon</button>
+								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
 							</div>
 						</div>
 					</div>

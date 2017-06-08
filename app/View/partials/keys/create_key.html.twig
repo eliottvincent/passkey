@@ -4,7 +4,7 @@
 		<div class="portlet light bordered">
 			<div class="portlet-title">
 				<div class="caption font-green-haze">
-					<i class="icon-key font-green-haze"></i>
+					<i class="fa fa-key font-green-haze"></i>
 					<span class="caption-subject bold uppercase">Créer une nouvelle clé</span>
 				</div>
 			</div>
@@ -14,7 +14,7 @@
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Nom de la clé *</label>
 							<div class="col-md-10">
-								<input type="text" class="form-control" id="form_control_1" placeholder="K-102H-G-001" name="key_name" required>
+								<input type="text" class="form-control" id="form_control_1" placeholder="clé 102H" name="key_name" required>
 								<div class="form-control-focus"> </div>
 								<span class="help-block">Ce nom permettra d'identifier la clé dans l'application.</span>
 							</div>
@@ -25,7 +25,7 @@
 							<div class="col-md-10">
 								<div class="md-radio-inline">
 									<div class="md-radio">
-										<input type="radio" id="simple" name="key_type" class="md-radiobtn" checked="" value="simple">
+										<input type="radio" id="simple" name="key_type" class="md-radiobtn" checked value="simple">
 										<label for="simple">
 											<span></span>
 											<span class="check"></span>
@@ -52,10 +52,10 @@
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Associer un canon *</label>
 							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="key_lock[]" multiple required>
-									<option value="none">(Aucune)</option>
+								<select class="form-control" id="form_control_1" name="key_locks" multiple required>
+									<option value="none">(Aucun)</option>
 									{% for lock in locks %}
-										<option value="{{ lock.lock_id }}">{{ lock.lock_name }}</option>
+										<option value="{{ lock.id }}">{{ lock.name }}</option>
 									{% endfor %}
 								</select>
 								<div class="form-control-focus"> </div>
@@ -63,10 +63,10 @@
 						</div>
 
 						<div class="form-group form-md-line-input">
-							<label class="col-md-2 control-label" for="form_control_1">Nombre de clés *</label>
+							<label class="col-md-2 control-label" for="form_control_1">Nombre d'exemplaires *</label>
 							<div class="col-md-10">
-								<input type="number" class="form-control" id="form_control_1" min="0" max="20" name="key_number" required>
-								<div class="form-control-focus"> </div>
+								<input type="number" class="form-control" id="form_control_1" min="0" max="20" name="key_copies" required>
+								<div class="form-control-focus"></div>
 							</div>
 						</div>
 					</div>
@@ -74,7 +74,7 @@
 						<div class="row">
 							<div class="col-md-offset-2 col-md-10">
 								<button type="submit" class="btn blue">Ajouter une clé</button>
-								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Annuler</button>
+								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
 							</div>
 						</div>
 					</div>

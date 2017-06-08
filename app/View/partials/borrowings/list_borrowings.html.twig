@@ -15,26 +15,38 @@
 							<thead>
 							<tr>
 								<th> #id </th>
-								<th> userEnssatPrimaryKey </th>
-								<th> keychainId </th>
+								<th> user </th>
+								<th> keychain </th>
 								<th> BorrowDate </th>
 								<th> dueDate </th>
 								<th> returnDate </th>
 								<th> lostDate </th>
-								<th> comment </th>
+								<th> status </th>
+								<th> Actions </th>
 							</tr>
 							</thead>
 							<tbody>
 							{% for borrowing in borrowings %}
-								<tr>
-									<td> {{ borrowing.borrowingId }} </td>
-									<td> {{ borrowing.userEnssatPrimaryKey }} </td>
-									<td> {{ borrowing.keychainId }} </td>
+								<tr id="{{ borrowing.id }}">
+									<td> {{ borrowing.id }} </td>
+									<td> {{ borrowing.user }} </td>
+									<td> {{ borrowing.keychain }} </td>
 									<td> {{ borrowing.borrowDate}} </td>
 									<td> {{ borrowing.dueDate }} </td>
 									<td> {{ borrowing.returnDate }} </td>
 									<td> {{ borrowing.lostDate }} </td>
-									<td> {{ borrowing.comment }} </td>
+									<td> {{ borrowing.status }} </td>
+									<td>
+										<form action="./?action=updateBorrowing" method="post">
+											<input type="hidden" name="update" value="{{ borrowing.id }}"/>
+											<button type="submit" class="btn blue btn-sm">Modifier</button>
+										</form>
+
+										<!--<form action="" method="post">-->
+										<input type="hidden" name="delete" value="{{ borrowing.id }}"/>
+										<button type="submit" class="btn red btn-sm btn-delete-b" value="{{ borrowing.id }}">Supprimer</button>
+										<!--</form>-->
+									</td>
 								</tr>
 							{% endfor %}
 							</tbody>

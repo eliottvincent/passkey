@@ -2,23 +2,12 @@
 class DoorVO
 {
 	public static $doorsList = array();
-	public static $lastId = -1;
 	private $id;
 	private $name;
 	private $building;
 	private $floor;
 
-	public function __construct($name, $building, $floor)
-	{
-		// Generate id for each door
-		$this->lastId++;
-		$this->id = $this->lastId;
-
-		$this->name = $name;
-		$this->building = $building;
-		$this->floor = $floor;
-
-		array_push($this->doorsList, $this);
+	public function __construct() {
 	}
 
 	// GETTER

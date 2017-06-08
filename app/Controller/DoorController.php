@@ -1,129 +1,330 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Basile Bruhat
- * Date: 12/05/2017
- * Time: 17:01
- */
-class DoorController
-{
-	public function __construct()
-	{
+
+class DoorController {
+
+
+	//================================================================================
+	// constructor
+	//================================================================================
+
+	/**
+	 * DoorController constructor.
+	 */
+	public function __construct() {
+		$this->_doorService = implementationDoorService_Dummy::getInstance();
 	}
 
-	public function create(){
-		if (!isset($_POST['door_name']) && !isset($_POST['door_building']) && !isset($_POST['door_floor'])) {
-			// If we have no values, the form is displayed.
+
+	//================================================================================
+	// LIST
+	//================================================================================
+
+	/**
+	 * used to list all doors
+	 */
+	public function list() {
+
+		$doors = $this->getDoors();
+
+		if (!empty($doors)) {
+			$this->displayList();
+		}
+		else {
+			$message['type'] = 'danger';
+			$message['message'] = 'Nous n\'avons aucune porte d\'enregistrée.';
+			$this->displayList(array($message));
+		}
+	}
+
+	/**
+	 * @param null $messages
+	 * @internal param $state
+	 */
+	public function displayList($messages = null) {
+		$doors = $this->getDoors();
+
+		$compositeView = new CompositeView(
+			true,
+			'Liste des portes',
+			null,
+			"door",
+			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
+			array("deleteUserScript" => "app/View/assets/custom/scripts/deleteDoor.js",
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$compositeView->attachContentView($submit_message);
+				}
+			}
+		}
+
+		$list_doors = new View("doors/list_doors.html.twig", array('doors' => $doors));
+		$compositeView->attachContentView($list_doors);
+
+		echo $compositeView->render();
+	}
+
+
+	//================================================================================
+	// CREATE
+	//================================================================================
+
+	public function create() {
+
+		// if no values are posted -> displaying the form
+		if (!isset($_POST['door_name']) &&
+			!isset($_POST['door_building']) &&
+			!isset($_POST['door_floor'])) {
+
 			$this->displayForm();
-		} elseif (empty($_POST['door_name']) || empty($_POST['door_building']) || empty($_POST['door_floor'])){
-			// If we have not all values, error message display and form.
+		}
+
+		// if some (but not all) values are posted -> error message
+		elseif (empty($_POST['door_name']) ||
+			empty($_POST['door_building']) ||
+			empty($_POST['door_floor'])) {
+
 			$m_type = "danger";
 			$m_message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
 			$message['type'] = $m_type;
 			$message['message'] = $m_message;
-			$this->displayForm( $message);
-		} else {
-			// If we have all values, the form is displayed.
+
+			$this->displayForm(array($message));
+		}
+
+		// if we have all values, we can create the door
+		else {
+
+			// id generation
 			$id = 'd_' . strtolower(str_replace(' ', '_', addslashes($_POST['door_name'])));
 
-			// Check unicity.
-			$exist = false;
-			$doors = $this::getDoors();
-
-			if ($doors) {
-				foreach ($doors as $door) {
-					if ($door['door_id'] == $id) {
-						$exist = true;
-					}
-				}
-			}
+			// unicity check
+			$exist = $this->checkUnicity($id);
 
 			if (!$exist) {
-				$datas = array(
+				$doorToSave = array(
 					'door_id' => $id,
 					'door_name' => addslashes($_POST['door_name']),
 					'door_building' => addslashes($_POST['door_building']),
 					'door_floor' => addslashes($_POST['door_floor'])
 				);
 
-				$_SESSION['DOORS'][] = $datas;
+				$this->saveDoor($doorToSave);
 
 				$m_type = "success";
 				$m_message = "La porte a bien été créée.";
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
-				$this->displayForm($message);
-			} else {
+
+				$this->displayForm(array($message));
+			}
+			else {
 				$m_type = "danger";
 				$m_message = "Une porte avec le même nom existe déjà.";
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
-				$this->displayForm($message);
+
+				$this->displayForm(array($message));
 			}
-
-
 		}
 	}
 
-	public function displayForm($message = null) {
-		$composite = new CompositeView(true, 'Ajouter une porte', null, "door");
+	/**
+	 * Display form used to create a door
+	 * @param null $message
+	 */
+	public function displayForm($messages = null) {
 
-		if ($message != null && !empty($message['type']) && !empty($message['message'])) {
-			$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-			$composite->attachContentView($message);
-		}
-
-		$create_door = new View(null, null, 'doors/create_door.html.twig', array('previousUrl' => $_SERVER["HTTP_REFERER"]));
-		$composite->attachContentView($create_door);
-
-		echo $composite->render();
-	}
-
-	public function list() {
-		$doors = $this::getDoors();
-		if (!empty($doors)) {
-			$this->displayList(true);
-		} else {
-			$alert['type'] = 'danger';
-			$alert['message'] = 'Nous n\'avons aucune porte d\'enregistrée.';
-			$alerts[] = $alert;
-			$this->displayList(false, $alerts);
-		}
-	}
-
-	public function displayList($state, $messages = null) {
-		if ($state) {
-			$doors = DoorController::getDoors();
-		} else {
-			$doors = null;
-		}
-		$composite = new CompositeView(true, 'Liste des portes', null, "door");
+		$compositeView = new CompositeView(
+			true,
+			'Ajouter une porte',
+			null,
+			"door");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-					$composite->attachContentView($submit_message);
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$compositeView->attachContentView($message);
 				}
 			}
 		}
-		$list_doors = new View(null, null,"doors/list_doors.html.twig", array('doors' => $doors));
-		$composite->attachContentView($list_doors);
 
-		echo $composite->render();
+		$create_door = new View('doors/create_door.html.twig', array('previousUrl' => getPreviousUrl()));
+		$compositeView->attachContentView($create_door);
+
+		echo $compositeView->render();
+	}
+
+
+	//================================================================================
+	// DELETE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function deleteDoorAjax() {
+
+		session_start();
+
+		if (isset($_POST['value'])) {
+
+			if ($this->deleteDoor(urldecode($_POST['value'])) == true) {
+				$response['status'] = 'success';
+				$response['message'] = 'This was successful';
+			}
+			else {
+				$response['status'] = 'error';
+				$response['message'] = 'This failed';
+			}
+		}
+		else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
+
+		echo json_encode($response);
+	}
+
+
+	//================================================================================
+	// UPDATE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function update() {
+
+		if (isset($_POST['update']) && !empty($_POST['update'])) {
+			$door = $this->getDoor($_POST['update']);
+			$this->displayUpdateForm($door);
+		}
+
+		// if all values were posted (= form submission)
+		elseif (isset($_POST['door_name']) &&
+			isset($_POST['door_building']) &&
+			isset($_POST['door_floor'])) {
+
+			$doorToUpdate = array(
+				'door_id' => $_POST['door_id'],
+				'door_name' => addslashes($_POST['door_name']),
+				'door_building' => addslashes($_POST['door_building']),
+				'door_floor' => addslashes($_POST['door_floor']));
+
+			if ($this->updateDoor($doorToUpdate) == false) {
+				$message['type'] = 'danger';
+				$message['message'] = 'Erreur lors de la modification de la porte.';
+				$this->displayList(array($message));
+			}
+			else {
+				$message['type'] = 'success';
+				$message['message'] = 'La porte a bien été modifiée.';
+				$this->displayList(array($message));
+			}
+		}
+
+		else {
+			$doors = $this->getDoors();
+
+			if (!empty($doors)) {
+				$this->displayList();
+			}
+			else {
+				$message['type'] = 'danger';
+				$message['message'] = 'Nous n\'avons aucune porte d\'enregistrée.';
+				$this->displayList(array($message));
+			}
+		}
 	}
 
 	/**
-	 * Used to get all doors created.
-	 * @return null
+	 * @param $door
+	 * @param null $messages
 	 */
-	public static function getDoors() {
-		if (isset($_SESSION['DOORS'])) {
-			$doors = $_SESSION['DOORS'];
-			return $doors;
+	public function displayUpdateForm($door, $messages = null) {
+
+		$compositeView = new CompositeView(
+			true,
+			"Mettre à jour une porte",
+			null,
+			"door");
+
+		if ($messages != null) {
+
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message["message"])) {
+					$message = new View("submit_message.html.twig", array("alert_type" => $message["type"] , "alert_message" => $message["message"]));
+					$compositeView->attachContentView($message);
+				}
+			}
 		}
 
-		return null;
+		$update_door = new View("doors/update_door.html.twig", array("door" => $door, "previousUrl" => getPreviousUrl()));
+		$compositeView->attachContentView($update_door);
+
+		echo $compositeView->render();
+	}
+
+
+	//================================================================================
+	// calls to Service
+	//================================================================================
+
+	/**
+	 * To get all doors
+	 * @return null
+	 */
+	public function getDoors() {
+
+		return $this->_doorService->getDoors();
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function getDoor($id) {
+
+		return $this->_doorService->getDoor($id);
+	}
+
+	/**
+	 * @param $doorToSave
+	 */
+	private function saveDoor($doorToSave) {
+
+		$this->_doorService->saveDoor($doorToSave);
+	}
+
+	/**
+	 * Used to delete a door from an id.
+	 * @param $enssatPrimaryKey
+	 */
+	private function deleteDoor($id) {
+
+		return $this->_doorService->deleteDoor($id);
+	}
+
+	/**
+	 * @param $doorToUpdate
+	 */
+	private function updateDoor($doorToUpdate) {
+
+		return $this->_doorService->updateDoor($doorToUpdate);
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function checkUnicity($id) {
+
+		return $this->_doorService->checkUnicity($id);
 	}
 }

@@ -11,7 +11,7 @@ class Autoloader
     /**
      * Register autoloader
      */
-    static function register(){
+    static function register() {
 
         // Needed for Composer loading (always needed).
         if (file_exists('vendor/autoload.php')) {
@@ -25,7 +25,7 @@ class Autoloader
      * Import class file.
      * @param $class string Classname to include.
      */
-    static function autoload($class){
+    static function autoload($class) {
 
         /**
          * HOW TO USE
@@ -63,5 +63,14 @@ class Autoloader
 		if (file_exists('app/Controller/' . $class . '.php')) {
 			require_once 'app/Controller/' . $class . '.php';
 		}
-    }
+
+		// HELPERS.
+		if (file_exists( 'app/Helpers/previous_url.php')) {
+			require_once 'app/Helpers/previous_url.php';
+		};
+
+        if (file_exists( 'app/Helpers/redirect_to_url.php')) {
+			require_once 'app/Helpers/redirect_to_url.php';
+		};
+	}
 }

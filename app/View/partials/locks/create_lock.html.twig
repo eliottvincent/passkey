@@ -25,7 +25,7 @@
 								<select class="form-control" id="form_control_1" name="lock_door" required>
 									<option value="none">(Aucune)</option>
 									{% for door in doors %}
-										<option value="{{ door.door_id }}">{{ door.door_name }}</option>
+										<option value="{{ door.id }}">{{ door.name }}</option>
 									{% endfor %}
 								</select>
 								<div class="form-control-focus"> </div>
@@ -36,7 +36,7 @@
 						<div class="row">
 							<div class="col-md-offset-2 col-md-10">
 								<button type="submit" class="btn blue">Ajouter un canon</button>
-								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Annuler</button>
+								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
 							</div>
 						</div>
 					</div>
