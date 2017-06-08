@@ -141,9 +141,33 @@ class implementatioRoomService_Dummy implements interfaceRoomService
 	}
 
 
-	public function updateRoom($roomArray)
-	{
-		// TODO: Implement updateRoom() method.
+	//================================================================================
+	// UPDATE
+	//================================================================================
+
+	public function updateRoom($roomArray) {
+
+		$roomToUpdate = new RoomVO();
+		$roomToUpdate->setId((string) $roomArray['room_id']);
+		$roomToUpdate->setName((string) $roomArray['room_name']);
+		$roomToUpdate->setBuilding((string) $roomArray['room_building']);
+		$roomToUpdate->setFloor((string) $roomArray['room_floor']);
+		$roomToUpdate->setDoors((array) $roomArray['room_doors']);
+
+		foreach ($this->_rooms as $key=>$room) {
+
+			if ($room->getId() == $roomToUpdate->getId()) {
+
+				$_SESSION["ROOMS"][$key] = $roomToUpdate;
+				$this->_sessionRooms[$key] = $roomToUpdate;
+				$this->_rooms[$key] = $roomToUpdate;
+
+				return true;
+			}
+
+		}
+
+		return false;
 	}
 
 

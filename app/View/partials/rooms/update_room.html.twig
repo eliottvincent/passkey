@@ -96,7 +96,7 @@
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Associer une ou plusieurs porte(s) *</label>
 							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="room_doors" multiple required>
+								<select class="form-control" id="form_control_1" name="room_doors[]" multiple required>
 									<option value="none"
 										{% if 'none' in room.doors %}
 									selected
