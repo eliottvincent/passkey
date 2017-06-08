@@ -165,6 +165,90 @@ class RoomController {
 
 
 	//================================================================================
+	// UPDATE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function update() {
+
+		if (isset($_POST['update']) && !empty($_POST['update'])) {
+			$door = $this->getRoom($_POST['update']);
+			$this->displayUpdateForm($door);
+		}
+
+		// if all values were posted (= form submission)
+		elseif (isset($_POST['room_name']) &&
+			isset($_POST['room_building']) &&
+			isset($_POST['room_floor']) &&
+			isset($_POST['room_doors'])) {
+
+			$roomToUpdate = array(
+				'room_id' => $_POST['room_id'],
+				'room_name' => addslashes($_POST['room_name']),
+				'room_building' => addslashes($_POST['room_building']),
+				'room_floor' => addslashes($_POST['room_floor']),
+				'room_doors' => $_POST['room_doors']);
+
+			if ($this->updateRoom($roomToUpdate) == false) {
+				$message['type'] = 'danger';
+				$message['message'] = 'Erreur lors de la modification de la salle.';
+				$this->displayList(array($message));
+			}
+			else {
+				$message['type'] = 'success';
+				$message['message'] = 'La salle a bien été modifiée.';
+				$this->displayList(array($message));
+			}
+		}
+
+		else {
+			$rooms = $this->getRooms();
+
+			if (!empty($rooms)) {
+				$this->displayList();
+			}
+			else {
+				$message['type'] = 'danger';
+				$message['message'] = 'Nous n\'avons aucune salle d\'enregistrée.';
+				$this->displayList(array($message));
+			}
+		}
+	}
+
+	/**
+	 * @param $door
+	 * @param null $messages
+	 */
+	public function displayUpdateForm($room, $messages = null) {
+
+		$doors = $this->getDoors();
+
+		$compositeView = new CompositeView(
+			true,
+			"Mettre à jour une salle",
+			null,
+			"room");
+
+		if ($messages != null) {
+
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message["message"])) {
+					$message = new View("submit_message.html.twig", array("alert_type" => $message["type"] , "alert_message" => $message["message"]));
+					$compositeView->attachContentView($message);
+				}
+			}
+		}
+
+		$update_room = new View("rooms/update_room.html.twig", array("room" => $room, "doors" => $doors, "previousUrl" => getPreviousUrl()));
+		$compositeView->attachContentView($update_room);
+
+		echo $compositeView->render();
+	}
+
+
+	//================================================================================
 	// DELETE
 	//================================================================================
 
@@ -209,6 +293,15 @@ class RoomController {
 	}
 
 	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function getRoom($id) {
+
+		return $this->_roomService->getRoom($id);
+	}
+
+	/**
 	 * To get all doors
 	 * @return null
 	 */
@@ -232,6 +325,14 @@ class RoomController {
 	private function deleteRoom($id) {
 
 		return $this->_roomService->deleteRoom($id);
+	}
+
+	/**
+	 * @param $roomToUpdate
+	 */
+	private function updateRoom($roomToUpdate) {
+
+		return $this->_roomService->updateRoom($roomToUpdate);
 	}
 
 	/**
