@@ -8,6 +8,7 @@
 			<lock>l_102h-g-001</lock>
 		</locks>
 		<name>ma clé</name>
+		<supplier>Abbloy</supplier>
 		<copies>2</copies>
 	</key>
 	<key>
@@ -17,6 +18,7 @@
 			<lock>l_102h-g-001</lock>
 		</locks>
 		<name>ma clé</name>
+		<supplier>CDVI</supplier>
 		<copies>3</copies>
 	</key>
 	<key>
@@ -27,6 +29,7 @@
 			<lock>l_102h-g-001</lock>
 		</locks>
 		<name>my key</name>
+		<supplier>Deny</supplier>
 		<copies>3</copies>
 	</key>
 </keys>
