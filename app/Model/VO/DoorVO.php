@@ -1,11 +1,9 @@
 <?php
 class DoorVO
 {
-	public static $doorsList = array();
 	private $id;
 	private $name;
-	private $building;
-	private $floor;
+	private $room;
 
 	public function __construct() {
 	}
@@ -26,18 +24,13 @@ class DoorVO
 	/**
 	 * @return mixed
 	 */
-	public function getBuilding()
+	public function getRoom()
 	{
-		return $this->building;
+		return $this->room;
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getFloor()
-	{
-		return $this->floor;
-	}
+
+
 
 	// SETTER
 	public function setId($id) {
@@ -53,18 +46,13 @@ class DoorVO
 	}
 
 	/**
-	 * @param mixed $building
+	 * @param mixed $room
 	 */
-	public function setBuilding($building)
+	public function setRoom($room)
 	{
-		$this->building = $building;
+		$this->room = $room;
 	}
 
-	/**
-	 * @param mixed $floor
-	 */
-	public function setFloor($floor)
-	{
-		$this->floor = $floor;
-	}
+
+
 }
