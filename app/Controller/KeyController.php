@@ -93,6 +93,7 @@ class KeyController {
 		if (!isset($_POST['key_name']) &&
 			!isset($_POST['key_type']) &&
 			!isset($_POST['key_locks']) &&
+			!isset($_POST['key_supplier']) &&
 			!isset($_POST['key_copies'])) {
 
 			$this->displayForm();
@@ -102,6 +103,7 @@ class KeyController {
 		elseif (empty($_POST['key_name']) ||
 			empty($_POST['key_type']) ||
 			empty($_POST['key_locks']) ||
+			empty($_POST['key_supplier']) ||
 			empty($_POST['key_copies'])) {
 
 			$m_type = "danger";
@@ -134,6 +136,7 @@ class KeyController {
 					'key_name' => addslashes($_POST['key_name']),
 					'key_type' => addslashes($_POST['key_type']),
 					'key_locks' => $_POST['key_locks'],
+					'key_supplier' => addslashes($_POST['key_supplier']),
 					'key_copies' => addslashes($_POST['key_copies'])
 				);
 
@@ -239,6 +242,7 @@ class KeyController {
 		elseif (isset($_POST['key_name']) &&
 			isset($_POST['key_type']) &&
 			isset($_POST['key_locks']) &&
+			isset($_POST['key_supplier']) &&
 			isset($_POST['key_copies'])) {
 
 			$keyToUpdate = array(
@@ -246,6 +250,7 @@ class KeyController {
 				'key_name' => addslashes($_POST['key_name']),
 				'key_type' => addslashes($_POST['key_type']),
 				'key_locks' => addslashes($_POST['key_locks']),
+				'key_supplier' => addslashes($_POST['key_supplier']),
 				'key_copies' => addslashes($_POST['key_copies']));
 
 			if ($this->updateKey($keyToUpdate) == false) {
