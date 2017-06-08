@@ -18,6 +18,7 @@
 							<th> Room name </th>
 							<th> Building </th>
 							<th> Floor </th>
+							<th> Doors </th>
 							<th> #actions </th>
 						</tr>
 						</thead>
@@ -28,9 +29,14 @@
 								<td> {{ room.name }} </td>
 								<td> {{ room.building }} </td>
 								<td> {{ room.floor }} </td>
+								<td>
+									{% for door in room.doors %}
+										<p>{{ door }}</p>
+									{% endfor %}
+								</td>
 
 								<td>
-									<form action="./?action=updateroom" method="post">
+									<form action="./?action=updateRoom" method="post">
 										<input type="hidden" name="update" value="{{ room.id }}"/>
 										<button type="submit" class="btn blue btn-sm">Modifier</button>
 									</form>
