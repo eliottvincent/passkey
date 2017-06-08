@@ -122,11 +122,12 @@ class KeyController {
 			$exist = $this->checkUnicity($id);
 
 			if (!$exist) {
+
 				$keyToSave = array(
 					'key_id' => $id,
 					'key_name' => addslashes($_POST['key_name']),
 					'key_type' => addslashes($_POST['key_type']),
-					'key_locks' => addslashes($_POST['key_locks']),
+					'key_locks' => $_POST['key_locks'],
 					'key_copies' => addslashes($_POST['key_copies'])
 				);
 
