@@ -253,7 +253,20 @@ class RouterController
 		$dashboard->displayDash();
 	}
 
+	//================================================================================
+	// PDF TEST
+	//================================================================================
 
+	function testpdf(){
+		$pdfController = new PDFController();
+		$pdfController->creationPDF();
+
+	}
+
+
+	//================================================================================
+	// Suite router controller
+	//================================================================================
 	/**
 	 * Creates a blank page as a CompositeView
 	 *
