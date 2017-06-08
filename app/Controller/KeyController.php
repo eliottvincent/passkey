@@ -118,15 +118,22 @@ class KeyController {
 			// id generation
 			$id = 'k_' . strtolower(str_replace(' ', '_', addslashes($_POST['key_name'])));
 
+			// if the key is total, we add all locks.
+			if ( addslashes($_POST['key_type']) == 'total') {
+				$locks = $this->_lockService->getLocks();
+				$_POST['key_locks'] = $locks;
+			}
+
 			// unicity check
 			$exist = $this->checkUnicity($id);
 
 			if (!$exist) {
+
 				$keyToSave = array(
 					'key_id' => $id,
 					'key_name' => addslashes($_POST['key_name']),
 					'key_type' => addslashes($_POST['key_type']),
-					'key_locks' => addslashes($_POST['key_locks']),
+					'key_locks' => $_POST['key_locks'],
 					'key_copies' => addslashes($_POST['key_copies'])
 				);
 
@@ -163,7 +170,9 @@ class KeyController {
 			true,
 			'Ajouter une clé',
 			null,
-			"key");
+			"key",
+			null,
+			array("chooseKey" => "app/View/assets/custom/scripts/chooseKey.js"));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
