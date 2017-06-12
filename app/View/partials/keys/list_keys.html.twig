@@ -16,6 +16,7 @@
 							<tr>
 								<th> #id </th>
 								<th> Key name </th>
+								<th> Key Supplier </th>
 								<th> Key type </th>
 								<th> Key lock </th>
 								<th> Key copies </th>
@@ -27,6 +28,7 @@
 								<tr id="{{ key.id }}">
 									<td> {{ key.id }} </td>
 									<td> {{ key.name }} </td>
+									<td> {{ key.supplier }} </td>
 									<td> {{ key.type }} </td>
 									<td>
 										{% for lock in key.locks %}
