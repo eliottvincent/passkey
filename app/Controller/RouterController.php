@@ -234,6 +234,19 @@ class RouterController
 		$borrowingController->update();
 	}
 
+	function detailedBorrowing() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$borrowingController = new BorrowingController();
+		if (!empty($_GET['id'])) {
+			$borrowingController->detailed($_GET['id']);
+		} else {
+			$this->createBlankPage();
+		}
+
+	}
+
 	function deleteBorrowingAjax() {
 		$borrowingController = new BorrowingController();
 		$borrowingController->deleteBorrowingAjax();

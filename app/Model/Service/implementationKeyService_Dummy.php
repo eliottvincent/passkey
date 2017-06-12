@@ -111,6 +111,7 @@ class implementationKeyService_Dummy implements interfaceKeyService {
 		$keyToSave->setType((string) $keyArray['key_type']);
 		$keyToSave->setLocks((array) $keyArray['key_locks']);
 		$keyToSave->setCopies((int) $keyArray['key_copies']);
+		$keyToSave->setSupplier((string) $keyArray['key_supplier']);
 
 		array_push($_SESSION["KEYS"], $keyToSave);
 		array_push($this->_keys, $keyToSave);
@@ -155,6 +156,7 @@ class implementationKeyService_Dummy implements interfaceKeyService {
 		$keyToUpdate->setType((string) $keyArray['key_type']);
 		$keyToUpdate->setLocks((array) $keyArray['key_locks']);
 		$keyToUpdate->setCopies((int) $keyArray['key_copies']);
+		$keyToUpdate->setSupplier((string) $keyArray['key_supplier']);
 
 		foreach ($this->_keys as $key=>$currentKey) {
 
