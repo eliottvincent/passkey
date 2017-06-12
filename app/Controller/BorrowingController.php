@@ -130,7 +130,7 @@ class BorrowingController {
 				$message['message'] = $m_message;
 				$message['link']="true";
 				$message['link_href']="./?action=testpdf&keyname=".$borrowingToSave['borrowing_keychain']."&user=".$borrowingToSave['borrowing_user'];
-				$message['link_text']="ceci est un test";
+				$message['link_text']="Vous pouvez récupérer le PDF de l'emprunt en cliquant ici";
 
 				$this->displayForm(array($message));
 
