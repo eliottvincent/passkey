@@ -208,6 +208,45 @@ class RouterController
 
 
 	//================================================================================
+	// KEYCHAINS
+	//================================================================================
+
+	function listKeychains() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keychainController = new KeychainController();
+		$keychainController->list();
+
+	}
+
+	function createKeychain() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keychainController = new KeychainController();
+		$keychainController->create();
+	}
+
+	function updateKeychain() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keychainController = new KeychainController();
+		$keychainController->update();
+	}
+
+	function deleteKeychainAjax() {
+
+		$keychainController = new KeychainController();
+		$keychainController->deleteKeyAjax();
+	}
+
+
+	//================================================================================
 	// USERS
 	//================================================================================
 
