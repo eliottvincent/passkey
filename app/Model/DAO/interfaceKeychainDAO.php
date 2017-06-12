@@ -8,8 +8,6 @@ interface interfaceKeyChainDAO
 
 	public function getKeychains();
 
-	public function getRandomKeychain();
-
 }
 
 ?>

@@ -1,100 +1,89 @@
 <?php
 
-/**
- * CCROISLE
- */
- require_once 'app/Model/Service/implementationBorrowService_Dummy.php';
-
 
 class KeychainController
-{//Todo : tous sauf list
-	private $_keychainService;
+{
 
-	public function __construct()
-	{
-		$this->_keychainService = implementationKeyChainService_Dummy::getInstance();
-	}
+	//================================================================================
+	// constructor
+	//================================================================================
 
-public function create(){
-	if (!isset($_POST['keychain_name']) && !isset($_POST['key_keychain'])) {
-		// If we have no values, the form is displayed.
-		$this->displayForm();
-	} elseif (empty($_POST['keychain_name']) || empty($_POST['key_keychain'])){
-		// If we have not all values, error message display and form.
-		$m_type = "danger";
-		$m_message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
-		$message['type'] = $m_type;
-		$message['message'] = $m_message;
-		$this->displayForm( $message);
-	} else {
-		// If we have all values, the form is displayed.
-
-			$this->_keychainService->createKeychain($_POST['keychain_name'], $_POST['key_keychain']);
-
-			$m_type = "success";
-			$m_message = "L'emprunt a bien été créée.";
-			$message['type'] = $m_type;
-			$message['message'] = $m_message;
-			$this->displayForm($message);
-	}
-}
-
-public function displayForm($message = null) {
-	$composite = new CompositeView(true, 'Créer un nouveau trousseau');
-
-	if ($message != null && !empty($message['type']) && !empty($message['message'])) {
-		$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-		$composite->attachContentView($message);
-	}
-
-	$create_keychain = new View(null,null, 'keychains/create_keychain.html.twig');
-	$composite->attachContentView($create_keychain);
-
-	echo $composite->render();
-}
-
-	public function list(){
-		if (isset($_GET['delete']) && !empty($_GET['delete'])) {
-			$id = explode('delete_k', $_GET['delete'])[1];
-			$delete = $this->deleteKey($id);
-
-			if ($delete) {
-				$this->displayDeleteKey('success', 'La clé a bien été supprimée');
-			} else {
-				$this->displayDeleteKey('danger', 'La clé n\'existe pas.');
-			}
-
-		} else {
-			if (true) {
-				$this->displayList(true);
-			} else {
-				$alert['type'] = 'danger';
-				$alert['message'] = 'Aucun emprunt n\'a été fait.';
-				$this->displayList(false, $alert);
-			}
-		}
-	}
-
-	// TODO
-	public function deleteKey($id) {
-
-	}
 
 	/**
-	 * Display list of borrowings.
-	 * @param null $message array of the message displays
+	 * KeychainController constructor.
 	 */
-	public function displayList($message = null) {
-		$keychains = $this->_keychainService->getKeychains();
-		$composite = new CompositeView(true, 'Liste des trousseaux', null, "keychains");
+	public function __construct() {
 
-		if ($message != null && !empty($message['type']) && !empty($message['message'])) {
-			$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-			$composite->attachContentView($submit_message);
+		$this->_keychainService = implementationKeychainService_Dummy::getInstance();
+
+	}
+
+
+	//================================================================================
+	// LIST
+	//================================================================================
+
+
+	/**
+	 * used to list all rooms
+	 */
+	public function list() {
+
+		$keychains = $this->getKeychains();
+
+		if (!empty($keychains)) {
+			$this->displayList();
 		}
-		$list_keychains = new View(null, null,"keychains/list_keychains.html.twig", array('keychains' => $this->_keychainService->getKeychains()));
-		$composite->attachContentView($list_keychains);
+		else {
+			$message['type'] = 'danger';
+			$message['message'] = 'Nous n\'avons aucun trousseau d\'enregistré.';
+			$this->displayList(array($message));
+		}
+	}
 
-		echo $composite->render();
+
+	/**
+	 * @param null $messages
+	 * @internal param $state
+	 */
+	public function displayList($messages = null) {
+
+		$keychains = $this->getKeychains();
+
+		$compositeView = new CompositeView(
+			true,
+			'Liste des trousseaux',
+			null,
+			"keychain",
+			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
+			array("deleteKeychainScript" => "app/View/assets/custom/scripts/deleteKeychain.js",
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$compositeView->attachContentView($submit_message);
+				}
+			}
+		}
+
+		$list_keychains = new View("keychains/list_keychains.html.twig", array('keychains' => $keychains));
+		$compositeView->attachContentView($list_keychains);
+
+		echo $compositeView->render();
+	}
+
+	//================================================================================
+	// calls to Service
+	//================================================================================
+
+	/**
+	 * To get all keychains
+	 * @return null
+	 */
+	public function getKeychains() {
+
+		return $this->_keychainService->getKeychains();
 	}
 }
