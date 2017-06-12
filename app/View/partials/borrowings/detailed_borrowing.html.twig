@@ -6,21 +6,17 @@
 					<div class="col-md-12">
 						<div class="row">
 							<div class="col-md-8 profile-info">
-								<h1 class="font-green sbold uppercase"> {{ borrow.id }} </h1>
-								<p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt laoreet dolore magna aliquam tincidunt erat volutpat laoreet dolore magna aliquam tincidunt erat
-									volutpat. </p>
+								<h1 class="font-green sbold uppercase">Emprunt n°{{ number }} </h1>
+								<p> Cette fiche détaille les paramètres d'un emprunt. </p>
 								<ul class="list-inline">
 									<li>
-										<i class="fa fa-map-marker"></i> Spain </li>
+										<i class="fa fa-forward"></i> {{ borrowDate }} </li>
 									<li>
-										<i class="fa fa-calendar"></i> 18 Jan 1982 </li>
+										<i class="fa fa-backward"></i> {{ dueDate }} </li>
 									<li>
-										<i class="fa fa-briefcase"></i> Design </li>
-									<li>
-										<i class="fa fa-star"></i> Top Seller </li>
-									<li>
-										<i class="fa fa-heart"></i> BASE Jumping </li>
+										<i class="fa fa-user"></i> {{ user }} </li>
 								</ul>
+								<p>L'état de l'emprunt est : <strong>{{ status }}</strong>.</p>
 							</div>
 						</div>
 						<!--end row-->
