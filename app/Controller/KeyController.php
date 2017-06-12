@@ -17,6 +17,7 @@ class KeyController {
 	 * KeyController constructor.
 	 */
 	public function __construct() {
+
 		$this->_keyService = implementationKeyService_Dummy::getInstance();
 		$this->_lockService = implementationLockService_Dummy::getInstance();
 	}
