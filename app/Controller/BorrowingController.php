@@ -312,6 +312,46 @@ class BorrowingController {
 
 	public function detailed($id) {
 		$borrow = $this->getBorrowing($id);
+		$number = explode("b_", $id)[1]; // [0] is empty
+
+		// Get the name of user.
+		$u = $borrow->getUser();
+		$users = $this->getUsers();
+		$currentUser = null;
+		foreach($users as $user) {
+			$uid = $user->getUr1identifier();
+			if ($uid == $u) {
+				$currentUser = $user;
+			}
+		}
+
+		if (isset($currentUser) && !empty($currentUser)) {
+			$currentUser = $currentUser->getSurname() . " " . $currentUser->getName();
+		}
+
+		// Format dates.
+		$dBorrow = date('d/m/Y', strtotime($borrow->getBorrowDate()));
+		$dDue = date('d/m/Y', strtotime($borrow->getBorrowDate()));
+
+		// State.
+		switch($borrow->getStatus()) {
+			case "borrowed":
+				$status = "en cours";
+				break;
+			case "late":
+				$status = "en retard";
+				break;
+			case "returned":
+				$status = "rendu";
+				break;
+			case "lost":
+				$status = "perdu";
+				break;
+			default:
+				$status = "n'existe pas";
+				break;
+		}
+
 
 		$composite = new CompositeView(
 			true,
@@ -320,7 +360,16 @@ class BorrowingController {
 			"borrowing"
 		);
 
-		$detailed_borrowing = new View('borrowings/detailed_borrowing.html.twig', array('borrow' => $borrow));
+		$detailed_borrowing = new View('borrowings/detailed_borrowing.html.twig',
+			array(
+				'borrow' => $borrow,
+				'number' => $number,
+				'user' => $currentUser,
+				'borrowDate' => $dBorrow,
+				'dueDate' => $dDue,
+				'status' => $status
+			)
+		);
 		$composite->attachContentView($detailed_borrowing);
 
 		echo $composite->render();
