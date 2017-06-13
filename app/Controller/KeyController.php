@@ -267,16 +267,9 @@ class KeyController {
 		}
 
 		else {
-			$keys = $this->getKeys();
 
-			if (!empty($keys)) {
-				$this->displayList(true);
-			}
-			else {
-				$message['type'] = 'danger';
-				$message['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
-				$this->displayList(false, array($message));
-			}
+			$this->list();
+
 		}
 	}
 
