@@ -151,7 +151,7 @@ class BorrowingController {
 	 */
 	public function displayForm($messages = null) {
 
-		$keys = $this->getKeys();
+		$keychains = $this->getKeychains();
 		$users = $this->getUsers();
 
 		$compositeView = new CompositeView(
@@ -419,9 +419,9 @@ class BorrowingController {
 	 * @param $id
 	 * @return mixed
 	 */
-	public function getKeys() {
+	public function getKeychains() {
 
-		return $this->_keyService->getKeys();
+		return $this->_keychainService->getKeychains();
 	}
 
 	/**
