@@ -1,53 +1,53 @@
 <!-- BEGIN DASHBOARD STATS 1-->
 <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 blue" href="./?action=listdoors">
+        <a class="dashboard-stat dashboard-stat-v2 blue" href="./?action=listkeys">
     	<div class="visual">
             <i class="fa fa-key"></i>
 			<i class="fa fa-key"></i>
         </div>
         <div class="details">
             <div class="number">
-                <span data-counter="counterup" data-value="45">0</span>
+                <span data-counter="counterup" data-value="{{keyCount}}">0</span>
             </div>
         	<div class="desc"> Clés </div>
         </div>
         </a>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 red" href="./?action=listkeys">
+        <a class="dashboard-stat dashboard-stat-v2 red" href="./?action=listBorrowings">
         <div class="visual">
             <i class="fa fa-arrows-h"></i>
         </div>
     	<div class="details">
             <div class="number">
-                <span data-counter="counterup" data-value="89">0</span> </div>
+                <span data-counter="counterup" data-value="{{borrowingCount}}">0</span> </div>
                 <div class="desc"> Emprunts </div>
             </div>
         </a>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 green" href="./?action=listlocks">
+        <a class="dashboard-stat dashboard-stat-v2 green" href="">
         <div class="visual">
             <i class="fa fa-tags"></i>
         </div>
     	<div class="details">
             <div class="number">
-                <span data-counter="counterup" data-value="45">0</span>
+                <span data-counter="counterup" data-value="{{keychainCount}}">0</span>
             </div>
             <div class="desc"> Trousseaux </div>
         </div>
         </a>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-    	<a class="dashboard-stat dashboard-stat-v2 purple" href="./?action=listBorrowings">
+    	<a class="dashboard-stat dashboard-stat-v2 purple" href="./?action=listUsers">
         <div class="visual">
-            <i class="fa fa-column"></i>
+            <i class="fa fa-users"></i>
         </div>
         <div class="details">
             <div class="number">
-                <span data-counter="counterup" data-value="89"></span></div>
-            <div class="desc"> Portes </div>
+                <span data-counter="counterup" data-value="{{userCount}}"></span></div>
+            <div class="desc"> Utilisateurs </div>
 		</div>
 		</a>
     </div>
