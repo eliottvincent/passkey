@@ -335,7 +335,7 @@ class BorrowingController {
 	}
 
 	/**
-	 * @param $keyToSave
+	 * @param $borrowingToSave
 	 */
 	private function saveBorrowing($borrowingToSave) {
 
