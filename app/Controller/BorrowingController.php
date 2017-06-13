@@ -59,11 +59,16 @@ class BorrowingController {
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'],
-						"alert_message" => $message['message'],
-						"alert_link" => $message['link'],
-						"alert_link_href" => $message['link_href'],
-						"alert_link_text" => $message['link_text']));
+					$data = array("alert_type" => $message['type'],
+						"alert_message" => $message['message']);
+					if (isset($message['link']) &&
+						isset($message['link_href']) &&
+						isset($message['link_text'])) {
+						$data['alert_link'] = $message['link'];
+						$data['alert_link_href'] = $message['link_href'];
+						$data['alert_link_text'] = $message['link_text'];
+					}
+					$message = new View("submit_message.html.twig", $data);
 					$compositeView->attachContentView($message);
 				}
 			}
@@ -158,17 +163,22 @@ class BorrowingController {
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'],
-						"alert_message" => $message['message'],
-						"alert_link" => $message['link'],
-						"alert_link_href" => $message['link_href'],
-						"alert_link_text" => $message['link_text']));
+					$data = array("alert_type" => $message['type'],
+						"alert_message" => $message['message']);
+					if (isset($message['link']) &&
+						isset($message['link_href']) &&
+						isset($message['link_text'])) {
+						$data['alert_link'] = $message['link'];
+						$data['alert_link_href'] = $message['link_href'];
+						$data['alert_link_text'] = $message['link_text'];
+					}
+					$message = new View("submit_message.html.twig", $data);
 					$compositeView->attachContentView($message);
 				}
 			}
 		}
 
-		$create_borrowing = new View('borrowings/create_borrowing.html.twig', array('keys' => $keys, 'users' => $users, 'previousUrl' => getPreviousUrl()));
+		$create_borrowing = new View('borrowings/create_borrowing.html.twig', array('keychains' => $keychains, 'users' => $users, 'previousUrl' => getPreviousUrl()));
 		$compositeView->attachContentView($create_borrowing);
 
 		echo $compositeView->render();
@@ -266,11 +276,11 @@ class BorrowingController {
 	 */
 	public function displayUpdateForm($borrowing, $messages = null) {
 
-		$keys = $this->getKeys();
+		$keychains = $this->getKeychains();
 		$users = $this->getUsers();
 		$statuses = $this->getStatuses();
 
-		$composite = new CompositeView(
+		$compositeView = new CompositeView(
 			true,
 			'Mettre à jour un emprunt',
 			null,
@@ -283,20 +293,25 @@ class BorrowingController {
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'],
-						"alert_message" => $message['message'],
-						"alert_link" => $message['link'],
-						"alert_link_href" => $message['link_href'],
-						"alert_link_text" => $message['link_text']));
-					$composite->attachContentView($message);
+					$data = array("alert_type" => $message['type'],
+						"alert_message" => $message['message']);
+					if (isset($message['link']) &&
+						isset($message['link_href']) &&
+						isset($message['link_text'])) {
+						$data['alert_link'] = $message['link'];
+						$data['alert_link_href'] = $message['link_href'];
+						$data['alert_link_text'] = $message['link_text'];
+					}
+					$message = new View("submit_message.html.twig", $data);
+					$compositeView->attachContentView($message);
 				}
 			}
 		}
 
-		$update_borrowing = new View('borrowings/update_borrowing.html.twig', array('borrowing' => $borrowing, 'keys' => $keys, 'users' => $users, 'statuses' => $statuses, 'previousUrl' => getPreviousUrl()));
-		$composite->attachContentView($update_borrowing);
+		$update_borrowing = new View('borrowings/update_borrowing.html.twig', array('borrowing' => $borrowing, 'keychains' => $keychains, 'users' => $users, 'statuses' => $statuses, 'previousUrl' => getPreviousUrl()));
+		$compositeView->attachContentView($update_borrowing);
 
-		echo $composite->render();
+		echo $compositeView->render();
 	}
 
 	//================================================================================
