@@ -238,16 +238,8 @@ class LockController {
 
 		else {
 
-			$locks = $this->getLocks();
+			$this->list();
 
-			if (!empty($locks)) {
-				$this->displayList();
-			}
-			else {
-				$message['type'] = 'danger';
-				$message['message'] = 'Nous n\'avons aucun canon d\'enregistré.';
-				$this->displayList(array($message));
-			}
 		}
 	}
 
