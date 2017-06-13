@@ -315,5 +315,3 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 		];
 	}
 }
-
-?>

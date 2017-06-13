@@ -1,7 +1,7 @@
 <?xml version='1.0' standalone='yes'?>
 <keychains>
 	<keychain>
-		<id>kc_1</id>
+		<id>kc_keychain_1</id>
 		<name>Keychain 1</name>
 		<keys>
 			<key>k_1</key>
@@ -11,7 +11,7 @@
 		<destructionDate>2017-04-24</destructionDate>
 	</keychain>
 	<keychain>
-		<id>kc_2</id>
+		<id>kc_keychain_2</id>
 		<name>Keychain 2</name>
 		<keys>
 			<key>k_2</key>
@@ -21,7 +21,7 @@
 		<destructionDate>2017-04-24</destructionDate>
 	</keychain>
 	<keychain>
-		<id>kc_3</id>
+		<id>kc_keychain_3</id>
 		<name>Keychain 3</name>
 		<keys>
 			<key>k_3</key>
@@ -30,7 +30,7 @@
 		<creationDate>2017-04-24</creationDate>
 	</keychain>
 	<keychain>
-		<id>kc_4</id>
+		<id>kc_keychain_4</id>
 		<name>Keychain 4</name>
 		<keys>
 			<key>k_4</key>
@@ -39,7 +39,7 @@
 		<creationDate>2017-04-24</creationDate>
 	</keychain>
 	<keychain>
-		<id>kc_5</id>
+		<id>kc_keychain_5</id>
 		<name>Keychain 5</name>
 		<keys>
 			<key>k_5</key>
@@ -48,7 +48,7 @@
 		<creationDate>2017-04-24</creationDate>
 	</keychain>
 	<keychain>
-		<id>kc_6</id>
+		<id>kc_keychain_6</id>
 		<name>Keychain 6</name>
 		<keys>
 			<key>k_6</key>
@@ -56,7 +56,7 @@
 		<creationDate>2017-04-24</creationDate>
 	</keychain>
 	<keychain>
-		<id>kc_7</id>
+		<id>kc_keychain_7</id>
 		<name>Keychain 7</name>
 		<keys>
 		</keys>
