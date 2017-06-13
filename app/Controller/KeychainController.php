@@ -168,6 +168,89 @@ class KeychainController
 
 		echo $compositeView->render();
 	}
+
+
+	//================================================================================
+	// UPDATE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function update() {
+
+		if (isset($_POST['update']) && !empty($_POST['update'])) {
+			$keychain = $this->getKeychain($_POST['update']);
+			$this->displayUpdateForm($keychain);
+		}
+
+		// if all values were posted (= form submission)
+		elseif (isset($_POST['keychain_id']) &&
+			isset($_POST['keychain_name']) &&
+			isset($_POST['keychain_keys'])) {
+
+			$keychainToUpdate = array(
+				'keychain_id' => $_POST['keychain_id'],
+				'keychain_name' => addslashes($_POST['keychain_name']),
+				'keychain_keys' => $_POST['keychain_keys'],
+				'keychain_creationdate' => addslashes($_POST['keychain_creationdate']),
+				'keychain_destructiondate' => addslashes($_POST['keychain_destructiondate'])
+			);
+
+			if ($this->updateKeychain($keychainToUpdate) == false) {
+				$message['type'] = 'danger';
+				$message['message'] = 'Erreur lors de la modification du trousseau.';
+				$this->displayList(array($message));
+			}
+			else {
+				$message['type'] = 'success';
+				$message['message'] = 'Le trousseau a bien été modifié.';
+				$this->displayList(array($message));
+			}
+		}
+
+		else {
+
+			$this->list();
+		}
+	}
+
+	/**
+	 * @param $state
+	 * @param $datas
+	 * @param null $messages
+	 */
+	public function displayUpdateForm($keychain, $messages = null) {
+
+		$keys = $this->getKeys();
+
+		$composite = new CompositeView(
+			true,
+			'Mettre à jour un trousseau',
+			null,
+			"keychain",
+			array("bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"),
+			array("form-datetime-picker" => "app/View/assets/custom/scripts/update-forms-datetime-picker.js",
+				"bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")
+		);
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$composite->attachContentView($message);
+				}
+			}
+		}
+
+		$update_keychain= new View('keychains/update_keychain.html.twig', array('keychain' => $keychain, 'keys' => $keys, 'previousUrl' => getPreviousUrl()));
+		$composite->attachContentView($update_keychain);
+
+		echo $composite->render();
+	}
+
+
+	//================================================================================
 	// calls to Service
 	//================================================================================
 
@@ -179,4 +262,51 @@ class KeychainController
 
 		return $this->_keychainService->getKeychains();
 	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	public function getKeychain($id) {
+
+		return $this->_keychainService->getKeychain($id);
+	}
+
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	public function getKeys() {
+
+		return $this->_keyService->getKeys();
+	}
+
+	/**
+	 * @param $keychainToSave
+	 */
+	private function saveKeychain($keychainToSave) {
+
+		$this->_keychainService->saveKeychain($keychainToSave);
+	}
+
+
+	/**
+	 * @param $keychainToUpdate
+	 */
+	private function updateKeychain($keychainToUpdate) {
+
+		return $this->_keychainService->updateKeychain($keychainToUpdate);
+	}
+
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function checkUnicity($id) {
+
+		return $this->_keychainService->checkUnicity($id);
+	}
+
 }
