@@ -204,16 +204,9 @@ class RoomController {
 		}
 
 		else {
-			$rooms = $this->getRooms();
 
-			if (!empty($rooms)) {
-				$this->displayList();
-			}
-			else {
-				$message['type'] = 'danger';
-				$message['message'] = 'Nous n\'avons aucune salle d\'enregistrée.';
-				$this->displayList(array($message));
-			}
+			$this->list();
+
 		}
 	}
 
