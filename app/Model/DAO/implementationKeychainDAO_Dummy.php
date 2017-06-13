@@ -1,6 +1,4 @@
 <?php
-require_once 'app/Model/VO/KeychainVO.php';
-require_once 'app/Model/DAO/interfaceKeychainDAO.php';
 
 //Timezone Paris.
 date_default_timezone_set('Europe/Paris');
