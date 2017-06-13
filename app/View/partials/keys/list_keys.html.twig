@@ -32,6 +32,7 @@
 										{% for lock in key.locks %}
 											<p>{{ lock }}</p>
 										{% endfor %}
+									</td>
 									<td>
 										<p
 											{% if key.copies < 3 %}
@@ -40,7 +41,6 @@
 												class="text-warning"
 											{% endif %}
 										>{{ key.copies }}</p>
-									</td>
 									</td>
 
 									<td>

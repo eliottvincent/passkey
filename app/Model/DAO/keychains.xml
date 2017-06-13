@@ -1,39 +1,66 @@
 <?xml version='1.0' standalone='yes'?>
 <keychains>
 	<keychain>
-		<id>1</id>
-		<creationDate>1272508903</creationDate>
-		<destructionDate>1282508903</destructionDate>
+		<id>kc_1</id>
+		<name>Keychain 1</name>
+		<keys>
+			<key>k_1</key>
+			<key>k_2</key>
+		</keys>
+		<creationDate>2017-04-24</creationDate>
+		<destructionDate>2017-04-24</destructionDate>
 	</keychain>
 	<keychain>
-		<id>2</id>
-		<creationDate>1272508903</creationDate>
-		<destructionDate>1282508903</destructionDate>
+		<id>kc_2</id>
+		<name>Keychain 2</name>
+		<keys>
+			<key>k_2</key>
+			<key>k_3</key>
+		</keys>
+		<creationDate>2017-04-24</creationDate>
+		<destructionDate>2017-04-24</destructionDate>
 	</keychain>
 	<keychain>
-		<id>3</id>
-		<creationDate>1272508903</creationDate>
-		<destructionDate>1282508903</destructionDate>
+		<id>kc_3</id>
+		<name>Keychain 3</name>
+		<keys>
+			<key>k_3</key>
+			<key>k_4</key>
+		</keys>
+		<creationDate>2017-04-24</creationDate>
 	</keychain>
 	<keychain>
-		<id>4</id>
-		<creationDate>1272508903</creationDate>
-		<destructionDate></destructionDate>
+		<id>kc_4</id>
+		<name>Keychain 4</name>
+		<keys>
+			<key>k_4</key>
+			<key>k_5</key>
+		</keys>
+		<creationDate>2017-04-24</creationDate>
 	</keychain>
 	<keychain>
-		<id>5</id>
-		<creationDate>1171502725</creationDate>
-		<destructionDate></destructionDate>
+		<id>kc_5</id>
+		<name>Keychain 5</name>
+		<keys>
+			<key>k_5</key>
+			<key>k_6</key>
+		</keys>
+		<creationDate>2017-04-24</creationDate>
 	</keychain>
 	<keychain>
-		<id>6</id>
-		<creationDate>1171502725</creationDate>
-		<destructionDate></destructionDate>
+		<id>kc_6</id>
+		<name>Keychain 6</name>
+		<keys>
+			<key>k_6</key>
+		</keys>
+		<creationDate>2017-04-24</creationDate>
 	</keychain>
 	<keychain>
-		<id>7</id>
-		<creationDate>1171502725</creationDate>
-		<destructionDate></destructionDate>
+		<id>kc_7</id>
+		<name>Keychain 7</name>
+		<keys>
+		</keys>
+		<creationDate>2017-04-24</creationDate>
 	</keychain>
 
 </keychains>

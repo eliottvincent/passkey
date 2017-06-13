@@ -1,19 +1,21 @@
 <?php
 
-
-class DoorController {
+/**
+ * Created by PhpStorm.
+ * User: eliottvincent
+ * Date: 08/06/2017
+ * Time: 15:34
+ */
+class RoomController {
 
 
 	//================================================================================
 	// constructor
 	//================================================================================
 
-	/**
-	 * DoorController constructor.
-	 */
 	public function __construct() {
+		$this->_roomService = implementatioRoomService_Dummy::getInstance();
 		$this->_doorService = implementationDoorService_Dummy::getInstance();
-		$this->_roomService= implementatioRoomService_Dummy::getInstance();
 	}
 
 
@@ -22,18 +24,18 @@ class DoorController {
 	//================================================================================
 
 	/**
-	 * used to list all doors
+	 * used to list all rooms
 	 */
 	public function list() {
 
-		$doors = $this->getDoors();
+		$rooms = $this->getRooms();
 
-		if (!empty($doors)) {
+		if (!empty($rooms)) {
 			$this->displayList();
 		}
 		else {
 			$message['type'] = 'danger';
-			$message['message'] = 'Nous n\'avons aucune porte d\'enregistrée.';
+			$message['message'] = 'Nous n\'avons aucune salle d\'enregistrée.';
 			$this->displayList(array($message));
 		}
 	}
@@ -43,15 +45,15 @@ class DoorController {
 	 * @internal param $state
 	 */
 	public function displayList($messages = null) {
-		$doors = $this->getDoors();
+		$rooms = $this->getRooms();
 
 		$compositeView = new CompositeView(
 			true,
-			'Liste des portes',
+			'Liste des salles',
 			null,
-			"door",
+			"room",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
-			array("deleteUserScript" => "app/View/assets/custom/scripts/deleteDoor.js",
+			array("deleteRoomScript" => "app/View/assets/custom/scripts/deleteRoom.js",
 				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
 
 		if ($messages != null) {
@@ -63,8 +65,8 @@ class DoorController {
 			}
 		}
 
-		$list_doors = new View("doors/list_doors.html.twig", array('doors' => $doors));
-		$compositeView->attachContentView($list_doors);
+		$list_rooms = new View("rooms/list_rooms.html.twig", array('rooms' => $rooms));
+		$compositeView->attachContentView($list_rooms);
 
 		echo $compositeView->render();
 	}
@@ -77,15 +79,17 @@ class DoorController {
 	public function create() {
 
 		// if no values are posted -> displaying the form
-		if (!isset($_POST['door_name']) &&
-			!isset($_POST['door_room'])) {
+		if (!isset($_POST['room_name']) &&
+			!isset($_POST['room_building']) &&
+			!isset($_POST['room_floor'])) {
 
 			$this->displayForm();
 		}
 
 		// if some (but not all) values are posted -> error message
-		elseif (empty($_POST['door_name']) ||
-			empty($_POST['door_room'])) {
+		elseif (empty($_POST['room_name']) ||
+			empty($_POST['room_building']) ||
+			empty($_POST['room_floor'])) {
 
 			$m_type = "danger";
 			$m_message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
@@ -95,26 +99,27 @@ class DoorController {
 			$this->displayForm(array($message));
 		}
 
-		// if we have all values, we can create the door
+		// if we have all values, we can create the room
 		else {
 
 			// id generation
-			$id = 'd_' . strtolower(str_replace(' ', '_', addslashes($_POST['door_name'])));
+			$id = 'r_' . strtolower(str_replace(' ', '_', addslashes($_POST['room_name'])));
 
 			// unicity check
 			$exist = $this->checkUnicity($id);
 
 			if (!$exist) {
-				$doorToSave = array(
-					'door_id' => $id,
-					'door_name' => addslashes($_POST['door_name']),
-					'door_room' => addslashes($_POST['door_room'])
+				$roomToSave = array(
+					'room_id' => $id,
+					'room_name' => addslashes($_POST['room_name']),
+					'room_building' => addslashes($_POST['room_building']),
+					'room_floor' => addslashes($_POST['room_floor'])
 				);
 
-				$this->saveDoor($doorToSave);
+				$this->saveRoom($roomToSave);
 
 				$m_type = "success";
-				$m_message = "La porte a bien été créée.";
+				$m_message = "La salle a bien été créée.";
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
 
@@ -122,7 +127,7 @@ class DoorController {
 			}
 			else {
 				$m_type = "danger";
-				$m_message = "Une porte avec le même nom existe déjà.";
+				$m_message = "Une salle avec le même nom existe déjà.";
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
 
@@ -132,18 +137,16 @@ class DoorController {
 	}
 
 	/**
-	 * Display form used to create a door
+	 * Display form used to create a room
 	 * @param null $message
 	 */
 	public function displayForm($messages = null) {
 
-		$rooms = $this->getRooms();
-
 		$compositeView = new CompositeView(
 			true,
-			'Ajouter une porte',
+			'Ajouter une salle',
 			null,
-			"door");
+			"room");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -154,8 +157,92 @@ class DoorController {
 			}
 		}
 
-		$create_door = new View('doors/create_door.html.twig', array("rooms" => $rooms, 'previousUrl' => getPreviousUrl()));
-		$compositeView->attachContentView($create_door);
+		$create_room = new View('rooms/create_room.html.twig', array('previousUrl' => getPreviousUrl()));
+		$compositeView->attachContentView($create_room);
+
+		echo $compositeView->render();
+	}
+
+
+	//================================================================================
+	// UPDATE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function update() {
+
+		if (isset($_POST['update']) && !empty($_POST['update'])) {
+			$door = $this->getRoom($_POST['update']);
+			$this->displayUpdateForm($door);
+		}
+
+		// if all values were posted (= form submission)
+		elseif (isset($_POST['room_name']) &&
+			isset($_POST['room_building']) &&
+			isset($_POST['room_floor']) &&
+			isset($_POST['room_doors'])) {
+
+			$roomToUpdate = array(
+				'room_id' => $_POST['room_id'],
+				'room_name' => addslashes($_POST['room_name']),
+				'room_building' => addslashes($_POST['room_building']),
+				'room_floor' => addslashes($_POST['room_floor']),
+				'room_doors' => $_POST['room_doors']);
+
+			if ($this->updateRoom($roomToUpdate) == false) {
+				$message['type'] = 'danger';
+				$message['message'] = 'Erreur lors de la modification de la salle.';
+				$this->displayList(array($message));
+			}
+			else {
+				$message['type'] = 'success';
+				$message['message'] = 'La salle a bien été modifiée.';
+				$this->displayList(array($message));
+			}
+		}
+
+		else {
+			$rooms = $this->getRooms();
+
+			if (!empty($rooms)) {
+				$this->displayList();
+			}
+			else {
+				$message['type'] = 'danger';
+				$message['message'] = 'Nous n\'avons aucune salle d\'enregistrée.';
+				$this->displayList(array($message));
+			}
+		}
+	}
+
+	/**
+	 * @param $door
+	 * @param null $messages
+	 */
+	public function displayUpdateForm($room, $messages = null) {
+
+		$doors = $this->getDoors();
+
+		$compositeView = new CompositeView(
+			true,
+			"Mettre à jour une salle",
+			null,
+			"room");
+
+		if ($messages != null) {
+
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message["message"])) {
+					$message = new View("submit_message.html.twig", array("alert_type" => $message["type"] , "alert_message" => $message["message"]));
+					$compositeView->attachContentView($message);
+				}
+			}
+		}
+
+		$update_room = new View("rooms/update_room.html.twig", array("room" => $room, "doors" => $doors, "previousUrl" => getPreviousUrl()));
+		$compositeView->attachContentView($update_room);
 
 		echo $compositeView->render();
 	}
@@ -168,13 +255,13 @@ class DoorController {
 	/**
 	 *
 	 */
-	public function deleteDoorAjax() {
+	public function deleteRoomAjax() {
 
 		session_start();
 
 		if (isset($_POST['value'])) {
 
-			if ($this->deleteDoor(urldecode($_POST['value'])) == true) {
+			if ($this->deleteRoom(urldecode($_POST['value'])) == true) {
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}
@@ -193,88 +280,26 @@ class DoorController {
 
 
 	//================================================================================
-	// UPDATE
-	//================================================================================
-
-	/**
-	 *
-	 */
-	public function update() {
-
-		if (isset($_POST['update']) && !empty($_POST['update'])) {
-			$door = $this->getDoor($_POST['update']);
-			$this->displayUpdateForm($door);
-		}
-
-		// if all values were posted (= form submission)
-		elseif (isset($_POST['door_name']) &&
-			isset($_POST['door_room'])) {
-
-			$doorToUpdate = array(
-				'door_id' => $_POST['door_id'],
-				'door_name' => addslashes($_POST['door_name']),
-				'door_room' => addslashes($_POST['door_room']));
-
-			if ($this->updateDoor($doorToUpdate) == false) {
-				$message['type'] = 'danger';
-				$message['message'] = 'Erreur lors de la modification de la porte.';
-				$this->displayList(array($message));
-			}
-			else {
-				$message['type'] = 'success';
-				$message['message'] = 'La porte a bien été modifiée.';
-				$this->displayList(array($message));
-			}
-		}
-
-		else {
-			$doors = $this->getDoors();
-
-			if (!empty($doors)) {
-				$this->displayList();
-			}
-			else {
-				$message['type'] = 'danger';
-				$message['message'] = 'Nous n\'avons aucune porte d\'enregistrée.';
-				$this->displayList(array($message));
-			}
-		}
-	}
-
-	/**
-	 * @param $door
-	 * @param null $messages
-	 */
-	public function displayUpdateForm($door, $messages = null) {
-
-		$rooms = $this->getRooms();
-
-		$compositeView = new CompositeView(
-			true,
-			"Mettre à jour une porte",
-			null,
-			"door");
-
-		if ($messages != null) {
-
-			foreach ($messages as $message) {
-				if (!empty($message['type']) && !empty($message["message"])) {
-					$message = new View("submit_message.html.twig", array("alert_type" => $message["type"] , "alert_message" => $message["message"]));
-					$compositeView->attachContentView($message);
-				}
-			}
-		}
-
-		$update_door = new View("doors/update_door.html.twig", array("door" => $door, "rooms" => $rooms, "previousUrl" => getPreviousUrl()));
-		$compositeView->attachContentView($update_door);
-
-		echo $compositeView->render();
-	}
-
-
-	//================================================================================
 	// calls to Service
 	//================================================================================
+
+	/**
+	 * To get all rooms
+	 * @return null
+	 */
+	public function getRooms() {
+
+		return $this->_roomService->getRooms();
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function getRoom($id) {
+
+		return $this->_roomService->getRoom($id);
+	}
 
 	/**
 	 * To get all doors
@@ -286,45 +311,28 @@ class DoorController {
 	}
 
 	/**
-	 * @param $id
-	 * @return mixed
+	 * @param $roomToSave
 	 */
-	private function getDoor($id) {
+	private function saveRoom($roomToSave) {
 
-		return $this->_doorService->getDoor($id);
-	}
-
-	/**
-	 * @return mixed
-	 */
-	private function getRooms() {
-
-		return $this->_roomService->getRooms();
-	}
-
-	/**
-	 * @param $doorToSave
-	 */
-	private function saveDoor($doorToSave) {
-
-		$this->_doorService->saveDoor($doorToSave);
+		$this->_roomService->saveRoom($roomToSave);
 	}
 
 	/**
 	 * Used to delete a door from an id.
 	 * @param $enssatPrimaryKey
 	 */
-	private function deleteDoor($id) {
+	private function deleteRoom($id) {
 
-		return $this->_doorService->deleteDoor($id);
+		return $this->_roomService->deleteRoom($id);
 	}
 
 	/**
-	 * @param $doorToUpdate
+	 * @param $roomToUpdate
 	 */
-	private function updateDoor($doorToUpdate) {
+	private function updateRoom($roomToUpdate) {
 
-		return $this->_doorService->updateDoor($doorToUpdate);
+		return $this->_roomService->updateRoom($roomToUpdate);
 	}
 
 	/**
@@ -333,6 +341,6 @@ class DoorController {
 	 */
 	private function checkUnicity($id) {
 
-		return $this->_doorService->checkUnicity($id);
+		return $this->_roomService->checkUnicity($id);
 	}
 }
