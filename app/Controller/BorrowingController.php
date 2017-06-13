@@ -254,16 +254,8 @@ class BorrowingController {
 		}
 
 		else {
-			$borrowings = $this->getBorrowings();
 
-			if (!empty($borrowings)) {
-				$this->displayList();
-			}
-			else {
-				$message['type'] = 'danger';
-				$message['message'] = 'Nous n\'avons aucun emprunt d\'enregistré.';
-				$this->displayList(array($message));
-			}
+			$this->list();
 		}
 	}
 
