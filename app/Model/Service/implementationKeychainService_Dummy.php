@@ -149,8 +149,9 @@ class implementationKeychainService_Dummy implements interfaceKeychainService
 		$keychainToUpdate = new KeychainVO();
 		$keychainToUpdate->setId((string) $keychainArray['keychain_id']);
 		$keychainToUpdate->setName((string) $keychainArray['keychain_name']);
-		$keychainToUpdate->setCreationDate((string) $keychainArray['keychain_creation_date']);
-		$keychainToUpdate->setDestructionDate((string) $keychainArray['keychain_destruction_date']);
+		$keychainToUpdate->setCreationDate((string) $keychainArray['keychain_creationdate']);
+		$keychainToUpdate->setDestructionDate((string) $keychainArray['keychain_destructiondate']);
+		$keychainToUpdate->setKeys((array) $keychainArray['keychain_keys']);
 
 		foreach ($this->_keychains as $key=>$keychain) {
 

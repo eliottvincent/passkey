@@ -275,7 +275,7 @@ class BorrowingController {
 			null,
 			"borrowing",
 			array("bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"),
-			array("form-datetime-picker" => "app/View/assets/custom/scripts/update-borrowing-datetime-picker.js",
+			array("form-datetime-picker" => "app/View/assets/custom/scripts/update-forms-datetime-picker.js",
 				"bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")
 		);
 
