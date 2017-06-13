@@ -270,7 +270,7 @@ class UserController {
 		}
 
 		else {
-			
+
 			$this->list();
 
 		}
