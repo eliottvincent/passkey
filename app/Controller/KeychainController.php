@@ -25,7 +25,7 @@ class KeychainController
 
 
 	/**
-	 * used to list all rooms
+	 * used to list all keychains
 	 */
 	public function list() {
 
@@ -100,7 +100,7 @@ class KeychainController
 			$this->displayForm(array($message));
 		}
 
-		// if we have all values, we can create the borrowing
+		// if we have all values, we can create the keychain
 		else {
 
 			// id generation
@@ -141,7 +141,7 @@ class KeychainController
 	}
 
 	/**
-	 * Display form used to create a borrowing
+	 * Display form used to create a keychain
 	 * @param null $message array of the message displays
 	 */
 	public function displayForm($messages = null) {
@@ -163,8 +163,8 @@ class KeychainController
 			}
 		}
 
-		$create_borrowing = new View('keychains/create_keychain.html.twig', array('keys' => $keys, 'previousUrl' => getPreviousUrl()));
-		$compositeView->attachContentView($create_borrowing);
+		$create_keychain = new View('keychains/create_keychain.html.twig', array('keys' => $keys, 'previousUrl' => getPreviousUrl()));
+		$compositeView->attachContentView($create_keychain);
 
 		echo $compositeView->render();
 	}
