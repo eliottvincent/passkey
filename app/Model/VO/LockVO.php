@@ -6,6 +6,7 @@ class LockVO
     private $id;
     private $name;
     private $door; // the door ID
+	private $length;
 
 	public function __construct() {
 	}
@@ -23,6 +24,14 @@ class LockVO
     	return $this->door;
 	}
 
+	/**
+	 * @return mixed
+	 */
+	public function getLength()
+	{
+		return $this->length;
+	}
+
     // SETTER
 	public function setId($id) {
 		$this->id = $id;
@@ -34,5 +43,13 @@ class LockVO
 
     public function setDoor($door) {
     	$this->door = $door;
+	}
+
+	/**
+	 * @param mixed $length
+	 */
+	public function setLength($length)
+	{
+		$this->length = $length;
 	}
 }

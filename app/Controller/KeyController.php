@@ -94,6 +94,7 @@ class KeyController {
 		if (!isset($_POST['key_name']) &&
 			!isset($_POST['key_type']) &&
 			!isset($_POST['key_locks']) &&
+			!isset($_POST['key_supplier']) &&
 			!isset($_POST['key_copies'])) {
 
 			$this->displayForm();
@@ -103,6 +104,7 @@ class KeyController {
 		elseif (empty($_POST['key_name']) ||
 			empty($_POST['key_type']) ||
 			empty($_POST['key_locks']) ||
+			empty($_POST['key_supplier']) ||
 			empty($_POST['key_copies'])) {
 
 			$m_type = "danger";
@@ -119,15 +121,23 @@ class KeyController {
 			// id generation
 			$id = 'k_' . strtolower(str_replace(' ', '_', addslashes($_POST['key_name'])));
 
+			// if the key is total, we add all locks.
+			if ( addslashes($_POST['key_type']) == 'total') {
+				$locks = $this->_lockService->getLocks();
+				$_POST['key_locks'] = $locks;
+			}
+
 			// unicity check
 			$exist = $this->checkUnicity($id);
 
 			if (!$exist) {
+
 				$keyToSave = array(
 					'key_id' => $id,
 					'key_name' => addslashes($_POST['key_name']),
 					'key_type' => addslashes($_POST['key_type']),
-					'key_locks' => addslashes($_POST['key_locks']),
+					'key_locks' => $_POST['key_locks'],
+					'key_supplier' => addslashes($_POST['key_supplier']),
 					'key_copies' => addslashes($_POST['key_copies'])
 				);
 
@@ -164,7 +174,9 @@ class KeyController {
 			true,
 			'Ajouter une clé',
 			null,
-			"key");
+			"key",
+			null,
+			array("chooseKey" => "app/View/assets/custom/scripts/chooseKey.js"));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -231,6 +243,7 @@ class KeyController {
 		elseif (isset($_POST['key_name']) &&
 			isset($_POST['key_type']) &&
 			isset($_POST['key_locks']) &&
+			isset($_POST['key_supplier']) &&
 			isset($_POST['key_copies'])) {
 
 			$keyToUpdate = array(
@@ -238,6 +251,7 @@ class KeyController {
 				'key_name' => addslashes($_POST['key_name']),
 				'key_type' => addslashes($_POST['key_type']),
 				'key_locks' => $_POST['key_locks'],
+				'key_supplier' => addslashes($_POST['key_supplier']),
 				'key_copies' => addslashes($_POST['key_copies']));
 
 			if ($this->updateKey($keyToUpdate) == false) {

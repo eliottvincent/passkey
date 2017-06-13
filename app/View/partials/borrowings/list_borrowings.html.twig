@@ -11,7 +11,7 @@
 				</div>
 				<div class="portlet-body">
 					<div class="table-responsive">
-						<table class="table table-striped table-bordered table-hover">
+						<table id="borrowingsTable" class="table table-striped table-bordered table-hover dataTable">
 							<thead>
 							<tr>
 								<th> #id </th>
@@ -25,6 +25,7 @@
 								<th> Actions </th>
 							</tr>
 							</thead>
+
 							<tbody>
 							{% for borrowing in borrowings %}
 								<tr id="{{ borrowing.id }}">
@@ -45,11 +46,23 @@
 										<!--<form action="" method="post">-->
 										<input type="hidden" name="delete" value="{{ borrowing.id }}"/>
 										<button type="submit" class="btn red btn-sm btn-delete-b" value="{{ borrowing.id }}">Supprimer</button>
+										<a href="?action=detailedBorrowing&id={{ borrowing.id }}"><button type="button" class="btn purple btn-sm">Détails</button></a>
 										<!--</form>-->
 									</td>
 								</tr>
 							{% endfor %}
 							</tbody>
+							<tfoot>
+								<th> #id </th>
+								<th> user </th>
+								<th> keychain </th>
+								<th> BorrowDate </th>
+								<th> dueDate </th>
+								<th> returnDate </th>
+								<th> lostDate </th>
+								<th> status </th>
+								<th> Actions </th>
+							</tfoot>
 						</table>
 					</div>
 				</div>

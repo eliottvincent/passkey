@@ -53,7 +53,8 @@ class BorrowingController {
 			"borrowing",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
 			array("deleteKeyScript" => "app/View/assets/custom/scripts/deleteBorrowing.js",
-				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
+				"borrowingsScript" => "app/View/assets/custom/scripts/list_borrowings.js"));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -304,6 +305,76 @@ class BorrowingController {
 		$composite->attachContentView($update_borrowing);
 
 		echo $composite->render();
+	}
+
+	//================================================================================
+	// DETAILED
+	//================================================================================
+
+	public function detailed($id) {
+		$borrow = $this->getBorrowing($id);
+		$number = explode("b_", $id)[1]; // [0] is empty
+
+		// Get the name of user.
+		$u = $borrow->getUser();
+		$users = $this->getUsers();
+		$currentUser = null;
+		foreach($users as $user) {
+			$uid = $user->getUr1identifier();
+			if ($uid == $u) {
+				$currentUser = $user;
+			}
+		}
+
+		if (isset($currentUser) && !empty($currentUser)) {
+			$currentUser = $currentUser->getSurname() . " " . $currentUser->getName();
+		}
+
+		// Format dates.
+		$dBorrow = date('d/m/Y', strtotime($borrow->getBorrowDate()));
+		$dDue = date('d/m/Y', strtotime($borrow->getBorrowDate()));
+
+		// State.
+		switch($borrow->getStatus()) {
+			case "borrowed":
+				$status = "en cours";
+				break;
+			case "late":
+				$status = "en retard";
+				break;
+			case "returned":
+				$status = "rendu";
+				break;
+			case "lost":
+				$status = "perdu";
+				break;
+			default:
+				$status = "n'existe pas";
+				break;
+		}
+
+
+		$composite = new CompositeView(
+			true,
+			"Détail de l'emprunt",
+			null,
+			"borrowing"
+		);
+
+		$detailed_borrowing = new View('borrowings/detailed_borrowing.html.twig',
+			array(
+				'borrow' => $borrow,
+				'number' => $number,
+				'user' => $currentUser,
+				'borrowDate' => $dBorrow,
+				'dueDate' => $dDue,
+				'status' => $status
+			)
+		);
+		$composite->attachContentView($detailed_borrowing);
+
+		echo $composite->render();
+
 	}
 
 
