@@ -228,16 +228,9 @@ class DoorController {
 		}
 
 		else {
-			$doors = $this->getDoors();
 
-			if (!empty($doors)) {
-				$this->displayList();
-			}
-			else {
-				$message['type'] = 'danger';
-				$message['message'] = 'Nous n\'avons aucune porte d\'enregistrée.';
-				$this->displayList(array($message));
-			}
+			$this->list();
+
 		}
 	}
 
