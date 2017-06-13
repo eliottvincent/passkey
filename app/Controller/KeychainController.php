@@ -104,10 +104,7 @@ class KeychainController
 		else {
 
 			// id generation
-			$id = 'kc_';
-			foreach ($_POST['keychain_keys'] as $keyId) {
-				$id .= $keyId . "_";
-			}
+			$id = 'kc_' . strtolower(str_replace(' ', '_', addslashes($_POST['keychain_name'])));
 
 			// unicity check
 			$exist = $this->checkUnicity($id);
