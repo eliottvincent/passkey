@@ -11,6 +11,7 @@ class KeyVO {
     private $type; // Clef ou Passe Partiel ou Passe Total
 	private $locks; // Canons
 	private $name;
+	private $supplier; // fournisseur
 	private $copies;
 
 	public function __construct() {
@@ -37,6 +38,14 @@ class KeyVO {
 		return $this->copies;
 	}
 
+	/**
+	 * @return mixed
+	 */
+	public function getSupplier()
+	{
+		return $this->supplier;
+	}
+
 	// SETTER
 
 	public function setId($id) {
@@ -57,6 +66,14 @@ class KeyVO {
 
 	public function setCopies($copies) {
 		$this->copies = $copies;
+	}
+
+	/**
+	 * @param mixed $supplier
+	 */
+	public function setSupplier($supplier)
+	{
+		$this->supplier = $supplier;
 	}
 
 	public function addLock($lock) {

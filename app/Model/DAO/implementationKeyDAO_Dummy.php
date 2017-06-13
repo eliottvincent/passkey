@@ -36,6 +36,7 @@ class implementationKeyDAO_Dummy implements interfaceKeyDAO {
 				$key->setType((string) $xmlKey->type);
 				$key->setName((string) $xmlKey->name);
 				$key->setCopies((int) $xmlKey->copies);
+				$key->setSupplier((string) $xmlKey->supplier);
 
 				array_push($this->_keys, $key);
 			}

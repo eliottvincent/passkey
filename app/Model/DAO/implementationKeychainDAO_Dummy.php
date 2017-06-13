@@ -1,6 +1,4 @@
 <?php
-require_once 'app/Model/VO/KeychainVO.php';
-require_once 'app/Model/DAO/interfaceKeychainDAO.php';
 
 //Timezone Paris.
 date_default_timezone_set('Europe/Paris');
@@ -31,12 +29,15 @@ class implementationKeychainDAO_Dummy implements interfaceKeyChainDAO
 			{
 				$keychain = new KeychainVO;
 
-				$keychain->setId((float) $xmlKeychain->id);
-				$tDate = new DateTime;
-				$tDate->setTimestamp((int)$xmlKeychain->creationDate);
-				$keychain->setCreationDate($tDate);
-				$tDate->setTimestamp((int)$xmlKeychain->destructionDate);
-				$keychain->setDestructionDate($tDate);
+				$keychain->setId((string) $xmlKeychain->id);
+				$keychain->setName((string) $xmlKeychain->name);
+				$keychain->setCreationDate((string) $xmlKeychain->creationDate);
+				$keychain->setDestructionDate((string) $xmlKeychain->destructionDate);
+
+				$keychain->setKeys(array());
+				foreach ($xmlKeychain->keys->children() as $key) {
+					$keychain->addKey((string) $key);
+				}
 
 				array_push($this->_keychains,$keychain);
 			}
@@ -62,28 +63,9 @@ class implementationKeychainDAO_Dummy implements interfaceKeyChainDAO
 		return self::$_instance;
 	}
 
-	public function getKeychains()
-	{
+	public function getKeychains() {
 		return $this->_keychains;
 	}
-
-	public function getRandomKeychain()
-	{
-		return $this->_keychains[array_rand($this->_keychains,1)];
-	}
-
-	public function createKeychain(){
-		$keychain = new KeychainVO;
-
-		$keychain->setId((float) 1);
-		$tDate = new DateTime;
-		$tDate->setTimestamp();
-		$keychain->setCreationDate($tDate);
-		$keychain->setDestructionDate($tDate + 30);//Destruction date dans 30 jours
-
-		return $keychain;
-	}
-
 
 }
 

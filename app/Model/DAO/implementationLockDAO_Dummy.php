@@ -27,6 +27,7 @@ class implementationLockDAO_Dummy implements interfaceLockDAO {
 				$lock->setId((string)$xmlLock->id);
 				$lock->setName((string)$xmlLock->name);
 				$lock->setDoor((string)$xmlLock->door);
+				$lock->setLength((int)$xmlLock->length);
 
 				array_push($this->_locks, $lock);
 			}
