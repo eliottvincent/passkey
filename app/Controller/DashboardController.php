@@ -12,7 +12,7 @@
 		public function __construct() {
 			$this->_keyService = implementationKeyService_Dummy::getInstance();
 			$this->_borrowingService = implementationBorrowingService_Dummy::getInstance();
-			//$this->_keychainService = implementationKeyChainService_Dummy::getInstance();
+			$this->_keychainService = implementationKeyChainService_Dummy::getInstance();
 			$this->_userService = implementationUserService_Dummy::getInstance();
 		}
 
@@ -20,7 +20,7 @@
 
 			$keys = $this->getKeys();
 			$borrowings = $this->getBorrowings();
-			//$keyChains = $this->getKeyChains();
+			$keyChains = $this->getKeychains();
 			$users = $this->getUsers();
 
 			$composite = new CompositeView(
@@ -36,7 +36,7 @@
 
 			$displayDash = new View('dashboard/dashboard.html.twig', array('keyCount' => count($keys),
 																			'borrowingCount' => count($borrowings),
-																			/*'keychainCount' => count($keyChains),*/
+																			'keychainCount' => count($keyChains),
 																			'userCount' => count($users))
 			);
 			$composite->attachContentView($displayDash);
@@ -72,12 +72,10 @@
 		 * To get all the keychains
 		 * @return array
 		 */
-		 /*
 		public function getKeychains() {
 
 			return $this->_keychainService->getKeychains();
 		}
-		*/
 
 		/**
 		 * To get all users
