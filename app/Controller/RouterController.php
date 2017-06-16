@@ -242,7 +242,13 @@ class RouterController
 	function deleteKeychainAjax() {
 
 		$keychainController = new KeychainController();
-		$keychainController->deleteKeyAjax();
+		$keychainController->deleteKeychainAjax();
+	}
+
+	function duplicateKeychain() {
+
+		$keychainController = new KeychainController();
+		$keychainController->duplicateKeychain();
 	}
 
 
