@@ -166,6 +166,35 @@ class KeychainController
 		echo $compositeView->render();
 	}
 
+	//================================================================================
+	// DELETE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function deleteKeychainAjax() {
+
+		session_start();
+
+		if (isset($_POST['value'])) {
+
+			if ($this->deleteKeychain(urldecode($_POST['value'])) == true) {
+				$response['status'] = 'success';
+				$response['message'] = 'This was successful';
+			}
+			else {
+				$response['status'] = 'error';
+				$response['message'] = 'This failed';
+			}
+		}
+		else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
+
+		echo json_encode($response);
+	}
 
 	//================================================================================
 	// UPDATE
@@ -287,6 +316,15 @@ class KeychainController
 		$this->_keychainService->saveKeychain($keychainToSave);
 	}
 
+
+	/**
+	 * Used to delete a keychain from an id.
+	 * @param $id
+	 */
+	private function deleteKeychain($id) {
+
+		return $this->_keychainService->deleteKeychain($id);
+	}
 
 	/**
 	 * @param $keychainToUpdate
