@@ -42,6 +42,8 @@
 											<input type="hidden" name="update" value="{{ borrowing.id }}"/>
 											<button type="submit" class="btn blue btn-sm">Modifier</button>
 										</form>
+										<input type="hidden" name="extend" value="{{ borrowing.id }}"/>
+										<button type="submit" class="btn green btn-sm btn-extend-b" value="{{ borrowing.id }}">Prolonger</button>
 
 										<!--<form action="" method="post">-->
 										<input type="hidden" name="delete" value="{{ borrowing.id }}"/>
