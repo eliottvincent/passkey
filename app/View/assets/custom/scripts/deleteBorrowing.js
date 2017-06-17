@@ -18,7 +18,6 @@ function initialiser(e) {
 
 function deleteBorrowing() {
 	var id = this.getAttribute('value');
-	console.log(id);
 	swal({
 		title: 'Êtes-vous sûr de vouloir supprimer cet emprunt ?',
 		text: 'Cette action est irréversible',

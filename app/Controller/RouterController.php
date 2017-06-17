@@ -334,6 +334,11 @@ class RouterController
 		$borrowingController->deleteBorrowingAjax();
 	}
 
+	function extendBorrowingAjax() {
+		$borrowingController = new BorrowingController();
+		$borrowingController->extendBorrowingAjax();
+	}
+
 	//================================================================================
 	// DASHBOARD
 	//================================================================================

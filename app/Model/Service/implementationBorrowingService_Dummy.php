@@ -141,6 +141,18 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 		return false;
 	}
 
+	//================================================================================
+	// EXTEND
+	//================================================================================
+
+	public function extendBorrowing($id, $number) {
+
+		$this->updateServiceVariables();
+		$newBorrow = $this->getBorrowing($id);
+		$newBorrow['dueDate'] = strtotime($newBorrow['dueDate'])->modify('+ '+$number+' days');
+		$this->updateBorrowing($newBorrow);
+	}
+
 
 	//================================================================================
 	// UPDATE
