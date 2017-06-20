@@ -255,7 +255,7 @@ class ImportController
 			}
 		}
 
-		$import_file = new View('import.html.twig', array(
+		$import_file = new View('imports/import.html.twig', array(
 			'pre_type'=> $pre_type,
 			'previousUrl' => getPreviousUrl()
 		));
