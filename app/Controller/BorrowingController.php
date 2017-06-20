@@ -360,8 +360,8 @@ class BorrowingController {
 				break;
 		}
 
-		// Doors.
-		$doors = $this->_borrowingService->getOpenedDoors($id);
+		// Rooms.
+		$rooms = $this->_borrowingService->getOpenedRooms($id);
 
 		// Keys.
 		$keys = $this->_borrowingService->getKeysInBorrow($id);
@@ -381,7 +381,7 @@ class BorrowingController {
 				'borrowDate' => $dBorrow,
 				'dueDate' => $dDue,
 				'status' => $status,
-				'doors' => $doors,
+				'rooms' => $rooms,
 				'keys' => $keys
 			)
 		);

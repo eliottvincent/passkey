@@ -14,7 +14,7 @@ class RoomController {
 	//================================================================================
 
 	public function __construct() {
-		$this->_roomService = implementatioRoomService_Dummy::getInstance();
+		$this->_roomService = implementationRoomService_Dummy::getInstance();
 		$this->_doorService = implementationDoorService_Dummy::getInstance();
 	}
 

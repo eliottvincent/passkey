@@ -39,6 +39,8 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 		$this->_keyService = implementationKeyService_Dummy::getInstance();
 		$this->_doorService = implementationDoorService_Dummy::getInstance();
 		$this->_lockService = implementationLockService_Dummy::getInstance();
+		$this->_roomService = implementationRoomService_Dummy::getInstance();
+
 
 		// getting the data we need
 		$this->_xmlBorrowings = $this->_borrowingDAO->getBorrowings();
@@ -219,6 +221,11 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 		);
 	}
 
+	/**
+	 * Get the name of all keys from a borrow
+	 * @param $id
+	 * @return array
+	 */
 	public function getKeysInBorrow($id) {
 		$keys = array();
 		$borrow = $this->getBorrowing($id);
@@ -236,9 +243,14 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 		return $keys;
 	}
 
-	public function getOpenedDoors($id) {
-		// Doors.
-		$doors = array();
+	/**
+	 * Get the name of all rooms from a borrow
+	 * @param $id
+	 * @return array
+	 */
+	public function getOpenedRooms($id) {
+		// Rooms.
+		$rooms = array();
 		$borrow = $this->getBorrowing($id);
 		$kc_id = $borrow->getKeychain();
 		$keychain = $this->_keychainService->getKeychain($kc_id);
@@ -251,15 +263,17 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 			foreach ($locks as $lock) {
 				$lock = $this->_lockService->getLock($lock);
 				$door_id = $lock->getDoor();
-				$door = $this->_doorService->getDoor($door_id)->getName();
+				$door = $this->_doorService->getDoor($door_id);
+				$room_id = $door->getRoom();
+				$room = $this->_roomService->getRoom($room_id)->getName();
 
-				if (!in_array($door, $doors)) {
-					array_push($doors, $door);
+				if (!in_array($room, $rooms)) {
+					array_push($rooms, $room);
 				}
 			}
 
 		}
-		return $doors;
+		return $rooms;
 	}
 
 	//================================================================================

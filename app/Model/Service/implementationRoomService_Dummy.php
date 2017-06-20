@@ -6,7 +6,7 @@
  * Date: 08/06/2017
  * Time: 15:27
  */
-class implementatioRoomService_Dummy implements interfaceRoomService
+class implementationRoomService_Dummy implements interfaceRoomService
 {
 
 	//================================================================================
@@ -65,17 +65,16 @@ class implementatioRoomService_Dummy implements interfaceRoomService
 	 * si elle n'existe pas encore puis la retourne.
 	 *
 	 * @param void
-	 * @return implementatioRoomService_Dummy
+	 * @return implementationRoomService_Dummy
 	 */
 	public static function getInstance() {
 
 		if(is_null(self::$_instance)) {
-			self::$_instance = new implementatioRoomService_Dummy();
+			self::$_instance = new implementationRoomService_Dummy();
 		}
 
 		return self::$_instance;
 	}
-
 
 	//================================================================================
 	// Getters

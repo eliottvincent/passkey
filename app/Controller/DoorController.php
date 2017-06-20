@@ -13,7 +13,7 @@ class DoorController {
 	 */
 	public function __construct() {
 		$this->_doorService = implementationDoorService_Dummy::getInstance();
-		$this->_roomService= implementatioRoomService_Dummy::getInstance();
+		$this->_roomService= implementationRoomService_Dummy::getInstance();
 	}
 
 
