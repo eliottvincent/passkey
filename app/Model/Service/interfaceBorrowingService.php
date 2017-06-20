@@ -13,6 +13,8 @@ interface interfaceBorrowingService
 
 	public function deleteBorrowing($id);
 
+	public function extendBorrowing($id, $number);
+
 	public function updateBorrowing($borrowingArray);
 
 	public function checkUnicity($id);

@@ -11,7 +11,7 @@
 		if(window.location.search.match(re) != null){
 			val = window.location.search.match(re)[1];
 		}
-		$(this).html( '<input type="text" placeholder="'+title+'" value="'+val+'" />' );
+		$(this).html( '<input type="text" style="width:100%;" placeholder="'+title+'" value="'+val+'" />' );
 	} );
 
 	 var table = $('#borrowingsTable').DataTable({
