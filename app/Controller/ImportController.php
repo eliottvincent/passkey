@@ -75,7 +75,11 @@ class ImportController
 
 			$this->displayForm(array($message));
 		} else {
-			$this->displayForm();
+			if (isset($_POST['pre_type']) && !empty($_POST['pre_type'])) {
+				$this->displayForm(null, $_POST['pre_type']);
+			} else {
+				$this->displayForm();
+			}
 		}
 	}
 
@@ -233,7 +237,7 @@ class ImportController
 	// DISPLAY
 	//================================================================================
 
-	public function displayForm($messages = null) {
+	public function displayForm($messages = null, $pre_type = null) {
 		$compositeView = new CompositeView(
 			true,
 			'Importer un fichier CSV',
@@ -251,7 +255,11 @@ class ImportController
 			}
 		}
 
-		$import_file = new View('import.html.twig', array('previousUrl' => getPreviousUrl()));
+		$import_file = new View('import.html.twig', array(
+			'pre_type'=> $pre_type,
+			'previousUrl' => getPreviousUrl()
+		));
+
 		$compositeView->attachContentView($import_file);
 
 		echo $compositeView->render();
