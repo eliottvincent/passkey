@@ -12,7 +12,7 @@
 		public function __construct() {
 			$this->_keyService = implementationKeyService_Dummy::getInstance();
 			$this->_borrowingService = implementationBorrowingService_Dummy::getInstance();
-			$this->_keychainService = implementationKeyChainService_Dummy::getInstance();
+			$this->_keychainService = implementationKeychainService_Dummy::getInstance();
 			$this->_userService = implementationUserService_Dummy::getInstance();
 		}
 
