@@ -277,6 +277,27 @@ class KeychainController
 
 
 	//================================================================================
+	// DUPLICATE
+	//================================================================================
+
+	public function duplicateKeychainAjax() {
+
+		// if no values are posted -> displaying the form
+		if (isset($_POST['duplicate']) && !empty($_POST['duplicate'])) {
+
+			// TODO : replace null by the name entered by the user
+			$this->duplicateKeychain($_POST['duplicate'], null);
+
+			$message['type'] = 'success';
+			$message['message'] = 'Le trousseau a bien été dupliqué.';
+			$this->displayList(array($message));
+		}
+	}
+
+
+
+
+	//================================================================================
 	// calls to Service
 	//================================================================================
 
@@ -332,6 +353,15 @@ class KeychainController
 	private function updateKeychain($keychainToUpdate) {
 
 		return $this->_keychainService->updateKeychain($keychainToUpdate);
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function duplicateKeychain($id, $name) {
+
+		return $this->_keychainService->duplicationKeychain($id, $name);
 	}
 
 
