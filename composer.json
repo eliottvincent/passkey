@@ -2,6 +2,7 @@
 	"require": {
 		"klein/klein": "^2.1",
 		"twig/twig": "^2.0",
-		"phpoffice/phpexcel": "^1.8"
+		"phpoffice/phpexcel": "^1.8",
+		"dompdf/dompdf": "dev-master"
 	}
 }
