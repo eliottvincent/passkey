@@ -27,11 +27,11 @@
 							<label class="col-md-2 control-label" for="form_control_1">Trousseau *</label>
 							<div class="col-md-10">
 								<select class="form-control" id="form_control_1" name="borrowing_keychain" required>
-									{% for key in keys %}
-										<option value="{{ key.id }}">{{ key.name }}</option>
+									{% for keychain in keychains %}
+										<option value="{{ keychain.id }}">{{ keychain.name }}</option>
 									{% endfor %}
 								</select>
-								<span class="help-block">Clé à emprunter</span>
+								<span class="help-block">Trousseau à emprunter</span>
 							</div>
 						</div>
 					</div>

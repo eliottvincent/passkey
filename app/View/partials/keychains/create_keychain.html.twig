@@ -4,39 +4,40 @@
 		<div class="portlet light bordered">
 			<div class="portlet-title">
 				<div class="caption font-green-haze">
-					<i class="fa fa-columns font-green-haze"></i>
-					<span class="caption-subject bold uppercase">Créer une nouvelle porte</span>
+					<i class="fa fa-tags font-green-haze"></i>
+					<span class="caption-subject bold uppercase">Créer un nouveau trousseau</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
 				<form role="form" class="form-horizontal" action="" method="post">
 					<div class="form-body">
 						<div class="form-group form-md-line-input">
-							<label class="col-md-2 control-label" for="form_control_1">Nom de la porte *</label>
+							<label class="col-md-2 control-label" for="form_control_1">Nom du trousseau *</label>
 							<div class="col-md-10">
-								<input type="text" class="form-control" id="form_control_1" placeholder="102H Gauche" name="door_name" required>
+								<input type="text" class="form-control" id="form_control_1" placeholder="trousseau 102H" name="keychain_name" required>
 								<div class="form-control-focus"> </div>
-								<span class="help-block">Ce nom permettra d'identifier la porte dans l'application.</span>
+								<span class="help-block">Ce nom permettra d'identifier le trousseau dans l'application.</span>
 							</div>
 						</div>
 
 						<div class="form-group form-md-line-input">
-							<label class="col-md-2 control-label" for="form_control_1">Associer une salle *</label>
+							<label class="col-md-2 control-label" for="form_control_1">Ajouter des clés *</label>
 							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="door_room" required>
-									<option value="none">(Aucune)</option>
-									{% for room in rooms %}
-										<option value="{{ room.id }}">{{ room.name }}</option>
+								<select class="form-control" id="form_control_1" name="keychain_keys[]" multiple required>
+									<option value="none">(Aucun)</option>
+									{% for key in keys%}
+										<option value="{{ key.id }}">{{ key.name }}</option>
 									{% endfor %}
 								</select>
 								<div class="form-control-focus"> </div>
 							</div>
 						</div>
+
 					</div>
 					<div class="form-actions">
 						<div class="row">
 							<div class="col-md-offset-2 col-md-10">
-								<button type="submit" class="btn blue">Ajouter la porte</button>
+								<button type="submit" class="btn blue">Ajouter une clé</button>
 								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
 							</div>
 						</div>

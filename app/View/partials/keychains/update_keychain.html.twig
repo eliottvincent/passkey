@@ -1,0 +1,85 @@
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet light bordered">
+			<div class="portlet-title">
+				<div class="caption font-green-haze">
+					<i class="fa fa-tags font-green-haze"></i>
+					<span class="caption-subject bold uppercase">Mettre à jour un trousseau</span>
+				</div>
+			</div>
+			<div class="portlet-body form">
+				<form role="form" class="form-horizontal" action="" method="post">
+					<div class="form-body">
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Id du trousseau *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" name="keychain_id" value="{{ keychain.id }}" required readonly>
+								<div class="form-control-focus"> </div>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Nom du trousseau *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="Trousseau salle 102H" name="keychain_name" value="{{ keychain.name }}" required>
+								<div class="form-control-focus"> </div>
+								<span class="help-block">Ce nom permettra d'identifier le trousseau dans l'application.</span>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Associer un canon *</label>
+							<div class="col-md-10">
+								<select class="form-control" id="form_control_1" name="keychain_keys[]" multiple required>
+									<option value="none"
+										{% if 'none' in key.locks %}
+									selected
+										{% endif %}>(Aucune)</option>
+									{% for key in keys %}
+										<option value="{{ key.id }}"
+											{% if key.id in keychain.keys %}
+												selected
+											{% endif %}
+										>{{ key.name }}</option>
+									{% endfor %}
+								</select>
+								<div class="form-control-focus"> </div>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Date de creation du trousseau</label>
+							<div class="col-md-4">
+								<input type="text" size="16" readonly class="form-control" name="keychain_creationdate" value="{{ keychain.creationdate }}">
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Date de destruction du trousseau</label>
+							<div class="col-md-4">
+								<div class="input-group date form_datetime">
+									<input type="text" size="16" readonly class="form-control" name="keychain_destructiondate" value="{{ keychain.destructiondate }}">
+									<span class="input-group-btn">
+										<button class="btn default date-set" type="button">
+											<i class="fa fa-calendar"></i>
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-actions">
+						<div class="row">
+							<div class="col-md-offset-2 col-md-10">
+								<button type="submit" class="btn blue">Modifier le trousseau</button>
+								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- END SAMPLE FORM PORTLET-->
+	</div>
+</div>

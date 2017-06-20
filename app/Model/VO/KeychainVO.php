@@ -1,32 +1,103 @@
 <?php
+
 class KeychainVO
 {
-	protected $id;
-	public function setId($id) {
-		$this->id = $id;
+	private $id;
+	private $name;
+	private $keys;
+	private $creationDate;
+	private $destructionDate;
+
+	/**
+	 * KeychainVO constructor.
+	 */
+	public function __construct() {
+
 	}
-	public function getId() {
+
+	/**
+	 * @return mixed
+	 */
+	public function getId()
+	{
 		return $this->id;
 	}
 
-	protected $creationDate;
-	public function setCreationDate($date)
+	/**
+	 * @param mixed $id
+	 */
+	public function setId($id)
 	{
-		$this->creationDate=$date;
+		$this->id = $id;
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @param mixed $name
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getKeys()
+	{
+		return $this->keys;
+	}
+
+	/**
+	 * @param mixed $keys
+	 */
+	public function setKeys($keys)
+	{
+		$this->keys = $keys;
+	}
+
+	/**
+	 * @return mixed
+	 */
 	public function getCreationDate()
 	{
 		return $this->creationDate;
 	}
 
-	protected $destructionDate;
-	public function setDestructionDate($date)
+	/**
+	 * @param mixed $creationDate
+	 */
+	public function setCreationDate($creationDate)
 	{
-		$this->destructionDate=$date;
+		$this->creationDate = $creationDate;
 	}
+
+	/**
+	 * @return mixed
+	 */
 	public function getDestructionDate()
 	{
 		return $this->destructionDate;
+	}
+
+	/**
+	 * @param mixed $destructionDate
+	 */
+	public function setDestructionDate($destructionDate)
+	{
+		$this->destructionDate = $destructionDate;
+	}
+
+	public function addKey($key) {
+
+		array_push($this->keys, $key);
 	}
 
 }

@@ -1,100 +1,377 @@
 <?php
 
-/**
- * CCROISLE
- */
- require_once 'app/Model/Service/implementationBorrowService_Dummy.php';
-
 
 class KeychainController
-{//Todo : tous sauf list
-	private $_keychainService;
+{
 
-	public function __construct()
-	{
-		$this->_keychainService = implementationKeyChainService_Dummy::getInstance();
+	//================================================================================
+	// constructor
+	//================================================================================
+
+
+	/**
+	 * KeychainController constructor.
+	 */
+	public function __construct() {
+
+		$this->_keychainService = implementationKeychainService_Dummy::getInstance();
+		$this->_keyService = implementationKeyService_Dummy::getInstance();
 	}
 
-public function create(){
-	if (!isset($_POST['keychain_name']) && !isset($_POST['key_keychain'])) {
-		// If we have no values, the form is displayed.
-		$this->displayForm();
-	} elseif (empty($_POST['keychain_name']) || empty($_POST['key_keychain'])){
-		// If we have not all values, error message display and form.
-		$m_type = "danger";
-		$m_message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
-		$message['type'] = $m_type;
-		$message['message'] = $m_message;
-		$this->displayForm( $message);
-	} else {
-		// If we have all values, the form is displayed.
 
-			$this->_keychainService->createKeychain($_POST['keychain_name'], $_POST['key_keychain']);
+	//================================================================================
+	// LIST
+	//================================================================================
 
-			$m_type = "success";
-			$m_message = "L'emprunt a bien été créée.";
-			$message['type'] = $m_type;
-			$message['message'] = $m_message;
-			$this->displayForm($message);
-	}
-}
 
-public function displayForm($message = null) {
-	$composite = new CompositeView(true, 'Créer un nouveau trousseau');
+	/**
+	 * used to list all keychains
+	 */
+	public function list() {
 
-	if ($message != null && !empty($message['type']) && !empty($message['message'])) {
-		$message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-		$composite->attachContentView($message);
-	}
+		$keychains = $this->getKeychains();
 
-	$create_keychain = new View(null,null, 'keychains/create_keychain.html.twig');
-	$composite->attachContentView($create_keychain);
-
-	echo $composite->render();
-}
-
-	public function list(){
-		if (isset($_GET['delete']) && !empty($_GET['delete'])) {
-			$id = explode('delete_k', $_GET['delete'])[1];
-			$delete = $this->deleteKey($id);
-
-			if ($delete) {
-				$this->displayDeleteKey('success', 'La clé a bien été supprimée');
-			} else {
-				$this->displayDeleteKey('danger', 'La clé n\'existe pas.');
-			}
-
-		} else {
-			if (true) {
-				$this->displayList(true);
-			} else {
-				$alert['type'] = 'danger';
-				$alert['message'] = 'Aucun emprunt n\'a été fait.';
-				$this->displayList(false, $alert);
-			}
+		if (!empty($keychains)) {
+			$this->displayList();
+		}
+		else {
+			$message['type'] = 'danger';
+			$message['message'] = 'Nous n\'avons aucun trousseau d\'enregistré.';
+			$this->displayList(array($message));
 		}
 	}
 
-	// TODO
-	public function deleteKey($id) {
 
+	/**
+	 * @param null $messages
+	 * @internal param $state
+	 */
+	public function displayList($messages = null) {
+
+		$keychains = $this->getKeychains();
+
+		$compositeView = new CompositeView(
+			true,
+			'Liste des trousseaux',
+			null,
+			"keychain",
+			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
+			array("deleteKeychainScript" => "app/View/assets/custom/scripts/deleteKeychain.js",
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$compositeView->attachContentView($submit_message);
+				}
+			}
+		}
+
+		$list_keychains = new View("keychains/list_keychains.html.twig", array('keychains' => $keychains));
+		$compositeView->attachContentView($list_keychains);
+
+		echo $compositeView->render();
+	}
+
+
+	//================================================================================
+	// CREATE
+	//================================================================================
+
+	public function create() {
+
+		// if no values are posted -> displaying the form
+		if (!isset($_POST['keychain_name']) &&
+			!isset($_POST['keychain_keys'])) {
+
+			$this->displayForm();
+		}
+
+		// if some (but not all) values are posted -> error message
+		elseif (empty($_POST['keychain_name']) ||
+			empty($_POST['keychain_keys'])) {
+
+			$m_type = "danger";
+			$m_message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
+			$message['type'] = $m_type;
+			$message['message'] = $m_message;
+
+			$this->displayForm(array($message));
+		}
+
+		// if we have all values, we can create the keychain
+		else {
+
+			// id generation
+			$id = 'kc_' . strtolower(str_replace(' ', '_', addslashes($_POST['keychain_name'])));
+
+			// unicity check
+			$exist = $this->checkUnicity($id);
+
+			if (!$exist) {
+				$keychainToSave = array(
+					'keychain_id' => $id,
+					'keychain_name' => addslashes($_POST['keychain_name']),
+					'keychain_keys' => $_POST['keychain_keys']
+				);
+
+				$this->saveKeychain($keychainToSave);
+
+				$m_type = "success";
+				$m_message = "Le trousseau a bien été créée.";
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+
+				$this->displayForm(array($message));
+
+			}
+			else {
+				$m_type = "danger";
+				$m_message = "Un trousseau avec le même nom existe déjà.";
+				$message['type'] = $m_type;
+				$message['message'] = $m_message;
+
+				$this->displayForm(array($message));
+			}
+		}
 	}
 
 	/**
-	 * Display list of borrowings.
+	 * Display form used to create a keychain
 	 * @param null $message array of the message displays
 	 */
-	public function displayList($message = null) {
-		$keychains = $this->_keychainService->getKeychains();
-		$composite = new CompositeView(true, 'Liste des trousseaux', null, "keychains");
+	public function displayForm($messages = null) {
 
-		if ($message != null && !empty($message['type']) && !empty($message['message'])) {
-			$submit_message = new View(null, null, "submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-			$composite->attachContentView($submit_message);
+		$keys = $this->getKeys();
+
+		$compositeView = new CompositeView(
+			true,
+			'Ajouter un trousseau',
+			null,
+			"keychain");
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$compositeView->attachContentView($message);
+				}
+			}
 		}
-		$list_keychains = new View(null, null,"keychains/list_keychains.html.twig", array('keychains' => $this->_keychainService->getKeychains()));
-		$composite->attachContentView($list_keychains);
+
+		$create_keychain = new View('keychains/create_keychain.html.twig', array('keys' => $keys, 'previousUrl' => getPreviousUrl()));
+		$compositeView->attachContentView($create_keychain);
+
+		echo $compositeView->render();
+	}
+
+	//================================================================================
+	// DELETE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function deleteKeychainAjax() {
+
+		session_start();
+
+		if (isset($_POST['value'])) {
+
+			if ($this->deleteKeychain(urldecode($_POST['value'])) == true) {
+				$response['status'] = 'success';
+				$response['message'] = 'This was successful';
+			}
+			else {
+				$response['status'] = 'error';
+				$response['message'] = 'This failed';
+			}
+		}
+		else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
+
+		echo json_encode($response);
+	}
+
+	//================================================================================
+	// UPDATE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function update() {
+
+		if (isset($_POST['update']) && !empty($_POST['update'])) {
+			$keychain = $this->getKeychain($_POST['update']);
+			$this->displayUpdateForm($keychain);
+		}
+
+		// if all values were posted (= form submission)
+		elseif (isset($_POST['keychain_id']) &&
+			isset($_POST['keychain_name']) &&
+			isset($_POST['keychain_keys'])) {
+
+			$keychainToUpdate = array(
+				'keychain_id' => $_POST['keychain_id'],
+				'keychain_name' => addslashes($_POST['keychain_name']),
+				'keychain_keys' => $_POST['keychain_keys'],
+				'keychain_creationdate' => addslashes($_POST['keychain_creationdate']),
+				'keychain_destructiondate' => addslashes($_POST['keychain_destructiondate'])
+			);
+
+			if ($this->updateKeychain($keychainToUpdate) == false) {
+				$message['type'] = 'danger';
+				$message['message'] = 'Erreur lors de la modification du trousseau.';
+				$this->displayList(array($message));
+			}
+			else {
+				$message['type'] = 'success';
+				$message['message'] = 'Le trousseau a bien été modifié.';
+				$this->displayList(array($message));
+			}
+		}
+
+		else {
+
+			$this->list();
+		}
+	}
+
+	/**
+	 * @param $state
+	 * @param $datas
+	 * @param null $messages
+	 */
+	public function displayUpdateForm($keychain, $messages = null) {
+
+		$keys = $this->getKeys();
+
+		$composite = new CompositeView(
+			true,
+			'Mettre à jour un trousseau',
+			null,
+			"keychain",
+			array("bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"),
+			array("form-datetime-picker" => "app/View/assets/custom/scripts/update-forms-datetime-picker.js",
+				"bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")
+		);
+
+		if ($messages != null) {
+			foreach ($messages as $message) {
+				if (!empty($message['type']) && !empty($message['message'])) {
+					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$composite->attachContentView($message);
+				}
+			}
+		}
+
+		$update_keychain= new View('keychains/update_keychain.html.twig', array('keychain' => $keychain, 'keys' => $keys, 'previousUrl' => getPreviousUrl()));
+		$composite->attachContentView($update_keychain);
 
 		echo $composite->render();
 	}
+
+
+	//================================================================================
+	// DUPLICATE
+	//================================================================================
+
+	public function duplicateKeychainAjax() {
+
+		// if no values are posted -> displaying the form
+		if (isset($_POST['duplicate']) && !empty($_POST['duplicate'])) {
+
+			// TODO : replace null by the name entered by the user
+			$this->duplicateKeychain($_POST['duplicate'], null);
+
+			$message['type'] = 'success';
+			$message['message'] = 'Le trousseau a bien été dupliqué.';
+			$this->displayList(array($message));
+		}
+	}
+
+
+
+
+	//================================================================================
+	// calls to Service
+	//================================================================================
+
+	/**
+	 * To get all keychains
+	 * @return null
+	 */
+	public function getKeychains() {
+
+		return $this->_keychainService->getKeychains();
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	public function getKeychain($id) {
+
+		return $this->_keychainService->getKeychain($id);
+	}
+
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	public function getKeys() {
+
+		return $this->_keyService->getKeys();
+	}
+
+	/**
+	 * @param $keychainToSave
+	 */
+	private function saveKeychain($keychainToSave) {
+
+		$this->_keychainService->saveKeychain($keychainToSave);
+	}
+
+
+	/**
+	 * Used to delete a keychain from an id.
+	 * @param $id
+	 */
+	private function deleteKeychain($id) {
+
+		return $this->_keychainService->deleteKeychain($id);
+	}
+
+	/**
+	 * @param $keychainToUpdate
+	 */
+	private function updateKeychain($keychainToUpdate) {
+
+		return $this->_keychainService->updateKeychain($keychainToUpdate);
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function duplicateKeychain($id, $name) {
+
+		return $this->_keychainService->duplicationKeychain($id, $name);
+	}
+
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function checkUnicity($id) {
+
+		return $this->_keychainService->checkUnicity($id);
+	}
+
 }

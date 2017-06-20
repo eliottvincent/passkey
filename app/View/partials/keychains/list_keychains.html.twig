@@ -1,37 +1,57 @@
-	<div class="row">
-		<div class="col-md-12">
-			<!-- BEGIN SAMPLE TABLE PORTLET-->
-			<div class="portlet box blue">
-				<div class="portlet-title">
-					<div class="caption">
-						<i class="fa fa-arrows-h"></i> Liste des trousseaux  </div>
-					<div class="tools">
-						<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
-					</div>
-				</div>
-				<div class="portlet-body">
-					<div class="table-responsive">
-						<table class="table table-striped table-bordered table-hover">
-							<thead>
-							<tr>
-								<th> #id </th>
-								<th> creationDate </th>
-								<th> destructionDate </th>
-							</tr>
-							</thead>
-							<tbody>
-							{% for keychain in keychains %}
-								<tr>
-									<td> {{ keychain.id }} </td>
-									<td> {{ keychain.creationDate }} </td>
-									<td> {{ keychain.destructionDate }} </td>
-								</tr>
-							{% endfor %}
-							</tbody>
-						</table>
-					</div>
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN SAMPLE TABLE PORTLET-->
+		<div class="portlet box blue">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-tags"></i>Liste des trousseaux</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
 				</div>
 			</div>
-			<!-- END SAMPLE TABLE PORTLET-->
+			<div class="portlet-body">
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered table-hover">
+						<thead>
+						<tr>
+							<th> #id </th>
+							<th> Keychain name </th>
+							<th> Keys </th>
+							<th> Creation date </th>
+							<th> Destruction date </th>
+							<th> #actions </th>
+						</tr>
+						</thead>
+						<tbody>
+						{% for keychain in keychains %}
+							<tr id="{{ keychain.id }}">
+								<td> {{ keychain.id }} </td>
+								<td> {{ keychain.name }} </td>
+								<td>
+									{% for key in keychain.keys %}
+										<p>{{ key }}</p>
+									{% endfor %}
+								</td>
+								<td> {{ keychain.creationDate }} </td>
+								<td> {{ keychain.destructionDate }} </td>
+								<td>
+									<form action="./?action=updateKeychain" method="post">
+										<input type="hidden" name="update" value="{{ keychain.id }}"/>
+										<button type="submit" class="btn blue btn-sm">Modifier</button>
+									</form>
+
+									<!--<form action="" method="post">-->
+									<input type="hidden" name="delete" value="{{ keychain.id }}"/>
+									<button type="submit" class="btn red btn-sm btn-delete-kc" value="{{ keychain.id }}">Supprimer</button>
+									<!--</form>-->
+								</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
+		<!-- END SAMPLE TABLE PORTLET-->
 	</div>
+</div>

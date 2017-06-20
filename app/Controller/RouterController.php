@@ -131,6 +131,43 @@ class RouterController
 	}
 
 
+	//================================================================================
+	// ROOMS
+	//================================================================================
+
+	function listRooms() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->list();
+	}
+
+	function createRoom() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->create();
+	}
+
+	function updateRoom() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->update();
+	}
+
+	function deleteRoomAjax() {
+		$roomController = new RoomController();
+		$roomController->deleteRoomAjax();
+	}
+
+
 
 	//================================================================================
 	// KEYS
@@ -167,6 +204,51 @@ class RouterController
 	function deleteKeyAjax() {
 		$keyController = new KeyController();
 		$keyController->deleteKeyAjax();
+	}
+
+
+	//================================================================================
+	// KEYCHAINS
+	//================================================================================
+
+	function listKeychains() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keychainController = new KeychainController();
+		$keychainController->list();
+
+	}
+
+	function createKeychain() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keychainController = new KeychainController();
+		$keychainController->create();
+	}
+
+	function updateKeychain() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keychainController = new KeychainController();
+		$keychainController->update();
+	}
+
+	function deleteKeychainAjax() {
+
+		$keychainController = new KeychainController();
+		$keychainController->deleteKeychainAjax();
+	}
+
+	function duplicateKeychain() {
+
+		$keychainController = new KeychainController();
+		$keychainController->duplicateKeychain();
 	}
 
 
@@ -234,6 +316,19 @@ class RouterController
 		$borrowingController->update();
 	}
 
+	function detailedBorrowing() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$borrowingController = new BorrowingController();
+		if (!empty($_GET['id'])) {
+			$borrowingController->detailed($_GET['id']);
+		} else {
+			$this->createBlankPage();
+		}
+
+	}
+
 	function deleteBorrowingAjax() {
 		$borrowingController = new BorrowingController();
 		$borrowingController->deleteBorrowingAjax();
@@ -253,7 +348,20 @@ class RouterController
 		$dashboard->displayDash();
 	}
 
+	//================================================================================
+	// PDF TEST
+	//================================================================================
 
+	function testpdf(){
+		$pdfController = new PDFController();
+		$pdfController->creationPDF();
+
+	}
+
+
+	//================================================================================
+	// Suite router controller
+	//================================================================================
 	/**
 	 * Creates a blank page as a CompositeView
 	 *

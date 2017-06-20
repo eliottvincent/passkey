@@ -270,16 +270,9 @@ class UserController {
 		}
 
 		else {
-			$users = $this->getUsers();
 
-			if (!empty($users)) {
-				$this->displayList();
-			}
-			else {
-				$message['type'] = 'danger';
-				$message['message'] = 'Nous n\'avons aucun utilisateur d\'enregistré.';
-				$this->displayList(array($message));
-			}
+			$this->list();
+
 		}
 	}
 
