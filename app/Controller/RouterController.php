@@ -351,6 +351,16 @@ class RouterController
 		$dashboard->displayDash();
 	}
 
+	//================================================================================
+	// IMPORT FILES
+	//================================================================================
+
+	function import(){
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$importController = new ImportController();
+	}
 
 	//================================================================================
 	// PDF TEST
@@ -361,6 +371,8 @@ class RouterController
 		$pdfController->creationPDF();
 
 	}
+
+
 
 
 	//================================================================================
