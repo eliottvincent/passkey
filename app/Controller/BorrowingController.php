@@ -402,6 +402,11 @@ class BorrowingController {
 				break;
 		}
 
+		// Rooms.
+		$rooms = $this->_borrowingService->getOpenedRooms($id);
+
+		// Keys.
+		$keys = $this->_borrowingService->getKeysInBorrow($id);
 
 		$composite = new CompositeView(
 			true,
@@ -417,7 +422,9 @@ class BorrowingController {
 				'user' => $currentUser,
 				'borrowDate' => $dBorrow,
 				'dueDate' => $dDue,
-				'status' => $status
+				'status' => $status,
+				'rooms' => $rooms,
+				'keys' => $keys
 			)
 		);
 		$composite->attachContentView($detailed_borrowing);
