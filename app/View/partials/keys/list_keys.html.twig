@@ -31,9 +31,15 @@
 									<td> {{ key.supplier }} </td>
 									<td> {{ key.type }} </td>
 									<td>
-										{% for lock in key.locks %}
-											<p>{{ lock }}</p>
-										{% endfor %}
+										{% if key.locks is iterable %}
+											{% for lock in key.locks %}
+												{% if lock.id %}
+													<p>{{ lock.id }}</p>
+												{% else %}
+													<p>{{ lock }}</p>
+												{% endif %}
+											{% endfor %}
+										{% endif %}
 									</td>
 									<td>
 										<p

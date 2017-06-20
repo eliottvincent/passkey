@@ -272,6 +272,16 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 			$k = $this->_keyService->getKey($key);
 			$locks = $k->getLocks();
 
+			if (is_array($locks)) {
+				$tmp_locks = array();
+				foreach ($locks as $lock) {
+					$lock_id = $lock->getId();
+					array_push($tmp_locks, $lock_id);
+				}
+
+				$locks = $tmp_locks;
+			}
+
 			foreach ($locks as $lock) {
 				$lock = $this->_lockService->getLock($lock);
 				$door_id = $lock->getDoor();
