@@ -34,7 +34,7 @@ class RouterController
 		}
 	}
 
-	function showLoginPageTest() {
+	function loginPage() {
 		$compositeView = new CompositeView();
 
 		$headView 	= new View("head.html.twig", array('title' => "Login"));
