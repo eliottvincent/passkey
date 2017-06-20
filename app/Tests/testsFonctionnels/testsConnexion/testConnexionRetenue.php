@@ -13,7 +13,7 @@
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/passkey/?action=showLoginPageTest&amp;url=/passkey/</td>
+	<td>/passkey/?action=loginPage&amp;url=/passkey/</td>
 	<td></td>
 </tr>
 <tr>

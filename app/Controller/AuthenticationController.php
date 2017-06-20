@@ -13,7 +13,7 @@ class AuthenticationController
 		session_start();
 		if (!isset($_SESSION["USERNAME"])) {
 			$url = getPreviousUrl();
-			header("Location: ?action=showLoginPageTest&url=".$url);
+			header("Location: ?action=loginPage&url=".$url);
 		}
 	}
 
