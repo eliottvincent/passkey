@@ -102,6 +102,9 @@ class BorrowingController {
 			$m_message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
 			$message['type'] = $m_type;
 			$message['message'] = $m_message;
+			$message['link']="false";
+			$message['link_href']="";
+			$message['link_text']="";
 
 			$this->displayForm(array($message));
 		}
@@ -127,9 +130,14 @@ class BorrowingController {
 				$this->saveBorrowing($borrowingToSave);
 
 				$m_type = "success";
-				$m_message = "L'emprunt a bien été créée.";
+				$link = "<a href=\"./?action=pdftest\" class=\"alert-link\"> test </a>";
+				$m_message = "L'emprunt a bien été créée." .$link;
+				//$link = "<a href=\"./?action=pdftest\" >";
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
+				$message['link']="true";
+				$message['link_href']="./?action=testpdf&keyname=".$borrowingToSave['borrowing_keychain']."&user=".$borrowingToSave['borrowing_user'];
+				$message['link_text']="Vous pouvez récupérer le PDF de l'emprunt en cliquant ici";
 
 				$this->displayForm(array($message));
 
@@ -139,6 +147,9 @@ class BorrowingController {
 				$m_message = "Un emprunt avec le même nom existe déjà.";
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
+				$message['link']="false";
+				$message['link_href']="";
+				$message['link_text']="";
 
 				$this->displayForm(array($message));
 			}
