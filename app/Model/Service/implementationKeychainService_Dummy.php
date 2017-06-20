@@ -105,7 +105,7 @@ class implementationKeychainService_Dummy implements interfaceKeychainService
 		$keychainToSave = new KeychainVO();
 		$keychainToSave->setId((string) $keychainArray['keychain_id']);
 		$keychainToSave->setName((string) $keychainArray['keychain_name']);
-		$keychainToSave->setCreationDate((string) $tDate->format('Y-m-d H:i:s'));
+		$keychainToSave->setCreationDate((string) $tDate->format('d/m/Y'));
 		$keychainToSave->setKeys((array) $keychainArray['keychain_keys']);
 
 		array_push($_SESSION["KEYCHAINS"], $keychainToSave);

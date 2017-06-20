@@ -1,0 +1,55 @@
+{{ dump() }}
+
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet light bordered">
+			<div class="portlet-title">
+				<div class="caption font-green-haze">
+					<i class="fa fa-key font-green-haze"></i>
+					<span class="caption-subject bold uppercase">Importer un fichier CSV</span>
+				</div>
+			</div>
+			<div class="portlet-body form">
+				<form role="form" class="form-horizontal dropzone" action="" method="post" enctype="multipart/form-data">
+					<div class="form-body">
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="file">Fichier CSV</label>
+							<span class="btn green fileinput-button">
+								<i class="fa fa-plus"></i>
+								<span> Ajouter un fichier... </span>
+								<input type="file" name="file" id="file">
+							</span>
+						</div>
+
+						<div class="form-group form-md-line-input js-select-locks">
+							<label class="col-md-2 control-label" for="form_control_1">Associer un canon *</label>
+							<div class="col-md-10">
+								<select class="form-control" id="form_control_1" name="type" required>
+									<option value="keys">Clés</option>
+									<option value="locks">Canons</option>
+									<option value="keychains">Trousseaux</option>
+									<option value="users">Utilisateurs</option>
+									<option value="doors">Portes</option>
+									<option value="rooms">Salles</option>
+									<option value="borrowings">Emprunts</option>
+								</select>
+								<div class="form-control-focus"> </div>
+							</div>
+						</div>
+
+					</div>
+					<div class="form-actions">
+						<div class="row">
+							<div class="col-md-offset-2 col-md-10">
+								<button type="submit" class="btn blue">Importer</button>
+								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- END SAMPLE FORM PORTLET-->
+	</div>
+</div>
