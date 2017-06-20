@@ -242,7 +242,7 @@ class ImportController
 			true,
 			'Importer un fichier CSV',
 			null,
-			"key",
+			"importCSV",
 			null,
 			null);
 
