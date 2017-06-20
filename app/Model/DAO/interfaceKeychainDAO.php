@@ -1,6 +1,6 @@
 <?php
 
-interface interfaceKeyChainDAO
+interface interfaceKeychainDAO
 {
 
 	// Singleton

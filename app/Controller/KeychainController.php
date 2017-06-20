@@ -166,6 +166,35 @@ class KeychainController
 		echo $compositeView->render();
 	}
 
+	//================================================================================
+	// DELETE
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function deleteKeychainAjax() {
+
+		session_start();
+
+		if (isset($_POST['value'])) {
+
+			if ($this->deleteKeychain(urldecode($_POST['value'])) == true) {
+				$response['status'] = 'success';
+				$response['message'] = 'This was successful';
+			}
+			else {
+				$response['status'] = 'error';
+				$response['message'] = 'This failed';
+			}
+		}
+		else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
+
+		echo json_encode($response);
+	}
 
 	//================================================================================
 	// UPDATE
@@ -248,6 +277,27 @@ class KeychainController
 
 
 	//================================================================================
+	// DUPLICATE
+	//================================================================================
+
+	public function duplicateKeychainAjax() {
+
+		// if no values are posted -> displaying the form
+		if (isset($_POST['duplicate']) && !empty($_POST['duplicate'])) {
+
+			// TODO : replace null by the name entered by the user
+			$this->duplicateKeychain($_POST['duplicate'], null);
+
+			$message['type'] = 'success';
+			$message['message'] = 'Le trousseau a bien été dupliqué.';
+			$this->displayList(array($message));
+		}
+	}
+
+
+
+
+	//================================================================================
 	// calls to Service
 	//================================================================================
 
@@ -289,11 +339,29 @@ class KeychainController
 
 
 	/**
+	 * Used to delete a keychain from an id.
+	 * @param $id
+	 */
+	private function deleteKeychain($id) {
+
+		return $this->_keychainService->deleteKeychain($id);
+	}
+
+	/**
 	 * @param $keychainToUpdate
 	 */
 	private function updateKeychain($keychainToUpdate) {
 
 		return $this->_keychainService->updateKeychain($keychainToUpdate);
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function duplicateKeychain($id, $name) {
+
+		return $this->_keychainService->duplicationKeychain($id, $name);
 	}
 
 

@@ -3,7 +3,7 @@
 //Timezone Paris.
 date_default_timezone_set('Europe/Paris');
 
-class implementationKeychainDAO_Dummy implements interfaceKeyChainDAO
+class implementationKeychainDAO_Dummy implements interfaceKeychainDAO
 {
 
 	private $_keychains = array();

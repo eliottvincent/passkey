@@ -109,8 +109,7 @@ class implementationKeychainService_Dummy implements interfaceKeychainService
 		$keychainToSave->setKeys((array) $keychainArray['keychain_keys']);
 
 		array_push($_SESSION["KEYCHAINS"], $keychainToSave);
-		array_push($this->_keychains, $keychainToSave);
-		array_push($this->_sessionKeychains, $keychainToSave);
+		$this->updateServiceVariables();
 
 	}
 
@@ -128,8 +127,8 @@ class implementationKeychainService_Dummy implements interfaceKeychainService
 			if ($keychain->getId() == (string) $id) {
 
 				unset($_SESSION["KEYCHAINS"][$key]);
-				unset($this->_sessionKeychains[$key]);
-				unset($this->_keychains[$key]);
+				$this->updateServiceVariables();
+
 
 				return true;
 			}
@@ -158,8 +157,8 @@ class implementationKeychainService_Dummy implements interfaceKeychainService
 			if ($keychain->getId() == $keychainToUpdate->getId()) {
 
 				$_SESSION["KEYCHAINS"][$key] = $keychainToUpdate;
-				$this->_sessionKeychains[$key] = $keychainToUpdate;
-				$this->_keychains[$key] = $keychainToUpdate;
+				$this->updateServiceVariables();
+
 
 				return true;
 			}
@@ -168,6 +167,28 @@ class implementationKeychainService_Dummy implements interfaceKeychainService
 		return false;
 	}
 
+
+	//================================================================================
+	// DUPLICATE
+	//================================================================================
+
+	public function duplicationKeychain($id, $name) {
+
+		$keychain = $this->getKeychain($id);
+
+		$duplicatedKeychain = clone($keychain);
+		$duplicatedKeychain->setName($keychain->getName() . " duplicate");
+		$newId = 'kc_' . strtolower(str_replace(' ', '_', addslashes($duplicatedKeychain->getName())));
+		$duplicatedKeychain->setId($newId);
+		// once we're able to get the name entered by the user..
+		// we only need to use the following line:
+		// $duplicatedKeychain->setName($name);
+
+		array_push($_SESSION["KEYCHAINS"], $duplicatedKeychain);
+		$this->updateServiceVariables();
+
+		return true;
+	}
 
 	//================================================================================
 	// OTHER
