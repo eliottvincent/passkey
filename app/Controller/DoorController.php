@@ -52,7 +52,9 @@ class DoorController {
 			"door",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
 			array("deleteUserScript" => "app/View/assets/custom/scripts/deleteDoor.js",
-				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
+				"borrowingsScript" => "app/View/assets/custom/scripts/list_borrowings.js"
+			));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
