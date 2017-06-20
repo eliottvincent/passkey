@@ -119,7 +119,7 @@ class KeychainController
 				$this->saveKeychain($keychainToSave);
 
 				$m_type = "success";
-				$m_message = "Le trousseau a bien été créée.";
+				$m_message = "Le trousseau a bien été créé.";
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
 

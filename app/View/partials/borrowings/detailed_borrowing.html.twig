@@ -5,7 +5,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="row">
-							<div class="col-md-8 profile-info">
+							<div class="col-md-12 profile-info">
 								<h1 class="font-green sbold uppercase">Emprunt n°{{ number }} </h1>
 								<p> Cette fiche détaille les paramètres d'un emprunt. </p>
 								<ul class="list-inline">
@@ -18,7 +18,40 @@
 								</ul>
 								<p>L'état de l'emprunt est : <strong>{{ status }}</strong>.</p>
 							</div>
+							<div class="col-md-6 clearfix">
+								<div class="panel panel-info">
+									<!-- Default panel contents -->
+									<div class="panel-heading">
+										<h3 class="panel-title">Clés du trousseau</h3>
+									</div>
+									<!-- List group -->
+									<ul class="list-group">
+										{% for key in keys %}
+											<li class="list-group-item">
+												{{ key }}
+											</li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+							<div class="col-md-6 clearfix">
+								<div class="panel panel-info">
+									<!-- Default panel contents -->
+									<div class="panel-heading">
+										<h3 class="panel-title">Portes ouvertes</h3>
+									</div>
+									<!-- List group -->
+									<ul class="list-group">
+										{% for door in doors %}
+											<li class="list-group-item">
+												{{ door }}
+											</li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
 						</div>
+
 						<!--end row-->
 					</div>
 				</div>

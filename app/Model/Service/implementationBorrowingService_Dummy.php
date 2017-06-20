@@ -31,9 +31,14 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 	 * @return void
 	 */
 	private function __construct() {
-
 		// instantiating the DAOs we need
 		$this->_borrowingDAO = implementationBorrowingDAO_Dummy::getInstance();
+
+		// instantiating the services we need
+		$this->_keychainService = implementationKeychainService_Dummy::getInstance();
+		$this->_keyService = implementationKeyService_Dummy::getInstance();
+		$this->_doorService = implementationDoorService_Dummy::getInstance();
+		$this->_lockService = implementationLockService_Dummy::getInstance();
 
 		// getting the data we need
 		$this->_xmlBorrowings = $this->_borrowingDAO->getBorrowings();
@@ -214,6 +219,48 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 		);
 	}
 
+	public function getKeysInBorrow($id) {
+		$keys = array();
+		$borrow = $this->getBorrowing($id);
+		$kc_id = $borrow->getKeychain();
+		$keychain = $this->_keychainService->getKeychain($kc_id);
+		$kc_keys = $keychain->getKeys();
+
+		foreach($kc_keys as $kc_key) {
+			$key = $this->_keyService->getKey($kc_key)->getName();
+			if (!in_array($key, $keys)) {
+				array_push($keys, $key);
+			}
+		}
+
+		return $keys;
+	}
+
+	public function getOpenedDoors($id) {
+		// Doors.
+		$doors = array();
+		$borrow = $this->getBorrowing($id);
+		$kc_id = $borrow->getKeychain();
+		$keychain = $this->_keychainService->getKeychain($kc_id);
+		$keys = $keychain->getKeys();
+
+		foreach ($keys as $key) {
+			$k = $this->_keyService->getKey($key);
+			$locks = $k->getLocks();
+
+			foreach ($locks as $lock) {
+				$lock = $this->_lockService->getLock($lock);
+				$door_id = $lock->getDoor();
+				$door = $this->_doorService->getDoor($door_id)->getName();
+
+				if (!in_array($door, $doors)) {
+					array_push($doors, $door);
+				}
+			}
+
+		}
+		return $doors;
+	}
 
 	//================================================================================
 	// CLEMENT

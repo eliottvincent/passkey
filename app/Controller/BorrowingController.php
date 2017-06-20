@@ -360,6 +360,11 @@ class BorrowingController {
 				break;
 		}
 
+		// Doors.
+		$doors = $this->_borrowingService->getOpenedDoors($id);
+
+		// Keys.
+		$keys = $this->_borrowingService->getKeysInBorrow($id);
 
 		$composite = new CompositeView(
 			true,
@@ -375,7 +380,9 @@ class BorrowingController {
 				'user' => $currentUser,
 				'borrowDate' => $dBorrow,
 				'dueDate' => $dDue,
-				'status' => $status
+				'status' => $status,
+				'doors' => $doors,
+				'keys' => $keys
 			)
 		);
 		$composite->attachContentView($detailed_borrowing);
