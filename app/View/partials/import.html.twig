@@ -26,13 +26,61 @@
 							<label class="col-md-2 control-label" for="form_control_1">Associer un canon *</label>
 							<div class="col-md-10">
 								<select class="form-control" id="form_control_1" name="type" required>
-									<option value="keys">Clés</option>
-									<option value="locks">Canons</option>
-									<option value="keychains">Trousseaux</option>
-									<option value="users">Utilisateurs</option>
-									<option value="doors">Portes</option>
-									<option value="rooms">Salles</option>
-									<option value="borrowings">Emprunts</option>
+									<option
+										{% if pre_type == "keys" %}
+											selected
+										{% endif %}
+										value="keys">
+											Clés
+									</option>
+
+									<option
+										{% if pre_type == "locks" %}
+											selected
+										{% endif %}
+										value="locks">
+										Canons
+									</option>
+
+									<option
+										{% if pre_type == "keychains" %}
+											selected
+										{% endif %}
+										value="keychains">
+										Trousseaux
+									</option>
+
+									<option
+										{% if pre_type == "users" %}
+											selected
+										{% endif %}
+										value="users">
+										Utilisateurs
+									</option>
+
+									<option
+										{% if pre_type == "doors" %}
+											selected
+										{% endif %}
+										value="doors">
+										Portes
+									</option>
+
+									<option
+										{% if pre_type == "rooms" %}
+											selected
+										{% endif %}
+										value="rooms">
+										Salles
+									</option>
+
+									<option
+										{% if pre_type == "borrowings" %}
+											selected
+										{% endif %}
+										value="borrowings">
+										Emprunts
+									</option>
 								</select>
 								<div class="form-control-focus"> </div>
 							</div>
