@@ -21,26 +21,14 @@
 						<span></span>
 					</div>
 				</li>
-				<!-- END SIDEBAR TOGGLER BUTTON -->
-				<!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
-				<li class="sidebar-search-wrapper">
-					<!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
-					<!-- DOC: Apply "sidebar-search-bordered" class the below search form to have bordered search box -->
-					<!-- DOC: Apply "sidebar-search-bordered sidebar-search-solid" class the below search form to have bordered & solid search box -->
-					<form class="sidebar-search  sidebar-search-bordered" action="page_general_search_3.html" method="POST">
-						<a href="javascript:;" class="remove">
-							<i class="icon-close"></i>
-						</a>
-						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Search...">
-							<span class="input-group-btn">
-								<a href="javascript:;" class="btn submit">
-									<i class="icon-magnifier"></i>
-								</a>
-							</span>
-						</div>
-					</form>
-					<!-- END RESPONSIVE QUICK SEARCH FORM -->
+
+				<li>
+					<div>
+						<span>&nbsp;</span>
+					</div>
+					<div>
+						<span>&nbsp;</span>
+					</div>
 				</li>
 
 				<li class="nav-item start {% if activePage == 'dashboard' %}active open{% endif %}">
@@ -98,6 +86,27 @@
 					<h3 class="uppercase">Gestion du matériel</h3>
 				</li>
 
+                <li class="nav-item  {% if activePage == 'room' %}active open{% endif %}">
+					<a href="javascript:;" class="nav-link nav-toggle">
+						<i class="fa fa-columns"></i>
+						<span class="title">Salles</span>
+						<span class="arrow"></span>
+					</a>
+					<ul class="sub-menu">
+						<li class="nav-item  ">
+							<a href="./?action=listRooms" class="nav-link ">
+								<span class="title">Voir toutes les salles</span>
+							</a>
+						</li>
+
+						<li class="nav-item  ">
+							<a href="./?action=createRoom" class="nav-link ">
+								<span class="title">Ajouter une salle</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+
 				<li class="nav-item  {% if activePage == 'door' %}active open{% endif %}">
 					<a href="javascript:;" class="nav-link nav-toggle">
 						<i class="fa fa-columns"></i>
@@ -114,27 +123,6 @@
 						<li class="nav-item  ">
 							<a href="./?action=createDoor" class="nav-link ">
 								<span class="title">Ajouter une porte</span>
-							</a>
-						</li>
-					</ul>
-				</li>
-
-				<li class="nav-item  {% if activePage == 'room' %}active open{% endif %}">
-					<a href="javascript:;" class="nav-link nav-toggle">
-						<i class="fa fa-columns"></i>
-						<span class="title">Salles</span>
-						<span class="arrow"></span>
-					</a>
-					<ul class="sub-menu">
-						<li class="nav-item  ">
-							<a href="./?action=listRooms" class="nav-link ">
-								<span class="title">Voir toutes les salles</span>
-							</a>
-						</li>
-
-						<li class="nav-item  ">
-							<a href="./?action=createRoom" class="nav-link ">
-								<span class="title">Ajouter une salle</span>
 							</a>
 						</li>
 					</ul>

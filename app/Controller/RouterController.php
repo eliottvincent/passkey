@@ -23,8 +23,7 @@ class RouterController
 
 		// handling requests on http://passkey.enssat/
 		else if (isset($_REQUEST['url']) && $_REQUEST['url'] === '') {
-			//echo $this->createBlankPage($controller, $model)->render();
-			$this->createBlankPage();
+			$this->displayDashboard();
 		}
 
 		// handling requests on http://passkey.enssat/something_else
@@ -337,37 +336,8 @@ class RouterController
 		$authenticationController = new AuthenticationController();
 		$authenticationController->check();
 
-
 		$dashboard = new DashboardController();
 		$dashboard->displayDash();
-	}
-
-
-	/**
-	 * Creates a blank page as a CompositeView
-	 *
-	 * @param $controller
-	 * @param $model
-	 * @return CompositeView
-	 */
-	function createBlankPage() {
-
-		// authentication check
-		$authenticationController = new AuthenticationController();
-		$authenticationController->check();
-
-		// creating a default CompositeView
-		$compositeView = new CompositeView(true);
-
-		// creating our content, as a View object
-		$blankContent = new View('default_content.html.twig');
-
-		// adding the content to our CompositeView
-		// here we use attachContentView() rather than attachView()...
-		// because the content view always needs to be between content_start and content_end
-		$compositeView->attachContentView($blankContent);
-
-		echo $compositeView->render();
 	}
 
 	function createLoginPage() {
