@@ -23,8 +23,7 @@ class RouterController
 
 		// handling requests on http://passkey.enssat/
 		else if (isset($_REQUEST['url']) && $_REQUEST['url'] === '') {
-			//echo $this->createBlankPage($controller, $model)->render();
-			$this->createBlankPage();
+			$this->displayDashboard();
 		}
 
 		// handling requests on http://passkey.enssat/something_else
@@ -347,7 +346,6 @@ class RouterController
 	function displayDashboard() {
 		$authenticationController = new AuthenticationController();
 		$authenticationController->check();
-
 
 		$dashboard = new DashboardController();
 		$dashboard->displayDash();

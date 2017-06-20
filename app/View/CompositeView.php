@@ -30,7 +30,7 @@ class CompositeView implements ViewInterface
 				->attachView($quicksidebar)
 				->attachView($content_end)
 				->attachView($footer)
-				->attachView($quicknav)
+				//->attachView($quicknav)
 				->attachView($foot);
 		}
 	}
