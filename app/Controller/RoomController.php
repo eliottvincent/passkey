@@ -47,6 +47,21 @@ class RoomController {
 	public function displayList($messages = null) {
 		$rooms = $this->getRooms();
 
+		$datas_rooms = $rooms;
+
+		for ($i = 0; $i < sizeof($datas_rooms); $i++) {
+			$ds = array();
+
+			foreach ($datas_rooms[$i]->getDoors() as $door) {
+				$d =  $this->_doorService->getDoor($door)->getName();
+				array_push($ds, $d);
+
+			}
+
+			$datas_rooms[$i]->setDoors($ds);
+		}
+
+
 		$compositeView = new CompositeView(
 			true,
 			'Liste des salles',
@@ -67,7 +82,7 @@ class RoomController {
 			}
 		}
 
-		$list_rooms = new View("rooms/list_rooms.html.twig", array('rooms' => $rooms));
+		$list_rooms = new View("rooms/list_rooms.html.twig", array('rooms' => $datas_rooms));
 		$compositeView->attachContentView($list_rooms);
 
 		echo $compositeView->render();

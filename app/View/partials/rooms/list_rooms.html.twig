@@ -34,8 +34,27 @@
 							<tr id="{{ room.id }}">
 								<td> {{ room.id }} </td>
 								<td> {{ room.name }} </td>
-								<td> {{ room.building }} </td>
-								<td> {{ room.floor }} </td>
+								<td>
+									{% if room.building == "building_1" %}
+										Bâtiment 1
+									{% elseif room.building == "building_2" %}
+										Bâtiment 2
+									{% else %}
+										Bâtiment 3
+									{% endif %}
+
+								</td>
+								<td>
+									{% if room.floor == "floor_0" %}
+										Rez-de-chaussée
+									{% elseif room.floor == "floor_1" %}
+										Étage 1
+									{% elseif room.floor == "floor_2" %}
+										Étage 2
+									{% else %}
+										Étage 3
+									{% endif %}
+								</td>
 								<td>
 									{% for door in room.doors %}
 										<p>{{ door }}</p>
