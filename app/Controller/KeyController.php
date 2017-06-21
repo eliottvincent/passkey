@@ -52,8 +52,22 @@ class KeyController {
 	public function displayList($state, $messages = null) {
 		if ($state) {
 			$keys = $this->getKeys();
+
+			$datas_keys = $keys;
+
+			for ($i = 0; $i < sizeof($datas_keys); $i++) {
+				$ls = array();
+
+				foreach ($datas_keys[$i]->getLocks() as $lock) {
+					$l =  $this->_lockService->getLock($lock)->getName();
+					array_push($ls, $l);
+				}
+
+				$datas_keys[$i]->setLocks($ls);
+			}
+
 		} else {
-			$keys = null;
+			$datas_keys = null;
 		}
 
 		$compositeView = new CompositeView(
@@ -76,7 +90,7 @@ class KeyController {
 			}
 		}
 
-		$list_keys = new View("keys/list_keys.html.twig", array('keys' => $keys));
+		$list_keys = new View("keys/list_keys.html.twig", array('keys' => $datas_keys));
 		$compositeView->attachContentView($list_keys);
 
 		echo $compositeView->render();
