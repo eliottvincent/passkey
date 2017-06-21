@@ -50,6 +50,20 @@ class KeychainController
 
 		$keychains = $this->getKeychains();
 
+		$datas_keychains = $keychains;
+
+		for ($i = 0; $i < sizeof($datas_keychains); $i++) {
+			$ks = array();
+
+			foreach ($datas_keychains[$i]->getKeys() as $key) {
+				if (is_string($key)) {
+					array_push($ks, $this->_keyService->getKey($key)->getName());
+				}
+			}
+
+			$datas_keychains[$i]->setKeys($ks);
+		}
+
 		$compositeView = new CompositeView(
 			true,
 			'Liste des trousseaux',
@@ -70,7 +84,7 @@ class KeychainController
 			}
 		}
 
-		$list_keychains = new View("keychains/list_keychains.html.twig", array('keychains' => $keychains));
+		$list_keychains = new View("keychains/list_keychains.html.twig", array('keychains' => $datas_keychains));
 		$compositeView->attachContentView($list_keychains);
 
 		echo $compositeView->render();
