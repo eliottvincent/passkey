@@ -46,10 +46,11 @@
 										<button type="submit" class="btn blue btn-sm">Modifier</button>
 									</form>
 
-									<!--<form action="" method="post">-->
+									<input type="hidden" name="duplicate" value="{{ keychain.id }}"/>
+									<button type="submit" class="btn purple btn-sm btn-duplicate-kc" value="{{ keychain.id }}">Dupliquer</button>
+
 									<input type="hidden" name="delete" value="{{ keychain.id }}"/>
 									<button type="submit" class="btn red btn-sm btn-delete-kc" value="{{ keychain.id }}">Supprimer</button>
-									<!--</form>-->
 								</td>
 							</tr>
 						{% endfor %}
