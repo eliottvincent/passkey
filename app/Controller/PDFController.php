@@ -21,6 +21,7 @@ class PDFController
 	{
 		$this->_keychainService = implementationKeychainService_Dummy::getInstance();
 		$this->_userService = implementationUserService_Dummy::getInstance();
+		$this->_borrowingService = implementationBorrowingService_Dummy::getInstance();
 	}
 	public function test($html){
 		$dompdf = new DOMPDF();  //if you use namespaces you may use new \DOMPDF()
@@ -36,24 +37,19 @@ class PDFController
 
 		$keychainid = $_GET['keyname'];
 		$userid = $_GET['user'];
+		$borid = $_GET['borid'];
 
 		$keychain = $this->getKeychain($keychainid);
 		$user = $this->getUser($userid);
 
 		$username = $user->getUsername();
 		$keychainname = $keychain->getName();
-		//$keyname = $keychain->getKeys();
 
-		/*$this->test("<div><h1>L'application PassKey vous remercie de votre emprunt</h1>
-			<p> <L'utilisateur ". $userid .
-			" a emprunté la clé : " . $keyid.
-			" ! </p></div>");*/
-		/*$this->test("<div><h1>L'application " . $username . " PassKey ".$keychainname . "vous remercie de votre emprunt</h1>
-			<p> <L'utilisateur ". $username .
-			" a emprunté la clé : " . $keychainname.
-			" ! </p></div>");*/
+		$keyinborrowing = $this->getKeysInBorrow($borid);
+		$roominborrowing = $this->getOpenedRooms($borid);
+		//$keyinborrowing = $this->_borrowingService->getKeysInBorrow($borid);
 
-		$this->test("<html>
+		$strg = "<html>
     
 <head>
     <meta charset=\"utf-8\" />
@@ -68,8 +64,27 @@ class PDFController
             </td>
         </tr>
         <tr>
+            <td>
+                le trousseau ".$keychainname . " est composé des clés : </td></tr>";
+
+		foreach ($keyinborrowing as $key){
+			$strg = $strg."<tr><td>". $key . "</td></tr>";
+		}
+
+		$strg = $strg."<tr>
             <td >
-            Pour confirmer l'emprunt, merci de signer ce reçu
+            	Il permet d'ouvrir les salles :
+            </td>
+        </tr>";
+
+		foreach ($roominborrowing as $key){
+			$strg = $strg."<tr><td>". $key . "</td></tr>";
+		}
+
+		$strg = $strg."
+        <tr>
+            <td >
+            	Pour confirmer l'emprunt, merci de signer ce reçu
             </td>
         </tr>
             <tr>
@@ -98,7 +113,15 @@ table /* Mettre une bordure sur les td ET les th */
 {
     border: 1px solid black;
 }
-</style>");
+</style>";
+
+
+			/*$this->test("<div><h1>L'application " . $username . " PassKey ".$keychainname . "vous remercie de votre emprunt</h1>
+			<p> <L'utilisateur ". $username .
+			" a emprunté la clé : " . $keychainname.
+			" ! </p></div>");*/
+
+		$this->test($strg);
 	}
 
 	private function getUser($enssatPrimaryKey) {
@@ -108,5 +131,15 @@ table /* Mettre une bordure sur les td ET les th */
 	public function getKeychain($id) {
 
 		return $this->_keychainService->getKeychain($id);
+	}
+
+	public function getKeysInBorrow($id) {
+
+		return $this->_borrowingService->getKeysInBorrow($id);
+	}
+
+	public function getOpenedRooms($id) {
+
+		return $this->_borrowingService->getOpenedRooms($id);
 	}
 }
