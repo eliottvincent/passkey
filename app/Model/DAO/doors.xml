@@ -6,8 +6,8 @@
 		<room>r_102_h</room>
 	</door>
 	<door>
-		<id>d_102h_droite</id>
-		<name>102h Droite</name>
+		<id>d_102h_devant</id>
+		<name>102h Devant</name>
 		<room>r_102_h</room>
 	</door>
 	<door>
@@ -21,5 +21,82 @@
 		<building>building_2</building>
 		<floor>floor_0</floor>
 		<room>r_005_v</room>
+	</door>
+	<door>
+		<id>d_001h_devant</id>
+		<name>001h Devant</name>
+		<building>building_2</building>
+		<floor>floor_0</floor>
+		<room>r_001_h</room>
+	</door>
+	<door>
+		<id>d_002h_gauche</id>
+		<name>002h Gauche</name>
+		<building>building_2</building>
+		<floor>floor_0</floor>
+		<room>r_002_h</room>
+	</door>
+	<door>
+		<id>d_002h_droite</id>
+		<name>002h Droite</name>
+		<building>building_2</building>
+		<floor>floor_0</floor>
+		<room>r_002_h</room>
+	</door>
+	<door>
+		<id>d_003h_gauche</id>
+		<name>003h Gauche</name>
+		<building>building_2</building>
+		<floor>floor_0</floor>
+		<room>r_003_h</room>
+	</door>
+	<door>
+		<id>d_003h_droite</id>
+		<name>003h Droite</name>
+		<building>building_2</building>
+		<floor>floor_0</floor>
+		<room>r_003_h</room>
+	</door>
+	<door>
+		<id>d_004h_gauche</id>
+		<name>004h Gauche</name>
+		<building>building_2</building>
+		<floor>floor_0</floor>
+		<room>r_004_h</room>
+	</door>
+	<door>
+		<id>d_004h_droite</id>
+		<name>004h Droite</name>
+		<building>building_2</building>
+		<floor>floor_0</floor>
+		<room>r_004_h</room>
+	</door>
+	<door>
+		<id>d_005h_devant</id>
+		<name>005h Devant</name>
+		<building>building_2</building>
+		<floor>floor_0</floor>
+		<room>r_005_h</room>
+	</door>
+	<door>
+		<id>d_005h_derriere</id>
+		<name>005h Derriere</name>
+		<building>building_2</building>
+		<floor>floor_0</floor>
+		<room>r_005_h</room>
+	</door>
+	<door>
+		<id>d_006h_devant</id>
+		<name>006h Devant</name>
+		<building>building_2</building>
+		<floor>floor_0</floor>
+		<room>r_006_h</room>
+	</door>
+	<door>
+		<id>d_006h_derriere</id>
+		<name>006h Derriere</name>
+		<building>building_2</building>
+		<floor>floor_0</floor>
+		<room>r_006_h</room>
 	</door>
 </doors>
