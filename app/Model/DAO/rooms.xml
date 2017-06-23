@@ -7,7 +7,7 @@
 		<building>building_2</building>
 		<doors>
 			<door>d_102h_gauche</door>
-			<door>d_102h_droite</door>
+			<door>d_102h_devant</door>
 		</doors>
 	</room>
 	<room>
@@ -18,6 +18,65 @@
 		<doors>
 			<door>d_005v_gauche</door>
 			<door>d_005v_droite</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_001_h</id>
+		<name>001 H</name>
+		<floor>floor_0</floor>
+		<building>building_2</building>
+		<doors>
+			<door>d_001h_devant</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_002_h</id>
+		<name>002 H</name>
+		<floor>floor_0</floor>
+		<building>building_2</building>
+		<doors>
+			<door>d_002h_gauche</door>
+			<door>d_002h_droite</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_003_h</id>
+		<name>003 H</name>
+		<floor>floor_0</floor>
+		<building>building_2</building>
+		<doors>
+			<door>d_003h_gauche</door>
+			<door>d_003h_droite</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_004_h</id>
+		<name>004 H</name>
+		<floor>floor_0</floor>
+		<building>building_2</building>
+		<doors>
+			<door>d_004h_gauche</door>
+			<door>d_004h_droite</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_005_h</id>
+		<name>005 H</name>
+		<floor>floor_0</floor>
+		<building>building_2</building>
+		<doors>
+			<door>d_005h_devant</door>
+			<door>d_005h_derriere</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_006_h</id>
+		<name>006 H</name>
+		<floor>floor_0</floor>
+		<building>building_2</building>
+		<doors>
+			<door>d_006h_devant</door>
+			<door>d_006h_derriere</door>
 		</doors>
 	</room>
 </rooms>
