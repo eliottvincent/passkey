@@ -245,10 +245,13 @@ class RouterController
 		$keychainController->deleteKeychainAjax();
 	}
 
-	function duplicateKeychain() {
+	function duplicateKeychainAjax() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$keychainController = new KeychainController();
-		$keychainController->duplicateKeychain();
+		$keychainController->duplicateKeychainAjax();
 	}
 
 
@@ -342,7 +345,6 @@ class RouterController
 	function displayDashboard() {
 		$authenticationController = new AuthenticationController();
 		$authenticationController->check();
-
 
 		$dashboard = new DashboardController();
 		$dashboard->displayDash();
