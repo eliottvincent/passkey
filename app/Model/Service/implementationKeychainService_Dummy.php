@@ -176,18 +176,24 @@ class implementationKeychainService_Dummy implements interfaceKeychainService
 
 		$keychain = $this->getKeychain($id);
 
+		if ($keychain != null) {
+
 		$duplicatedKeychain = clone($keychain);
-		$duplicatedKeychain->setName($keychain->getName() . " duplicate");
+		$duplicatedKeychain->setName($name);
+
 		$newId = 'kc_' . strtolower(str_replace(' ', '_', addslashes($duplicatedKeychain->getName())));
 		$duplicatedKeychain->setId($newId);
-		// once we're able to get the name entered by the user..
-		// we only need to use the following line:
-		// $duplicatedKeychain->setName($name);
 
 		array_push($_SESSION["KEYCHAINS"], $duplicatedKeychain);
 		$this->updateServiceVariables();
 
-		return true;
+			return true;
+		}
+
+		else {
+
+			return false;
+		}
 	}
 
 	//================================================================================
