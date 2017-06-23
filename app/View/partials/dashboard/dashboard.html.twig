@@ -1,5 +1,6 @@
 <!-- BEGIN DASHBOARD STATS 1-->
 <div class="row">
+	<!--
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <a class="dashboard-stat dashboard-stat-v2 blue" href="./?action=listkeys">
     	<div class="visual">
@@ -14,8 +15,9 @@
         </div>
         </a>
     </div>
+-->
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 red" href="./?action=listBorrowings">
+        <a class="dashboard-stat dashboard-stat-v2 blue" href="./?action=listBorrowings">
         <div class="visual">
             <i class="fa fa-arrows-h"></i>
         </div>
@@ -27,7 +29,7 @@
         </a>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="dashboard-stat dashboard-stat-v2 green" href="">
+        <a class="dashboard-stat dashboard-stat-v2 yellow-crusta" href="./?action=listKeychains">
         <div class="visual">
             <i class="fa fa-tags"></i>
         </div>
@@ -46,8 +48,20 @@
         </div>
         <div class="details">
             <div class="number">
-                <span data-counter="counterup" data-value="{{userCount}}"></span></div>
+                <span data-counter="counterup" data-value="{{userCount}}">0</span></div>
             <div class="desc"> Utilisateurs </div>
+		</div>
+		</a>
+    </div>
+	<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    	<a class="dashboard-stat dashboard-stat-v2 red" href="">
+        <div class="visual">
+            <i class="fa fa-key"></i>
+        </div>
+        <div class="details">
+            <div class="number">
+                <span data-counter="counterup" data-value="6">0</span></div>
+            <div class="desc"> Retards </div>
 		</div>
 		</a>
     </div>
@@ -68,7 +82,7 @@
                     <div class="caption">
 						<form class="sidebar-search" action="page_general_search_3.html" method="POST">
                             <div class="input-group">
-                            	<input type="text" class="form-control" placeholder="Search...">
+                            	<input type="text" class="form-control" placeholder="Recherche...">
                             	<span class="input-group-btn">
                                 	<a href="javascript:;" class="btn submit">
                                     	<i class="icon-magnifier"></i>

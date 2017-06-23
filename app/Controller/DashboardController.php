@@ -25,7 +25,7 @@
 
 			$composite = new CompositeView(
 				true,
-				"Dashboard",
+				"Tableau de bord",
 				null,
 				"dashboard",
 				null,
