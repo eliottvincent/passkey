@@ -49,7 +49,7 @@ class DoorController {
 			true,
 			'Liste des portes',
 			null,
-			"door",
+			"doors",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
 			array("deleteUserScript" => "app/View/assets/custom/scripts/deleteDoor.js",
 				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
@@ -145,7 +145,7 @@ class DoorController {
 			true,
 			'Ajouter une porte',
 			null,
-			"door");
+			"doors");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -248,7 +248,7 @@ class DoorController {
 			true,
 			"Mettre à jour une porte",
 			null,
-			"door");
+			"doors");
 
 		if ($messages != null) {
 
@@ -260,7 +260,7 @@ class DoorController {
 			}
 		}
 
-		$update_door = new View("doors/update_door.html.twig", array("door" => $door, "rooms" => $rooms, "previousUrl" => getPreviousUrl()));
+		$update_door = new View("doors/update_door.html.twig", array("doors" => $door, "rooms" => $rooms, "previousUrl" => getPreviousUrl()));
 		$compositeView->attachContentView($update_door);
 
 		echo $compositeView->render();

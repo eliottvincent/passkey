@@ -56,7 +56,7 @@ class UserController {
 			true,
 			'Liste des utilisateurs',
 			'Cette page permet de modifier et/ou supprimer des utilisateurs.',
-			"user",
+			"users",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
 			array("deleteUserScript" => "app/View/assets/custom/scripts/deleteUser.js",
 				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
@@ -171,7 +171,7 @@ class UserController {
 			true,
 			'Ajouter un utilisateur',
 			null,
-			"user",
+			"users",
 			null,
 			array("jQueryInputMask" => "app/View/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js",
 				"customMasks" => "app/View/assets/custom/scripts/form-input-mask.js"));
@@ -285,7 +285,7 @@ class UserController {
 	 */
 	public function displayUpdateForm($user, $messages = null) {
 
-		$compositeView = new CompositeView(true, "Mettre à jour un utilisateur", null, "user");
+		$compositeView = new CompositeView(true, "Mettre à jour un utilisateur", null, "users");
 
 		if ($messages != null) {
 
@@ -297,7 +297,7 @@ class UserController {
 			}
 		}
 
-		$update_user = new View("users/update_user.html.twig", array("user" => $user, "previousUrl" => getPreviousUrl()));
+		$update_user = new View("users/update_user.html.twig", array("users" => $user, "previousUrl" => getPreviousUrl()));
 		$compositeView->attachContentView($update_user);
 
 		echo $compositeView->render();
