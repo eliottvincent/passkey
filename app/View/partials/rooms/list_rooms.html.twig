@@ -18,7 +18,7 @@
 			</div>
 			<div class="portlet-body">
 				<div class="table">
-					<table id="borrowingsTable" class="table table-striped table-bordered table-hover">
+					<table id="filterTable" class="table table-striped table-bordered table-hover">
 						<thead>
 						<tr>
 							<th> ID </th>
@@ -42,7 +42,8 @@
 									{% endfor %}
 								</td>
 
-								<td>
+								<td style="display: flex;">
+
 									<form action="./?action=updateRoom" method="post">
 										<input type="hidden" name="update" value="{{ room.id }}"/>
 										<button type="submit" class="btn blue btn-sm">Modifier</button>

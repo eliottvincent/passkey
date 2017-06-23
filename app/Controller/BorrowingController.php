@@ -55,7 +55,7 @@ class BorrowingController {
 			array("deleteKeyScript" => "app/View/assets/custom/scripts/deleteBorrowing.js",
 			 	"extendBorrowingScript" => "app/View/assets/custom/scripts/extendBorrowing.js",
 				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
-				"borrowingsScript" => "app/View/assets/custom/scripts/list_borrowings.js"));
+				"tableFilterScript" => "app/View/assets/custom/scripts/table-filter.js"));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -131,13 +131,11 @@ class BorrowingController {
 				$this->saveBorrowing($borrowingToSave);
 
 				$m_type = "success";
-				$link = "<a href=\"./?action=pdftest\" class=\"alert-link\"> test </a>";
-				$m_message = "L'emprunt a bien été créé." .$link;
-				//$link = "<a href=\"./?action=pdftest\" >";
+				$m_message = "L'emprunt a bien été créé.";
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
 				$message['link']="true";
-				$message['link_href']="./?action=testpdf&keyname=".$borrowingToSave['borrowing_keychain']."&user=".$borrowingToSave['borrowing_user']."&borid=".$borrowingToSave['borrowing_id'];
+				$message['link_href']="./?action=generatePDF&keyname=".$borrowingToSave['borrowing_keychain']."&user=".$borrowingToSave['borrowing_user']."&borid=".$borrowingToSave['borrowing_id'];
 				$message['link_text']="Vous pouvez récupérer le PDF de l'emprunt en cliquant ici";
 
 				$this->displayForm(array($message));
