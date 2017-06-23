@@ -3,7 +3,7 @@
 			<div class="import">
 				<form action="./?action=import" method="post">
 					<input type="hidden" name="pre_type" value="keys"/>
-					<button type="submit" class="btn blue btn-sm">Importer un fichier .csv</button>
+					<button type="submit" class="btn blue btn-sm">Importer un fichier CSV</button>
 				</form>
 			</div>
 		</div>
@@ -37,7 +37,7 @@
 									<td> {{ key.id }} </td>
 									<td> {{ key.name }} </td>
 									<td> {{ key.supplier }} </td>
-									<td> {{ key.type }} </td>
+									<td> {% if key.type == "partial" %}partiel {% else %} {{key.type}} {% endif %}</td>
 									<td>
 										{% if key.locks is iterable %}
 											{% for lock in key.locks %}
