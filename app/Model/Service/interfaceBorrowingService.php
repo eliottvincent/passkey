@@ -20,12 +20,6 @@ interface interfaceBorrowingService
 	public function checkUnicity($id);
 
 	public function getStatuses();
-	//=====
-	//=====
-	public function returnKeychain($borrowingId, $comment);
-
-	public function lostKeychain($borrowingId, $comment);
-
 }
 
 ?>
