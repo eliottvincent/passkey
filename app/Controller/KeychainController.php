@@ -56,10 +56,9 @@ class KeychainController
 			null,
 			"keychain",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
-			array("deleteKeychainScript" => "app/View/assets/custom/scripts/deleteKeychain.js",
-				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
-				"borrowingsScript" => "app/View/assets/custom/scripts/list_borrowings.js"
-			));
+			array("keychainButtonsScript" => "app/View/assets/custom/scripts/keychainButtons.js",
+				"tableFilterScript" => "app/View/assets/custom/scripts/table-filter.js",
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
