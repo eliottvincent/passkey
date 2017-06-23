@@ -56,7 +56,7 @@ class KeychainController
 			null,
 			"keychain",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
-			array("deleteKeychainScript" => "app/View/assets/custom/scripts/deleteKeychain.js",
+			array("keychainButtonsScript" => "app/View/assets/custom/scripts/keychainButtons.js",
 				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
 
 		if ($messages != null) {
