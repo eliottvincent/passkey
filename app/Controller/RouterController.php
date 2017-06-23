@@ -33,7 +33,7 @@ class RouterController
 		}
 	}
 
-	function showLoginPageTest() {
+	function loginPage() {
 		$compositeView = new CompositeView();
 
 		$headView 	= new View("head.html.twig", array('title' => "Login"));
@@ -244,10 +244,13 @@ class RouterController
 		$keychainController->deleteKeychainAjax();
 	}
 
-	function duplicateKeychain() {
+	function duplicateKeychainAjax() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
 		$keychainController = new KeychainController();
-		$keychainController->duplicateKeychain();
+		$keychainController->duplicateKeychainAjax();
 	}
 
 

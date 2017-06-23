@@ -1,7 +1,4 @@
 /**
- * Created by eliottvincent on 12/06/2017.
- */
-/**
  * Created by eliottvincent on 03/06/2017.
  */
 
@@ -13,6 +10,13 @@ function initialiser(e) {
 	if (kbtns !== null) {
 		for (var i = 0; i < kbtns.length; i++) {
 			kbtns[i].addEventListener('click', deleteKeychain);
+		}
+	}
+
+	var kbtnsBis = document.getElementsByClassName('btn-duplicate-kc');
+	if (kbtnsBis !== null) {
+		for (var i = 0; i < kbtnsBis.length; i++) {
+			kbtnsBis[i].addEventListener('click', duplicateKeychain);
 		}
 	}
 }
@@ -71,4 +75,65 @@ function deleteKeychain() {
 		},
 		allowOutsideClick: false
 	});
+}
+
+function duplicateKeychain() {
+	var id = this.getAttribute('value');
+	swal({
+		title: 'Quel sera le nouveau nom du trousseau dupliqué ?',
+		type: 'info',
+		showCancelButton: true,
+		confirmButtonText: 'Dupliquer',
+		showLoaderOnConfirm: true,
+		input: 'text',
+		inputPlaceholder: 'Mon trousseau dupliqué',
+		inputValidator: function (value) {
+			return new Promise(function (resolve, reject) {
+				if (true) {
+					resolve()
+				} else {
+					reject('Vous devez specifier un nombre de jour entier.')
+				}
+			})
+		},
+		allowOutsideClick: false
+	}).then(function (result) {
+		return new Promise(function (resolve, reject) {
+			$.ajax({
+				url: "/?action=duplicateKeychainAjax",
+				type: "POST",
+				data: {
+					value: encodeURIComponent(id),
+					name: encodeURIComponent(result)
+				},
+				dataType: "json",
+				success: function (data) {
+					if( data.status === 'error' ) {
+						swal("Erreur !", "Merci de réessayer", "error");
+					} else {
+						swal("Fait !", "Le trousseau a bien été dupliqué", "success");
+
+						var trToDuplicate = document.querySelector('#' + id).cloneNode(true);
+						$(trToDuplicate).attr('id', 'kc_' + result.replace(' ', '_').toLowerCase());
+
+						//$(trToDuplicate).find(".td-kc-id").innerText = "test";
+						//$(trToDuplicate).find(".td-kc-name").innerText = "test";
+						//ne marche pas
+						// reste à changer l'id et le nom
+
+						document.querySelector('tbody').appendChild(trToDuplicate);
+					}
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					swal("Erreur !", "Merci de réessayer", "error");
+				}
+			});
+		})
+	});
+}
+
+
+function myFunction() {
+
+	console.log("test");
 }
