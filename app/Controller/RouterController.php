@@ -369,12 +369,12 @@ class RouterController
 	// PDF TEST
 	//================================================================================
 
-	function testpdf(){
+	function generatePDF() {
 		$authenticationController = new AuthenticationController();
 		$authenticationController->check();
 
 		$pdfController = new PDFController();
-		$pdfController->creationPDF();
+		$pdfController->generatePDF();
 
 	}
 
