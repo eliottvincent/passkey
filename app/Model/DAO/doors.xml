@@ -6,8 +6,8 @@
 		<room>r_102_h</room>
 	</door>
 	<door>
-		<id>d_102h_devant</id>
-		<name>102h Devant</name>
+		<id>d_102h_droite</id>
+		<name>102h Droite</name>
 		<room>r_102_h</room>
 	</door>
 	<door>
@@ -22,6 +22,7 @@
 		<floor>floor_0</floor>
 		<room>r_005_v</room>
 	</door>
+	<!--
 	<door>
 		<id>d_001h_devant</id>
 		<name>001h Devant</name>
@@ -99,4 +100,5 @@
 		<floor>floor_0</floor>
 		<room>r_006_h</room>
 	</door>
+-->
 </doors>

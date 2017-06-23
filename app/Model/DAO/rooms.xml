@@ -7,7 +7,7 @@
 		<building>building_2</building>
 		<doors>
 			<door>d_102h_gauche</door>
-			<door>d_102h_devant</door>
+			<door>d_102h_droite</door>
 		</doors>
 	</room>
 	<room>
@@ -20,6 +20,7 @@
 			<door>d_005v_droite</door>
 		</doors>
 	</room>
+	<!--
 	<room>
 		<id>r_001_h</id>
 		<name>001 H</name>
@@ -79,4 +80,5 @@
 			<door>d_006h_derriere</door>
 		</doors>
 	</room>
+-->
 </rooms>
