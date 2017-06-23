@@ -28,3 +28,13 @@
 td>form {
     display: inline-block;
 }
+
+/*
+*	Problème :
+*	Affichage du bouton "importer" décalé par rapport au titre de la page
+*	Solution :
+*	Ajout d'un margin-top et margin-bottom des bouttons de classe "btn-import"
+*/
+.btn-import {
+	margin: 25px 0 20px 0;
+}
