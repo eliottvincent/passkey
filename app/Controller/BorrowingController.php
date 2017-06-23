@@ -50,7 +50,7 @@ class BorrowingController {
 			true,
 			'Liste des emprunts',
 			'Cette page permet de modifier et/ou supprimer des emprunts.',
-			"borrowing",
+			"borrowings",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
 			array("deleteKeyScript" => "app/View/assets/custom/scripts/deleteBorrowing.js",
 			 	"extendBorrowingScript" => "app/View/assets/custom/scripts/extendBorrowing.js",
@@ -170,7 +170,7 @@ class BorrowingController {
 			true,
 			'Ajouter un emprunt',
 			null,
-			"borrowing");
+			"borrowings");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -326,7 +326,7 @@ class BorrowingController {
 			true,
 			'Mettre à jour un emprunt',
 			null,
-			"borrowing",
+			"borrowings",
 			array("bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"),
 			array("form-datetime-picker" => "app/View/assets/custom/scripts/update-forms-datetime-picker.js",
 				"bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")
@@ -350,7 +350,7 @@ class BorrowingController {
 			}
 		}
 
-		$update_borrowing = new View('borrowings/update_borrowing.html.twig', array('borrowing' => $borrowing, 'keychains' => $keychains, 'users' => $users, 'statuses' => $statuses, 'previousUrl' => getPreviousUrl()));
+		$update_borrowing = new View('borrowings/update_borrowing.html.twig', array('borrowings' => $borrowing, 'keychains' => $keychains, 'users' => $users, 'statuses' => $statuses, 'previousUrl' => getPreviousUrl()));
 		$compositeView->attachContentView($update_borrowing);
 
 		echo $compositeView->render();
@@ -412,7 +412,7 @@ class BorrowingController {
 			true,
 			"Détail de l'emprunt",
 			null,
-			"borrowing"
+			"borrowings"
 		);
 
 		$detailed_borrowing = new View('borrowings/detailed_borrowing.html.twig',

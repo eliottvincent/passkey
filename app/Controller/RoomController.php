@@ -51,7 +51,7 @@ class RoomController {
 			true,
 			'Liste des salles',
 			null,
-			"room",
+			"rooms",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
 			array("deleteRoomScript" => "app/View/assets/custom/scripts/deleteRoom.js",
 				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
@@ -148,7 +148,7 @@ class RoomController {
 			true,
 			'Ajouter une salle',
 			null,
-			"room");
+			"rooms");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -224,7 +224,7 @@ class RoomController {
 			true,
 			"Mettre à jour une salle",
 			null,
-			"room");
+			"rooms");
 
 		if ($messages != null) {
 
@@ -236,7 +236,7 @@ class RoomController {
 			}
 		}
 
-		$update_room = new View("rooms/update_room.html.twig", array("room" => $room, "doors" => $doors, "previousUrl" => getPreviousUrl()));
+		$update_room = new View("rooms/update_room.html.twig", array("rooms" => $room, "doors" => $doors, "previousUrl" => getPreviousUrl()));
 		$compositeView->attachContentView($update_room);
 
 		echo $compositeView->render();

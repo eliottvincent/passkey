@@ -54,7 +54,7 @@ class KeychainController
 			true,
 			'Liste des trousseaux',
 			null,
-			"keychain",
+			"keychains",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
 			array("keychainButtonsScript" => "app/View/assets/custom/scripts/keychainButtons.js",
 				"borrowingsScript" => "app/View/assets/custom/scripts/list_borrowings.js",
@@ -150,7 +150,7 @@ class KeychainController
 			true,
 			'Ajouter un trousseau',
 			null,
-			"keychain");
+			"keychains");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -255,7 +255,7 @@ class KeychainController
 			true,
 			'Mettre à jour un trousseau',
 			null,
-			"keychain",
+			"keychains",
 			array("bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"),
 			array("form-datetime-picker" => "app/View/assets/custom/scripts/update-forms-datetime-picker.js",
 				"bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")
@@ -270,7 +270,7 @@ class KeychainController
 			}
 		}
 
-		$update_keychain= new View('keychains/update_keychain.html.twig', array('keychain' => $keychain, 'keys' => $keys, 'previousUrl' => getPreviousUrl()));
+		$update_keychain= new View('keychains/update_keychain.html.twig', array('keychains' => $keychain, 'keys' => $keys, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($update_keychain);
 
 		echo $composite->render();
