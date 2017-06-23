@@ -60,7 +60,7 @@ class KeyController {
 			true,
 			'Liste des clés',
 			'Cette page permet de modifier et/ou supprimer des clés.',
-			"key",
+			"keys",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
 			array("deleteKeyScript" => "app/View/assets/custom/scripts/deleteKey.js",
 				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
@@ -176,7 +176,7 @@ class KeyController {
 			true,
 			'Ajouter une clé',
 			null,
-			"key",
+			"keys",
 			null,
 			array("chooseKey" => "app/View/assets/custom/scripts/chooseKey.js"));
 
@@ -288,7 +288,7 @@ class KeyController {
 			true,
 			'Mettre à jour une clé',
 			null,
-			"key");
+			"keys");
 
 		if ($messages != null) {
 
@@ -300,7 +300,7 @@ class KeyController {
 			}
 		}
 
-		$update_key = new View('keys/update_key.html.twig', array('locks' => $locks, 'key' => $key, 'previousUrl' => getPreviousUrl()));
+		$update_key = new View('keys/update_key.html.twig', array('locks' => $locks, 'keys' => $key, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($update_key);
 
 		echo $composite->render();

@@ -50,7 +50,7 @@ class LockController {
 			true,
 			'Liste des canons',
 			'Cette page permet de modifier et/ou supprimer des canons.',
-			"lock",
+			"locks",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
 			array("deleteLockScript" => "app/View/assets/custom/scripts/deleteLock.js",
 				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
@@ -152,7 +152,7 @@ class LockController {
 			true,
 			'Ajouter un canon',
 			null,
-			"lock");
+			"locks");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -257,7 +257,7 @@ class LockController {
 			true,
 			'Mettre à jour un canon',
 			null,
-			"lock");
+			"locks");
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -268,7 +268,7 @@ class LockController {
 			}
 		}
 
-		$update_lock = new View('locks/update_lock.html.twig', array('lock' => $lock, 'doors' => $doors, 'previousUrl' => getPreviousUrl()));
+		$update_lock = new View('locks/update_lock.html.twig', array('locks' => $lock, 'doors' => $doors, 'previousUrl' => getPreviousUrl()));
 		$compositeView->attachContentView($update_lock);
 
 		echo $compositeView->render();
