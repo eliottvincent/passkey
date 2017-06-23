@@ -402,4 +402,18 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 			'comment'=>""
 		];
 	}
+
+	public function getLateBorrowings() {
+		$lateBorrowings = array();
+		$borrowings = $this->getBorrowings();
+
+		foreach ($borrowings as $borrowing) {
+			if ($borrowing->getStatus() == 'late') {
+				array_push($lateBorrowings, $borrowing);
+			}
+		}
+
+		return $lateBorrowings;
+	}
 }
+

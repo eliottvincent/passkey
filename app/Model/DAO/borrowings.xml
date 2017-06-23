@@ -8,7 +8,7 @@
 		<dueDate>2017-09-24</dueDate>
 		<returnDate></returnDate>
 		<lostDate></lostDate>
-		<status>borrowed</status>
+		<status>late</status>
 	</borrowing>
 	<borrowing>
 		<id>b_2</id>
