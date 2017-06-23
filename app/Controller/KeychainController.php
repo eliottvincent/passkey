@@ -282,21 +282,27 @@ class KeychainController
 	// DUPLICATE
 	//================================================================================
 
+
 	public function duplicateKeychainAjax() {
 
-		// if no values are posted -> displaying the form
-		if (isset($_POST['duplicate']) && !empty($_POST['duplicate'])) {
+		if (isset($_POST['value'])) {
 
-			// TODO : replace null by the name entered by the user
-			$this->duplicateKeychain($_POST['duplicate'], null);
-
-			$message['type'] = 'success';
-			$message['message'] = 'Le trousseau a bien été dupliqué.';
-			$this->displayList(array($message));
+			if ($this->duplicateKeychain(urldecode($_POST['value']), urldecode($_POST['name'])) == true) {
+				$response['status'] = 'success';
+				$response['message'] = 'This was successful';
+			}
+			else {
+				$response['status'] = 'error';
+				$response['message'] = 'This failed';
+			}
 		}
+		else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
+
+		echo json_encode($response);
 	}
-
-
 
 
 	//================================================================================
