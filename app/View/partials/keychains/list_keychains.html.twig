@@ -40,7 +40,7 @@
 								</td>
 								<td> {{ keychain.creationDate }} </td>
 								<td> {{ keychain.destructionDate }} </td>
-								<td>
+								<td style="display: flex;">
 									<form action="./?action=updateKeychain" method="post">
 										<input type="hidden" name="update" value="{{ keychain.id }}"/>
 										<button type="submit" class="btn blue btn-sm">Modifier</button>
