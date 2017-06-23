@@ -232,4 +232,188 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 			"lost"=>"perdu",
 		);
 	}
+
+	/**
+	 * Get the name of all keys from a borrow
+	 * @param $id
+	 * @return array
+	 */
+	public function getKeysInBorrow($id) {
+		$keys = array();
+		$borrow = $this->getBorrowing($id);
+		$kc_id = $borrow->getKeychain();
+		$keychain = $this->_keychainService->getKeychain($kc_id);
+		$kc_keys = $keychain->getKeys();
+
+		foreach($kc_keys as $kc_key) {
+			$key = $this->_keyService->getKey($kc_key)->getName();
+			if (!in_array($key, $keys)) {
+				array_push($keys, $key);
+			}
+		}
+
+		return $keys;
+	}
+
+	/**
+	 * Get the name of all rooms from a borrow
+	 * @param $id
+	 * @return array
+	 */
+	public function getOpenedRooms($id) {
+		// Rooms.
+		$rooms = array();
+		$borrow = $this->getBorrowing($id);
+		$kc_id = $borrow->getKeychain();
+		$keychain = $this->_keychainService->getKeychain($kc_id);
+		$keys = $keychain->getKeys();
+
+		foreach ($keys as $key) {
+			$k = $this->_keyService->getKey($key);
+			$locks = $k->getLocks();
+
+			if (is_array($locks)) {
+				$tmp_locks = array();
+				foreach ($locks as $lock) {
+					if (is_object($lock)) {
+						$lock_id = $lock->getId();
+					} else {
+						$lock_id = $lock;
+					}
+
+					array_push($tmp_locks, $lock_id);
+				}
+
+				$locks = $tmp_locks;
+			}
+
+			foreach ($locks as $lock) {
+				$lock = $this->_lockService->getLock($lock);
+				$door_id = $lock->getDoor();
+				$door = $this->_doorService->getDoor($door_id);
+				$room_id = $door->getRoom();
+				$room = $this->_roomService->getRoom($room_id)->getName();
+
+				if (!in_array($room, $rooms)) {
+					array_push($rooms, $room);
+				}
+			}
+
+		}
+		return $rooms;
+	}
+
+	//================================================================================
+	// CLEMENT
+	//================================================================================
+
+	public function setBorrowingStatus($borrowingId,$status)
+	{
+
+		$oStatus = $this->getBorrowingStatus($borrowingId);
+		$tDate = new DateTime;
+		$tDate->setTimestamp(time());
+		if(strcmp($oStatus,"DoesNotExists")!==0)
+		{
+			switch($status)
+			{
+				case "Returned":
+					$this->_borrowings[$borrowingId-1]['returnDate'] = $tDate;
+					break;
+				case "Lost":
+					$this->_borrowings[$borrowingId-1]['lostDate'] = $tDate;
+					break;
+				default :
+					throw new RuntimeException('borrowing does not exists.');
+			}
+
+		}
+	}
+
+	public function getBorrowingStatus($borrowingId)
+	{
+		$status = "DoesNotExists";
+		if(!is_null($borrowing=$this->getBorrowingById($borrowingId)))
+		{
+			if(!is_null($borrowing['returnDate']))
+			{
+				$status = "Returned";
+			}
+			else
+			{
+				if(!is_null($borrowing['lostDate']))
+				{
+					$status = "Lost";
+				}
+				else
+				{
+					$status = "Borrowed";
+				}
+			}
+		}
+		return $status;
+	}
+
+	private function _cancelBorrowing($borrowingId,$type,$comment)
+	{
+		$status = $this->getBorrowingStatus($borrowingId);
+		echo "status of borrowingId ".$borrowingId." : ".$status."\n";
+		if(strcmp($status,"DoesNotExists")!==0  && strcmp($status,"Returned")!==0 )
+		{
+			echo "\tprocessing\n";
+			switch($type)
+			{
+				case "return" :
+					$this->setBorrowingStatus($borrowingId,"Returned");
+					break;
+				case "lost" :
+					$this->setBorrowingStatus($borrowingId,"Lost");
+					break;
+				default :
+					throw new RuntimeException('borrowing does not exists.');
+			}
+			$this->_borrowings[$borrowingId-1]['comment'] .= $comment;
+		}
+	}
+
+	public function returnKeychain($borrowingId,$comment)
+	{
+		$this->_cancelBorrowing($borrowingId,"return",$comment);
+	}
+
+	public function lostKeychain($borrowingId,$comment)
+	{
+		$this->_cancelBorrowing($borrowingId,"lost",$comment);
+	}
+
+	public function borrowKeychain($user, $keychain, DateTime $dueDate)
+	{
+		$tDate = new DateTime;
+		$tDate->setTimestamp(time());
+
+		$_SESSION['BORROWINGS'][]=[
+			'borrowingId'=>count($_SESSION['BORROWINGS'])+1,
+			'userEnssatPrimaryKey'=>$userId,
+			'keychainId'=>$keychainId,
+			'borrowDate'=>$tDate->format("d-m-Y"),
+			'dueDate'=>$tDate->modify('+20 day')->format("d-m-Y"),
+			'returnDate'=>null,
+			'lostDate'=>null,
+			'comment'=>""
+		];
+	}
+
+	public function getLateBorrowings() {
+		$lateBorrowings = array();
+		$borrowings = $this->getBorrowings();
+
+		foreach ($borrowings as $borrowing) {
+			if ($borrowing->getStatus() == 'late') {
+				array_push($lateBorrowings, $borrowing);
+			}
+		}
+
+		return $lateBorrowings;
+	}
 }
+
