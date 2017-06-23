@@ -131,6 +131,9 @@ class BorrowingController {
 				$this->saveBorrowing($borrowingToSave);
 
 				$m_type = "success";
+				$link = "<a href=\"./?action=pdftest\" class=\"alert-link\"> test </a>";
+				$m_message = "L'emprunt a bien été créé.";
+				//$link = "<a href=\"./?action=pdftest\" >";
 				$m_message = "L'emprunt a bien été créé.";
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
