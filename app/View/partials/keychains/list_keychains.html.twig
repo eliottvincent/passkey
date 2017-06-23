@@ -31,8 +31,8 @@
 						<tbody>
 						{% for keychain in keychains %}
 							<tr id="{{ keychain.id }}">
-								<td> {{ keychain.id }} </td>
-								<td> {{ keychain.name }} </td>
+								<td class="td-kc-id"> {{ keychain.id }} </td>
+								<td class="td-kc-name"> {{ keychain.name }} </td>
 								<td>
 									{% for key in keychain.keys %}
 										<p>{{ key }}</p>
