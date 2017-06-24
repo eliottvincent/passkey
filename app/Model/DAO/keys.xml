@@ -4,8 +4,8 @@
 		<id>k_1</id>
 		<type>simple</type>
 		<locks>
-			<lock>l_102h-d-001</lock>
-			<lock>l_102h-g-001</lock>
+			<lock>l_102h-droite-001</lock>
+			<lock>l_102h-gauche-001</lock>
 		</locks>
 		<name>ma clé</name>
 		<supplier>Abbloy</supplier>
@@ -15,7 +15,7 @@
 		<id>k_2</id>
 		<type>partial</type>
 		<locks>
-			<lock>l_102h-g-001</lock>
+			<lock>l_102h-gauche-001</lock>
 		</locks>
 		<name>ma clé</name>
 		<supplier>CDVI</supplier>
@@ -25,8 +25,19 @@
 		<id>k_3</id>
 		<type>total</type>
 		<locks>
-			<lock>l_102h-d-001</lock>
-			<lock>l_102h-g-001</lock>
+			<lock>l_102h-droite-001</lock>
+			<lock>l_102h-gauche-001</lock>
+		</locks>
+		<name>my key</name>
+		<supplier>Deny</supplier>
+		<copies>3</copies>
+	</key>
+	<key>
+		<id>k_4</id>
+		<type>simple</type>
+		<locks>
+			<lock>l_102h-droite-001</lock>
+			<lock>l_102h-gauche-001</lock>
 		</locks>
 		<name>my key</name>
 		<supplier>Deny</supplier>
