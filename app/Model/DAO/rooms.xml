@@ -20,7 +20,6 @@
 			<door>d_005v_droite</door>
 		</doors>
 	</room>
-	<!--
 	<room>
 		<id>r_001_h</id>
 		<name>001 H</name>
@@ -80,5 +79,94 @@
 			<door>d_006h_derriere</door>
 		</doors>
 	</room>
--->
+	<room>
+		<id>r_152_N</id>
+		<name>152 N</name>
+		<floor>floor_1</floor>
+		<building>building_1</building>
+		<doors>
+			<door>d_152n_devant</door>
+			<door>d_152n_derriere</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_153_N</id>
+		<name>153 N</name>
+		<floor>floor_1</floor>
+		<building>building_1</building>
+		<doors>
+			<door>d_153n_devant</door>
+			<door>d_153n_droite</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_155_N</id>
+		<name>155 N</name>
+		<floor>floor_1</floor>
+		<building>building_1</building>
+		<doors>
+			<door>d_155n_devant</door>
+			<door>d_155n_derriere</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_157_N</id>
+		<name>157 N</name>
+		<floor>floor_1</floor>
+		<building>building_1</building>
+		<doors>
+			<door>d_157n_devant</door>
+			<door>d_157n_derriere</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_231_N</id>
+		<name>231 N</name>
+		<floor>floor_2</floor>
+		<building>building_1</building>
+		<doors>
+			<door>d_231n_devant</door>
+			<door>d_231n_derriere</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_232_N</id>
+		<name>232 N</name>
+		<floor>floor_2</floor>
+		<building>building_1</building>
+		<doors>
+			<door>d_232n_devant</door>
+			<door>d_232n_derriere</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_233_N</id>
+		<name>233 N</name>
+		<floor>floor_2</floor>
+		<building>building_1</building>
+		<doors>
+			<door>d_233n_devant</door>
+			<door>d_233n_derriere</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_234_N</id>
+		<name>234 N</name>
+		<floor>floor_2</floor>
+		<building>building_1</building>
+		<doors>
+			<door>d_234n_devant</door>
+			<door>d_234n_derriere</door>
+		</doors>
+	</room>
+	<room>
+		<id>r_235_N</id>
+		<name>235 N</name>
+		<floor>floor_2</floor>
+		<building>building_1</building>
+		<doors>
+			<door>d_235n_devant</door>
+			<door>d_235n_derriere</door>
+		</doors>
+	</room>
 </rooms>
