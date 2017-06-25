@@ -157,8 +157,23 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 
 		$this->updateServiceVariables();
 		$newBorrow = $this->getBorrowing($id);
-		$newBorrow['dueDate'] = strtotime($newBorrow['dueDate'])->modify('+ '+$number+' days');
-		$this->updateBorrowing($newBorrow);
+		$newDate = new DateTime($newBorrow->getDueDate());
+		$modifiedDate = $newDate->modify('+ ' . $number . ' days');
+		$modifiedDateString = $modifiedDate->format('Y-m-d');
+		$newBorrow->setDueDate($modifiedDateString);
+
+		foreach ($this->_borrowings as $key=>$borrowing) {
+
+			if ($borrowing->getId() == $newBorrow->getId()) {
+
+				$_SESSION["BORROWINGS"][$key] = $newBorrow;
+				$this->_sessionBorrowings[$key] = $newBorrow;
+				$this->_borrowings[$key] = $newBorrow;
+
+				return true;
+			}
+		}
+		return false;
 	}
 
 

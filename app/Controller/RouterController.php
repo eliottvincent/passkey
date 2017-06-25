@@ -245,7 +245,6 @@ class RouterController
 	}
 
 	function duplicateKeychainAjax() {
-		// authentication check
 		$authenticationController = new AuthenticationController();
 		$authenticationController->check();
 
@@ -323,12 +322,7 @@ class RouterController
 		$authenticationController->check();
 
 		$borrowingController = new BorrowingController();
-		if (!empty($_GET['id'])) {
-			$borrowingController->detailed($_GET['id']);
-		} else {
-			$this->createBlankPage();
-		}
-
+		$borrowingController->detailed($_GET['id']);
 	}
 
 	function deleteBorrowingAjax() {
@@ -337,6 +331,9 @@ class RouterController
 	}
 
 	function extendBorrowingAjax() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
 		$borrowingController = new BorrowingController();
 		$borrowingController->extendBorrowingAjax();
 	}

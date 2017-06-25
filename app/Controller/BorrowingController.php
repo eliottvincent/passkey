@@ -53,8 +53,7 @@ class BorrowingController {
 			'Cette page permet de modifier et/ou supprimer des emprunts.',
 			"borrowings",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
-			array("deleteKeyScript" => "app/View/assets/custom/scripts/deleteBorrowing.js",
-			 	"extendBorrowingScript" => "app/View/assets/custom/scripts/extendBorrowing.js",
+			array("borrowingButtons" => "app/View/assets/custom/scripts/borrowingButtons.js",
 				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
 				"tableFilterScript" => "app/View/assets/custom/scripts/table-filter.js"));
 
@@ -119,7 +118,7 @@ class BorrowingController {
 				. strtolower(str_replace(' ', '_', addslashes($_POST['borrowing_user'])))
 				. strtolower(str_replace(' ', '_', addslashes($_POST['borrowing_keychain'])));
 
-				// unicity check
+			// unicity check
 			$exist = $this->checkUnicity($id);
 
 			if (!$exist) {
@@ -229,35 +228,33 @@ class BorrowingController {
 		echo json_encode($response);
 	}
 
-//================================================================================
- // EXTEND
- //================================================================================
+	//================================================================================
+	// EXTEND
+	//================================================================================
 
- /**
-  *
-  */
- public function extendBorrowingAjax() {
+	/**
+	 *
+	 */
+	public function extendBorrowingAjax() {
 
-   session_start();
+		if (isset($_POST['value']) && isset($_POST['number'])) {
 
-   if (isset($_POST['value']) && isset($_POST['number'])) {
+			if ($this->extendBorrowing(urldecode($_POST['value']), $_POST['number']) == true) {
+				$response['status'] = 'success';
+				$response['message'] = 'This was successful';
+			}
+			else {
+				$response['status'] = 'error';
+				$response['message'] = 'This failed';
+			}
+		}
+		else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
 
-	 if ($this->extendBorrowing(urldecode($_POST['value']), $_POST['number']) == true) {
-	   $response['status'] = 'success';
-	   $response['message'] = 'This was successful';
-	 }
-	 else {
-	   $response['status'] = 'error';
-	   $response['message'] = 'This failed';
-	 }
-   }
-   else {
-	 $response['status'] = 'error';
-	 $response['message'] = 'This failed';
-   }
-
-   echo json_encode($response);
- }
+		echo json_encode($response);
+	}
 
 
 	//================================================================================
@@ -494,13 +491,13 @@ class BorrowingController {
 	}
 
 	/**
-   * Used to extend a borrowing from an id with number day(s).
-   * @param $id, $number
-   */
-  private function extendBorrowing($id, $number) {
+	 * Used to extend a borrowing from an id with number day(s).
+	 * @param $id, $number
+	 */
+	private function extendBorrowing($id, $number) {
 
-    return $this->_borrowingService->extendBorrowing($id, $number);
-  }
+		return $this->_borrowingService->extendBorrowing($id, $number);
+	}
 
 	/**
 	 * @param $borrowingToUpdate
