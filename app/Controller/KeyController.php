@@ -35,12 +35,12 @@ class KeyController {
 		$keys = $this->getKeys();
 
 		if (!empty($keys)) {
-			$this->displayList(true);
+			$this->displayList();
 		}
 		else {
 			$message['type'] = 'danger';
 			$message['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
-			$this->displayList(false, array($message));
+			$this->displayList(array($message));
 		}
 	}
 
@@ -49,12 +49,9 @@ class KeyController {
 	 * @param $state boolean if file datas/datas.xlsx exists
 	 * @param null $message array of the message displays
 	 */
-	public function displayList($state, $messages = null) {
-		if ($state) {
-			$keys = $this->getKeys();
-		} else {
-			$keys = null;
-		}
+	public function displayList($messages = null) {
+
+		$keys = $this->getKeys();
 
 		$compositeView = new CompositeView(
 			true,
@@ -259,12 +256,12 @@ class KeyController {
 			if ($this->updateKey($keyToUpdate) == false) {
 				$message['type'] = 'danger';
 				$message['message'] = 'Erreur lors de la modification de la clé.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 			else {
 				$message['type'] = 'success';
 				$message['message'] = 'La clé a bien été modifiée.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 		}
 
