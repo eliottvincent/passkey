@@ -96,8 +96,7 @@ function extendBorrowing() {
 						swal("Erreur !", "Merci de réessayer", "error");
 					} else {
 						swal("Fait !", "L'emprunt a bien été prolongé", "success");
-						var tr = document.querySelector('#' + id);
-						document.querySelector('tbody').removeChild(tr);
+						var tr = document.querySelector('#' + id + ' #dueDate');
 					}
 				},
 				error: function (xhr, ajaxOptions, thrownError) {
