@@ -43,7 +43,9 @@ class DoorController {
 	 * @internal param $state
 	 */
 	public function displayList($messages = null) {
+
 		$doors = $this->getDoors();
+		$rooms = $this->getRooms();
 
 		$compositeView = new CompositeView(
 			true,
@@ -65,7 +67,7 @@ class DoorController {
 			}
 		}
 
-		$list_doors = new View("doors/list_doors.html.twig", array('doors' => $doors));
+		$list_doors = new View("doors/list_doors.html.twig", array('doors' => $doors, 'rooms' => $rooms));
 		$compositeView->attachContentView($list_doors);
 
 		echo $compositeView->render();
