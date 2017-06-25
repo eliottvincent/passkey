@@ -12,7 +12,7 @@
 					<div class="caption">
 						<i class="fa fa-arrows-h"></i> Liste des emprunts </div>
 					<div class="tools">
-						<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+						<a href="javascript:;" class="collapse" data-original-title="" title=""></a>
 					</div>
 				</div>
 				<div class="portlet-body">
@@ -36,7 +36,11 @@
 							{% for borrowing in borrowings %}
 								<tr id="{{ borrowing.id }}">
 									<td> {{ borrowing.id }} </td>
-									<td> {{ borrowing.user }} </td>
+									{% for user in users %}
+										{% if user.enssatPrimaryKey == borrowing.user %}
+											<td>{{ user.name ~ " " ~ user.surname}}</td>
+										{% endif %}
+									{% endfor %}
 									<td> {{ borrowing.keychain }} </td>
 									<td> {{ borrowing.borrowDate}} </td>
 									<td> {{ borrowing.dueDate }} </td>

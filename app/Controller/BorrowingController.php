@@ -45,6 +45,7 @@ class BorrowingController {
 	public function displayList($messages = null) {
 
 		$borrowings = $this->getBorrowings();
+		$users = $this->getUsers();
 
 		$compositeView = new CompositeView(
 			true,
@@ -75,7 +76,7 @@ class BorrowingController {
 			}
 		}
 
-		$list_borrowings = new View("borrowings/list_borrowings.html.twig", array('borrowings' => $borrowings));
+		$list_borrowings = new View("borrowings/list_borrowings.html.twig", array('borrowings' => $borrowings, 'users' => $users));
 		$compositeView->attachContentView($list_borrowings);
 
 		echo $compositeView->render();
