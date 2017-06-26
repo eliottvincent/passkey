@@ -49,6 +49,7 @@ class KeychainController
 	public function displayList($messages = null) {
 
 		$keychains = $this->getKeychains();
+		$keys = $this->getKeys();
 
 		$compositeView = new CompositeView(
 			true,
@@ -69,7 +70,7 @@ class KeychainController
 			}
 		}
 
-		$list_keychains = new View("keychains/list_keychains.html.twig", array('keychains' => $keychains));
+		$list_keychains = new View("keychains/list_keychains.html.twig", array('keychains' => $keychains, 'keys' => $keys));
 		$compositeView->attachContentView($list_keychains);
 
 		echo $compositeView->render();
