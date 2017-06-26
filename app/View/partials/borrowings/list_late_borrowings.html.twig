@@ -29,7 +29,7 @@
 								<td> {{ borrowing.user }} </td>
 								<td> {{ borrowing.borrowDate}} </td>
 								<td>
-									{% if borrowing.status == 'late' %}
+									{% if borrowing.status == 'en retard' %}
 										<p class="text-danger">En retard</p>
 									{% endif %}
 								</td>
@@ -55,4 +55,3 @@
 		<!-- END SAMPLE TABLE PORTLET-->
 	</div>
 </div>
-
