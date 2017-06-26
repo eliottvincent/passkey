@@ -16,6 +16,8 @@ class RoomController {
 	public function __construct() {
 		$this->_roomService = implementationRoomService_Dummy::getInstance();
 		$this->_doorService = implementationDoorService_Dummy::getInstance();
+		$this->_lockService = implementationLockService_Dummy::getInstance();
+
 	}
 
 
@@ -276,6 +278,44 @@ class RoomController {
 	}
 
 
+
+	//================================================================================
+	// DETAILED
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function detailed() {
+
+		$id = $_GET['id'];
+		$room = $this->getRoom($id);
+
+		$keys = $this->getKeys($room);
+		$locks = $this->getLocks();
+
+		$composite = new CompositeView(
+			true,
+			"Détail de la salle",
+			null,
+			"rooms"
+		);
+
+		$detailed_borrowing = new View('rooms/detailed_room.html.twig',
+			array(
+				'room' => $room,
+				'keys' => $keys,
+				'locks' => $locks
+			)
+		);
+		$composite->attachContentView($detailed_borrowing);
+
+		echo $composite->render();
+	}
+
+
+
+
 	//================================================================================
 	// calls to Service
 	//================================================================================
@@ -330,6 +370,24 @@ class RoomController {
 	private function updateRoom($roomToUpdate) {
 
 		return $this->_roomService->updateRoom($roomToUpdate);
+	}
+
+	/**
+	 * @param $room
+	 * @return array
+	 */
+	private function getKeys($room) {
+
+		return $this->_roomService->getRoomKeys($room);
+	}
+
+	/**
+	 * To get all locks
+	 * @return null
+	 */
+	public function getLocks() {
+
+		return $this->_lockService->getLocks();
 	}
 
 	/**
