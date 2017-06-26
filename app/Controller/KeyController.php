@@ -52,6 +52,7 @@ class KeyController {
 	public function displayList($messages = null) {
 
 		$keys = $this->getKeys();
+		$locks = $this->getLocks();
 
 		$compositeView = new CompositeView(
 			true,
@@ -73,7 +74,7 @@ class KeyController {
 			}
 		}
 
-		$list_keys = new View("keys/list_keys.html.twig", array('keys' => $keys));
+		$list_keys = new View("keys/list_keys.html.twig", array('keys' => $keys, 'locks' => $locks));
 		$compositeView->attachContentView($list_keys);
 
 		echo $compositeView->render();
