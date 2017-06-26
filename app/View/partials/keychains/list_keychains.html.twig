@@ -29,7 +29,11 @@
 								<td class="td-kc-name"> {{ keychain.name }} </td>
 								<td>
 									{% for key in keychain.keys %}
-										<p>{{ key }}</p>
+										{% for keyKey in keys %}
+											{% if keyKey.id == key %}
+												<p>{{ keyKey.name }}</p>
+											{% endif %}
+										{% endfor %}
 									{% endfor %}
 								</td>
 								<td> {{ keychain.creationDate }} </td>
