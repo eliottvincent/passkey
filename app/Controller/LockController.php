@@ -45,6 +45,7 @@ class LockController {
 	public function displayList($messages = null) {
 
 		$locks = $this->getLocks();
+		$doors = $this->getDoors();
 
 		$composite = new CompositeView(
 			true,
@@ -65,7 +66,7 @@ class LockController {
 				}
 			}
 		}
-		$list_locks = new View("locks/list_locks.html.twig", array('locks' => $locks));
+		$list_locks = new View("locks/list_locks.html.twig", array('locks' => $locks, 'doors' => $doors));
 		$composite->attachContentView($list_locks);
 
 		echo $composite->render();

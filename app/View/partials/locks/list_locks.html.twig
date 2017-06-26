@@ -26,11 +26,14 @@
 								<tr id="{{ lock.id }}">
 									<td> {{ lock.id }} </td>
 									<td> {{ lock.name }} </td>
-									<td> {{ lock.door }} </td>
+									{% for door in doors %}
+										{% if door.id == lock.door %}
+											<td> {{ door.name }} </td>
+										{% endif %}
+									{% endfor %}
 									<td> {{ lock.length }} </td>
 
 									<td style="display: flex;">
-
 										<form action="./?action=updatelock" method="post">
 											<input type="hidden" name="update" value="{{ lock.id }}"/>
 											<button type="submit" class="btn blue btn-sm">Modifier</button>
