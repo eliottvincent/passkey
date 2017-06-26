@@ -49,16 +49,40 @@
 							</div>
 						</div>
 
-						<div class="form-group form-md-line-input js-select-locks">
-							<label class="col-md-2 control-label" for="form_control_1">Associer un canon *</label>
-							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="key_locks[]" required>
-									<option value="none">(Aucun)</option>
+						<div id="simpleLockSelectDiv" class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Associer un canons *</label>
+							<div class="col-md-10 input-group select2-bootstrap-append">
+								<select id="simpleLockSelect" class="form-control select2-allow-clear" name="key_locks" required>
+									<option value="none">(Aucune)</option>
 									{% for lock in locks %}
 										<option value="{{ lock.id }}">{{ lock.name }}</option>
 									{% endfor %}
 								</select>
-								<div class="form-control-focus"> </div>
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" data-select2-open="single-append-text">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+							</div>
+						</div>
+
+						<div id="multipleLockSelectDiv" class="form-group form-md-line-input" style="display: none">
+							<label class="col-md-2 control-label" for="form_control_1">Associer des canons *</label>
+							<div class="col-md-10">
+								<div class="input-group select2-bootstrap-append">
+									<select id="multipleLockSelect" class="form-control select2" name="key_locks[]" multiple required>
+										<option></option>
+										<option value="none">(Aucun)</option>
+										{% for lock in locks %}
+											<option value="{{ lock.id }}">{{ lock.name }}</option>
+										{% endfor %}
+									</select>
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button" data-select2-open="multi-append">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</span>
+								</div>
 							</div>
 						</div>
 
