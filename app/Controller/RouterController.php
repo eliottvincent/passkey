@@ -166,6 +166,13 @@ class RouterController
 		$roomController->deleteRoomAjax();
 	}
 
+	function detailedRoom() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->detailed();
+	}
 
 
 	//================================================================================
@@ -322,7 +329,7 @@ class RouterController
 		$authenticationController->check();
 
 		$borrowingController = new BorrowingController();
-		$borrowingController->detailed($_GET['id']);
+		$borrowingController->detailed();
 	}
 
 	function deleteBorrowingAjax() {
