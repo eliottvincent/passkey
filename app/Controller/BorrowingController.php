@@ -384,16 +384,16 @@ class BorrowingController {
 
 		// State.
 		switch($borrow->getStatus()) {
-			case "borrowed":
+			case "en cours":
 				$status = "en cours";
 				break;
-			case "late":
+			case "en retard":
 				$status = "en retard";
 				break;
-			case "returned":
+			case "rendu":
 				$status = "rendu";
 				break;
-			case "lost":
+			case "perdu":
 				$status = "perdu";
 				break;
 			default:
