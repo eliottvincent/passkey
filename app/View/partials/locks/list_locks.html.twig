@@ -26,11 +26,13 @@
 								<tr id="{{ lock.id }}">
 									<td> {{ lock.id }} </td>
 									<td> {{ lock.name }} </td>
+
 									{% for door in doors %}
 										{% if door.id == lock.door %}
 											<td> {{ door.name }} </td>
 										{% endif %}
 									{% endfor %}
+
 									<td> {{ lock.length }} </td>
 
 									<td style="display: flex;">

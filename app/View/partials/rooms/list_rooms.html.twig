@@ -32,7 +32,11 @@
 								<td> {{ room.floor }} </td>
 								<td>
 									{% for door in room.doors %}
-										<p>{{ door }}</p>
+										{% for doorDoor in doors %}
+											{% if doorDoor.id == door %}
+												<p>{{ doorDoor.name }}</p>
+											{% endif %}
+										{% endfor %}
 									{% endfor %}
 								</td>
 
