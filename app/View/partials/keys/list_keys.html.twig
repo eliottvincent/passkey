@@ -33,15 +33,13 @@
 									<td> {{ key.supplier }} </td>
 									<td> {% if key.type == "partial" %}partiel {% else %} {{key.type}} {% endif %}</td>
 									<td>
-										{% if key.locks is iterable %}
-											{% for lock in key.locks %}
-												{% if lock.id %}
-													<p>{{ lock.id }}</p>
-												{% else %}
-													<p>{{ lock }}</p>
+										{% for lock in key.locks %}
+											{% for lockLock in locks %}
+												{% if lockLock.id == lock %}
+													<p>{{ lockLock.name}}</p>
 												{% endif %}
 											{% endfor %}
-										{% endif %}
+										{% endfor %}
 									</td>
 									<td>
 										<p

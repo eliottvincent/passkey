@@ -52,6 +52,7 @@ class KeyController {
 	public function displayList($messages = null) {
 
 		$keys = $this->getKeys();
+		$locks = $this->getLocks();
 
 		$compositeView = new CompositeView(
 			true,
@@ -73,7 +74,7 @@ class KeyController {
 			}
 		}
 
-		$list_keys = new View("keys/list_keys.html.twig", array('keys' => $keys));
+		$list_keys = new View("keys/list_keys.html.twig", array('keys' => $keys, 'locks' => $locks));
 		$compositeView->attachContentView($list_keys);
 
 		echo $compositeView->render();
@@ -174,8 +175,16 @@ class KeyController {
 			'Ajouter une clé',
 			null,
 			"keys",
-			null,
-			array("chooseKey" => "app/View/assets/custom/scripts/chooseKey.js"));
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array(
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"
+			)
+		);
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
