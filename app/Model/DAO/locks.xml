@@ -1,199 +1,199 @@
 <?xml version='1.0' standalone='yes'?>
 <locks>
 	<lock>
-		<id>l_102h-gauche-001</id>
+		<id>l_102h_gauche_001</id>
 		<name>102H Gauche 001</name>
 		<door>d_102h_gauche</door>
 		<length>23</length>
 	</lock>
 	<lock>
-		<id>l_102h-droite-001</id>
+		<id>l_102h_droite_001</id>
 		<name>102H Droite 001</name>
 		<door>d_102h_droite</door>
 		<length>18</length>
 	</lock>
 	<lock>
-		<id>l_005v-gauche-001</id>
+		<id>l_005v_gauche_001</id>
 		<name>005V Gauche 001</name>
 		<door>d_005v_gauche</door>
 		<length>24</length>
 	</lock>
 	<lock>
-		<id>l_005v-droite-001</id>
+		<id>l_005v_droite_001</id>
 		<name>005V Droite 001</name>
 		<door>d_005v_droite</door>
 		<length>24</length>
 	</lock>
 	<lock>
-		<id>l_001h_devant-001</id>
+		<id>l_001h_devant_001</id>
 		<name>001H Devant 001</name>
 		<door>d_001h_devant</door>
 		<length>17</length>
 	</lock>
 	<lock>
-		<id>l_002h_gauche-001</id>
+		<id>l_002h_gauche_001</id>
 		<name>002H Gauche 001</name>
 		<door>d_002h_gauche</door>
 		<length>19</length>
 	</lock>
 	<lock>
-		<id>l_002h_droite-001</id>
+		<id>l_002h_droite_001</id>
 		<name>002H Droite 001</name>
 		<door>d_002h_droite</door>
 		<length>19</length>
 	</lock>
 	<lock>
-		<id>l_003h_gauche-001</id>
+		<id>l_003h_gauche_001</id>
 		<name>003H Gauche 001</name>
 		<door>d_003h_gauche</door>
 		<length>19</length>
 	</lock>
 	<lock>
-		<id>l_003h_droite-001</id>
+		<id>l_003h_droite_001</id>
 		<name>003H Droite 001</name>
 		<door>d_003h_droite</door>
 		<length>19</length>
 	</lock>
 	<lock>
-		<id>l_004h_gauche-001</id>
+		<id>l_004h_gauche_001</id>
 		<name>004H Gauche 001</name>
 		<door>d_004h_gauche</door>
 		<length>19</length>
 	</lock>
 	<lock>
-		<id>l_004h_droite-001</id>
+		<id>l_004h_droite_001</id>
 		<name>004H Droite 001</name>
 		<door>d_004h_droite</door>
 		<length>19</length>
 	</lock>
 	<lock>
-		<id>l_005h_devant-001</id>
+		<id>l_005h_devant_001</id>
 		<name>005H Devant 001</name>
 		<door>d_005h_devant</door>
 		<length>18</length>
 	</lock>
 	<lock>
-		<id>l_005h_derriere-001</id>
+		<id>l_005h_derriere_001</id>
 		<name>005H Derriere 001</name>
 		<door>d_005h_derriere</door>
 		<length>18</length>
 	</lock>
 	<lock>
-		<id>l_006h_devant-001</id>
+		<id>l_006h_devant_001</id>
 		<name>006H Devant 001</name>
 		<door>d_006h_devant</door>
 		<length>18</length>
 	</lock>
 	<lock>
-		<id>l_006h_derriere-001</id>
+		<id>l_006h_derriere_001</id>
 		<name>006H Derriere 001</name>
 		<door>d_006h_derriere</door>
 		<length>18</length>
 	</lock>
 	<lock>
-		<id>l_152n_devant-001</id>
+		<id>l_152n_devant_001</id>
 		<name>152N Devant 001</name>
 		<door>d_152n_devant</door>
 		<length>17</length>
 	</lock>
 	<lock>
-		<id>l_152n_derriere-001</id>
+		<id>l_152n_derriere_001</id>
 		<name>152N Derriere 001</name>
 		<door>d_152n_derriere</door>
 		<length>17</length>
 	</lock>
 	<lock>
-		<id>l_153n_devant-001</id>
+		<id>l_153n_devant_001</id>
 		<name>153N Devant 001</name>
 		<door>d_153n_devant</door>
 		<length>17</length>
 	</lock>
 	<lock>
-		<id>l_153n_derriere-001</id>
+		<id>l_153n_derriere_001</id>
 		<name>153N Derriere 001</name>
 		<door>d_153n_derriere</door>
 		<length>17</length>
 	</lock>
 	<lock>
-		<id>l_155n_devant-001</id>
+		<id>l_155n_devant_001</id>
 		<name>155N Devant 001</name>
 		<door>d_155n_devant</door>
 		<length>17</length>
 	</lock>
 	<lock>
-		<id>l_155n_derriere-001</id>
+		<id>l_155n_derriere_001</id>
 		<name>155N Derriere 001</name>
 		<door>d_155n_derriere</door>
 		<length>17</length>
 	</lock>
 	<lock>
-		<id>l_157n_devant-001</id>
+		<id>l_157n_devant_001</id>
 		<name>157N Devant 001</name>
 		<door>d_157n_devant</door>
 		<length>17</length>
 	</lock>
 	<lock>
-		<id>l_157n_derriere-001</id>
+		<id>l_157n_derriere_001</id>
 		<name>157N Derriere 001</name>
 		<door>d_157n_derriere</door>
 		<length>17</length>
 	</lock>
 	<lock>
-		<id>l_231n_devant-001</id>
+		<id>l_231n_devant_001</id>
 		<name>231N Devant 001</name>
 		<door>d_231n_devant</door>
 		<length>21</length>
 	</lock>
 	<lock>
-		<id>l_231n_derriere-001</id>
+		<id>l_231n_derriere_001</id>
 		<name>231N Derriere 001</name>
 		<door>d_231n_derriere</door>
 		<length>21</length>
 	</lock>
 	<lock>
-		<id>l_232n_devant-001</id>
+		<id>l_232n_devant_001</id>
 		<name>232N Devant 001</name>
 		<door>d_232n_devant</door>
 		<length>21</length>
 	</lock>
 	<lock>
-		<id>l_232n_derriere-001</id>
+		<id>l_232n_derriere_001</id>
 		<name>232N Derriere 001</name>
 		<door>d_232n_derriere</door>
 		<length>21</length>
 	</lock>
 	<lock>
-		<id>l_233n_devant-001</id>
+		<id>l_233n_devant_001</id>
 		<name>233N Devant 001</name>
 		<door>d_233n_devant</door>
 		<length>21</length>
 	</lock>
 	<lock>
-		<id>l_233n_derriere-001</id>
+		<id>l_233n_derriere_001</id>
 		<name>233N Derriere 001</name>
 		<door>d_233n_derriere</door>
 		<length>21</length>
 	</lock>
 	<lock>
-		<id>l_234n_devant-001</id>
+		<id>l_234n_devant_001</id>
 		<name>234N Devant 001</name>
 		<door>d_234n_devant</door>
 		<length>21</length>
 	</lock>
 	<lock>
-		<id>l_234n_derriere-001</id>
+		<id>l_234n_derriere_001</id>
 		<name>234N Derriere 001</name>
 		<door>d_234n_derriere</door>
 		<length>21</length>
 	</lock>
 	<lock>
-		<id>l_235n_devant-001</id>
+		<id>l_235n_devant_001</id>
 		<name>235N Devant 001</name>
 		<door>d_235n_devant</door>
 		<length>21</length>
 	</lock>
 	<lock>
-		<id>l_235n_derriere-001</id>
+		<id>l_235n_derriere_001</id>
 		<name>235N Derriere 001</name>
 		<door>d_235n_derriere</door>
 		<length>21</length>
