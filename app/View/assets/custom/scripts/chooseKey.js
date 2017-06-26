@@ -8,22 +8,32 @@ function initialiser(e) {
 
 	document.getElementsByName("key_type").forEach(function(type) {
 		type.addEventListener("change", function() {
+
 			var selected = document.querySelector("input[name = 'key_type']:checked").value;
-			var divSelect = document.querySelector(".js-select-locks");
 			var select = document.querySelector("select");
 
-			if (selected == 'simple') {
-				divSelect.style.display = "block";
-				if (select.hasAttribute("multiple")) {
-					select.removeAttribute("multiple");
-				}
-			} else if (selected == 'partial') {
-				divSelect.style.display = "block";
-				if (!select.hasAttribute("multiple")) {
-					select.setAttribute("multiple", "multiple");
-				}
-			} else {
-				divSelect.style.display = "none";
+			var multipleLockSelectDiv = document.querySelector("#multipleLockSelectDiv");
+			var simpleLockSelectDiv = document.querySelector("#simpleLockSelectDiv");
+			var multipleLockSelect = document.querySelector("#multipleLockSelect");
+			var simpleLockSelect = document.querySelector("#simpleLockSelect");
+
+			if (selected === 'simple') {
+				multipleLockSelect.disabled = true;
+				multipleLockSelectDiv.style.display = "none";
+
+				simpleLockSelect.disabled = false;
+				simpleLockSelectDiv.style.display = "block";
+			}
+			else if (selected === 'partial') {
+				simpleLockSelect.disabled = true;
+				simpleLockSelectDiv.style.display = "none";
+
+				multipleLockSelect.disabled = false;
+				multipleLockSelectDiv.style.display = "block";
+			}
+			else {
+				multipleLockSelectDiv.style.display = "none";
+				simpleLockSelectDiv.style.display = "none";
 			}
 		});
 	});
