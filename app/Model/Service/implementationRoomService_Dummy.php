@@ -39,6 +39,11 @@ class implementationRoomService_Dummy implements interfaceRoomService
 		// instantiating the DAOs we need
 		$this->_roomDAO = implementationRoomDAO_Dummy::getInstance();
 
+		// instantiating the services we need
+		$this->_doorService = implementationDoorService_Dummy::getInstance();
+		$this->_lockService = implementationLockService_Dummy::getInstance();
+		$this->_keyService = implementationKeyService_Dummy::getInstance();
+
 		// getting the data we need
 		$this->_xmlRooms = $this->_roomDAO->getRooms();
 		if (isset($_SESSION["ROOMS"])) {
@@ -170,6 +175,51 @@ class implementationRoomService_Dummy implements interfaceRoomService
 		return false;
 	}
 
+	//================================================================================
+	// SPECIFIC GETTERS
+	//================================================================================
+
+	/**
+	 * @param $room
+	 */
+	function getRoomKeys($room) {
+
+		// getting $doors ids concerned by the room
+		$doorsIds = $room->getDoors();
+
+		// getting all the locks concerned by any of the room's doors
+		$locks = array();
+		$allLocks = $this->getLocks();
+		foreach ($allLocks as $oneLock) {
+
+			foreach ($doorsIds as $doorId) {
+
+				if ($doorId == $oneLock->getDoor()) {
+
+					array_push($locks, $oneLock);
+				}
+			}
+		}
+
+		// getting all the keys concerned by any of the room's locks
+		$keys = array();
+		$allKeys = $this->getKeys();
+		foreach ($allKeys as $oneKey) {
+
+			foreach ($locks as $lock) {
+
+				foreach ($oneKey->getLocks() as $keyLockId) {
+
+					if ($lock->getId() == $keyLockId) {
+
+						array_push($keys, $oneKey);
+					}
+				}
+			}
+		}
+
+		return $keys;
+	}
 
 	//================================================================================
 	// OTHER
@@ -198,5 +248,42 @@ class implementationRoomService_Dummy implements interfaceRoomService
 			$this->_rooms = $_SESSION["ROOMS"];
 		}
 
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function getDoor($id) {
+
+		return $this->_doorService->getDoor($id);
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function getLocks() {
+
+		return $this->_lockService->getLocks();
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function getLock($id) {
+
+		return $this->_lockService->getLock($id);
+	}
+
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	private function getKeys() {
+
+		return $this->_keyService->getKeys();
 	}
 }
