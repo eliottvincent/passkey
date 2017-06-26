@@ -75,12 +75,13 @@
 					"counterupScript" => "app/View/assets/global/plugins/counterup/jquery.counterup.min.js",
 					"borrowingsScript" => "app/View/assets/custom/scripts/list_borrowings.js"
 				)
-				);
+			);
 
 			$displayDash = new View('dashboard/dashboard.html.twig', array('keyCount' => count($keys),
 																			'borrowingCount' => count($borrowings),
 																			'keychainCount' => count($keyChains),
-																			'userCount' => count($users))
+																			'userCount' => count($users),
+																			'lateCount' => count($lateBorrowings))
 			);
 			$composite->attachContentView($displayDash);
 
