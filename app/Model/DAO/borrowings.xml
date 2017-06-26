@@ -8,7 +8,7 @@
 		<dueDate>2017-09-24</dueDate>
 		<returnDate></returnDate>
 		<lostDate></lostDate>
-		<status>late</status>
+		<status>en retard</status>
 	</borrowing>
 	<borrowing>
 		<id>b_2</id>
@@ -18,7 +18,7 @@
 		<dueDate>2017-09-24</dueDate>
 		<returnDate></returnDate>
 		<lostDate>2017-05-24</lostDate>
-		<status>lost</status>
+		<status>perdu</status>
 	</borrowing>
 	<borrowing>
 		<id>b_3</id>
@@ -27,6 +27,6 @@
 		<borrowDate>2017-04-24</borrowDate>
 		<dueDate>2017-09-24</dueDate>
 		<returnDate>2017-05-24</returnDate>
-		<status>returned</status>
+		<status>rendu</status>
 	</borrowing>
 </borrowings>
