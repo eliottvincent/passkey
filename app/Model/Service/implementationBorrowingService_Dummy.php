@@ -286,39 +286,44 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 
 		foreach ($keys as $key) {
 			$k = $this->_keyService->getKey($key);
-			$locks = $k->getLocks();
 
-			if (is_array($locks)) {
-				$tmp_locks = array();
-				foreach ($locks as $lock) {
-					if (is_object($lock)) {
-						$lock_id = $lock->getId();
-					} else {
-						$lock_id = $lock;
+			if ($k != null) {
+
+				$locks = $k->getLocks();
+
+				if (is_array($locks)) {
+					$tmp_locks = array();
+					foreach ($locks as $lock) {
+						if (is_object($lock)) {
+							$lock_id = $lock->getId();
+						} else {
+							$lock_id = $lock;
+						}
+
+						array_push($tmp_locks, $lock_id);
 					}
 
-					array_push($tmp_locks, $lock_id);
+					$locks = $tmp_locks;
 				}
 
-				$locks = $tmp_locks;
-			}
+				foreach ($locks as $lock) {
+					$lock = $this->_lockService->getLock($lock);
+					$door_id = $lock->getDoor();
+					$door = $this->_doorService->getDoor($door_id);
+					$room_id = $door->getRoom();
+					$room = $this->_roomService->getRoom($room_id)->getName();
 
-			foreach ($locks as $lock) {
-				$lock = $this->_lockService->getLock($lock);
-				$door_id = $lock->getDoor();
-				$door = $this->_doorService->getDoor($door_id);
-				$room_id = $door->getRoom();
-				$room = $this->_roomService->getRoom($room_id)->getName();
-
-				if (!in_array($room, $rooms)) {
-					array_push($rooms, $room);
+					if (!in_array($room, $rooms)) {
+						array_push($rooms, $room);
+					}
 				}
 			}
+
 
 		}
 		return $rooms;
-		}
 	}
+
 
 	public function returnKeychain($borrowingId,$comment)
 	{
