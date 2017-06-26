@@ -359,28 +359,23 @@ class BorrowingController {
 	// DETAILED
 	//================================================================================
 
-	public function detailed($id) {
+	public function detailed() {
+
+		$id = $_GET['id'];
 		$borrow = $this->getBorrowing($id);
-		$number = explode("b_", $id)[1]; // [0] is empty
 
 		// Get the name of user.
-		$u = $borrow->getUser();
-		$users = $this->getUsers();
-		$currentUser = null;
-		foreach($users as $user) {
-			$uid = $user->getUr1identifier();
-			if ($uid == $u) {
-				$currentUser = $user;
-			}
-		}
+		$userId = $borrow->getUser();
+
+		$currentUser = $this->getUser($userId);
 
 		if (isset($currentUser) && !empty($currentUser)) {
 			$currentUser = $currentUser->getSurname() . " " . $currentUser->getName();
 		}
 
 		// Format dates.
-		$dBorrow = date('d/m/Y', strtotime($borrow->getBorrowDate()));
-		$dDue = date('d/m/Y', strtotime($borrow->getBorrowDate()));
+		$dBorrow = date('Y-m-d', strtotime($borrow->getBorrowDate()));
+		$dDue = date('Y-m-d', strtotime($borrow->getBorrowDate()));
 
 		// State.
 		switch($borrow->getStatus()) {
@@ -417,7 +412,6 @@ class BorrowingController {
 		$detailed_borrowing = new View('borrowings/detailed_borrowing.html.twig',
 			array(
 				'borrow' => $borrow,
-				'number' => $number,
 				'user' => $currentUser,
 				'borrowDate' => $dBorrow,
 				'dueDate' => $dDue,
@@ -455,12 +449,21 @@ class BorrowingController {
 	}
 
 	/**
-	 * @param $id
 	 * @return mixed
+	 * @internal param $id
 	 */
 	public function getUsers() {
 
 		return $this->_userService->getUsers();
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	public function getUser($id) {
+
+		return $this->_userService->getUser($id);
 	}
 
 	/**
