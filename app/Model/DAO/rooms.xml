@@ -2,7 +2,7 @@
 <rooms>
 	<room>
 		<id>r_102_h</id>
-		<name>102H</name>
+		<name>102 H</name>
 		<floor>floor_1</floor>
 		<building>building_2</building>
 		<doors>
