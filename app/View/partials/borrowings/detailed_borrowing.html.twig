@@ -31,7 +31,7 @@
 									<ul class="list-group">
 										{% for key in keys %}
 											<li class="list-group-item">
-												{{ key }}
+												{{ key.name ~ " (" ~ key.id ~ ")" }}
 											</li>
 										{% endfor %}
 									</ul>
@@ -47,7 +47,7 @@
 									<ul class="list-group">
 										{% for room in rooms %}
 											<li class="list-group-item">
-												{{ room }}
+												{{ room.name ~ " (" ~ room.id ~ ")" }}
 											</li>
 										{% endfor %}
 									</ul>
