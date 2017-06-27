@@ -11,29 +11,39 @@
 			<div class="portlet-body form">
 				<form role="form" class="form-horizontal" action="" method="post">
 					<div class="form-body">
+
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Emprunteur *</label>
-							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="borrowing_user" required>
+							<div class="col-md-10 input-group select2-bootstrap-append">
+								<select id="single-append-text" class="form-control select2-allow-clear" name="borrowing_user" required>
 									{% for user in users %}
 										<option value="{{ user.enssatPrimaryKey }}">{{ user.name }}</option>
 									{% endfor %}
 								</select>
-								<span class="help-block">Personne empruntant un trousseau</span>
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" data-select2-open="single-append-text">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
 							</div>
 						</div>
 
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Trousseau *</label>
-							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="borrowing_keychain" required>
+							<div class="col-md-10 input-group select2-bootstrap-append">
+								<select id="single-append-text" class="form-control select2-allow-clear" name="borrowing_keychain" required>
 									{% for keychain in keychains %}
 										<option value="{{ keychain.id }}">{{ keychain.name }}</option>
 									{% endfor %}
 								</select>
-								<span class="help-block">Trousseau à emprunter</span>
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" data-select2-open="single-append-text">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
 							</div>
 						</div>
+
 					</div>
 					<div class="form-actions">
 						<div class="row">
