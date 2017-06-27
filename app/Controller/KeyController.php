@@ -306,7 +306,7 @@ class KeyController {
 			}
 		}
 
-		$update_key = new View('keys/update_key.html.twig', array('locks' => $locks, 'keys' => $key, 'previousUrl' => getPreviousUrl()));
+		$update_key = new View('keys/update_key.html.twig', array('locks' => $locks, 'key' => $key, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($update_key);
 
 		echo $composite->render();

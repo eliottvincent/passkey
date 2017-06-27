@@ -349,7 +349,7 @@ class BorrowingController {
 			}
 		}
 
-		$update_borrowing = new View('borrowings/update_borrowing.html.twig', array('borrowings' => $borrowing, 'keychains' => $keychains, 'users' => $users, 'statuses' => $statuses, 'previousUrl' => getPreviousUrl()));
+		$update_borrowing = new View('borrowings/update_borrowing.html.twig', array('borrowing' => $borrowing, 'keychains' => $keychains, 'users' => $users, 'statuses' => $statuses, 'previousUrl' => getPreviousUrl()));
 		$compositeView->attachContentView($update_borrowing);
 
 		echo $compositeView->render();

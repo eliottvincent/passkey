@@ -240,7 +240,7 @@ class RoomController {
 			}
 		}
 
-		$update_room = new View("rooms/update_room.html.twig", array("rooms" => $room, "doors" => $doors, "previousUrl" => getPreviousUrl()));
+		$update_room = new View("rooms/update_room.html.twig", array("room" => $room, "doors" => $doors, "previousUrl" => getPreviousUrl()));
 		$compositeView->attachContentView($update_room);
 
 		echo $compositeView->render();

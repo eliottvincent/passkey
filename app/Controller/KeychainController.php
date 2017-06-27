@@ -277,7 +277,7 @@ class KeychainController
 			}
 		}
 
-		$update_keychain= new View('keychains/update_keychain.html.twig', array('keychains' => $keychain, 'keys' => $keys, 'previousUrl' => getPreviousUrl()));
+		$update_keychain= new View('keychains/update_keychain.html.twig', array('keychain' => $keychain, 'keys' => $keys, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($update_keychain);
 
 		echo $composite->render();
