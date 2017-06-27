@@ -5,7 +5,7 @@
 			<div class="portlet-title">
 				<div class="caption font-green-haze">
 					<i class="fa fa-columns font-green-haze"></i>
-					<span class="caption-subject bold uppercase">Créer une nouvelle porte</span>
+					<span class="caption-subject bold uppercase">Mettre à jour une porte</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
@@ -29,8 +29,8 @@
 
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Associer une salle *</label>
-							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="door_room" required>
+							<div class="col-md-10 input-group select2-bootstrap-append">
+								<select id="single-append-text" class="form-control select2-allow-clear" name="door_room" required>
 									<option value="none">(Aucune)</option>
 									{% for room in rooms %}
 										<option value="{{ room.id }}"
@@ -40,9 +40,14 @@
 										>{{ room.name }}</option>
 									{% endfor %}
 								</select>
-								<div class="form-control-focus"> </div>
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" data-select2-open="single-append-text">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
 							</div>
 						</div>
+
 
 					</div>
 					<div class="form-actions">
