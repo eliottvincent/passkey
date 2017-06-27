@@ -27,11 +27,13 @@
 									<td> {{ lock.id }} </td>
 									<td> {{ lock.name }} </td>
 
-									{% for door in doors %}
-										{% if door.id == lock.door %}
-											<td> {{ door.name }} </td>
-										{% endif %}
-									{% endfor %}
+									<td>
+										{% for door in doors %}
+											{% if door.id == lock.door %}
+												<p> {{ door.name }} </p>
+											{% endif %}
+										{% endfor %}
+									</td>
 
 									<td> {{ lock.length }} </td>
 

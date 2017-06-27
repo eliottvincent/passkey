@@ -294,7 +294,17 @@ class KeyController {
 			true,
 			'Mettre à jour une clé',
 			null,
-			"keys");
+			"keys",
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array(
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"
+			)
+		);
 
 		if ($messages != null) {
 
@@ -306,7 +316,7 @@ class KeyController {
 			}
 		}
 
-		$update_key = new View('keys/update_key.html.twig', array('locks' => $locks, 'keys' => $key, 'previousUrl' => getPreviousUrl()));
+		$update_key = new View('keys/update_key.html.twig', array('locks' => $locks, 'key' => $key, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($update_key);
 
 		echo $composite->render();

@@ -297,7 +297,7 @@ class UserController {
 			}
 		}
 
-		$update_user = new View("users/update_user.html.twig", array("users" => $user, "previousUrl" => getPreviousUrl()));
+		$update_user = new View("users/update_user.html.twig", array("user" => $user, "previousUrl" => getPreviousUrl()));
 		$compositeView->attachContentView($update_user);
 
 		echo $compositeView->render();

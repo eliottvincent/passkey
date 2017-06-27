@@ -28,22 +28,28 @@
 						</div>
 
 						<div class="form-group form-md-line-input">
-							<label class="col-md-2 control-label" for="form_control_1">Associer un canon *</label>
+							<label class="col-md-2 control-label" for="form_control_1">Ajouter des clés *</label>
 							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="keychain_keys[]" multiple required>
-									<option value="none"
-										{% if 'none' in key.locks %}
-									selected
-										{% endif %}>(Aucune)</option>
-									{% for key in keys %}
-										<option value="{{ key.id }}"
-											{% if key.id in keychain.keys %}
-												selected
-											{% endif %}
-										>{{ key.name }}</option>
-									{% endfor %}
-								</select>
-								<div class="form-control-focus"> </div>
+								<div class="input-group select2-bootstrap-append">
+									<select id="multi-append" class="form-control select2" name="keychain_keys[]" multiple required>
+										<option value="none"
+											{% if 'none' in key.locks %}
+										selected
+											{% endif %}>(Aucune)</option>
+										{% for key in keys %}
+											<option value="{{ key.id }}"
+												{% if key.id in keychain.keys %}
+													selected
+												{% endif %}
+											>{{ key.name }}</option>
+										{% endfor %}
+									</select>
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button" data-select2-open="multi-append">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</span>
+								</div>
 							</div>
 						</div>
 

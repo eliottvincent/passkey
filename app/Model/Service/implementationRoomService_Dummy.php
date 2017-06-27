@@ -113,7 +113,6 @@ class implementationRoomService_Dummy implements interfaceRoomService
 		$roomToSave->setName((string) $roomArray['room_name']);
 		$roomToSave->setBuilding((string) $roomArray['room_building']);
 		$roomToSave->setFloor((string) $roomArray['room_floor']);
-		$roomToSave->setDoors((array) $roomArray['room_doors']);
 
 		array_push($_SESSION["ROOMS"], $roomToSave);
 		array_push($this->_rooms, $roomToSave);

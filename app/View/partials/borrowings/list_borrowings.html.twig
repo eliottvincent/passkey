@@ -30,11 +30,13 @@
 							{% for borrowing in borrowings %}
 								<tr id="{{ borrowing.id }}">
 									<td> {{ borrowing.id }} </td>
-									{% for user in users %}
-										{% if user.enssatPrimaryKey == borrowing.user %}
-											<td>{{ user.name ~ " " ~ user.surname}}</td>
-										{% endif %}
-									{% endfor %}
+									<td>
+										{% for user in users %}
+											{% if user.enssatPrimaryKey == borrowing.user %}
+												<p>{{ user.name ~ " " ~ user.surname}}</p>
+											{% endif %}
+										{% endfor %}
+									</td>
 									<td> {{ borrowing.keychain }} </td>
 									<td> {{ borrowing.borrowDate}} </td>
 									<td id="dueDate"> {{ borrowing.dueDate }} </td>
