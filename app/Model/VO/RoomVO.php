@@ -81,8 +81,7 @@ class RoomVO
 	/**
 	 * @return mixed
 	 */
-	public function getDoors()
-	{
+	public function getDoors() {
 		return $this->doors;
 	}
 

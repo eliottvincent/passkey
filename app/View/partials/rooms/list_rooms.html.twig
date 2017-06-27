@@ -32,7 +32,11 @@
 								<td> {{ room.floor }} </td>
 								<td>
 									{% for door in room.doors %}
-										<p>{{ door }}</p>
+										{% for doorDoor in doors %}
+											{% if doorDoor.id == door %}
+												<p>{{ doorDoor.name }}</p>
+											{% endif %}
+										{% endfor %}
 									{% endfor %}
 								</td>
 
@@ -46,6 +50,9 @@
 									<!-- <form action="" method="post"> -->
 									<input type="hidden" name="delete" value="{{ room.id }}"/>
 									<button type="submit" class="btn red btn-sm btn-delete-r" value="{{ room.id }}">Supprimer</button>
+									<a href="?action=detailedRoom&id={{ room.id }}">
+										<button type="button" class="btn purple btn-sm">Détails</button>
+									</a>
 									<!-- </form> -->
 								</td>
 							</tr>

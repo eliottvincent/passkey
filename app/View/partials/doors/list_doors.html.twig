@@ -25,9 +25,16 @@
 							<tr id="{{ door.id }}">
 								<td> {{ door.id }} </td>
 								<td> {{ door.name }} </td>
-								<td> {{ door.room }} </td>
+								<td>
+									{% for room in rooms %}
+										{% if room.id == door.room %}
+											<p>{{ room.name}}</p>
+										{% endif %}
+									{% endfor %}
+								</td>
+
 								<td style="display: flex;">
-								<form action="./?action=updateDoor" method="post">
+									<form action="./?action=updateDoor" method="post">
 										<input type="hidden" name="update" value="{{ door.id }}"/>
 										<button type="submit" class="btn blue btn-sm">Modifier</button>
 									</form>

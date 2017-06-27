@@ -45,6 +45,7 @@ class LockController {
 	public function displayList($messages = null) {
 
 		$locks = $this->getLocks();
+		$doors = $this->getDoors();
 
 		$composite = new CompositeView(
 			true,
@@ -65,7 +66,7 @@ class LockController {
 				}
 			}
 		}
-		$list_locks = new View("locks/list_locks.html.twig", array('locks' => $locks));
+		$list_locks = new View("locks/list_locks.html.twig", array('locks' => $locks, 'doors' => $doors));
 		$composite->attachContentView($list_locks);
 
 		echo $composite->render();
@@ -152,7 +153,14 @@ class LockController {
 			true,
 			'Ajouter un canon',
 			null,
-			"locks");
+			"locks",
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array("select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js")
+		);
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -257,7 +265,17 @@ class LockController {
 			true,
 			'Mettre à jour un canon',
 			null,
-			"locks");
+			"locks",
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array(
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"
+			)
+		);
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -268,7 +286,7 @@ class LockController {
 			}
 		}
 
-		$update_lock = new View('locks/update_lock.html.twig', array('locks' => $lock, 'doors' => $doors, 'previousUrl' => getPreviousUrl()));
+		$update_lock = new View('locks/update_lock.html.twig', array('lock' => $lock, 'doors' => $doors, 'previousUrl' => getPreviousUrl()));
 		$compositeView->attachContentView($update_lock);
 
 		echo $compositeView->render();

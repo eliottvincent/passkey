@@ -45,6 +45,7 @@ class BorrowingController {
 	public function displayList($messages = null) {
 
 		$borrowings = $this->getBorrowings();
+		$users = $this->getUsers();
 
 		$compositeView = new CompositeView(
 			true,
@@ -52,8 +53,7 @@ class BorrowingController {
 			'Cette page permet de modifier et/ou supprimer des emprunts.',
 			"borrowings",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
-			array("deleteKeyScript" => "app/View/assets/custom/scripts/deleteBorrowing.js",
-			 	"extendBorrowingScript" => "app/View/assets/custom/scripts/extendBorrowing.js",
+			array("borrowingButtons" => "app/View/assets/custom/scripts/borrowingButtons.js",
 				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
 				"tableFilterScript" => "app/View/assets/custom/scripts/table-filter.js"));
 
@@ -75,7 +75,7 @@ class BorrowingController {
 			}
 		}
 
-		$list_borrowings = new View("borrowings/list_borrowings.html.twig", array('borrowings' => $borrowings));
+		$list_borrowings = new View("borrowings/list_borrowings.html.twig", array('borrowings' => $borrowings, 'users' => $users));
 		$compositeView->attachContentView($list_borrowings);
 
 		echo $compositeView->render();
@@ -118,7 +118,7 @@ class BorrowingController {
 				. strtolower(str_replace(' ', '_', addslashes($_POST['borrowing_user'])))
 				. strtolower(str_replace(' ', '_', addslashes($_POST['borrowing_keychain'])));
 
-				// unicity check
+			// unicity check
 			$exist = $this->checkUnicity($id);
 
 			if (!$exist) {
@@ -228,35 +228,33 @@ class BorrowingController {
 		echo json_encode($response);
 	}
 
-//================================================================================
- // EXTEND
- //================================================================================
+	//================================================================================
+	// EXTEND
+	//================================================================================
 
- /**
-  *
-  */
- public function extendBorrowingAjax() {
+	/**
+	 *
+	 */
+	public function extendBorrowingAjax() {
 
-   session_start();
+		if (isset($_POST['value']) && isset($_POST['number'])) {
 
-   if (isset($_POST['value']) && isset($_POST['number'])) {
+			if ($this->extendBorrowing(urldecode($_POST['value']), $_POST['number']) == true) {
+				$response['status'] = 'success';
+				$response['message'] = 'This was successful';
+			}
+			else {
+				$response['status'] = 'error';
+				$response['message'] = 'This failed';
+			}
+		}
+		else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
 
-	 if ($this->extendBorrowing(urldecode($_POST['value']), $_POST['number']) == true) {
-	   $response['status'] = 'success';
-	   $response['message'] = 'This was successful';
-	 }
-	 else {
-	   $response['status'] = 'error';
-	   $response['message'] = 'This failed';
-	 }
-   }
-   else {
-	 $response['status'] = 'error';
-	 $response['message'] = 'This failed';
-   }
-
-   echo json_encode($response);
- }
+		echo json_encode($response);
+	}
 
 
 	//================================================================================
@@ -351,7 +349,7 @@ class BorrowingController {
 			}
 		}
 
-		$update_borrowing = new View('borrowings/update_borrowing.html.twig', array('borrowings' => $borrowing, 'keychains' => $keychains, 'users' => $users, 'statuses' => $statuses, 'previousUrl' => getPreviousUrl()));
+		$update_borrowing = new View('borrowings/update_borrowing.html.twig', array('borrowing' => $borrowing, 'keychains' => $keychains, 'users' => $users, 'statuses' => $statuses, 'previousUrl' => getPreviousUrl()));
 		$compositeView->attachContentView($update_borrowing);
 
 		echo $compositeView->render();
@@ -361,41 +359,36 @@ class BorrowingController {
 	// DETAILED
 	//================================================================================
 
-	public function detailed($id) {
+	public function detailed() {
+
+		$id = $_GET['id'];
 		$borrow = $this->getBorrowing($id);
-		$number = explode("b_", $id)[1]; // [0] is empty
 
 		// Get the name of user.
-		$u = $borrow->getUser();
-		$users = $this->getUsers();
-		$currentUser = null;
-		foreach($users as $user) {
-			$uid = $user->getUr1identifier();
-			if ($uid == $u) {
-				$currentUser = $user;
-			}
-		}
+		$userId = $borrow->getUser();
+
+		$currentUser = $this->getUser($userId);
 
 		if (isset($currentUser) && !empty($currentUser)) {
 			$currentUser = $currentUser->getSurname() . " " . $currentUser->getName();
 		}
 
 		// Format dates.
-		$dBorrow = date('d/m/Y', strtotime($borrow->getBorrowDate()));
-		$dDue = date('d/m/Y', strtotime($borrow->getBorrowDate()));
+		$dBorrow = date('Y-m-d', strtotime($borrow->getBorrowDate()));
+		$dDue = date('Y-m-d', strtotime($borrow->getBorrowDate()));
 
 		// State.
 		switch($borrow->getStatus()) {
-			case "borrowed":
+			case "en cours":
 				$status = "en cours";
 				break;
-			case "late":
+			case "en retard":
 				$status = "en retard";
 				break;
-			case "returned":
+			case "rendu":
 				$status = "rendu";
 				break;
-			case "lost":
+			case "perdu":
 				$status = "perdu";
 				break;
 			default:
@@ -419,7 +412,6 @@ class BorrowingController {
 		$detailed_borrowing = new View('borrowings/detailed_borrowing.html.twig',
 			array(
 				'borrow' => $borrow,
-				'number' => $number,
 				'user' => $currentUser,
 				'borrowDate' => $dBorrow,
 				'dueDate' => $dDue,
@@ -457,12 +449,21 @@ class BorrowingController {
 	}
 
 	/**
-	 * @param $id
 	 * @return mixed
+	 * @internal param $id
 	 */
 	public function getUsers() {
 
 		return $this->_userService->getUsers();
+	}
+
+	/**
+	 * @param $id
+	 * @return mixed
+	 */
+	public function getUser($id) {
+
+		return $this->_userService->getUser($id);
 	}
 
 	/**
@@ -493,13 +494,13 @@ class BorrowingController {
 	}
 
 	/**
-   * Used to extend a borrowing from an id with number day(s).
-   * @param $id, $number
-   */
-  private function extendBorrowing($id, $number) {
+	 * Used to extend a borrowing from an id with number day(s).
+	 * @param $id, $number
+	 */
+	private function extendBorrowing($id, $number) {
 
-    return $this->_borrowingService->extendBorrowing($id, $number);
-  }
+		return $this->_borrowingService->extendBorrowing($id, $number);
+	}
 
 	/**
 	 * @param $borrowingToUpdate

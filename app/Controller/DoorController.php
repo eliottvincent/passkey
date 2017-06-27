@@ -43,7 +43,9 @@ class DoorController {
 	 * @internal param $state
 	 */
 	public function displayList($messages = null) {
+
 		$doors = $this->getDoors();
+		$rooms = $this->getRooms();
 
 		$compositeView = new CompositeView(
 			true,
@@ -65,7 +67,7 @@ class DoorController {
 			}
 		}
 
-		$list_doors = new View("doors/list_doors.html.twig", array('doors' => $doors));
+		$list_doors = new View("doors/list_doors.html.twig", array('doors' => $doors, 'rooms' => $rooms));
 		$compositeView->attachContentView($list_doors);
 
 		echo $compositeView->render();
@@ -145,7 +147,14 @@ class DoorController {
 			true,
 			'Ajouter une porte',
 			null,
-			"doors");
+			"doors",
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array("select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js")
+		);
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -248,7 +257,17 @@ class DoorController {
 			true,
 			"Mettre à jour une porte",
 			null,
-			"doors");
+			"doors",
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array(
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"
+			)
+		);
 
 		if ($messages != null) {
 
@@ -260,7 +279,7 @@ class DoorController {
 			}
 		}
 
-		$update_door = new View("doors/update_door.html.twig", array("doors" => $door, "rooms" => $rooms, "previousUrl" => getPreviousUrl()));
+		$update_door = new View("doors/update_door.html.twig", array("door" => $door, "rooms" => $rooms, "previousUrl" => getPreviousUrl()));
 		$compositeView->attachContentView($update_door);
 
 		echo $compositeView->render();

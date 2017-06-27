@@ -49,6 +49,7 @@ class KeychainController
 	public function displayList($messages = null) {
 
 		$keychains = $this->getKeychains();
+		$keys = $this->getKeys();
 
 		$compositeView = new CompositeView(
 			true,
@@ -69,7 +70,7 @@ class KeychainController
 			}
 		}
 
-		$list_keychains = new View("keychains/list_keychains.html.twig", array('keychains' => $keychains));
+		$list_keychains = new View("keychains/list_keychains.html.twig", array('keychains' => $keychains, 'keys' => $keys));
 		$compositeView->attachContentView($list_keychains);
 
 		echo $compositeView->render();
@@ -150,7 +151,13 @@ class KeychainController
 			true,
 			'Ajouter un trousseau',
 			null,
-			"keychains");
+			"keychains",
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array("select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -256,8 +263,15 @@ class KeychainController
 			'Mettre à jour un trousseau',
 			null,
 			"keychains",
-			array("bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"),
-			array("form-datetime-picker" => "app/View/assets/custom/scripts/update-forms-datetime-picker.js",
+			array("bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array(
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js",
+				"form-datetime-picker" => "app/View/assets/custom/scripts/update-forms-datetime-picker.js",
 				"bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")
 		);
 
@@ -270,7 +284,7 @@ class KeychainController
 			}
 		}
 
-		$update_keychain= new View('keychains/update_keychain.html.twig', array('keychains' => $keychain, 'keys' => $keys, 'previousUrl' => getPreviousUrl()));
+		$update_keychain= new View('keychains/update_keychain.html.twig', array('keychain' => $keychain, 'keys' => $keys, 'previousUrl' => getPreviousUrl()));
 		$composite->attachContentView($update_keychain);
 
 		echo $composite->render();

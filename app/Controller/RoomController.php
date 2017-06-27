@@ -16,6 +16,8 @@ class RoomController {
 	public function __construct() {
 		$this->_roomService = implementationRoomService_Dummy::getInstance();
 		$this->_doorService = implementationDoorService_Dummy::getInstance();
+		$this->_lockService = implementationLockService_Dummy::getInstance();
+
 	}
 
 
@@ -45,7 +47,9 @@ class RoomController {
 	 * @internal param $state
 	 */
 	public function displayList($messages = null) {
+
 		$rooms = $this->getRooms();
+		$doors = $this->getDoors();
 
 		$compositeView = new CompositeView(
 			true,
@@ -67,7 +71,7 @@ class RoomController {
 			}
 		}
 
-		$list_rooms = new View("rooms/list_rooms.html.twig", array('rooms' => $rooms));
+		$list_rooms = new View("rooms/list_rooms.html.twig", array('rooms' => $rooms, 'doors' => $doors));
 		$compositeView->attachContentView($list_rooms);
 
 		echo $compositeView->render();
@@ -224,7 +228,17 @@ class RoomController {
 			true,
 			"Mettre à jour une salle",
 			null,
-			"rooms");
+			"rooms",
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array(
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"
+			)
+		);
 
 		if ($messages != null) {
 
@@ -236,7 +250,7 @@ class RoomController {
 			}
 		}
 
-		$update_room = new View("rooms/update_room.html.twig", array("rooms" => $room, "doors" => $doors, "previousUrl" => getPreviousUrl()));
+		$update_room = new View("rooms/update_room.html.twig", array("room" => $room, "doors" => $doors, "previousUrl" => getPreviousUrl()));
 		$compositeView->attachContentView($update_room);
 
 		echo $compositeView->render();
@@ -272,6 +286,44 @@ class RoomController {
 
 		echo json_encode($response);
 	}
+
+
+
+	//================================================================================
+	// DETAILED
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function detailed() {
+
+		$id = $_GET['id'];
+		$room = $this->getRoom($id);
+
+		$keys = $this->getKeys($room);
+		$locks = $this->getLocks();
+
+		$composite = new CompositeView(
+			true,
+			"Détail de la salle",
+			null,
+			"rooms"
+		);
+
+		$detailed_borrowing = new View('rooms/detailed_room.html.twig',
+			array(
+				'room' => $room,
+				'keys' => $keys,
+				'locks' => $locks
+			)
+		);
+		$composite->attachContentView($detailed_borrowing);
+
+		echo $composite->render();
+	}
+
+
 
 
 	//================================================================================
@@ -328,6 +380,24 @@ class RoomController {
 	private function updateRoom($roomToUpdate) {
 
 		return $this->_roomService->updateRoom($roomToUpdate);
+	}
+
+	/**
+	 * @param $room
+	 * @return array
+	 */
+	private function getKeys($room) {
+
+		return $this->_roomService->getRoomKeys($room);
+	}
+
+	/**
+	 * To get all locks
+	 * @return null
+	 */
+	public function getLocks() {
+
+		return $this->_lockService->getLocks();
 	}
 
 	/**
