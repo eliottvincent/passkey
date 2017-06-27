@@ -1,0 +1,68 @@
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet light bordered">
+			<div class="portlet-title">
+				<div class="caption font-green-haze">
+					<i class="icon-lock font-green-haze"></i>
+					<span class="caption-subject bold uppercase">Mettre à jour un canon</span>
+				</div>
+			</div>
+			<div class="portlet-body form">
+				<form role="form" class="form-horizontal" action="" method="post">
+					<div class="form-body">
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Id du canon *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" name="lock_id" value="{{ lock.id }}" required readonly>
+								<div class="form-control-focus"> </div>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Nom du canon *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="102H-G-001" name="lock_name" value="{{ lock.name }}" required>
+								<div class="form-control-focus"> </div>
+								<span class="help-block">Ce nom permettra d'identifier le canon dans l'application.</span>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Associer une porte *</label>
+							<div class="col-md-10 input-group select2-bootstrap-append">
+								<select id="single-append-text" class="form-control select2-allow-clear" name="lock_door" required>
+									<option value="none" {{ (lock.door == 'none') ? 'selected' : '' }} >(Aucune)</option>
+									{% for door in doors %}
+										<option value="{{ door.id }}" {{ (lock.door == door.id) ? 'selected' : ''}} >{{ door.name }}</option>
+									{% endfor %}
+								</select>
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" data-select2-open="single-append-text">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Longueur du canon (en mm) *</label>
+							<div class="col-md-10">
+								<input type="number" class="form-control" id="form_control_1" min="0" max="50" name="lock_length" required value="{{ lock.length }}">
+								<div class="form-control-focus"></div>
+							</div>
+						</div>
+					</div>
+					<div class="form-actions">
+						<div class="row">
+							<div class="col-md-offset-2 col-md-10">
+								<button type="submit" class="btn blue">Modifier le canon</button>
+								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- END SAMPLE FORM PORTLET-->
+	</div>
+</div>

@@ -1,0 +1,235 @@
+<?xml version='1.0' standalone='yes'?>
+<keys>
+	<key>
+		<id>k_1</id>
+		<name>ma clé</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_102h_droite_001</lock>
+			<lock>l_102h_gauche_001</lock>
+		</locks>
+		<supplier>Abbloy</supplier>
+		<copies>2</copies>
+	</key>
+	<key>
+		<id>k_2</id>
+		<name>ma clé</name>
+		<type>partial</type>
+		<locks>
+			<lock>l_102h_gauche_001</lock>
+		</locks>
+		<supplier>CDVI</supplier>
+		<copies>3</copies>
+	</key>
+	<key>
+		<id>k_3</id>
+		<name>my key</name>
+		<type>total</type>
+		<locks>
+			<lock>l_102h_droite_001</lock>
+			<lock>l_102h_gauche_001</lock>
+		</locks>
+		<supplier>Deny</supplier>
+		<copies>3</copies>
+	</key>
+	<key>
+		<id>k_4</id>
+		<name>Clé 005V</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_005v_gauche_001</lock>
+			<lock>l_005v_droite_001</lock>
+		</locks>
+		<supplier>Deny</supplier>
+		<copies>3</copies>
+	</key>
+	<key>
+		<id>k_5</id>
+		<name>Clé 001H</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_001h_devant_001</lock>
+		</locks>
+		<supplier>Deny</supplier>
+		<copies>3</copies>
+	</key>
+	<key>
+		<id>k_6</id>
+		<name>Clé Salles DS</name>
+		<type>partial</type>
+		<locks>
+			<lock>l_002h_gauche_001</lock>
+			<lock>l_002h_droite_001</lock>
+			<lock>l_003h_gauche_001</lock>
+			<lock>l_003h_droite_001</lock>
+			<lock>l_004h_gauche_001</lock>
+			<lock>l_004h_droite_001</lock>
+		</locks>
+		<supplier>Collard</supplier>
+		<copies>15</copies>
+	</key>
+	<key>
+		<id>k_7</id>
+		<name>Clé 005H</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_005h_devant_001</lock>
+			<lock>l_005h_derriere_001</lock>
+		</locks>
+		<supplier>Collard</supplier>
+		<copies>6</copies>
+	</key>
+	<key>
+		<id>k_8</id>
+		<name>Clé 006H</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_006h_devant_001</lock>
+			<lock>l_006h_derriere_001</lock>
+		</locks>
+		<supplier>Collard</supplier>
+		<copies>6</copies>
+	</key>
+	<key>
+		<id>k_9</id>
+		<name>Clé 152N</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_152N_devant_001</lock>
+			<lock>l_152N_derriere_001</lock>
+		</locks>
+		<supplier>Sacks</supplier>
+		<copies>9</copies>
+	</key>
+	<key>
+		<id>k_10</id>
+		<name>Clé 153N</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_153N_devant_001</lock>
+			<lock>l_153N_derriere_001</lock>
+		</locks>
+		<supplier>Sacks</supplier>
+		<copies>9</copies>
+	</key>
+	<key>
+		<id>k_11</id>
+		<name>Clé 155N</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_155N_devant_001</lock>
+			<lock>l_155N_derriere_001</lock>
+		</locks>
+		<supplier>Sacks</supplier>
+		<copies>8</copies>
+	</key>
+	<key>
+		<id>k_12</id>
+		<name>Clé 57N</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_157N_devant_001</lock>
+			<lock>l_157N_derriere_001</lock>
+		</locks>
+		<supplier>Sacks</supplier>
+		<copies>8</copies>
+	</key>
+	<key>
+		<id>k_12</id>
+		<name>Clé 157N</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_157N_devant_001</lock>
+			<lock>l_157N_derriere_001</lock>
+		</locks>
+		<supplier>Sacks</supplier>
+		<copies>8</copies>
+	</key>
+	<key>
+		<id>k_13</id>
+		<name>Clé 231N</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_231N_devant_001</lock>
+			<lock>l_231N_derriere_001</lock>
+		</locks>
+		<supplier>MarcKeys</supplier>
+		<copies>12</copies>
+	</key>
+	<key>
+		<id>k_14</id>
+		<name>Clé 232N</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_232N_devant_001</lock>
+			<lock>l_232N_derriere_001</lock>
+		</locks>
+		<supplier>MarcKeys</supplier>
+		<copies>12</copies>
+	</key>
+	<key>
+		<id>k_15</id>
+		<name>Clé 233N</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_233N_devant_001</lock>
+			<lock>l_233N_derriere_001</lock>
+		</locks>
+		<supplier>MarcKeys</supplier>
+		<copies>14</copies>
+	</key>
+	<key>
+		<id>k_16</id>
+		<name>Clé 234N</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_234N_devant_001</lock>
+			<lock>l_234N_derriere_001</lock>
+		</locks>
+		<supplier>MarcKeys</supplier>
+		<copies>13</copies>
+	</key>
+	<key>
+		<id>k_17</id>
+		<name>Clé 235N</name>
+		<type>simple</type>
+		<locks>
+			<lock>l_235N_devant_001</lock>
+			<lock>l_235N_derriere_001</lock>
+		</locks>
+		<supplier>MarcKeys</supplier>
+		<copies>6</copies>
+	</key>
+	<key>
+		<id>k_18</id>
+		<name>Clé Salles Archi</name>
+		<type>partial</type>
+		<locks>
+			<lock>l_152N_devant_001</lock>
+			<lock>l_152N_derriere_001</lock>
+			<lock>l_153N_devant_001</lock>
+			<lock>l_153N_derriere_001</lock>
+		</locks>
+		<supplier>PassClés</supplier>
+		<copies>3</copies>
+	</key>
+	<key>
+		<id>k_19</id>
+		<name>Clé Salles 230N</name>
+		<type>partial</type>
+		<locks>
+			<lock>l_231N_devant_001</lock>
+			<lock>l_231N_derriere_001</lock>
+			<lock>l_232N_devant_001</lock>
+			<lock>l_232N_derriere_001</lock>
+			<lock>l_233N_devant_001</lock>
+			<lock>l_233N_derriere_001</lock>
+			<lock>l_234N_devant_001</lock>
+			<lock>l_234N_derriere_001</lock>
+			<lock>l_235N_devant_001</lock>
+			<lock>l_235N_derriere_001</lock>
+		</locks>
+		<supplier>PassClés</supplier>
+		<copies>7</copies>
+	</key>
+</keys>

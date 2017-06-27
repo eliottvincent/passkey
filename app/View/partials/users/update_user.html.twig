@@ -1,0 +1,114 @@
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet light bordered">
+			<div class="portlet-title">
+				<div class="caption font-green-haze">
+					<i class="icon-user font-green-haze"></i>
+					<span class="caption-subject bold uppercase">Mettre à jour un utilisateur</span>
+				</div>
+			</div>
+			<div class="portlet-body form">
+				<form role="form" class="form-horizontal" action="" method="post">
+					<div class="form-body">
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Identifiant ENSSAT *</label>
+							<div class="col-md-10">
+								<input class="form-control" id="form_control_1_mask" type="text" value="{{ user.enssatPrimaryKey }}" name="user_enssatPrimaryKey" readonly>
+								<div class="form-control-focus"></div>
+								<span class="help-block">Identifiant limité à 10 chiffres</span>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Identifiant Rennes 1 *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="17012859" name="user_ur1identifier" value="{{ user.ur1identifier }}" required>
+								<div class="form-control-focus"> </div>
+								<span class="help-block"></span>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Nom d'utilisateur *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="jbond" name="user_username" value="{{ user.username }}" required>
+								<div class="form-control-focus"> </div>
+								<span class="help-block">Ce nom permettra d'identifier l'utilisateur dans l'application.</span>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Nom *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="James" name="user_name" value="{{ user.name }}" required>
+								<div class="form-control-focus"> </div>
+								<span class="help-block"></span>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Prénom *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="Bond" name="user_surname" value="{{ user.surname }}" required>
+								<div class="form-control-focus"> </div>
+								<span class="help-block"></span>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Status de l'utilisateur *</label>
+							<div class="col-md-10">
+								<div class="md-radio-inline">
+									<div class="md-radio">
+										<input type="radio" id="student" name="user_status" class="md-radiobtn" {{ (user.status == 'Student' or user.status == "student") ? 'checked' : '' }} value="student">
+										<label for="student">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>Étudiant</label>
+									</div>
+									<div class="md-radio">
+										<input type="radio" id="staff" name="user_status" class="md-radiobtn" {{ (user.status == 'Staff' or user.status == "staff") ? 'checked' : '' }} value="staff">
+										<label for="staff">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>Personnel</label>
+									</div>
+									<div class="md-radio">
+										<input type="radio" id="outsider" name="user_status" class="md-radiobtn" {{ (user.status == 'Outsider' or user.status == "outsider") ? 'checked' : '' }} value="outsider">
+										<label for="outsider">
+											<span></span>
+											<span class="check"></span>
+											<span class="box"></span>Externe</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Téléphone *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="0102030405" name="user_phone" value="{{ user.phone }}" required>
+								<div class="form-control-focus"> </div>
+								<span class="help-block">Ce nom permettra d'identifier l'utilisateur dans l'application.</span>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Email *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="jbond@caramail.fr" name="user_email" value="{{ user.email }}" required>
+								<div class="form-control-focus"> </div>
+								<span class="help-block"></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-actions">
+						<div class="row">
+							<div class="col-md-offset-2 col-md-10">
+								<button type="submit" class="btn blue">Modifier l'utilisateur</button>
+								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Annuler</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- END SAMPLE FORM PORTLET-->
+	</div>
+</div>

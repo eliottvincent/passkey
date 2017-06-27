@@ -8,13 +8,10 @@
  */
 
 
-class RouterController extends Controller
+class RouterController
 {
 
 	function dispatchRoute() {
-
-		$model = new Model();
-		$controller = new Controller($model);
 
 		// handling requests on http://passkey.enssat/?action=some_action
 		if (isset($_GET['action']) && !empty($_GET['action'])) {
@@ -26,8 +23,7 @@ class RouterController extends Controller
 
 		// handling requests on http://passkey.enssat/
 		else if (isset($_REQUEST['url']) && $_REQUEST['url'] === '') {
-			//echo $this->createBlankPage($controller, $model)->render();
-			$this->createBlankPage($controller, $model);
+			$this->displayDashboard();
 		}
 
 		// handling requests on http://passkey.enssat/something_else
@@ -37,12 +33,12 @@ class RouterController extends Controller
 		}
 	}
 
-	function showLoginPageTest() {
+	function loginPage() {
 		$compositeView = new CompositeView();
 
-		$headView 	= new View(null, null, "head.html.twig", array('title' => "Login"));
-		$bodyView 	= new View(null, null, "login_body.html.twig");
-		$footView 	= new View(null, null, "foot.html.twig");
+		$headView 	= new View("head.html.twig", array('title' => "Login"));
+		$bodyView 	= new View("login_body.html.twig");
+		$footView 	= new View("foot.html.twig");
 
 		$compositeView->attachView($headView)
 			->attachView($bodyView)
@@ -52,90 +48,349 @@ class RouterController extends Controller
 	}
 
 	function login() {
-		$authentificationController = new AuthentificationController();
-		$authentificationController->login();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->login();
 	}
 
 	function logout() {
-		$authentificationController = new AuthentificationController();
-		$authentificationController->logout();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->logout();
+	}
+
+
+	//================================================================================
+	// DOORS
+	//================================================================================
+	function listDoors() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$doorController = new DoorController();
+		$doorController->list();
 	}
 
 	function createDoor() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
+		$doorController = new DoorController();
+		$doorController->create();
+	}
+
+	function updateDoor() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
-		$door = new DoorController();
-		$door->create();
+		$doorController = new DoorController();
+		$doorController->update();
+	}
+
+	function deleteDoorAjax() {
+		$doorController = new DoorController();
+		$doorController->deleteDoorAjax();
+	}
+
+
+	//================================================================================
+	// LOCKS
+	//================================================================================
+
+	function listLocks() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$lockController = new LockController();
+		$lockController->list();
 	}
 
 	function createLock() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
-		$lock = new LockController();
-		$lock->create();
+		$lockController = new LockController();
+		$lockController->create();
+	}
+
+	function updateLock() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$lockController = new LockController();
+		$lockController->update();
+	}
+
+	function deleteLockAjax() {
+		$lockController = new LockController();
+		$lockController->deleteLockAjax();
+	}
+
+
+	//================================================================================
+	// ROOMS
+	//================================================================================
+
+	function listRooms() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->list();
+	}
+
+	function createRoom() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->create();
+	}
+
+	function updateRoom() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->update();
+	}
+
+	function deleteRoomAjax() {
+		$roomController = new RoomController();
+		$roomController->deleteRoomAjax();
+	}
+
+	function detailedRoom() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->detailed();
+	}
+
+
+	//================================================================================
+	// KEYS
+	//================================================================================
+
+	function listKeys() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keyController = new KeyController();
+		$keyController->list();
+
 	}
 
 	function createKey() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
-		$key = new KeyController();
-		$key->create();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keyController = new KeyController();
+		$keyController->create();
 	}
 
 	function updateKey() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
-		$key = new KeyController();
-		$key->update();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keyController = new KeyController();
+		$keyController->update();
 	}
 
-	function listKeys() {
+	function deleteKeyAjax() {
+		$keyController = new KeyController();
+		$keyController->deleteKeyAjax();
+	}
+
+
+	//================================================================================
+	// KEYCHAINS
+	//================================================================================
+
+	function listKeychains() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
-		$key = new KeyController();
-		$key->list();
+		$keychainController = new KeychainController();
+		$keychainController->list();
 
 	}
 
-
-	/**
-	 * Creates a blank page as a CompositeView
-	 *
-	 * @param $controller
-	 * @param $model
-	 * @return CompositeView
-	 */
-	function createBlankPage($controller, $model) {
-
+	function createKeychain() {
 		// authentication check
-		$authentificationController = new AuthentificationController();
-		$authentificationController->check();
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
 
-		// creating a default CompositeView
-		$compositeView = new CompositeView(true);
-
-		// creating our content, as a View object
-		$blankContent = new View(null, null, 'default_content.html.twig');
-
-		// adding the content to our CompositeView
-		// here we use attachContentView() rather than attachView()...
-		// because the content view always needs to be between content_start and content_end
-		$compositeView->attachContentView($blankContent);
-
-		echo $compositeView->render();
+		$keychainController = new KeychainController();
+		$keychainController->create();
 	}
+
+	function updateKeychain() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keychainController = new KeychainController();
+		$keychainController->update();
+	}
+
+	function deleteKeychainAjax() {
+
+		$keychainController = new KeychainController();
+		$keychainController->deleteKeychainAjax();
+	}
+
+	function duplicateKeychainAjax() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keychainController = new KeychainController();
+		$keychainController->duplicateKeychainAjax();
+	}
+
+
+	//================================================================================
+	// USERS
+	//================================================================================
+
+	function listUsers() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$userController = new UserController();
+		$userController->list();
+	}
+
+	function createUser() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$userController = new UserController();
+		$userController->create();
+	}
+
+	function updateUser() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$userController = new UserController();
+		$userController->update();
+	}
+
+	function deleteUserAjax() {
+		$userController = new UserController();
+		$userController->deleteUserAjax();
+	}
+
+
+	//================================================================================
+	// BORROWINGS
+	//================================================================================
+
+	function listBorrowings() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$borrowingController = new BorrowingController();
+		$borrowingController->list();
+	}
+
+	function createBorrowing() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$borrowingController = new BorrowingController();
+		$borrowingController->create();
+	}
+
+	function updateBorrowing() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$borrowingController = new BorrowingController();
+		$borrowingController->update();
+	}
+
+	function detailedBorrowing() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$borrowingController = new BorrowingController();
+		$borrowingController->detailed();
+	}
+
+	function deleteBorrowingAjax() {
+		$borrowingController = new BorrowingController();
+		$borrowingController->deleteBorrowingAjax();
+	}
+
+	function extendBorrowingAjax() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$borrowingController = new BorrowingController();
+		$borrowingController->extendBorrowingAjax();
+	}
+
+	//================================================================================
+	// DASHBOARD
+	//================================================================================
+
+	//DashboardController
+	function displayDashboard() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$dashboard = new DashboardController();
+		$dashboard->displayDash();
+	}
+
+	//================================================================================
+	// IMPORT FILES
+	//================================================================================
+
+	function import(){
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$importController = new ImportController();
+	}
+
+	//================================================================================
+	// PDF TEST
+	//================================================================================
+
+	function generatePDF() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$pdfController = new PDFController();
+		$pdfController->generatePDF();
+
+	}
+
+
+
+
+	//================================================================================
+	// Suite router controller
+	//================================================================================
 
 	function createLoginPage() {
-		$html = new View(null, null,'partials/page_user_login_1.php');
+		$html = new View('partials/page_user_login_1.php');
 
 		return $html;
 	}

@@ -4,7 +4,7 @@
 		<div class="portlet light bordered">
 			<div class="portlet-title">
 				<div class="caption font-green-haze">
-					<i class="icon-settings font-green-haze"></i>
+					<i class="icon-lock font-green-haze"></i>
 					<span class="caption-subject bold uppercase">Créer un nouveau canon</span>
 				</div>
 			</div>
@@ -19,16 +19,30 @@
 								<span class="help-block">Ce nom permettra d'identifier le canon dans l'application.</span>
 							</div>
 						</div>
+
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Associer une porte *</label>
-							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="lock_door" required>
+							<div class="col-md-10 input-group select2-bootstrap-append">
+								<select id="single-append-text" class="form-control select2-allow-clear" name="lock_door" required>
 									<option value="none">(Aucune)</option>
 									{% for door in doors %}
-										<option value="{{ door.door_id }}">{{ door.door_name }}</option>
+										<option value="{{ door.id }}">{{ door.name }}</option>
 									{% endfor %}
 								</select>
-								<div class="form-control-focus"> </div>
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" data-select2-open="single-append-text">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+							</div>
+						</div>
+
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Longueur du canon (en mm) *</label>
+							<div class="col-md-10">
+								<input type="number" class="form-control" id="form_control_1" min="0" max="50" name="lock_length" required>
+								<div class="form-control-focus"></div>
 							</div>
 						</div>
 					</div>
@@ -36,7 +50,7 @@
 						<div class="row">
 							<div class="col-md-offset-2 col-md-10">
 								<button type="submit" class="btn blue">Ajouter un canon</button>
-								<button type="button" class="btn default">Annuler</button>
+								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
 							</div>
 						</div>
 					</div>

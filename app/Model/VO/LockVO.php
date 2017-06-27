@@ -1,21 +1,35 @@
 <?php
 class LockVO
 {
+	public static $locksList = array();
+
     private $id;
-    private $length;
+    private $name;
     private $door; // the door ID
+	private $length;
+
+	public function __construct() {
+	}
 
     // GETTER
     public function getId() {
         return $this->id;
     }
 
-	public function getLength() {
-		return $this->length;
+	public function getName() {
+		return $this->name;
 	}
 
 	public function getDoor() {
     	return $this->door;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getLength()
+	{
+		return $this->length;
 	}
 
     // SETTER
@@ -23,11 +37,19 @@ class LockVO
 		$this->id = $id;
 	}
 
-    public function setLength($length) {
-        $this->length = $length;
+    public function setName($name) {
+        $this->name = $name;
     }
 
-    public function setDoor($doon) {
+    public function setDoor($door) {
     	$this->door = $door;
+	}
+
+	/**
+	 * @param mixed $length
+	 */
+	public function setLength($length)
+	{
+		$this->length = $length;
 	}
 }

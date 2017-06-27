@@ -1,0 +1,75 @@
+<div class="row">
+	<div class="col-md-12">
+
+		<!-- BEGIN SAMPLE TABLE PORTLET-->
+		<div class="portlet box blue">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-cube"></i> Liste des salles  </div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div class="table">
+					<table id="filterTable" class="table table-striped table-bordered table-hover">
+						<thead>
+						<tr>
+							<th> ID </th>
+							<th> Nom </th>
+							<th> Bâtiment </th>
+							<th> Étage </th>
+							<th> Portes </th>
+							<th> Actions </th>
+						</tr>
+						</thead>
+						<tbody>
+						{% for room in rooms %}
+							<tr id="{{ room.id }}">
+								<td> {{ room.id }} </td>
+								<td> {{ room.name }} </td>
+								<td> {{ room.building }} </td>
+								<td> {{ room.floor }} </td>
+								<td>
+									{% for door in room.doors %}
+										{% for doorDoor in doors %}
+											{% if doorDoor.id == door %}
+												<p>{{ doorDoor.name }}</p>
+											{% endif %}
+										{% endfor %}
+									{% endfor %}
+								</td>
+
+								<td style="display: flex;">
+
+									<form action="./?action=updateRoom" method="post">
+										<input type="hidden" name="update" value="{{ room.id }}"/>
+										<button type="submit" class="btn blue btn-sm">Modifier</button>
+									</form>
+
+									<!-- <form action="" method="post"> -->
+									<input type="hidden" name="delete" value="{{ room.id }}"/>
+									<button type="submit" class="btn red btn-sm btn-delete-r" value="{{ room.id }}">Supprimer</button>
+									<a href="?action=detailedRoom&id={{ room.id }}">
+										<button type="button" class="btn purple btn-sm">Détails</button>
+									</a>
+									<!-- </form> -->
+								</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+						<tfoot>
+							<th> ID </th>
+							<th> Nom </th>
+							<th> Bâtiment </th>
+							<th> Étage </th>
+							<th> Portes </th>
+							<th> Actions </th>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- END SAMPLE TABLE PORTLET-->
+	</div>
+</div>

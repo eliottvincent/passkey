@@ -10,18 +10,18 @@ class CompositeView implements ViewInterface
 {
 	protected $views = array();
 
-	public function __construct($default = null, $title = 'Default title') {
+	public function __construct($default = null, $title = 'Default title', $subtitle = null, $activePage = null, $styles = null, $scripts = null) {
 
 		if ($default !== null && $default === true) {
-			$head = new View(null, null,"head.html.twig", array('title' => $title));
-			$header = new View(null, null,"header.html.twig", array('session' => $_SESSION));
-			$sidebar = new View(null, null,"sidebar.html.twig");
-			$content_start = new View(null, null,"content_start.html.twig");
-			$quicksidebar = new View(null, null,"quicksidebar.html.twig");
-			$content_end = new View(null, null, "content_end.html.twig");
-			$footer = new View(null, null,"footer.html.twig");
-			$quicknav = new View(null, null,"quicknav.html.twig");
-			$foot = new View(null, null,"foot.html.twig");
+			$head = new View("head.html.twig", array('title' => $title, 'styles' => $styles));
+			$header = new View("header.html.twig", array('session' => $_SESSION));
+			$sidebar = new View("sidebar.html.twig", array('activePage' => $activePage));
+			$content_start = new View("content_start.html.twig", array('title' => $title, 'subtitle' => $subtitle, 'activePage' => $activePage));
+			$quicksidebar = new View("quicksidebar.html.twig");
+			$content_end = new View("content_end.html.twig");
+			$footer = new View("footer.html.twig");
+			$quicknav = new View("quicknav.html.twig");
+			$foot = new View("foot.html.twig", array('scripts' => $scripts));
 
 			$this->attachView($head)
 				->attachView($header)
@@ -30,7 +30,6 @@ class CompositeView implements ViewInterface
 				->attachView($quicksidebar)
 				->attachView($content_end)
 				->attachView($footer)
-				->attachView($quicknav)
 				->attachView($foot);
 		}
 	}
@@ -90,17 +89,10 @@ class CompositeView implements ViewInterface
 			$this->views = array_merge(
 				array_slice( $this->views, 0, $quicksidebarPosition, true ),
 				array($contentView),
-				array_slice( $this->views, $quicksidebarPosition, null, true ) );
+				array_slice( $this->views, $quicksidebarPosition, null, true )
+			);
 		}
 		return $this;
-	}
-
-	public function oldRenderMethod() {
-		$output = "";
-		foreach ($this->views as $view) {
-			$output .= $view->render();
-		}
-		return $output;
 	}
 
 	public function render() {

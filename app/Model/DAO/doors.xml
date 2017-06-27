@@ -1,0 +1,235 @@
+<?xml version='1.0' standalone='yes'?>
+<doors>
+	<door>
+		<id>d_102h_gauche</id>
+		<name>102h Gauche</name>
+		<building>batiment_2</building>
+		<floor>etage_1</floor>
+		<room>r_102_h</room>
+	</door>
+	<door>
+		<id>d_102h_droite</id>
+		<name>102h Droite</name>
+		<building>batiment_2</building>
+		<floor>etage_1</floor>
+		<room>r_102_h</room>
+	</door>
+	<door>
+		<id>d_005v_gauche</id>
+		<name>005v Gauche</name>
+		<building>batiment_2</building>
+		<floor>etage_0</floor>
+		<room>r_005_v</room>
+	</door>
+	<door>
+		<id>d_005v_droite</id>
+		<name>005v Droite</name>
+		<building>batiment_2</building>
+		<floor>etage_0</floor>
+		<room>r_005_v</room>
+	</door>
+
+	<door>
+		<id>d_001h_devant</id>
+		<name>001h Devant</name>
+		<building>batiment_2</building>
+		<floor>etage_0</floor>
+		<room>r_001_h</room>
+	</door>
+	<door>
+		<id>d_002h_gauche</id>
+		<name>002h Gauche</name>
+		<building>batiment_2</building>
+		<floor>etage_0</floor>
+		<room>r_002_h</room>
+	</door>
+	<door>
+		<id>d_002h_droite</id>
+		<name>002h Droite</name>
+		<building>batiment_2</building>
+		<floor>etage_0</floor>
+		<room>r_002_h</room>
+	</door>
+	<door>
+		<id>d_003h_gauche</id>
+		<name>003h Gauche</name>
+		<building>batiment_2</building>
+		<floor>etage_0</floor>
+		<room>r_003_h</room>
+	</door>
+	<door>
+		<id>d_003h_droite</id>
+		<name>003h Droite</name>
+		<building>batiment_2</building>
+		<floor>etage_0</floor>
+		<room>r_003_h</room>
+	</door>
+	<door>
+		<id>d_004h_gauche</id>
+		<name>004h Gauche</name>
+		<building>batiment_2</building>
+		<floor>etage_0</floor>
+		<room>r_004_h</room>
+	</door>
+	<door>
+		<id>d_004h_droite</id>
+		<name>004h Droite</name>
+		<building>batiment_2</building>
+		<floor>etage_0</floor>
+		<room>r_004_h</room>
+	</door>
+	<door>
+		<id>d_005h_devant</id>
+		<name>005h Devant</name>
+		<building>batiment_2</building>
+		<floor>etage_0</floor>
+		<room>r_005_h</room>
+	</door>
+	<door>
+		<id>d_005h_derriere</id>
+		<name>005h Derriere</name>
+		<building>batiment_2</building>
+		<floor>etage_0</floor>
+		<room>r_005_h</room>
+	</door>
+	<door>
+		<id>d_006h_devant</id>
+		<name>006h Devant</name>
+		<building>batiment_2</building>
+		<floor>etage_0</floor>
+		<room>r_006_h</room>
+	</door>
+	<door>
+		<id>d_006h_derriere</id>
+		<name>006h Derriere</name>
+		<building>batiment_2</building>
+		<floor>etage_0</floor>
+		<room>r_006_h</room>
+	</door>
+	<door>
+		<id>d_152n_devant</id>
+		<name>152n Devant</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_152_N</room>
+	</door>
+	<door>
+		<id>d_152n_derriere</id>
+		<name>152n Derriere</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_152_N</room>
+	</door>
+	<door>
+		<id>d_153n_devant</id>
+		<name>153n Devant</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_153_N</room>
+	</door>
+	<door>
+		<id>d_153n_derriere</id>
+		<name>153n Derriere</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_152_N</room>
+	</door>
+	<door>
+		<id>d_155n_devant</id>
+		<name>155n Devant</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_155_N</room>
+	</door>
+	<door>
+		<id>d_155n_derriere</id>
+		<name>155n Derriere</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_155_N</room>
+	</door>
+	<door>
+		<id>d_157n_devant</id>
+		<name>157n Devant</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_157_N</room>
+	</door>
+	<door>
+		<id>d_157n_derriere</id>
+		<name>157n Derriere</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_157_N</room>
+	</door>
+	<door>
+		<id>d_231n_devant</id>
+		<name>231n Devant</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_231_N</room>
+	</door>
+	<door>
+		<id>d_231n_derriere</id>
+		<name>231n Derriere</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_231_N</room>
+	</door>
+	<door>
+		<id>d_232n_devant</id>
+		<name>232n Devant</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_232_N</room>
+	</door>
+	<door>
+		<id>d_232n_derriere</id>
+		<name>232n Derriere</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_232_N</room>
+	</door>
+	<door>
+		<id>d_233n_devant</id>
+		<name>233n Devant</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_233_N</room>
+	</door>
+	<door>
+		<id>d_233n_derriere</id>
+		<name>233n Derriere</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_233_N</room>
+	</door>
+	<door>
+		<id>d_234n_devant</id>
+		<name>234n Devant</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_234_N</room>
+	</door>
+	<door>
+		<id>d_234n_derriere</id>
+		<name>234n Derriere</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_234_N</room>
+	</door>
+	<door>
+		<id>d_235n_devant</id>
+		<name>235n Devant</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_235_N</room>
+	</door>
+	<door>
+		<id>d_235n_derriere</id>
+		<name>235n Derriere</name>
+		<building>batiment_1</building>
+		<floor>etage_1</floor>
+		<room>r_235_N</room>
+	</door>
+</doors>

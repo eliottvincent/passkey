@@ -1,0 +1,77 @@
+<?xml version='1.0' standalone='yes'?>
+<borrowings>
+	<borrowing>
+		<id>b_1</id>
+		<user>1</user>
+		<keychain>kc_keychain_1</keychain>
+		<borrowDate>2017-04-24</borrowDate>
+		<dueDate>2017-09-24</dueDate>
+		<returnDate></returnDate>
+		<lostDate></lostDate>
+		<status>en retard</status>
+	</borrowing>
+	<borrowing>
+		<id>b_2</id>
+		<user>2</user>
+		<keychain>kc_keychain_3</keychain>
+		<borrowDate>2017-04-24</borrowDate>
+		<dueDate>2017-09-24</dueDate>
+		<returnDate></returnDate>
+		<lostDate>2017-05-24</lostDate>
+		<status>perdu</status>
+	</borrowing>
+	<borrowing>
+		<id>b_3</id>
+		<user>3</user>
+		<keychain>kc_keychain_4</keychain>
+		<borrowDate>2017-04-24</borrowDate>
+		<dueDate>2017-09-24</dueDate>
+		<returnDate>2017-05-24</returnDate>
+		<status>rendu</status>
+	</borrowing>
+	<borrowing>
+		<id>b_4</id>
+		<user>16</user>
+		<keychain>kc_keychain_11</keychain>
+		<borrowDate>2017-06-03</borrowDate>
+		<dueDate>2017-09-24</dueDate>
+		<returnDate></returnDate>
+		<status>en cours</status>
+	</borrowing>
+	<borrowing>
+		<id>b_5</id>
+		<user>30</user>
+		<keychain>kc_keychain_8</keychain>
+		<borrowDate>2017-05-29</borrowDate>
+		<dueDate>2017-06-09</dueDate>
+		<returnDate></returnDate>
+		<status>en retard</status>
+	</borrowing>
+	<borrowing>
+		<id>b_6</id>
+		<user>19</user>
+		<keychain>kc_keychain_5</keychain>
+		<borrowDate>2017-05-29</borrowDate>
+		<dueDate>2017-06-29</dueDate>
+		<returnDate></returnDate>
+		<status>en cours</status>
+	</borrowing>
+	<borrowing>
+		<id>b_7</id>
+		<user>26</user>
+		<keychain>kc_keychain_12</keychain>
+		<borrowDate>2017-05-20</borrowDate>
+		<dueDate>2017-07-20</dueDate>
+		<returnDate></returnDate>
+		<status>perdu</status>
+	</borrowing>
+	<borrowing>
+		<id>b_8</id>
+		<user>11</user>
+		<keychain>kc_keychain_12</keychain>
+		<borrowDate>2017-05-20</borrowDate>
+		<dueDate>2017-06-13</dueDate>
+		<returnDate>2017-06-12</returnDate>
+		<status>rendu</status>
+	</borrowing>
+</borrowings>

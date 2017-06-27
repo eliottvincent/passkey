@@ -1,0 +1,66 @@
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet light bordered">
+			<div class="portlet-title">
+				<div class="caption font-green-haze">
+					<i class="fa fa-columns font-green-haze"></i>
+					<span class="caption-subject bold uppercase">Mettre à jour une porte</span>
+				</div>
+			</div>
+			<div class="portlet-body form">
+				<form role="form" class="form-horizontal" action="" method="post">
+					<div class="form-body">
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Id de la porte *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" value="{{ door.id }}" name="door_id" required readonly>
+								<div class="form-control-focus"></div>
+							</div>
+						</div>
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Nom de la porte *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="102H Gauche" value="{{ door.name }}" name="door_name" required>
+								<div class="form-control-focus"> </div>
+								<span class="help-block">Ce nom permettra d'identifier la porte dans l'application.</span>
+							</div>
+						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Associer une salle *</label>
+							<div class="col-md-10 input-group select2-bootstrap-append">
+								<select id="single-append-text" class="form-control select2-allow-clear" name="door_room" required>
+									<option value="none">(Aucune)</option>
+									{% for room in rooms %}
+										<option value="{{ room.id }}"
+											{% if room.id == door.room %}
+												selected
+											{% endif %}
+										>{{ room.name }}</option>
+									{% endfor %}
+								</select>
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" data-select2-open="single-append-text">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+							</div>
+						</div>
+
+
+					</div>
+					<div class="form-actions">
+						<div class="row">
+							<div class="col-md-offset-2 col-md-10">
+								<button type="submit" class="btn blue">Modifier la porte</button>
+								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- END SAMPLE FORM PORTLET-->
+	</div>
+</div>
