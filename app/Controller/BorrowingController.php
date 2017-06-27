@@ -327,10 +327,15 @@ class BorrowingController {
 			null,
 			"borrowings",
 			array(
-				"bootstrap-datepicker" => "app/View/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css"
+				"bootstrap-datepicker" => "app/View/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css",
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
 			),
 			array("form-datetime-picker" => "app/View/assets/custom/scripts/update-forms-datetime-picker.js",
-				"bootstrap-datepicker" => "app/View/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"
+				"bootstrap-datepicker" => "app/View/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"
 			)
 		);
 
