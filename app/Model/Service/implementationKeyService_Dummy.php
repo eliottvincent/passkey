@@ -203,4 +203,44 @@ class implementationKeyService_Dummy implements interfaceKeyService {
 		}
 
 	}
+
+	public function getKeychains($key) {
+
+		$allKeychains = $this->_keychainService->getKeychains();
+		$finalKeychains = array();
+
+		foreach ($allKeychains as $keychain) {
+
+			foreach ($keychain->getKeys() as $keyId) {
+
+				if ($keyId == $key->getId()) {
+
+					array_push($finalKeychains, $keychain);
+				}
+			}
+		}
+
+		return $finalKeychains;
+	}
+
+	public function getBorrowings($key) {
+
+		$allBorrowings = $this->_borrowingService->getBorrowings();
+		$finalBorrowings = array();
+
+		$keyKeychains = $this->getKeychains($key);
+
+		foreach ($allBorrowings as $borrowing) {
+
+			foreach ($keyKeychains as $keychain) {
+
+				if ($keychain->getId() == $borrowing->getKeychain()) {
+
+					array_push($finalBorrowings, $borrowing);
+				}
+			}
+		}
+
+		return $finalBorrowings;
+	}
 }
