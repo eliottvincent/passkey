@@ -269,7 +269,7 @@ class DoorController {
 			}
 		}
 
-		$update_door = new View("doors/update_door.html.twig", array("doors" => $door, "rooms" => $rooms, "previousUrl" => getPreviousUrl()));
+		$update_door = new View("doors/update_door.html.twig", array("door" => $door, "rooms" => $rooms, "previousUrl" => getPreviousUrl()));
 		$compositeView->attachContentView($update_door);
 
 		echo $compositeView->render();

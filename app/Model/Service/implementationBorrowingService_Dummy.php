@@ -291,6 +291,7 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 
 				$locks = $k->getLocks();
 
+				// if $locks contains LockVO objects, they will be "converted" to id only
 				if (is_array($locks)) {
 					$tmp_locks = array();
 					foreach ($locks as $lock) {

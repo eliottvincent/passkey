@@ -276,7 +276,7 @@ class LockController {
 			}
 		}
 
-		$update_lock = new View('locks/update_lock.html.twig', array('locks' => $lock, 'doors' => $doors, 'previousUrl' => getPreviousUrl()));
+		$update_lock = new View('locks/update_lock.html.twig', array('lock' => $lock, 'doors' => $doors, 'previousUrl' => getPreviousUrl()));
 		$compositeView->attachContentView($update_lock);
 
 		echo $compositeView->render();
