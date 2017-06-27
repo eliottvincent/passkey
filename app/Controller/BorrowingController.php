@@ -389,10 +389,6 @@ class BorrowingController {
 
 		$currentUser = $this->getUser($userId);
 
-		if (isset($currentUser) && !empty($currentUser)) {
-			$currentUser = $currentUser->getSurname() . " " . $currentUser->getName();
-		}
-
 		// Format dates.
 		$dBorrow = date('Y-m-d', strtotime($borrow->getBorrowDate()));
 		$dDue = date('Y-m-d', strtotime($borrow->getBorrowDate()));
