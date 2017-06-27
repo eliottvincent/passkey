@@ -117,6 +117,7 @@ class BorrowingController {
 			// id generation
 			$id = 'b_'
 				. strtolower(str_replace(' ', '_', addslashes($_POST['borrowing_user'])))
+				. '_'
 				. strtolower(str_replace(' ', '_', addslashes($_POST['borrowing_keychain'])));
 
 			// unicity check
