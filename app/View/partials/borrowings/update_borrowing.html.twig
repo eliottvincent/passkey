@@ -45,51 +45,36 @@
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Date de l'emprunt</label>
 							<div class="col-md-4">
-									<input type="text" size="16" readonly class="form-control" name="borrowing_borrowdate" value="{{ borrowing.duedate }}">
+									<input type="text" size="16" readonly class="form-control" name="borrowing_borrowdate" value="{{ borrowing.borrowDate }}">
 							</div>
 						</div>
 
 						<div class="form-group form-md-line-input">
-							<label class="col-md-2 control-label" for="form_control_1">Date de retour prévu</label>
+							<label class="col-md-2 control-label" for="form_control_1">Date de retour prévu bis</label>
 							<div class="col-md-4">
-								<div class="input-group date form_datetime">
-									<input type="text" size="16" readonly class="form-control" name="borrowing_duedate" value="{{ borrowing.duedate }}">
-									<span class="input-group-btn">
-										<button class="btn default date-set" type="button">
-											<i class="fa fa-calendar"></i>
-										</button>
-									</span>
-								</div>
+								<input class="form-control form-control-inline input-medium date-picker" name="borrowing_duedate" size="16" type="text" value="{{ borrowing.duedate }}" />
+								<span class="help-block"> Sélectionnez une date de retour prévu</span>
 							</div>
 						</div>
+
 
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Date de retour effectif</label>
 							<div class="col-md-4">
-								<div class="input-group date form_datetime">
-									<input type="text" size="16" readonly class="form-control" name="borrowing_returndate" value="{{ borrowing.returndate }}">
-									<span class="input-group-btn">
-										<button class="btn default date-set" type="button">
-											<i class="fa fa-calendar"></i>
-										</button>
-									</span>
-								</div>
+								<input class="form-control form-control-inline input-medium date-picker" name="borrowing_returndate" size="16" type="text" value="{{ borrowing.returndate }}" />
+								<span class="help-block"> Sélectionnez une date de retour effectif</span>
 							</div>
 						</div>
+
 
 						<div class="form-group form-md-line-input">
 							<label class="col-md-2 control-label" for="form_control_1">Date de perte</label>
 							<div class="col-md-4">
-								<div class="input-group date form_datetime">
-									<input type="text" size="16" readonly class="form-control" name="borrowing_lostdate" value="{{ borrowing.lostdate }}">
-									<span class="input-group-btn">
-										<button class="btn default date-set" type="button">
-											<i class="fa fa-calendar"></i>
-										</button>
-									</span>
-								</div>
+								<input class="form-control form-control-inline input-medium date-picker" name="borrowing_lostdate" size="16" type="text" value="{{ borrowing.lostdate }}" />
+								<span class="help-block"> Sélectionnez une date de perte </span>
 							</div>
 						</div>
+
 					</div>
 					<div class="form-group form-md-line-input">
 						<label class="col-md-2 control-label" for="form_control_1">Statut *</label>

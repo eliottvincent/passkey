@@ -326,9 +326,12 @@ class BorrowingController {
 			'Mettre à jour un emprunt',
 			null,
 			"borrowings",
-			array("bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"),
+			array(
+				"bootstrap-datepicker" => "app/View/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css"
+			),
 			array("form-datetime-picker" => "app/View/assets/custom/scripts/update-forms-datetime-picker.js",
-				"bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")
+				"bootstrap-datepicker" => "app/View/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"
+			)
 		);
 
 		if ($messages != null) {
