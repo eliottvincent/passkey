@@ -41,8 +41,6 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 		$this->_lockService = implementationLockService_Dummy::getInstance();
 		$this->_roomService = implementationRoomService_Dummy::getInstance();
 
-
-
 		// getting the data we need
 		$this->_xmlBorrowings = $this->_borrowingDAO->getBorrowings();
 
