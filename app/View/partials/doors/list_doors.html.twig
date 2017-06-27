@@ -25,11 +25,13 @@
 							<tr id="{{ door.id }}">
 								<td> {{ door.id }} </td>
 								<td> {{ door.name }} </td>
-								{% for room in rooms %}
-									{% if room.id == door.room %}
-										<td>{{ room.name}}</td>
-									{% endif %}
-								{% endfor %}
+								<td>
+									{% for room in rooms %}
+										{% if room.id == door.room %}
+											<p>{{ room.name}}</p>
+										{% endif %}
+									{% endfor %}
+								</td>
 
 								<td style="display: flex;">
 									<form action="./?action=updateDoor" method="post">
