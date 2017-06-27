@@ -43,6 +43,7 @@ class implementationRoomService_Dummy implements interfaceRoomService
 		$this->_doorService = implementationDoorService_Dummy::getInstance();
 		$this->_lockService = implementationLockService_Dummy::getInstance();
 		$this->_keyService = implementationKeyService_Dummy::getInstance();
+		$this->_userService = implementationUserService_Dummy::getInstance();
 
 		// getting the data we need
 		$this->_xmlRooms = $this->_roomDAO->getRooms();
@@ -220,6 +221,20 @@ class implementationRoomService_Dummy implements interfaceRoomService
 		return $keys;
 	}
 
+	/**
+	 * @param $room
+	 */
+	function getRoomUsers($room) {
+
+		$allUsers = $this->getUsers();
+
+		// getting all the keys concered by the room
+		$keys = $this->getRoomKeys($room);
+
+		// then we need to check if there are some borrowings concerned by these keys
+		return $allUsers;
+	}
+
 	//================================================================================
 	// OTHER
 	//================================================================================
@@ -285,4 +300,14 @@ class implementationRoomService_Dummy implements interfaceRoomService
 
 		return $this->_keyService->getKeys();
 	}
+
+	/**
+	 * To get all users.
+	 * @return null
+	 */
+	private function getUsers() {
+
+		return $this->_userService->getUsers();
+	}
+
 }
