@@ -397,23 +397,49 @@ class RouterController
 	 */
 	function createBlankPage() {
 
-		// authentication check
+	//================================================================================
+	// DASHBOARD
+	//================================================================================
+
+	//DashboardController
+	function displayDashboard() {
 		$authenticationController = new AuthenticationController();
 		$authenticationController->check();
 
-		// creating a default CompositeView
-		$compositeView = new CompositeView(true);
-
-		// creating our content, as a View object
-		$blankContent = new View('default_content.html.twig');
-
-		// adding the content to our CompositeView
-		// here we use attachContentView() rather than attachView()...
-		// because the content view always needs to be between content_start and content_end
-		$compositeView->attachContentView($blankContent);
-
-		echo $compositeView->render();
+		$dashboard = new DashboardController();
+		$dashboard->displayDash();
 	}
+
+	//================================================================================
+	// IMPORT FILES
+	//================================================================================
+
+	function import(){
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$importController = new ImportController();
+	}
+
+	//================================================================================
+	// PDF TEST
+	//================================================================================
+
+	function generatePDF() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$pdfController = new PDFController();
+		$pdfController->generatePDF();
+
+	}
+
+
+
+
+	//================================================================================
+	// Suite router controller
+	//================================================================================
 
 	function createLoginPage() {
 		$html = new View('partials/page_user_login_1.php');
