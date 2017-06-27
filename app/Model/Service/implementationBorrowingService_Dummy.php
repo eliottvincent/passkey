@@ -255,14 +255,15 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 	 * @return array
 	 */
 	public function getKeysInBorrow($id) {
+
 		$keys = array();
 		$borrow = $this->getBorrowing($id);
-		$kc_id = $borrow->getKeychain();
-		$keychain = $this->_keychainService->getKeychain($kc_id);
-		$kc_keys = $keychain->getKeys();
+		$keychainId = $borrow->getKeychain();
+		$keychain = $this->_keychainService->getKeychain($keychainId);
+		$keychainKeysIds = $keychain->getKeys();
 
-		foreach($kc_keys as $kc_key) {
-			$key = $this->_keyService->getKey($kc_key)->getName();
+		foreach($keychainKeysIds as $keyId) {
+			$key = $this->_keyService->getKey($keyId);
 			if (!in_array($key, $keys)) {
 				array_push($keys, $key);
 			}
@@ -282,19 +283,19 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 		$borrow = $this->getBorrowing($id);
 		$kc_id = $borrow->getKeychain();
 		$keychain = $this->_keychainService->getKeychain($kc_id);
-		$keys = $keychain->getKeys();
+		$keysIds = $keychain->getKeys();
 
-		foreach ($keys as $key) {
-			$k = $this->_keyService->getKey($key);
+		foreach ($keysIds as $keyId) {
+			$key = $this->_keyService->getKey($keyId);
 
-			if ($k != null) {
+			if ($key != null) {
 
-				$locks = $k->getLocks();
+				$locksIds = $key->getLocks();
 
 				// if $locks contains LockVO objects, they will be "converted" to id only
-				if (is_array($locks)) {
+				if (is_array($locksIds)) {
 					$tmp_locks = array();
-					foreach ($locks as $lock) {
+					foreach ($locksIds as $lock) {
 						if (is_object($lock)) {
 							$lock_id = $lock->getId();
 						} else {
@@ -304,18 +305,21 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 						array_push($tmp_locks, $lock_id);
 					}
 
-					$locks = $tmp_locks;
+					$locksIds = $tmp_locks;
 				}
 
-				foreach ($locks as $lock) {
-					$lock = $this->_lockService->getLock($lock);
-					$door_id = $lock->getDoor();
-					$door = $this->_doorService->getDoor($door_id);
-					$room_id = $door->getRoom();
-					$room = $this->_roomService->getRoom($room_id)->getName();
+				foreach ($locksIds as $lockId) {
+					$lock = $this->_lockService->getLock($lockId);
+					if ($lock != null) {
 
-					if (!in_array($room, $rooms)) {
-						array_push($rooms, $room);
+						$door_id = $lock->getDoor();
+						$door = $this->_doorService->getDoor($door_id);
+						$room_id = $door->getRoom();
+						$room = $this->_roomService->getRoom($room_id);
+
+						if (!in_array($room, $rooms)) {
+							array_push($rooms, $room);
+						}
 					}
 				}
 			}
