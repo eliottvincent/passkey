@@ -4,27 +4,22 @@
 
 var ComponentsDateTimePickers = function () {
 
+	var handleDatePickers = function () {
 
-	var handleDatetimePicker = function () {
-
-		if (!jQuery().datetimepicker) {
-			return;
+		if (jQuery().datepicker) {
+			$('.date-picker').datepicker({
+				rtl: App.isRTL(),
+				orientation: "left",
+				format: "yyyy-mm-dd",
+				autoclose: true
+			});
 		}
-
-		$(".form_datetime").datetimepicker({
-			autoclose: true,
-			isRTL: App.isRTL(),
-			format: "dd MM yyyy - hh:ii",
-			pickerPosition: (App.isRTL() ? "bottom-right" : "bottom-left")
-		});
-
-	};
-
+	}
 
 	return {
 		//main function to initiate the module
 		init: function () {
-			handleDatetimePicker();
+			handleDatePickers();
 		}
 	};
 

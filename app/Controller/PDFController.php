@@ -68,7 +68,7 @@ class PDFController
 								le trousseau ".$keychainname . " est composé des clés : </td></tr>";
 
 						foreach ($keyinborrowing as $key){
-							$strg = $strg."<tr><td>". $key . "</td></tr>";
+							$strg = $strg."<tr><td>". $key->getName() . "</td></tr>";
 						}
 
 						$strg = $strg."<tr>
@@ -77,8 +77,8 @@ class PDFController
 							</td>
 						</tr>";
 
-						foreach ($roominborrowing as $key){
-							$strg = $strg."<tr><td>". $key . "</td></tr>";
+						foreach ($roominborrowing as $room) {
+							$strg = $strg."<tr><td>". $room->getName() . "</td></tr>";
 						}
 
 						$strg = $strg."

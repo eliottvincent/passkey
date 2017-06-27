@@ -42,7 +42,7 @@
 
 
 				for ($i = 0; $i < sizeof($rooms); $i++) {
-					$body .= $rooms[$i];
+					$body .= $rooms[$i]->getName();
 					if ($i != sizeof($rooms)-1) {
 						$body .= ", ";
 					} else {

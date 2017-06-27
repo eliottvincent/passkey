@@ -46,6 +46,7 @@ class BorrowingController {
 
 		$borrowings = $this->getBorrowings();
 		$users = $this->getUsers();
+		$keychains = $this->getKeychains();
 
 		$compositeView = new CompositeView(
 			true,
@@ -75,7 +76,7 @@ class BorrowingController {
 			}
 		}
 
-		$list_borrowings = new View("borrowings/list_borrowings.html.twig", array('borrowings' => $borrowings, 'users' => $users));
+		$list_borrowings = new View("borrowings/list_borrowings.html.twig", array('borrowings' => $borrowings, 'users' => $users, 'keychains' => $keychains));
 		$compositeView->attachContentView($list_borrowings);
 
 		echo $compositeView->render();
@@ -116,6 +117,7 @@ class BorrowingController {
 			// id generation
 			$id = 'b_'
 				. strtolower(str_replace(' ', '_', addslashes($_POST['borrowing_user'])))
+				. '_'
 				. strtolower(str_replace(' ', '_', addslashes($_POST['borrowing_keychain'])));
 
 			// unicity check
@@ -171,7 +173,17 @@ class BorrowingController {
 			true,
 			'Ajouter un emprunt',
 			null,
-			"borrowings");
+			"borrowings",
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array(
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"
+			)
+		);
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -326,9 +338,17 @@ class BorrowingController {
 			'Mettre à jour un emprunt',
 			null,
 			"borrowings",
-			array("bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"),
+			array(
+				"bootstrap-datepicker" => "app/View/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css",
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
 			array("form-datetime-picker" => "app/View/assets/custom/scripts/update-forms-datetime-picker.js",
-				"bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")
+				"bootstrap-datepicker" => "app/View/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"
+			)
 		);
 
 		if ($messages != null) {
@@ -368,10 +388,6 @@ class BorrowingController {
 		$userId = $borrow->getUser();
 
 		$currentUser = $this->getUser($userId);
-
-		if (isset($currentUser) && !empty($currentUser)) {
-			$currentUser = $currentUser->getSurname() . " " . $currentUser->getName();
-		}
 
 		// Format dates.
 		$dBorrow = date('Y-m-d', strtotime($borrow->getBorrowDate()));
