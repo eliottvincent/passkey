@@ -110,13 +110,13 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 
 		$borrowingToSave = new BorrowingVO();
 		$borrowingToSave->setId((string) $borrowingArray['borrowing_id']);
-		$borrowingToSave->setBorrowDate((string) $tDate->format('d/m/Y'));
-		$borrowingToSave->setDueDate((string) $tDate->modify('+ 20 day')->format('d/m/Y'));
+		$borrowingToSave->setBorrowDate((string) $tDate->format('Y-m-d'));
+		$borrowingToSave->setDueDate((string) $tDate->modify('+ 20 day')->format('Y-m-d'));
 		$borrowingToSave->setReturnDate(null);
 		$borrowingToSave->setLostDate(null);
 		$borrowingToSave->setKeychain((string) $borrowingArray['borrowing_keychain']);
 		$borrowingToSave->setUser((string) $borrowingArray['borrowing_user']);
-		$borrowingToSave->setStatus('borrowed');
+		$borrowingToSave->setStatus('en cours');
 
 		array_push($_SESSION['BORROWINGS'],$borrowingToSave);
 		array_push($this->_borrowings ,$borrowingToSave);
