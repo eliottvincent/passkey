@@ -4,41 +4,36 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://localhost/" />
-<title>connexionSimple</title>
+<title>accesPageCreationPorte</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">connexionSimple</td></tr>
+<tr><td rowspan="1" colspan="3">accesPageCreationPorte</td></tr>
 </thead><tbody>
-<tr>
-	<td>open</td>
-	<td>/passkey/?action=logout&amp;url=/</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertLocation</td>
-	<td>*localhost/passkey/?action=showLoginPageTest&amp;url=/passkey/</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=username</td>
-	<td>lluke</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=password</td>
-	<td>lluke</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//button[@type='submit']</td>
-	<td></td>
-</tr>
 <tr>
 	<td>assertLocation</td>
 	<td>*localhost/passkey/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.menu-toggler.responsive-toggler</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//li[9]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//li[9]/ul/li[2]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>*localhost/passkey/?action=createDoor</td>
 	<td></td>
 </tr>
 </tbody></table>
