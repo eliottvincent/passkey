@@ -303,7 +303,7 @@ class RoomController {
 
 		$roomKeys = $this->getRoomKeys($room);
 		$locks = $this->getLocks();
-		$roomUsers = $this->getRoomUsers($room);
+		//$roomUsers = $this->getRoomUsers($room);
 
 		$composite = new CompositeView(
 			true,
@@ -316,8 +316,8 @@ class RoomController {
 			array(
 				'room' => $room,
 				'roomKeys' => $roomKeys,
-				'locks' => $locks,
-				'roomUsers' => $roomUsers
+				//'roomUsers' => $roomUsers,
+				'locks' => $locks
 			)
 		);
 		$composite->attachContentView($detailed_borrowing);
