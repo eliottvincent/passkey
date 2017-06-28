@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://localhost/" />
-<title>connexionSimple</title>
+<title>deconnexion</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">connexionSimple</td></tr>
+<tr><td rowspan="1" colspan="3">deconnexion</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -39,6 +39,21 @@
 <tr>
 	<td>assertLocation</td>
 	<td>*localhost/passkey/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=i.fa.fa-angle-down</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Log Out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>*localhost/passkey/?action=showLoginPageTest&amp;url=/passkey/</td>
 	<td></td>
 </tr>
 </tbody></table>

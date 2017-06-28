@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://localhost/" />
-<title>connexionSimple</title>
+<title>connexionPasswordManquant</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">connexionSimple</td></tr>
+<tr><td rowspan="1" colspan="3">connexionPasswordManquant</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -27,18 +27,18 @@
 	<td>lluke</td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>name=password</td>
-	<td>lluke</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
+	<td>click</td>
 	<td>//button[@type='submit']</td>
 	<td></td>
 </tr>
 <tr>
+	<td>assertValue</td>
+	<td>name=username</td>
+	<td>lluke</td>
+</tr>
+<tr>
 	<td>assertLocation</td>
-	<td>*localhost/passkey/</td>
+	<td>*localhost/passkey/?action=showLoginPageTest&amp;url=/passkey/</td>
 	<td></td>
 </tr>
 </tbody></table>
