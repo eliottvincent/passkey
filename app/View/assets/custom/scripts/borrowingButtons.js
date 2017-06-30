@@ -96,8 +96,26 @@ function extendBorrowing() {
 						swal("Erreur !", "Merci de réessayer", "error");
 					} else {
 						swal("Fait !", "L'emprunt a bien été prolongé", "success");
-						var tr = document.querySelector('#' + id + ' #dueDate');
 
+						var tr = document.querySelector('#' + id);
+						var oldDate = $(tr).find(".due-date").text();
+						console.log("oldDate : "  + oldDate);
+
+						var tmpDate = new Date(oldDate);
+						console.log("tmpDate : "  + tmpDate);
+
+						tmpDate.setDate(tmpDate.getDate() + parseInt(result));
+						console.log("tmpDate bis: "  + tmpDate);
+
+						var month = '' + (tmpDate.getMonth() + 1),
+							day = '' + tmpDate.getDate(),
+							year = tmpDate.getFullYear();
+
+						if (month.length < 2) month = '0' + month;
+						if (day.length < 2) day = '0' + day;
+
+						var finalDate = year + '-' + month + '-' + day;
+						$(tr).find(".due-date").text(finalDate);
 					}
 				},
 				error: function (xhr, ajaxOptions, thrownError) {

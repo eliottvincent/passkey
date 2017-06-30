@@ -9,8 +9,13 @@
 <table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
 <tr><td><b>Test Suite</b></td></tr>
 <tr><td><a href="testsConnexion/testsConnexionSimple.php">connexionSimple</a></td></tr>
-<tr><td><a href="testsConnexion/testConnexionRetenue.php">connexionRetenue</a></td></tr>
-<tr><td><a href="testsConnexion/testConnexionPasswordManquant">connexionPasswordManquant</a></td></tr>
+<tr><td><a href="testsConnexion/testConnexionPasswordManquant.php">connexionPasswordManquant</a></td></tr>
+<tr><td><a href="testsConnexion/testConnexionUsernameManquant.php">connexionUsernameManquant</a></td></tr>
+<tr><td><a href="testsConnexion/testConnexionMauvaisPassword.php">connexionMauvaisPassword</a></td></tr>
+<tr><td><a href="testsConnexion/testConnexionMauvaisUsername.php">connexionMauvaisUsername</a></td></tr>
+<tr><td><a href="testsConnexion/testConnexionPasswordManquantMauvaisUsername.php">connexionPasswordManquantMauvaisUsername</a></td></tr>
+<tr><td><a href="testsConnexion/testConnexionUsernameManquantMauvaisPassword.php">connexionUsernameManquantMauvaisPassword</a></td></tr>
+<tr><td><a href="testsConnexion/testDeconnexion.php">deconnexion</a></td></tr>
 </tbody></table>
 </body>
 </html>

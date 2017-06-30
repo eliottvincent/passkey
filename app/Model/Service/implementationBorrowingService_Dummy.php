@@ -41,8 +41,6 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 		$this->_lockService = implementationLockService_Dummy::getInstance();
 		$this->_roomService = implementationRoomService_Dummy::getInstance();
 
-
-
 		// getting the data we need
 		$this->_xmlBorrowings = $this->_borrowingDAO->getBorrowings();
 
@@ -112,13 +110,13 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 
 		$borrowingToSave = new BorrowingVO();
 		$borrowingToSave->setId((string) $borrowingArray['borrowing_id']);
-		$borrowingToSave->setBorrowDate((string) $tDate->format('d/m/Y'));
-		$borrowingToSave->setDueDate((string) $tDate->modify('+ 20 day')->format('d/m/Y'));
+		$borrowingToSave->setBorrowDate((string) $tDate->format('Y-m-d'));
+		$borrowingToSave->setDueDate((string) $tDate->modify('+ 20 day')->format('Y-m-d'));
 		$borrowingToSave->setReturnDate(null);
 		$borrowingToSave->setLostDate(null);
 		$borrowingToSave->setKeychain((string) $borrowingArray['borrowing_keychain']);
 		$borrowingToSave->setUser((string) $borrowingArray['borrowing_user']);
-		$borrowingToSave->setStatus('borrowed');
+		$borrowingToSave->setStatus('en cours');
 
 		array_push($_SESSION['BORROWINGS'],$borrowingToSave);
 		array_push($this->_borrowings ,$borrowingToSave);
@@ -255,14 +253,15 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 	 * @return array
 	 */
 	public function getKeysInBorrow($id) {
+
 		$keys = array();
 		$borrow = $this->getBorrowing($id);
-		$kc_id = $borrow->getKeychain();
-		$keychain = $this->_keychainService->getKeychain($kc_id);
-		$kc_keys = $keychain->getKeys();
+		$keychainId = $borrow->getKeychain();
+		$keychain = $this->_keychainService->getKeychain($keychainId);
+		$keychainKeysIds = $keychain->getKeys();
 
-		foreach($kc_keys as $kc_key) {
-			$key = $this->_keyService->getKey($kc_key)->getName();
+		foreach($keychainKeysIds as $keyId) {
+			$key = $this->_keyService->getKey($keyId);
 			if (!in_array($key, $keys)) {
 				array_push($keys, $key);
 			}
@@ -282,72 +281,78 @@ class implementationBorrowingService_Dummy implements interfaceBorrowingService 
 		$borrow = $this->getBorrowing($id);
 		$kc_id = $borrow->getKeychain();
 		$keychain = $this->_keychainService->getKeychain($kc_id);
-		$keys = $keychain->getKeys();
 
-		foreach ($keys as $key) {
-			$k = $this->_keyService->getKey($key);
+		if ($keychain != null) {
 
-			if ($k != null) {
+			$keysIds = $keychain->getKeys();
 
-				$locks = $k->getLocks();
+			foreach ($keysIds as $keyId) {
+				$key = $this->_keyService->getKey($keyId);
 
-				// if $locks contains LockVO objects, they will be "converted" to id only
-				if (is_array($locks)) {
-					$tmp_locks = array();
-					foreach ($locks as $lock) {
-						if (is_object($lock)) {
-							$lock_id = $lock->getId();
-						} else {
-							$lock_id = $lock;
+				if ($key != null) {
+
+					$locksIds = $key->getLocks();
+
+					// if $locks contains LockVO objects, they will be "converted" to id only
+					if (is_array($locksIds)) {
+						$tmp_locks = array();
+						foreach ($locksIds as $lock) {
+							if (is_object($lock)) {
+								$lock_id = $lock->getId();
+							} else {
+								$lock_id = $lock;
+							}
+
+							array_push($tmp_locks, $lock_id);
 						}
 
-						array_push($tmp_locks, $lock_id);
+						$locksIds = $tmp_locks;
 					}
 
-					$locks = $tmp_locks;
-				}
+					foreach ($locksIds as $lockId) {
+						$lock = $this->_lockService->getLock($lockId);
+						if ($lock != null) {
 
-				foreach ($locks as $lock) {
-					$lock = $this->_lockService->getLock($lock);
-					$door_id = $lock->getDoor();
-					$door = $this->_doorService->getDoor($door_id);
-					$room_id = $door->getRoom();
-					$room = $this->_roomService->getRoom($room_id)->getName();
+							$door_id = $lock->getDoor();
+							$door = $this->_doorService->getDoor($door_id);
+							$room_id = $door->getRoom();
+							$room = $this->_roomService->getRoom($room_id);
 
-					if (!in_array($room, $rooms)) {
-						array_push($rooms, $room);
+							if (!in_array($room, $rooms)) {
+								array_push($rooms, $room);
+							}
+						}
 					}
 				}
-			}
 
 
-		}
+			}}
 		return $rooms;
 	}
 
 
-	public function returnKeychain($borrowingId,$comment)
-	{
-		$this->_cancelBorrowing($borrowingId,"return",$comment);
-	}
+public function returnKeychain($borrowingId,$comment)
+{
+	$this->_cancelBorrowing($borrowingId,"return",$comment);
+}
 
-	public function lostKeychain($borrowingId,$comment)
-	{
-		$this->_cancelBorrowing($borrowingId,"lost",$comment);
-	}
-	public function getLateBorrowings() {
+public function lostKeychain($borrowingId,$comment)
+{
+	$this->_cancelBorrowing($borrowingId,"lost",$comment);
+}
+public function getLateBorrowings() {
 
-		$lateBorrowings = array();
-		$borrowings = $this->getBorrowings();
+	$lateBorrowings = array();
+	$borrowings = $this->getBorrowings();
 
-		foreach ($borrowings as $borrowing) {
+	foreach ($borrowings as $borrowing) {
 
-			if ($borrowing->getStatus() == "en retard") {
-				array_push($lateBorrowings, $borrowing);
-			}
+		if ($borrowing->getStatus() == "en retard") {
+			array_push($lateBorrowings, $borrowing);
 		}
-
-		return $lateBorrowings;
 	}
+
+	return $lateBorrowings;
+}
 }
 

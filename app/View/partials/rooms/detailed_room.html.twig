@@ -17,7 +17,7 @@
 									</div>
 									<!-- List group -->
 									<ul class="list-group">
-										{% for key in keys %}
+										{% for key in roomKeys %}
 											<li class="list-group-item">
 												<b>{{ key.name }}</b> ({{ key.id ~ "), "}} </b> ouvre les canons suivants :
 												<ul>
@@ -42,9 +42,9 @@
 									</div>
 									<!-- List group -->
 									<ul class="list-group">
-										{% for room in rooms %}
+										{% for user in roomUsers %}
 											<li class="list-group-item">
-												{{ room }}
+												{{ user.name ~ ' (emprunt ' ~ user.borrowing.id ~ "), jusqu'au " ~ user.borrowing.dueDate }}
 											</li>
 										{% endfor %}
 									</ul>

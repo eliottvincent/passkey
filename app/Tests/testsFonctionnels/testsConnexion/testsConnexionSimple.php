@@ -13,7 +13,12 @@
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/passkey/?action=loginPage&amp;url=/passkey/</td>
+	<td>/passkey/?action=logout&amp;url=/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertLocation</td>
+	<td>*localhost/passkey/?action=showLoginPageTest&amp;url=/passkey/</td>
 	<td></td>
 </tr>
 <tr>
@@ -36,7 +41,6 @@
 	<td>*localhost/passkey/</td>
 	<td></td>
 </tr>
-
 </tbody></table>
 </body>
 </html>

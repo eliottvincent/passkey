@@ -114,12 +114,9 @@ function duplicateKeychain() {
 						swal("Fait !", "Le trousseau a bien été dupliqué", "success");
 
 						var trToDuplicate = document.querySelector('#' + id).cloneNode(true);
-						$(trToDuplicate).attr('id', 'kc_' + result.replace(' ', '_').toLowerCase());
 
-						//$(trToDuplicate).find(".td-kc-id").innerText = "test";
-						//$(trToDuplicate).find(".td-kc-name").innerText = "test";
-						//ne marche pas
-						// reste à changer l'id et le nom
+						$(trToDuplicate).find(".td-kc-id").text('kc_' + result.replace(/ /g, '_').toLowerCase());
+						$(trToDuplicate).find(".td-kc-name").text(result);
 
 						document.querySelector('tbody').appendChild(trToDuplicate);
 					}
@@ -137,3 +134,5 @@ function myFunction() {
 
 	console.log("test");
 }
+
+

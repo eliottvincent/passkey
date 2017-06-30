@@ -10,11 +10,14 @@
 								<p> Cette fiche détaille les paramètres d'un emprunt. </p>
 								<ul class="list-inline">
 									<li>
-										<i class="fa fa-forward"></i> {{ borrowDate }} </li>
+										<i class="fa fa-forward"></i> {{ borrowDate }}
+									</li>
 									<li>
-										<i class="fa fa-backward"></i> {{ dueDate }} </li>
+										<i class="fa fa-backward"></i> {{ dueDate }}
+									</li>
 									<li>
-										<i class="fa fa-user"></i> {{ user }} </li>
+										<i class="fa fa-user"></i> {{ user.surname ~ " " ~ user.name }}
+									</li>
 								</ul>
 								<p>L'état de l'emprunt est : <strong>{{ status }}</strong>.</p>
 							</div>
@@ -28,7 +31,7 @@
 									<ul class="list-group">
 										{% for key in keys %}
 											<li class="list-group-item">
-												{{ key }}
+												{{ key.name ~ " (" ~ key.id ~ ")" }}
 											</li>
 										{% endfor %}
 									</ul>
@@ -44,7 +47,7 @@
 									<ul class="list-group">
 										{% for room in rooms %}
 											<li class="list-group-item">
-												{{ room }}
+												{{ room.name ~ " (" ~ room.id ~ ")" }}
 											</li>
 										{% endfor %}
 									</ul>
