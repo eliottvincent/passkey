@@ -388,6 +388,58 @@ class RouterController
 	//================================================================================
 	// Suite router controller
 	//================================================================================
+	/**
+	 * Creates a blank page as a CompositeView
+	 *
+	 * @param $controller
+	 * @param $model
+	 * @return CompositeView
+	 */
+	function createBlankPage() {
+
+	//================================================================================
+	// DASHBOARD
+	//================================================================================
+
+	//DashboardController
+	function displayDashboard() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$dashboard = new DashboardController();
+		$dashboard->displayDash();
+	}
+
+	//================================================================================
+	// IMPORT FILES
+	//================================================================================
+
+	function import(){
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$importController = new ImportController();
+	}
+
+	//================================================================================
+	// PDF TEST
+	//================================================================================
+
+	function generatePDF() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$pdfController = new PDFController();
+		$pdfController->generatePDF();
+
+	}
+
+
+
+
+	//================================================================================
+	// Suite router controller
+	//================================================================================
 
 	function createLoginPage() {
 		$html = new View('partials/page_user_login_1.php');
