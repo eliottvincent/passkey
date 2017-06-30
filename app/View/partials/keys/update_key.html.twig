@@ -4,7 +4,7 @@
 		<div class="portlet light bordered">
 			<div class="portlet-title">
 				<div class="caption font-green-haze">
-					<i class="icon-key font-green-haze"></i>
+					<i class="fa fa-key font-green-haze"></i>
 					<span class="caption-subject bold uppercase">Mettre à jour une clé</span>
 				</div>
 			</div>
@@ -59,14 +59,11 @@
 							</div>
 						</div>
 
-						<div class="form-group form-md-line-input">
+						<div id="simpleLockSelectDiv" class="form-group form-md-line-input" {{ (key.type == 'total' or key.type == 'partial') ? 'style="display: none"' : '' }}>
 							<label class="col-md-2 control-label" for="form_control_1">Associer un canon *</label>
-							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="key_locks" multiple required>
-									<option value="none"
-									{% if 'none' in key.locks %}
-										selected
-									{% endif %}>(Aucune)</option>
+							<div class="col-md-10 input-group select2-bootstrap-append">
+								<select id="simpleLockSelect" class="form-control select2-allow-clear" name="key_locks" required>
+									<option value="none">(Aucune)</option>
 									{% for lock in locks %}
 										<option value="{{ lock.id }}"
 											{% if lock.id in key.locks %}
@@ -75,7 +72,37 @@
 										>{{ lock.name }}</option>
 									{% endfor %}
 								</select>
-								<div class="form-control-focus"> </div>
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" data-select2-open="single-append-text">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+							</div>
+						</div>
+
+						<div id="multipleLockSelectDiv" class="form-group form-md-line-input" {{ (key.type == 'total' or key.type == 'simple') ? 'style="display: none"' : '' }} >
+							<label class="col-md-2 control-label" for="form_control_1">Associer des canons *</label>
+							<div class="col-md-10">
+								<div class="input-group select2-bootstrap-append">
+									<select id="multipleLockSelect" class="form-control select2" name="key_locks[]" multiple required>
+										<option value="none"
+											{% if 'none' in key.locks %}
+										selected
+											{% endif %}>(Aucune)</option>
+										{% for lock in locks %}
+											<option value="{{ lock.id }}"
+												{% if lock.id in key.locks %}
+													selected
+												{% endif %}
+											>{{ lock.name }}</option>
+										{% endfor %}
+									</select>
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button" data-select2-open="multi-append">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</span>
+								</div>
 							</div>
 						</div>
 
@@ -85,6 +112,15 @@
 								<input type="number" class="form-control" id="form_control_1" min="0" max="20" name="key_copies" value="{{ key.copies }}" required>
 								<div class="form-control-focus"> </div>
 							</div>
+						</div>
+					</div>
+
+					<div class="form-group form-md-line-input">
+						<label class="col-md-2 control-label" for="form_control_1">Fournisseur *</label>
+						<div class="col-md-10">
+							<input type="text" class="form-control" id="form_control_1" placeholder="Nom de l'entreprise" name="key_supplier" required value=" {{ key.supplier }}">
+							<div class="form-control-focus"> </div>
+							<span class="help-block">Ce nom permettra d'identifier l'entreprise qui a fourni la clé.</span>
 						</div>
 					</div>
 

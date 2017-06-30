@@ -17,6 +17,7 @@ class KeyController {
 	 * KeyController constructor.
 	 */
 	public function __construct() {
+
 		$this->_keyService = implementationKeyService_Dummy::getInstance();
 		$this->_lockService = implementationLockService_Dummy::getInstance();
 	}
@@ -34,12 +35,12 @@ class KeyController {
 		$keys = $this->getKeys();
 
 		if (!empty($keys)) {
-			$this->displayList(true);
+			$this->displayList();
 		}
 		else {
 			$message['type'] = 'danger';
 			$message['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
-			$this->displayList(false, array($message));
+			$this->displayList(array($message));
 		}
 	}
 
@@ -48,21 +49,21 @@ class KeyController {
 	 * @param $state boolean if file datas/datas.xlsx exists
 	 * @param null $message array of the message displays
 	 */
-	public function displayList($state, $messages = null) {
-		if ($state) {
-			$keys = $this->getKeys();
-		} else {
-			$keys = null;
-		}
+	public function displayList($messages = null) {
+
+		$keys = $this->getKeys();
+		$locks = $this->getLocks();
 
 		$compositeView = new CompositeView(
 			true,
 			'Liste des clés',
 			'Cette page permet de modifier et/ou supprimer des clés.',
-			"key",
+			"keys",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
 			array("deleteKeyScript" => "app/View/assets/custom/scripts/deleteKey.js",
-				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
+				"tableFilterScript" => "app/View/assets/custom/scripts/table-filter.js"
+			));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -73,7 +74,7 @@ class KeyController {
 			}
 		}
 
-		$list_keys = new View("keys/list_keys.html.twig", array('keys' => $keys));
+		$list_keys = new View("keys/list_keys.html.twig", array('keys' => $keys, 'locks' => $locks));
 		$compositeView->attachContentView($list_keys);
 
 		echo $compositeView->render();
@@ -93,6 +94,7 @@ class KeyController {
 		if (!isset($_POST['key_name']) &&
 			!isset($_POST['key_type']) &&
 			!isset($_POST['key_locks']) &&
+			!isset($_POST['key_supplier']) &&
 			!isset($_POST['key_copies'])) {
 
 			$this->displayForm();
@@ -102,6 +104,7 @@ class KeyController {
 		elseif (empty($_POST['key_name']) ||
 			empty($_POST['key_type']) ||
 			empty($_POST['key_locks']) ||
+			empty($_POST['key_supplier']) ||
 			empty($_POST['key_copies'])) {
 
 			$m_type = "danger";
@@ -118,15 +121,23 @@ class KeyController {
 			// id generation
 			$id = 'k_' . strtolower(str_replace(' ', '_', addslashes($_POST['key_name'])));
 
+			// if the key is total, we add all locks.
+			if ( addslashes($_POST['key_type']) == 'total') {
+				$locks = $this->_lockService->getLocks();
+				$_POST['key_locks'] = $locks;
+			}
+
 			// unicity check
 			$exist = $this->checkUnicity($id);
 
 			if (!$exist) {
+
 				$keyToSave = array(
 					'key_id' => $id,
 					'key_name' => addslashes($_POST['key_name']),
 					'key_type' => addslashes($_POST['key_type']),
-					'key_locks' => addslashes($_POST['key_locks']),
+					'key_locks' => $_POST['key_locks'],
+					'key_supplier' => addslashes($_POST['key_supplier']),
 					'key_copies' => addslashes($_POST['key_copies'])
 				);
 
@@ -163,7 +174,17 @@ class KeyController {
 			true,
 			'Ajouter une clé',
 			null,
-			"key");
+			"keys",
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array(
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"
+			)
+		);
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -194,8 +215,7 @@ class KeyController {
 
 		if (isset($_POST['value'])) {
 
-			if ($this->deleteKey($_POST['value']) == true) {
-				$response['keys'] = $this->getKeys();
+			if ($this->deleteKey(urldecode($_POST['value'])) == true) {
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}
@@ -206,7 +226,7 @@ class KeyController {
 		}
 		else {
 			$response['status'] = 'error';
-			$response['message'] = 'This failed';
+			$response['message'] = 'This failed ';
 		}
 
 		echo json_encode($response);
@@ -231,38 +251,33 @@ class KeyController {
 		elseif (isset($_POST['key_name']) &&
 			isset($_POST['key_type']) &&
 			isset($_POST['key_locks']) &&
+			isset($_POST['key_supplier']) &&
 			isset($_POST['key_copies'])) {
 
 			$keyToUpdate = array(
 				'key_id' => $_POST['key_id'],
 				'key_name' => addslashes($_POST['key_name']),
 				'key_type' => addslashes($_POST['key_type']),
-				'key_locks' => addslashes($_POST['key_locks']),
+				'key_locks' => $_POST['key_locks'],
+				'key_supplier' => addslashes($_POST['key_supplier']),
 				'key_copies' => addslashes($_POST['key_copies']));
 
 			if ($this->updateKey($keyToUpdate) == false) {
 				$message['type'] = 'danger';
 				$message['message'] = 'Erreur lors de la modification de la clé.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 			else {
 				$message['type'] = 'success';
 				$message['message'] = 'La clé a bien été modifiée.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 		}
 
 		else {
-			$keys = $this->getKeys();
 
-			if (!empty($keys)) {
-				$this->displayList(true);
-			}
-			else {
-				$message['type'] = 'danger';
-				$message['message'] = 'Nous n\'avons aucune clé d\'enregistrée.';
-				$this->displayList(false, array($message));
-			}
+			$this->list();
+
 		}
 	}
 
@@ -279,7 +294,17 @@ class KeyController {
 			true,
 			'Mettre à jour une clé',
 			null,
-			"key");
+			"keys",
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array(
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"
+			)
+		);
 
 		if ($messages != null) {
 

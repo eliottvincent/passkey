@@ -33,35 +33,35 @@ class UserController {
 
 		if (!empty($users)) {
 
-			$this->displayList(true);
+			$this->displayList();
 		}
 		else {
-			$alert['type'] = 'danger';
-			$alert['message'] = 'Nous n\'avons aucun utilisateur d\'enregistré.';
-			$alerts[] = $alert;
-			$this->displayList(false, $alerts);
+			$message['type'] = 'danger';
+			$message['message'] = 'Nous n\'avons aucun utilisateur d\'enregistré.';
+			$this->displayList(array($message));
 		}
 	}
 
 	/**
 	 * Display list of users.
-	 * @param $state boolean if file datas/datas.xlsx exists
-	 * @param null $message array of the message displays
+	 * @param null $messages
+	 * @internal param bool $state if file datas/datas.xlsx exists
+	 * @internal param null $message array of the message displays
 	 */
-	public function displayList($state, $messages = null) {
-		if ($state) {
-			$users = $this->getUsers();
-		} else {
-			$users = null;
-		}
+	public function displayList($messages = null) {
+
+		$users = $this->getUsers();
+
 		$compositeView = new CompositeView(
 			true,
 			'Liste des utilisateurs',
 			'Cette page permet de modifier et/ou supprimer des utilisateurs.',
-			"user",
+			"users",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
 			array("deleteUserScript" => "app/View/assets/custom/scripts/deleteUser.js",
-				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
+				"tableFilterScript" => "app/View/assets/custom/scripts/table-filter.js"
+			));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -171,7 +171,7 @@ class UserController {
 			true,
 			'Ajouter un utilisateur',
 			null,
-			"user",
+			"users",
 			null,
 			array("jQueryInputMask" => "app/View/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js",
 				"customMasks" => "app/View/assets/custom/scripts/form-input-mask.js"));
@@ -205,8 +205,7 @@ class UserController {
 
 		if (isset($_POST['value'])) {
 
-			if ($this->deleteUser($_POST['value']) == true) {
-				$response['users'] = $this->getUsers();
+			if ($this->deleteUser(urldecode($_POST['value'])) == true) {
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}
@@ -263,26 +262,19 @@ class UserController {
 			if ($this->updateUser($userToUpdate) == false) {
 				$message['type'] = 'danger';
 				$message['message'] = 'Erreur lors de la modification de l\'utilisateur.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 			else {
 				$message['type'] = 'success';
 				$message['message'] = 'L\'utilisateur a bien été modifié.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 		}
 
 		else {
-			$users = $this->getUsers();
 
-			if (!empty($users)) {
-				$this->displayList(true);
-			}
-			else {
-				$message['type'] = 'danger';
-				$message['message'] = 'Nous n\'avons aucun utilisateur d\'enregistré.';
-				$this->displayList(false, array($message));
-			}
+			$this->list();
+
 		}
 	}
 
@@ -293,7 +285,7 @@ class UserController {
 	 */
 	public function displayUpdateForm($user, $messages = null) {
 
-		$compositeView = new CompositeView(true, "Mettre à jour un utilisateur", null, "user");
+		$compositeView = new CompositeView(true, "Mettre à jour un utilisateur", null, "users");
 
 		if ($messages != null) {
 
@@ -351,6 +343,10 @@ class UserController {
 		return $this->_userService->deleteUser($enssatPrimaryKey);
 	}
 
+	/**
+	 * @param $userToUpdate
+	 * @return mixed
+	 */
 	private function updateUser($userToUpdate) {
 
 		return $this->_userService->updateUser($userToUpdate);

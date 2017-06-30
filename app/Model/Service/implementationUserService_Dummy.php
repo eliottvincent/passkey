@@ -187,7 +187,7 @@ class implementationUserService_Dummy implements interfaceUserService {
 
 				if ($user->getEnssatPrimaryKey() == (int) $enssatPrimaryKey) {
 
-						return true;
+					return true;
 				}
 			}
 		}

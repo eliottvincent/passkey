@@ -5,7 +5,7 @@
 			<div class="portlet-title">
 				<div class="caption font-green-haze">
 					<i class="fa fa-columns font-green-haze"></i>
-					<span class="caption-subject bold uppercase">Créer une nouvelle porte</span>
+					<span class="caption-subject bold uppercase">Mettre à jour une porte</span>
 				</div>
 			</div>
 			<div class="portlet-body form">
@@ -26,69 +26,29 @@
 								<span class="help-block">Ce nom permettra d'identifier la porte dans l'application.</span>
 							</div>
 						</div>
+
 						<div class="form-group form-md-line-input">
-							<label class="col-md-2 control-label" for="form_control_1">Bâtiment *</label>
-							<div class="col-md-10">
-								<div class="md-radio-inline">
-									<div class="md-radio">
-										<input type="radio" id="building1" name="door_building" class="md-radiobtn" {{ (door.building == 'building_1') ? 'checked' : '' }} value="building_1">
-										<label for="building1">
-											<span></span>
-											<span class="check"></span>
-											<span class="box"></span>Bâtiment 1</label>
-									</div>
-									<div class="md-radio">
-										<input type="radio" id="building2" name="door_building" class="md-radiobtn" {{ (door.building == 'building_2') ? 'checked' : '' }} value="building_2">
-										<label for="building2">
-											<span></span>
-											<span class="check"></span>
-											<span class="box"></span>Bâtiment 2</label>
-									</div>
-									<div class="md-radio">
-										<input type="radio" id="building3" name="door_building" class="md-radiobtn" {{ (door.building == 'building_3') ? 'checked' : '' }} value="building_3">
-										<label for="building3">
-											<span></span>
-											<span class="check"></span>
-											<span class="box"></span>Bâtiment 3</label>
-									</div>
-								</div>
+							<label class="col-md-2 control-label" for="form_control_1">Associer une salle *</label>
+							<div class="col-md-10 input-group select2-bootstrap-append">
+								<select id="single-append-text" class="form-control select2-allow-clear" name="door_room" required>
+									<option value="none">(Aucune)</option>
+									{% for room in rooms %}
+										<option value="{{ room.id }}"
+											{% if room.id == door.room %}
+												selected
+											{% endif %}
+										>{{ room.name }}</option>
+									{% endfor %}
+								</select>
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" data-select2-open="single-append-text">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
 							</div>
 						</div>
-						<div class="form-group form-md-line-input">
-							<label class="col-md-2 control-label" for="form_control_1">Étage *</label>
-							<div class="col-md-10">
-								<div class="md-radio-inline">
-									<div class="md-radio">
-										<input type="radio" id="rdc" name="door_floor" class="md-radiobtn" {{ (door.floor == 'floor_0') ? 'checked' : '' }} value="floor_0">
-										<label for="rdc">
-											<span></span>
-											<span class="check"></span>
-											<span class="box"></span>Rez-de-chaussée</label>
-									</div>
-									<div class="md-radio">
-										<input type="radio" id="floor1" name="door_floor" class="md-radiobtn" {{ (door.floor == 'floor_1') ? 'checked' : '' }} value="floor_1">
-										<label for="floor1">
-											<span></span>
-											<span class="check"></span>
-											<span class="box"></span>Étage 1</label>
-									</div>
-									<div class="md-radio">
-										<input type="radio" id="floor2" name="door_floor" class="md-radiobtn" {{ (door.floor == 'floor_2') ? 'checked' : '' }} value="floor_2">
-										<label for="floor2">
-											<span></span>
-											<span class="check"></span>
-											<span class="box"></span>Étage 2</label>
-									</div>
-									<div class="md-radio">
-										<input type="radio" id="floor3" name="door_floor" class="md-radiobtn" {{ (door.floor == 'floor_3') ? 'checked' : '' }} value="floor_3">
-										<label for="floor3">
-											<span></span>
-											<span class="check"></span>
-											<span class="box"></span>Étage 3</label>
-									</div>
-								</div>
-							</div>
-						</div>
+
+
 					</div>
 					<div class="form-actions">
 						<div class="row">

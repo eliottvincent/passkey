@@ -4,7 +4,7 @@
 		<div class="portlet light bordered">
 			<div class="portlet-title">
 				<div class="caption font-green-haze">
-					<i class="icon-key font-green-haze"></i>
+					<i class="fa fa-key font-green-haze"></i>
 					<span class="caption-subject bold uppercase">Créer une nouvelle clé</span>
 				</div>
 			</div>
@@ -49,16 +49,40 @@
 							</div>
 						</div>
 
-						<div class="form-group form-md-line-input">
-							<label class="col-md-2 control-label" for="form_control_1">Associer un canon *</label>
-							<div class="col-md-10">
-								<select class="form-control" id="form_control_1" name="key_locks" multiple required>
-									<option value="none">(Aucun)</option>
+						<div id="simpleLockSelectDiv" class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Associer un canons *</label>
+							<div class="col-md-10 input-group select2-bootstrap-append">
+								<select id="simpleLockSelect" class="form-control select2-allow-clear" name="key_locks" required>
+									<option value="none">(Aucune)</option>
 									{% for lock in locks %}
 										<option value="{{ lock.id }}">{{ lock.name }}</option>
 									{% endfor %}
 								</select>
-								<div class="form-control-focus"> </div>
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" data-select2-open="single-append-text">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+							</div>
+						</div>
+
+						<div id="multipleLockSelectDiv" class="form-group form-md-line-input" style="display: none">
+							<label class="col-md-2 control-label" for="form_control_1">Associer des canons *</label>
+							<div class="col-md-10">
+								<div class="input-group select2-bootstrap-append">
+									<select id="multipleLockSelect" class="form-control select2" name="key_locks[]" multiple required>
+										<option></option>
+										<option value="none">(Aucun)</option>
+										{% for lock in locks %}
+											<option value="{{ lock.id }}">{{ lock.name }}</option>
+										{% endfor %}
+									</select>
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button" data-select2-open="multi-append">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</span>
+								</div>
 							</div>
 						</div>
 
@@ -69,6 +93,16 @@
 								<div class="form-control-focus"></div>
 							</div>
 						</div>
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Fournisseur *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="Nom de l'entreprise" name="key_supplier" required>
+								<div class="form-control-focus"> </div>
+								<span class="help-block">Ce nom permettra d'identifier l'entreprise qui a fourni la clé.</span>
+							</div>
+						</div>
+
 					</div>
 					<div class="form-actions">
 						<div class="row">

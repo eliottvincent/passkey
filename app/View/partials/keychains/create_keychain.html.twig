@@ -1,0 +1,59 @@
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN SAMPLE FORM PORTLET-->
+		<div class="portlet light bordered">
+			<div class="portlet-title">
+				<div class="caption font-green-haze">
+					<i class="fa fa-tags font-green-haze"></i>
+					<span class="caption-subject bold uppercase">Créer un nouveau trousseau</span>
+				</div>
+			</div>
+			<div class="portlet-body form">
+				<form role="form" class="form-horizontal" action="" method="post">
+					<div class="form-body">
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Nom du trousseau *</label>
+							<div class="col-md-10">
+								<input type="text" class="form-control" id="form_control_1" placeholder="trousseau 102H" name="keychain_name" required>
+								<div class="form-control-focus"> </div>
+								<span class="help-block">Ce nom permettra d'identifier le trousseau dans l'application.</span>
+							</div>
+						</div>
+
+
+						<div class="form-group form-md-line-input">
+							<label class="col-md-2 control-label" for="form_control_1">Ajouter des clés *</label>
+							<div class="col-md-10">
+								<div class="input-group select2-bootstrap-append">
+									<select id="multi-append" class="form-control select2" name="keychain_keys[]" multiple required>
+										<option></option>
+										<option value="none">(Aucun)</option>
+										{% for key in keys%}
+										<option value="{{ key.id }}">{{ key.name }}</option>
+										{% endfor %}
+									</select>
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button" data-select2-open="multi-append">
+											<span class="glyphicon glyphicon-search"></span>
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="form-actions">
+						<div class="row">
+							<div class="col-md-offset-2 col-md-10">
+								<button type="submit" class="btn blue">Ajouter un trousseau</button>
+								<button type="button" onclick="location.href='{{ previousUrl }}'" class="btn default">Retour</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- END SAMPLE FORM PORTLET-->
+	</div>
+</div>

@@ -6,21 +6,19 @@ window.addEventListener('load', initialiser);
 
 function initialiser(e) {
 
-	var bbtns = document.getElementsByClassName('btn-delete-b');
-	if (bbtns !== null) {
-		for (var i = 0; i < bbtns.length; i++) {
-			bbtns[i].addEventListener('click', deleteBorrowing);
+	var dbtns = document.getElementsByClassName('btn-delete-r');
+	if (dbtns !== null) {
+		for (var i = 0; i < dbtns.length; i++) {
+			dbtns[i].addEventListener('click', deleteRoom);
 		}
 	}
-
-
 }
 
-function deleteBorrowing() {
+function deleteRoom() {
 	var id = this.getAttribute('value');
 	console.log(id);
 	swal({
-		title: 'Êtes-vous sûr de vouloir supprimer cet emprunt ?',
+		title: 'Êtes-vous sûr de vouloir supprimer cette salle ?',
 		text: 'Cette action est irréversible',
 		type: 'warning',
 		showCancelButton: true,
@@ -29,7 +27,7 @@ function deleteBorrowing() {
 		preConfirm: function () {
 			return new Promise(function (resolve, reject) {
 				$.ajax({
-					url: "/?action=deleteBorrowingAjax",
+					url: "/?action=deleteRoomAjax",
 					type: "POST",
 					data: {
 						value: encodeURIComponent(id),
@@ -39,7 +37,7 @@ function deleteBorrowing() {
 						if( data.status === 'error' ) {
 							swal("Erreur !", "Merci de réessayer", "error");
 						} else {
-							swal("Fait !", "L'emprunt a bien été supprimé", "success");
+							swal("Fait !", "La salle a bien été supprimée", "success");
 							var tr = document.querySelector('#' + id);
 							document.querySelector('tbody').removeChild(tr);
 						}
@@ -53,3 +51,6 @@ function deleteBorrowing() {
 		allowOutsideClick: false
 	});
 }
+/**
+ * Created by eliottvincent on 08/06/2017.
+ */

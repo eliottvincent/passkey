@@ -12,8 +12,8 @@ class BorrowingController {
 	 */
 	public function __construct() {
 		$this->_borrowingService = implementationBorrowingService_Dummy::getInstance();
-		$this->_keyService = implementationKeyService_Dummy::getInstance();
 		$this->_userService = implementationUserService_Dummy::getInstance();
+		$this->_keychainService = implementationKeychainService_Dummy::getInstance();
 	}
 
 	//================================================================================
@@ -28,46 +28,55 @@ class BorrowingController {
 		$borrowings = $this->getBorrowings();
 
 		if (!empty($borrowings)) {
-			$this->displayList(true);
+			$this->displayList();
 		}
 		else {
 			$message['type'] = 'danger';
 			$message['message'] = 'Nous n\'avons aucun emprunt d\'enregistré.';
-			$this->displayList(false, array($message));
+			$this->displayList(array($message));
 		}
 	}
 
 	/**
 	 * Display list of borrowings.
-	 * @param null $message array of the message displays
+	 * @param null $messages
+	 * @internal param null $message array of the message displays
 	 */
-	public function displayList($state, $messages = null) {
+	public function displayList($messages = null) {
 
-		if ($state) {
-			$borrowings = $this->getBorrowings();
-		} else {
-			$borrowings = null;
-		}
+		$borrowings = $this->getBorrowings();
+		$users = $this->getUsers();
+		$keychains = $this->getKeychains();
 
 		$compositeView = new CompositeView(
 			true,
 			'Liste des emprunts',
 			'Cette page permet de modifier et/ou supprimer des emprunts.',
-			"borrowing",
+			"borrowings",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
-			array("deleteKeyScript" => "app/View/assets/custom/scripts/deleteBorrowing.js",
-				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
+			array("borrowingButtons" => "app/View/assets/custom/scripts/borrowingButtons.js",
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
+				"tableFilterScript" => "app/View/assets/custom/scripts/table-filter.js"));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$submit_message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-					$compositeView->attachContentView($submit_message);
+					$data = array("alert_type" => $message['type'],
+						"alert_message" => $message['message']);
+					if (isset($message['link']) &&
+						isset($message['link_href']) &&
+						isset($message['link_text'])) {
+						$data['alert_link'] = $message['link'];
+						$data['alert_link_href'] = $message['link_href'];
+						$data['alert_link_text'] = $message['link_text'];
+					}
+					$message = new View("submit_message.html.twig", $data);
+					$compositeView->attachContentView($message);
 				}
 			}
 		}
 
-		$list_borrowings = new View("borrowings/list_borrowings.html.twig", array('borrowings' => $borrowings));
+		$list_borrowings = new View("borrowings/list_borrowings.html.twig", array('borrowings' => $borrowings, 'users' => $users, 'keychains' => $keychains));
 		$compositeView->attachContentView($list_borrowings);
 
 		echo $compositeView->render();
@@ -95,6 +104,9 @@ class BorrowingController {
 			$m_message = "Toutes les valeurs nécessaires n'ont pas été trouvées. Merci de compléter tous les champs.";
 			$message['type'] = $m_type;
 			$message['message'] = $m_message;
+			$message['link']="false";
+			$message['link_href']="";
+			$message['link_text']="";
 
 			$this->displayForm(array($message));
 		}
@@ -105,9 +117,10 @@ class BorrowingController {
 			// id generation
 			$id = 'b_'
 				. strtolower(str_replace(' ', '_', addslashes($_POST['borrowing_user'])))
+				. '_'
 				. strtolower(str_replace(' ', '_', addslashes($_POST['borrowing_keychain'])));
 
-				// unicity check
+			// unicity check
 			$exist = $this->checkUnicity($id);
 
 			if (!$exist) {
@@ -120,9 +133,15 @@ class BorrowingController {
 				$this->saveBorrowing($borrowingToSave);
 
 				$m_type = "success";
-				$m_message = "L'emprunt a bien été créée.";
+				$link = "<a href=\"./?action=pdftest\" class=\"alert-link\"> test </a>";
+				$m_message = "L'emprunt a bien été créé.";
+				//$link = "<a href=\"./?action=pdftest\" >";
+				$m_message = "L'emprunt a bien été créé.";
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
+				$message['link']="true";
+				$message['link_href']="./?action=generatePDF&keyname=".$borrowingToSave['borrowing_keychain']."&user=".$borrowingToSave['borrowing_user']."&borid=".$borrowingToSave['borrowing_id'];
+				$message['link_text']="Vous pouvez récupérer le PDF de l'emprunt en cliquant ici";
 
 				$this->displayForm(array($message));
 
@@ -132,6 +151,9 @@ class BorrowingController {
 				$m_message = "Un emprunt avec le même nom existe déjà.";
 				$message['type'] = $m_type;
 				$message['message'] = $m_message;
+				$message['link']="false";
+				$message['link_href']="";
+				$message['link_text']="";
 
 				$this->displayForm(array($message));
 			}
@@ -144,25 +166,44 @@ class BorrowingController {
 	 */
 	public function displayForm($messages = null) {
 
-		$keys = $this->getKeys();
+		$keychains = $this->getKeychains();
 		$users = $this->getUsers();
 
 		$compositeView = new CompositeView(
 			true,
 			'Ajouter un emprunt',
 			null,
-			"borrowing");
+			"borrowings",
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array(
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"
+			)
+		);
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
+					$data = array("alert_type" => $message['type'],
+						"alert_message" => $message['message']);
+					if (isset($message['link']) &&
+						isset($message['link_href']) &&
+						isset($message['link_text'])) {
+						$data['alert_link'] = $message['link'];
+						$data['alert_link_href'] = $message['link_href'];
+						$data['alert_link_text'] = $message['link_text'];
+					}
+					$message = new View("submit_message.html.twig", $data);
 					$compositeView->attachContentView($message);
 				}
 			}
 		}
 
-		$create_borrowing = new View('borrowings/create_borrowing.html.twig', array('keys' => $keys, 'users' => $users, 'previousUrl' => getPreviousUrl()));
+		$create_borrowing = new View('borrowings/create_borrowing.html.twig', array('keychains' => $keychains, 'users' => $users, 'previousUrl' => getPreviousUrl()));
 		$compositeView->attachContentView($create_borrowing);
 
 		echo $compositeView->render();
@@ -182,8 +223,35 @@ class BorrowingController {
 
 		if (isset($_POST['value'])) {
 
-			if ($this->deleteBorrowing($_POST['value']) == true) {
-				$response['borrowings'] = $this->getBorrowings();
+			if ($this->deleteBorrowing(urldecode($_POST['value'])) == true) {
+				$response['status'] = 'success';
+				$response['message'] = 'This was successful';
+			}
+			else {
+				$response['status'] = 'error';
+				$response['message'] = 'This failed';
+			}
+		}
+		else {
+			$response['status'] = 'error';
+			$response['message'] = 'This failed';
+		}
+
+		echo json_encode($response);
+	}
+
+	//================================================================================
+	// EXTEND
+	//================================================================================
+
+	/**
+	 *
+	 */
+	public function extendBorrowingAjax() {
+
+		if (isset($_POST['value']) && isset($_POST['number'])) {
+
+			if ($this->extendBorrowing(urldecode($_POST['value']), $_POST['number']) == true) {
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}
@@ -239,26 +307,18 @@ class BorrowingController {
 			if ($this->updateBorrowing($borrowingToUpdate) == false) {
 				$message['type'] = 'danger';
 				$message['message'] = 'Erreur lors de la modification de l\'emprunt.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 			else {
 				$message['type'] = 'success';
 				$message['message'] = 'L\'emprunt a bien été modifié.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 		}
 
 		else {
-			$borrowings = $this->getBorrowings();
 
-			if (!empty($borrowings)) {
-				$this->displayList(true);
-			}
-			else {
-				$message['type'] = 'danger';
-				$message['message'] = 'Nous n\'avons aucun emprunt d\'enregistré.';
-				$this->displayList(false, array($message));
-			}
+			$this->list();
 		}
 	}
 
@@ -269,33 +329,117 @@ class BorrowingController {
 	 */
 	public function displayUpdateForm($borrowing, $messages = null) {
 
-		$keys = $this->getKeys();
+		$keychains = $this->getKeychains();
 		$users = $this->getUsers();
 		$statuses = $this->getStatuses();
 
-		$composite = new CompositeView(
+		$compositeView = new CompositeView(
 			true,
 			'Mettre à jour un emprunt',
 			null,
-			"borrowing",
-			array("bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"),
-			array("form-datetime-picker" => "app/View/assets/custom/scripts/update-borrowing-datetime-picker.js",
-				"bootstrap-datetimepicker" => "app/View/assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")
+			"borrowings",
+			array(
+				"bootstrap-datepicker" => "app/View/assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css",
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array("form-datetime-picker" => "app/View/assets/custom/scripts/update-forms-datetime-picker.js",
+				"bootstrap-datepicker" => "app/View/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"
+			)
 		);
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
 				if (!empty($message['type']) && !empty($message['message'])) {
-					$message = new View("submit_message.html.twig", array("alert_type" => $message['type'] , "alert_message" => $message['message']));
-					$composite->attachContentView($message);
+					$data = array("alert_type" => $message['type'],
+						"alert_message" => $message['message']);
+					if (isset($message['link']) &&
+						isset($message['link_href']) &&
+						isset($message['link_text'])) {
+						$data['alert_link'] = $message['link'];
+						$data['alert_link_href'] = $message['link_href'];
+						$data['alert_link_text'] = $message['link_text'];
+					}
+					$message = new View("submit_message.html.twig", $data);
+					$compositeView->attachContentView($message);
 				}
 			}
 		}
 
-		$update_borrowing = new View('borrowings/update_borrowing.html.twig', array('borrowing' => $borrowing, 'keys' => $keys, 'users' => $users, 'statuses' => $statuses, 'previousUrl' => getPreviousUrl()));
-		$composite->attachContentView($update_borrowing);
+		$update_borrowing = new View('borrowings/update_borrowing.html.twig', array('borrowing' => $borrowing, 'keychains' => $keychains, 'users' => $users, 'statuses' => $statuses, 'previousUrl' => getPreviousUrl()));
+		$compositeView->attachContentView($update_borrowing);
+
+		echo $compositeView->render();
+	}
+
+	//================================================================================
+	// DETAILED
+	//================================================================================
+
+	public function detailed() {
+
+		$id = $_GET['id'];
+		$borrow = $this->getBorrowing($id);
+
+		// Get the name of user.
+		$userId = $borrow->getUser();
+
+		$currentUser = $this->getUser($userId);
+
+		// Format dates.
+		$dBorrow = date('Y-m-d', strtotime($borrow->getBorrowDate()));
+		$dDue = date('Y-m-d', strtotime($borrow->getBorrowDate()));
+
+		// State.
+		switch($borrow->getStatus()) {
+			case "en cours":
+				$status = "en cours";
+				break;
+			case "en retard":
+				$status = "en retard";
+				break;
+			case "rendu":
+				$status = "rendu";
+				break;
+			case "perdu":
+				$status = "perdu";
+				break;
+			default:
+				$status = "n'existe pas";
+				break;
+		}
+
+		// Rooms.
+		$rooms = $this->_borrowingService->getOpenedRooms($id);
+
+		// Keys.
+		$keys = $this->_borrowingService->getKeysInBorrow($id);
+
+		$composite = new CompositeView(
+			true,
+			"Détail de l'emprunt",
+			null,
+			"borrowings"
+		);
+
+		$detailed_borrowing = new View('borrowings/detailed_borrowing.html.twig',
+			array(
+				'borrow' => $borrow,
+				'user' => $currentUser,
+				'borrowDate' => $dBorrow,
+				'dueDate' => $dDue,
+				'status' => $status,
+				'rooms' => $rooms,
+				'keys' => $keys
+			)
+		);
+		$composite->attachContentView($detailed_borrowing);
 
 		echo $composite->render();
+
 	}
 
 
@@ -321,8 +465,8 @@ class BorrowingController {
 	}
 
 	/**
-	 * @param $id
 	 * @return mixed
+	 * @internal param $id
 	 */
 	public function getUsers() {
 
@@ -333,13 +477,22 @@ class BorrowingController {
 	 * @param $id
 	 * @return mixed
 	 */
-	public function getKeys() {
+	public function getUser($id) {
 
-		return $this->_keyService->getKeys();
+		return $this->_userService->getUser($id);
 	}
 
 	/**
-	 * @param $keyToSave
+	 * @param $id
+	 * @return mixed
+	 */
+	public function getKeychains() {
+
+		return $this->_keychainService->getKeychains();
+	}
+
+	/**
+	 * @param $borrowingToSave
 	 */
 	private function saveBorrowing($borrowingToSave) {
 
@@ -354,6 +507,15 @@ class BorrowingController {
 	private function deleteBorrowing($id) {
 
 		return $this->_borrowingService->deleteBorrowing($id);
+	}
+
+	/**
+	 * Used to extend a borrowing from an id with number day(s).
+	 * @param $id, $number
+	 */
+	private function extendBorrowing($id, $number) {
+
+		return $this->_borrowingService->extendBorrowing($id, $number);
 	}
 
 	/**

@@ -1,25 +1,28 @@
 	<div class="row">
 		<div class="col-md-12">
+		</div>
+		<div class="col-md-12">
 			<!-- BEGIN SAMPLE TABLE PORTLET-->
 			<div class="portlet box blue">
 				<div class="portlet-title">
 					<div class="caption">
-						<i class="icon-key"></i> Liste des clés  </div>
+						<i class="fa fa-key"></i> Liste des clés  </div>
 					<div class="tools">
 						<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
 					</div>
 				</div>
 				<div class="portlet-body">
-					<div class="table-responsive">
-						<table class="table table-striped table-bordered table-hover">
+					<div class="table">
+						<table id="filterTable" class="table table-striped table-bordered table-hover">
 							<thead>
 							<tr>
-								<th> #id </th>
-								<th> Key name </th>
-								<th> Key type </th>
-								<th> Key lock </th>
-								<th> Key copies </th>
-								<th> #actions </th>
+								<th> ID </th>
+								<th> Nom </th>
+								<th> Fournisseur </th>
+								<th> Type </th>
+								<th> Canon </th>
+								<th> Nombre d'exemplaires </th>
+								<th> Actions </th>
 							</tr>
 							</thead>
 							<tbody>
@@ -27,11 +30,17 @@
 								<tr id="{{ key.id }}">
 									<td> {{ key.id }} </td>
 									<td> {{ key.name }} </td>
-									<td> {{ key.type }} </td>
+									<td> {{ key.supplier }} </td>
+									<td> {% if key.type == "partial" %}partiel {% else %} {{key.type}} {% endif %}</td>
 									<td>
 										{% for lock in key.locks %}
-											<p>{{ lock }}</p>
+											{% for lockLock in locks %}
+												{% if lockLock.id == lock %}
+													<p>{{ lockLock.name}}</p>
+												{% endif %}
+											{% endfor %}
 										{% endfor %}
+									</td>
 									<td>
 										<p
 											{% if key.copies < 3 %}
@@ -41,9 +50,8 @@
 											{% endif %}
 										>{{ key.copies }}</p>
 									</td>
-									</td>
 
-									<td>
+									<td style="display: flex;">
 										<form action="./?action=updatekey" method="post">
 											<input type="hidden" name="update" value="{{ key.id }}"/>
 											<button type="submit" class="btn blue btn-sm">Modifier</button>
@@ -57,6 +65,15 @@
 								</tr>
 							{% endfor %}
 							</tbody>
+							<tfoot>
+								<th> ID </th>
+								<th> Nom </th>
+								<th> Fournisseur </th>
+								<th> Type </th>
+								<th> Canon </th>
+								<th> Nombre </th>
+								<th> Actions </th>
+							</tfoot>
 						</table>
 					</div>
 				</div>

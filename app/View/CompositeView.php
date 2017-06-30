@@ -16,7 +16,7 @@ class CompositeView implements ViewInterface
 			$head = new View("head.html.twig", array('title' => $title, 'styles' => $styles));
 			$header = new View("header.html.twig", array('session' => $_SESSION));
 			$sidebar = new View("sidebar.html.twig", array('activePage' => $activePage));
-			$content_start = new View("content_start.html.twig", array('title' => $title, 'subtitle' => $subtitle));
+			$content_start = new View("content_start.html.twig", array('title' => $title, 'subtitle' => $subtitle, 'activePage' => $activePage));
 			$quicksidebar = new View("quicksidebar.html.twig");
 			$content_end = new View("content_end.html.twig");
 			$footer = new View("footer.html.twig");
@@ -30,7 +30,6 @@ class CompositeView implements ViewInterface
 				->attachView($quicksidebar)
 				->attachView($content_end)
 				->attachView($footer)
-				->attachView($quicknav)
 				->attachView($foot);
 		}
 	}

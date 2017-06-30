@@ -2,5 +2,7 @@
 <div class="alert alert-{{ alert_type }} alert-dismissable">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>
 	<p>{{ alert_message }}</p>
+	{% if alert_link == "true" %}
+		<a href="{{ alert_link_href }}" class="alert-link" target="_blank"> {{ alert_link_text }} </a>
+	{% endif %}
 </div>
-<!-- END SAMPLE FORM PORTLET-->

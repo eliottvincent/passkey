@@ -93,6 +93,7 @@ class implementationLockService_Dummy implements interfaceLockService {
 		$lockToSave->setId((string) $lockArray['lock_id']);
 		$lockToSave->setName((string) $lockArray['lock_name']);
 		$lockToSave->setDoor((string) $lockArray['lock_door']);
+		$lockToSave->setLength((int) $lockArray['lock_length']);
 
 		array_push($_SESSION["LOCKS"], $lockToSave);
 		array_push($this->_locks, $lockToSave);
@@ -134,6 +135,7 @@ class implementationLockService_Dummy implements interfaceLockService {
 		$lockToUpdate->setId((string) $lockArray['lock_id']);
 		$lockToUpdate->setName((string) $lockArray['lock_name']);
 		$lockToUpdate->setDoor((string) $lockArray['lock_door']);
+		$lockToUpdate->setLength((int) $lockArray['lock_length']);
 
 		foreach ($this->_locks as $key=>$lock) {
 

@@ -29,34 +29,34 @@ class LockController {
 		$locks = $this->getLocks();
 
 		if (!empty($locks)) {
-			$this->displayList(true);
+			$this->displayList();
 		}
 		else {
-			$alert['type'] = 'danger';
-			$alert['message'] = 'Nous n\'avons aucun canon d\'enregistré.';
-			$alerts[] = $alert;
-			$this->displayList(false, $alerts);
+			$message['type'] = 'danger';
+			$message['message'] = 'Nous n\'avons aucun canon d\'enregistré.';
+			$this->displayList(array($message));
 		}
 	}
 
 	/**
-	 * @param $state
 	 * @param null $messages
+	 * @internal param $state
 	 */
-	public function displayList($state, $messages = null) {
-		if ($state) {
-			$locks = LockController::getLocks();
-		} else {
-			$locks = null;
-		}
+	public function displayList($messages = null) {
+
+		$locks = $this->getLocks();
+		$doors = $this->getDoors();
+
 		$composite = new CompositeView(
 			true,
 			'Liste des canons',
 			'Cette page permet de modifier et/ou supprimer des canons.',
-			"lock",
+			"locks",
 			array("sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"),
 			array("deleteLockScript" => "app/View/assets/custom/scripts/deleteLock.js",
-				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"));
+				"sweetAlert" => "https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js",
+				"tableFilterScript" => "app/View/assets/custom/scripts/table-filter.js"
+			));
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -66,7 +66,7 @@ class LockController {
 				}
 			}
 		}
-		$list_locks = new View("locks/list_locks.html.twig", array('locks' => $locks));
+		$list_locks = new View("locks/list_locks.html.twig", array('locks' => $locks, 'doors' => $doors));
 		$composite->attachContentView($list_locks);
 
 		echo $composite->render();
@@ -84,6 +84,7 @@ class LockController {
 
 		// if no values are posted
 		if (!isset($_POST['lock_name']) &&
+			!isset($_POST['lock_length']) &&
 			!isset($_POST['lock_door'])) {
 
 			$this->displayForm();
@@ -92,6 +93,7 @@ class LockController {
 
 		// if some (but not all) values are posted
 		elseif (empty($_POST['lock_name']) ||
+			empty($_POST['lock_length']) ||
 			empty($_POST['lock_door'])) {
 
 			$m_type = "danger";
@@ -115,7 +117,8 @@ class LockController {
 				$lockToSave = array(
 					'lock_id' => $id,
 					'lock_name' => addslashes($_POST['lock_name']),
-					'lock_door' => addslashes($_POST['lock_door'])
+					'lock_door' => addslashes($_POST['lock_door']),
+					'lock_length' => addslashes($_POST['lock_length'])
 				);
 
 				$this->saveLock($lockToSave);
@@ -150,7 +153,14 @@ class LockController {
 			true,
 			'Ajouter un canon',
 			null,
-			"lock");
+			"locks",
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array("select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js")
+		);
 
 		if ($messages != null) {
 			foreach ($messages as $message) {
@@ -181,8 +191,7 @@ class LockController {
 
 		if (isset($_POST['value'])) {
 
-			if ($this->deleteLock($_POST['value']) == true) {
-				$response['locks'] = $this->getLocks();
+			if ($this->deleteLock(urldecode($_POST['value'])) == true) {
 				$response['status'] = 'success';
 				$response['message'] = 'This was successful';
 			}
@@ -221,33 +230,26 @@ class LockController {
 			$lockToUpdate = array(
 				'lock_id' => addslashes($_POST['lock_id']),
 				'lock_name' => addslashes($_POST['lock_name']),
-				'lock_door' => addslashes($_POST['lock_door'])
+				'lock_door' => addslashes($_POST['lock_door']),
+				'lock_length' => addslashes($_POST['lock_length'])
 			);
 
 			if ($this->updateLock($lockToUpdate) == false) {
 				$message['type'] = 'danger';
 				$message['message'] = 'Erreur lors de la modification du cannon.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 			else {
 				$message['type'] = 'success';
 				$message['message'] = 'Le canon a bien été modifié.';
-				$this->displayList(true, array($message));
+				$this->displayList(array($message));
 			}
 		}
 
 		else {
 
-			$locks = $this->getLocks();
+			$this->list();
 
-			if (!empty($locks)) {
-				$this->displayList(true);
-			}
-			else {
-				$message['type'] = 'danger';
-				$message['message'] = 'Nous n\'avons aucun canon d\'enregistré.';
-				$this->displayList(false, array($message));
-			}
 		}
 	}
 
@@ -263,7 +265,17 @@ class LockController {
 			true,
 			'Mettre à jour un canon',
 			null,
-			"lock");
+			"locks",
+			array(
+				"select2minCss" => "app/View/assets/custom/scripts/select2/css/select2.min.css",
+				"select2bootstrap" => "app/View/assets/custom/scripts/select2/css/select2-bootstrap.min.css"
+			),
+			array(
+				"chooseKey" => "app/View/assets/custom/scripts/chooseKey.js",
+				"select2min" => "app/View/assets/custom/scripts/select2/js/select2.full.min.js",
+				"customselect2" => "app/View/assets/custom/scripts/components-select2.js"
+			)
+		);
 
 		if ($messages != null) {
 			foreach ($messages as $message) {

@@ -13,17 +13,13 @@ interface interfaceBorrowingService
 
 	public function deleteBorrowing($id);
 
+	public function extendBorrowing($id, $number);
+
 	public function updateBorrowing($borrowingArray);
 
 	public function checkUnicity($id);
 
 	public function getStatuses();
-	//=====
-	//=====
-	public function returnKeychain($borrowingId, $comment);
-
-	public function lostKeychain($borrowingId, $comment);
-
 }
 
 ?>

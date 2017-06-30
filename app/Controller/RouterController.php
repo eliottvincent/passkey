@@ -23,8 +23,7 @@ class RouterController
 
 		// handling requests on http://passkey.enssat/
 		else if (isset($_REQUEST['url']) && $_REQUEST['url'] === '') {
-			//echo $this->createBlankPage($controller, $model)->render();
-			$this->createBlankPage();
+			$this->displayDashboard();
 		}
 
 		// handling requests on http://passkey.enssat/something_else
@@ -34,7 +33,7 @@ class RouterController
 		}
 	}
 
-	function showLoginPageTest() {
+	function loginPage() {
 		$compositeView = new CompositeView();
 
 		$headView 	= new View("head.html.twig", array('title' => "Login"));
@@ -131,6 +130,50 @@ class RouterController
 	}
 
 
+	//================================================================================
+	// ROOMS
+	//================================================================================
+
+	function listRooms() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->list();
+	}
+
+	function createRoom() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->create();
+	}
+
+	function updateRoom() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->update();
+	}
+
+	function deleteRoomAjax() {
+		$roomController = new RoomController();
+		$roomController->deleteRoomAjax();
+	}
+
+	function detailedRoom() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$roomController = new RoomController();
+		$roomController->detailed();
+	}
+
 
 	//================================================================================
 	// KEYS
@@ -167,6 +210,53 @@ class RouterController
 	function deleteKeyAjax() {
 		$keyController = new KeyController();
 		$keyController->deleteKeyAjax();
+	}
+
+
+	//================================================================================
+	// KEYCHAINS
+	//================================================================================
+
+	function listKeychains() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keychainController = new KeychainController();
+		$keychainController->list();
+
+	}
+
+	function createKeychain() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keychainController = new KeychainController();
+		$keychainController->create();
+	}
+
+	function updateKeychain() {
+		// authentication check
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keychainController = new KeychainController();
+		$keychainController->update();
+	}
+
+	function deleteKeychainAjax() {
+
+		$keychainController = new KeychainController();
+		$keychainController->deleteKeychainAjax();
+	}
+
+	function duplicateKeychainAjax() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$keychainController = new KeychainController();
+		$keychainController->duplicateKeychainAjax();
 	}
 
 
@@ -234,38 +324,70 @@ class RouterController
 		$borrowingController->update();
 	}
 
+	function detailedBorrowing() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$borrowingController = new BorrowingController();
+		$borrowingController->detailed();
+	}
+
 	function deleteBorrowingAjax() {
 		$borrowingController = new BorrowingController();
 		$borrowingController->deleteBorrowingAjax();
 	}
 
-
-	/**
-	 * Creates a blank page as a CompositeView
-	 *
-	 * @param $controller
-	 * @param $model
-	 * @return CompositeView
-	 */
-	function createBlankPage() {
-
-		// authentication check
+	function extendBorrowingAjax() {
 		$authenticationController = new AuthenticationController();
 		$authenticationController->check();
 
-		// creating a default CompositeView
-		$compositeView = new CompositeView(true);
-
-		// creating our content, as a View object
-		$blankContent = new View('default_content.html.twig');
-
-		// adding the content to our CompositeView
-		// here we use attachContentView() rather than attachView()...
-		// because the content view always needs to be between content_start and content_end
-		$compositeView->attachContentView($blankContent);
-
-		echo $compositeView->render();
+		$borrowingController = new BorrowingController();
+		$borrowingController->extendBorrowingAjax();
 	}
+
+	//================================================================================
+	// DASHBOARD
+	//================================================================================
+
+	//DashboardController
+	function displayDashboard() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$dashboard = new DashboardController();
+		$dashboard->displayDash();
+	}
+
+	//================================================================================
+	// IMPORT FILES
+	//================================================================================
+
+	function import(){
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$importController = new ImportController();
+	}
+
+	//================================================================================
+	// PDF TEST
+	//================================================================================
+
+	function generatePDF() {
+		$authenticationController = new AuthenticationController();
+		$authenticationController->check();
+
+		$pdfController = new PDFController();
+		$pdfController->generatePDF();
+
+	}
+
+
+
+
+	//================================================================================
+	// Suite router controller
+	//================================================================================
 
 	function createLoginPage() {
 		$html = new View('partials/page_user_login_1.php');

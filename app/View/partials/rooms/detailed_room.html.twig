@@ -1,0 +1,77 @@
+<div class="profile">
+	<div class="tabbable-line tabbable-full-width">
+		<div class="tab-content">
+			<div class="tab-pane active" id="tab_1_1">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-12 profile-info">
+								<h1 class="font-green sbold uppercase">Salle n°{{ room.id }} </h1>
+								<p> Cette fiche détaille les paramètres d'une salle. </p>
+							</div>
+							<div class="col-md-6 clearfix">
+								<div class="panel panel-info">
+									<!-- Default panel contents -->
+									<div class="panel-heading">
+										<h3 class="panel-title">Clés rattachées à la salle</h3>
+									</div>
+									<!-- List group -->
+									<ul class="list-group">
+										{% for key in roomKeys %}
+											<li class="list-group-item">
+												<b>{{ key.name }}</b> ({{ key.id ~ "), "}} </b> ouvre les canons suivants :
+												<ul>
+													{%  for lock in key.locks %}
+														{% for lockLock in locks %}
+															{% if lockLock.id == lock %}
+																<li>{{lockLock.name ~ " (" ~ lockLock.id ~ ")"}}</li>
+															{% endif %}
+														{% endfor %}
+													{% endfor %}
+												</ul>
+											</li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+							<div class="col-md-6 clearfix">
+								<div class="panel panel-info">
+									<!-- Default panel contents -->
+									<div class="panel-heading">
+										<h3 class="panel-title">Utilisateurs ayant accès à la salle</h3>
+									</div>
+									<!-- List group -->
+									<ul class="list-group">
+										{% for user in roomUsers %}
+											<li class="list-group-item">
+												{{ user.name ~ ' (emprunt ' ~ user.borrowing.id ~ "), jusqu'au " ~ user.borrowing.dueDate }}
+											</li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+							<div class="col-md-6 clearfix">
+								<div class="panel panel-info">
+									<!-- Default panel contents -->
+									<div class="panel-heading">
+										<h3 class="panel-title">Historique des utilisateurs ayant eu accès à la salle</h3>
+									</div>
+									<!-- List group -->
+									<ul class="list-group">
+										{% for room in rooms %}
+											<li class="list-group-item">
+												{{ room }}
+											</li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<!--end row-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

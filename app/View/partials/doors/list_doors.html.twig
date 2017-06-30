@@ -4,21 +4,20 @@
 		<div class="portlet box blue">
 			<div class="portlet-title">
 				<div class="caption">
-					<i class="icon-key"></i> Liste des portes  </div>
+					<i class="fa fa-columns"></i> Liste des portes  </div>
 				<div class="tools">
 					<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
 				</div>
 			</div>
 			<div class="portlet-body">
-				<div class="table-responsive">
-					<table class="table table-striped table-bordered table-hover">
+				<div class="table">
+					<table id="filterTable" class="table table-striped table-bordered table-hover">
 						<thead>
 						<tr>
-							<th> #id </th>
-							<th> Door name </th>
-							<th> Door building </th>
-							<th> Door floor </th>
-							<th> #actions </th>
+							<th> ID </th>
+							<th> Nom </th>
+							<th> Salle </th>
+							<th> Actions </th>
 						</tr>
 						</thead>
 						<tbody>
@@ -26,9 +25,15 @@
 							<tr id="{{ door.id }}">
 								<td> {{ door.id }} </td>
 								<td> {{ door.name }} </td>
-								<td> {{ door.building }} </td>
-								<td> {{ door.floor }} </td>
 								<td>
+									{% for room in rooms %}
+										{% if room.id == door.room %}
+											<p>{{ room.name}}</p>
+										{% endif %}
+									{% endfor %}
+								</td>
+
+								<td style="display: flex;">
 									<form action="./?action=updateDoor" method="post">
 										<input type="hidden" name="update" value="{{ door.id }}"/>
 										<button type="submit" class="btn blue btn-sm">Modifier</button>
@@ -42,6 +47,12 @@
 							</tr>
 						{% endfor %}
 						</tbody>
+						<tfoot>
+							<th> ID </th>
+							<th> Nom </th>
+							<th> Salle </th>
+							<th> Actions </th>
+						</tfoot>
 					</table>
 				</div>
 			</div>

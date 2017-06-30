@@ -99,8 +99,7 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 		$doorToSave = new DoorVO();
 		$doorToSave->setId((string) $doorArray['door_id']);
 		$doorToSave->setName((string) $doorArray['door_name']);
-		$doorToSave->setBuilding((string) $doorArray['door_building']);
-		$doorToSave->setFloor((string) $doorArray['door_floor']);
+		$doorToSave->setRoom((string) $doorArray['door_room']);
 
 		array_push($_SESSION["DOORS"], $doorToSave);
 		array_push($this->_doors, $doorToSave);
@@ -141,8 +140,7 @@ class implementationDoorService_Dummy implements interfaceDoorService {
 		$doorToUpdate = new DoorVO();
 		$doorToUpdate->setId((string) $doorArray['door_id']);
 		$doorToUpdate->setName((string) $doorArray['door_name']);
-		$doorToUpdate->setBuilding((string) $doorArray['door_building']);
-		$doorToUpdate->setFloor((string) $doorArray['door_floor']);
+		$doorToUpdate->setRoom((string) $doorArray['door_room']);
 
 		foreach ($this->_doors as $key=>$door) {
 
